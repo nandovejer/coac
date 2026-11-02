@@ -5,7 +5,11 @@ export function SiteFooter() {
     <footer className="coac-site-footer">
       <aside>
         <p>
-          Creado por{" "}
+          Hecho con{" "}
+          <a className="coac-site-footer__link" href="https://github.com/nandovejer/luz">
+            Luz
+          </a>
+          . Creado por{" "}
           <a className="coac-site-footer__link" href="https://twitter.com/nandovejer">
             Nando Muñoz
           </a>{" "}
