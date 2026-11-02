@@ -5,7 +5,8 @@
 > aspecto actual, y aprovechar la migración para añadir los modos de color de
 > Luz (claro, oscuro y alto contraste).
 >
-> **Estado: pendiente.**
+> **Estado: ejecutado en `feature/luz` el 02/11/2026, sin commitear el código
+> (solo el plan). Ver "Resultado de la ejecución" al final.**
 
 ## Decisiones tomadas (02/11/2026)
 
@@ -303,3 +304,60 @@ siempre.
 - Arreglar la deuda de contraste del modo claro.
 - Modo según la hora del día (`<luz-theme-time>`, catálogo).
 - Cambios de funcionalidad aparte de los modos de color.
+
+## Resultado de la ejecución (02/11/2026)
+
+Verificado: `lint`, `format:check`, `typecheck`, `build`, 113 tests unitarios,
+`check:contrast`, `lint:luz` (0 bloqueos, 0 avisos, modo estricto) y 52 pruebas
+de navegador (3 pasadas seguidas, estables).
+
+| Fase | Estado | Notas |
+|---|---|---|
+| 0 — Rama y "antes" | Hecha | Rama `feature/luz` y plan commiteado. Las capturas "antes" son las de `main` (`tests/visual/before/`, sin versionar). |
+| 1 — Instalar Luz | Hecha | `@luz-ds/tokens` y `core` 0.3.0 fijados exactos; `@luz-ds/check` en dev. `theme-coac.css` sale de `_template.css`. |
+| 2 — Componentes | Hecha | Los 11, de hoja a raíz, con Tailwind aún cargado y las capturas idénticas en cada paso. `styles.ts` eliminado; variantes por `data-*`. |
+| 3 — Quitar Tailwind | Hecha | `tailwindcss`, `tailwind-scrollbar`, `postcss`, `autoprefixer`, `tailwind.config.mjs` y `postcss.config.js` fuera. **Las 18 capturas del modo claro seguían idénticas píxel a píxel** al quitarlo. |
+| 4 — Modos oscuro y alto contraste | Hecha | Paletas propias; el tema pasa `check-contrast` (1098 pares, 7 modos). |
+| 5 — Tests | Hecha | Capturas de los 3 modos, selector (recorre y recuerda, Auto sigue el sistema, sin destello, no tapa el menú), axe en 3 modos x 2 escenas, contraste de los tokens propios. |
+| 6 — Lint, CI y docs | Hecha | `lint:luz` y `check:contrast` en CI y deploy; `AGENTS.md` y README al día. |
+| 7 — PR | **Pendiente** | No se ha commiteado el código ni se ha abierto la PR. |
+
+### Diferencias con la captura anterior (todas aceptadas)
+
+- **Botón de modo de color** (nuevo): aparece en todas las capturas, sobre el
+  menú, a la derecha. Es lo único que cambia en el modo claro.
+- **Anillo de foco del buscador**: Luz usa un contorno azul de 2 px en lugar
+  del negro por defecto del navegador. Cambia solo cuando el campo tiene foco.
+- **Parpadeo de "EN DIRECTO"**: se detiene con `prefers-reduced-motion`.
+- Las capturas de oscuro y alto contraste toleran 10 píxeles: el texto con
+  degradado (`background-clip: text`) varía 1 píxel de una ejecución a otra.
+
+### Cambios sobre el plan
+
+- **Tokens extra** que pedían los modos: `--coac-on-header-from/to` (degradado
+  sobre la cabecera oscura), `--coac-chip-edge`, `--coac-badge-edge` (borde de
+  chips y etiquetas en alto contraste) y `--coac-nav-height` (posición del
+  botón de modo).
+- **CSS de `SiteHeader`** importado desde `App.tsx`: el plugin SEO renderiza
+  ese componente y esbuild no carga CSS al leer `vite.config.ts`.
+- **`theme-boot` en línea** con la versión minificada: la sin minificar lleva
+  un `</script>` en un comentario que cortaba la etiqueta.
+- **Deuda de contraste en claro**, ampliada: además de lo previsto, el título
+  de fase y la etiqueta de cuenta atrás (texto en degradado, que axe no sabe
+  medir).
+- **Sin JavaScript no hay selector**: la web es una SPA y el selector forma
+  parte de la app React; el HTML estático del SEO no lo lleva.
+- `@luz-ds/catalog` no hizo falta, como se anticipó.
+
+### Peso
+
+| | Antes (Tailwind) | Ahora (Luz) |
+|---|---|---|
+| CSS | 3,5 KB gzip | 9,8 KB gzip |
+| JS de la app | 7,1 KB gzip | 7,8 KB gzip (incluye `<luz-theme-mode>`) |
+| React (chunk cacheable) | 45,3 KB gzip | 45,3 KB gzip |
+
+De los ~54 KB de CSS sin comprimir, ~16 KB son las etiquetas HTML sin clase de
+Luz (formularios, tablas…), ~11 KB los tokens y ~6,5 KB los tres modos del
+tema. Si el peso molesta, el recorte natural es sustituir `base.css` por un
+reset propio (se pierde lo que da Luz).

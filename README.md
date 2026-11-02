@@ -12,15 +12,18 @@ pnpm run dev          # servidor de desarrollo
 pnpm run lint         # ESLint
 pnpm run format       # Prettier (format:check solo comprueba)
 pnpm run typecheck    # tsc
+pnpm run check:contrast  # contraste WCAG del tema de Luz en los 3 modos
+pnpm run lint:luz     # luz-check sobre el HTML (dist/) y el CSS
 pnpm run test         # tests unitarios (Vitest)
-pnpm run test:visual  # capturas y comportamiento (Playwright, local)
+pnpm run test:visual  # capturas, modos de color y axe (Playwright, local)
+pnpm run test:visual:compare  # imágenes antes | después | diferencias
 pnpm run build        # tsc + build de producción a dist/
 pnpm run deploy       # relanza el deploy de main en GitHub Actions (necesita gh)
 ```
 
 `test:visual` necesita Chromium (`pnpm exec playwright install chromium`).
-Compara contra capturas de Linux: si cambias el aspecto a propósito, regénera
-con `pnpm run test:visual:update`.
+Compara contra capturas de Linux: si cambias el aspecto a propósito, revisa
+`pnpm run test:visual:compare` y regénera con `pnpm run test:visual:update`.
 
 ## Actualizar a una nueva fase (3 pasos)
 

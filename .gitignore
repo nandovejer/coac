@@ -36,3 +36,7 @@ playwright-report/
 
 # Preferencias personales de Claude Code
 .claude/settings.local.json
+
+# Referencia "antes" de la migración a Luz y comparativas generadas
+tests/visual/before
+tests/visual/compare
