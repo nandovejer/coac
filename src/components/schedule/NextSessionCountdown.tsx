@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { classNameGradient } from "../styles";
+import { useEffect, useState } from "react";
+import { brandGradientClass } from "../../styles";
 
-interface CountdownTimerProps {
+interface NextSessionCountdownProps {
   targetDate: string;
   label?: string;
 }
@@ -27,7 +27,8 @@ const calculateTimeLeft = (targetDate: string): TimeLeft => {
   };
 };
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, label }) => {
+/** Cuenta atrás a la próxima sesión; desaparece al llegar a cero. */
+export function NextSessionCountdown({ targetDate, label }: NextSessionCountdownProps) {
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
 
   useEffect(() => {
@@ -55,13 +56,15 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, label }) =>
   return (
     <div className="flex flex-col justify-center items-center bg-gray-800 py-6">
       {label && (
-        <p className={`mb-3 text-sm md:text-base font-medium bg-clip-text text-transparent ${classNameGradient}`}>
+        <p
+          className={`mb-3 text-sm md:text-base font-medium bg-clip-text text-transparent ${brandGradientClass}`}
+        >
           {label}
         </p>
       )}
       <div className="grid grid-flow-col gap-4 md:gap-6 text-center auto-cols-max">
         {units.map(([value, name]) => (
-          <div key={name} className="flex flex-col p-3 bg-gray-700 rounded-lg text-white min-w-16">
+          <div key={name} className="flex flex-col p-3 bg-gray-700 rounded-lg text-white">
             <span className="font-mono text-3xl md:text-5xl">{value}</span>
             <span className="text-xs md:text-sm">{name}</span>
           </div>
@@ -69,6 +72,4 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, label }) =>
       </div>
     </div>
   );
-};
-
-export default CountdownTimer;
+}

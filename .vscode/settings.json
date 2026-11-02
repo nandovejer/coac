@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["/src/data/COAC_*.json"],
+      "url": "./src/data/coac-session.schema.json"
+    }
+  ]
+}
