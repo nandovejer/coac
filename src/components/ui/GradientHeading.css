@@ -1,0 +1,9 @@
+/* Título con el degradado de la marca; el tamaño y el margen los pone quien lo usa */
+.coac-gradient-heading {
+  background-image: linear-gradient(to right, var(--coac-gradient-from), var(--coac-gradient-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}

@@ -1,0 +1,71 @@
+/*
+ * Ajustes globales sobre el reset y las etiquetas de Luz (base.css). Luz
+ * estiliza el HTML sin clases y esta web ya tiene su propio aspecto, así que
+ * aquí se devuelve a cero lo que Luz añade y la web no usa. Este CSS no va en
+ * ningún layer: gana siempre a Luz sin !important.
+ */
+
+body {
+  font-size: var(--luz-text-base);
+  line-height: 1.5;
+}
+
+/* Luz separa con margen los bloques hermanos; aquí cada componente pone los suyos */
+:where(p, h1, h2, h3, h4, h5, h6, ul, ol, dl, blockquote, pre, table, details, fieldset, address) {
+  margin-block-start: 0;
+}
+
+/* Los enlaces heredan color y no se subrayan, salvo que el componente lo pida */
+a {
+  color: inherit;
+  text-decoration: inherit;
+  text-underline-offset: auto;
+}
+
+/* Luz da a details/summary borde, relleno y fondo al pasar el ratón: aquí no */
+details {
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+
+summary {
+  padding: 0;
+  margin-inline-start: 0;
+  border-radius: 0;
+  transition: none;
+}
+
+summary:hover {
+  background: none;
+}
+
+/* Parpadeo del "EN DIRECTO" (se detiene con prefers-reduced-motion, ver PerformanceRow.css) */
+@keyframes coac-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.coac-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: calc(var(--luz-space-3xs) / -2);
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: pretty;
+}

@@ -30,10 +30,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
       - run: pnpm run typecheck
+      - run: pnpm run check:contrast
       - run: pnpm run test
       - run: pnpm run build
         env:
           TZ: Europe/Madrid
+      - run: pnpm run lint:luz
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

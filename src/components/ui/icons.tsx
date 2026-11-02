@@ -1,3 +1,5 @@
+import "./icons.css";
+
 interface IconProps {
   path: string;
 }
@@ -10,7 +12,7 @@ function Icon({ path }: IconProps) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="coac-icon"
       aria-hidden="true"
     >
       <path strokeLinecap="round" strokeLinejoin="round" d={path} />

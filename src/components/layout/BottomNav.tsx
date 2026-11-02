@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { BellIcon, CalendarIcon, MonitorIcon, SearchIcon } from "../ui/icons";
+import "./BottomNav.css";
 
 interface BottomNavProps {
   liveUrl: string;
@@ -13,9 +14,6 @@ interface NavItem {
   title?: string;
   external?: boolean;
 }
-
-const linkClassName =
-  "flex flex-col justify-center items-center font-medium px-2 py-2 md:px-5 md:py-2  text-center w-1/4 max-w-xs hover:bg-gradient-to-r from-blue-500  to-blue-400";
 
 /** Navegación fija en la parte inferior de la pantalla. */
 export function BottomNav({ liveUrl, activeSessionDate }: BottomNavProps) {
@@ -32,20 +30,17 @@ export function BottomNav({ liveUrl, activeSessionDate }: BottomNavProps) {
   ];
 
   return (
-    <nav
-      aria-label="Navegación principal"
-      className="flex justify-center items-center shadow-lg w-full z-10  text-white bg-gray-800 fixed bottom-0"
-    >
+    <nav aria-label="Navegación principal" className="coac-bottom-nav">
       {items.map(({ href, label, icon, title, external }) => (
         <a
           key={label}
           href={href}
           title={title}
-          className={linkClassName}
+          className="coac-bottom-nav__link"
           {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
           {icon}
-          <span className="text-xs md:text-sm">{label}</span>
+          <span className="coac-bottom-nav__label">{label}</span>
         </a>
       ))}
     </nav>

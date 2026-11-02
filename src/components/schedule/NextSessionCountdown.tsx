@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { brandGradientClass } from "../../styles";
+import "./NextSessionCountdown.css";
 
 interface NextSessionCountdownProps {
   targetDate: string;
@@ -54,19 +54,13 @@ export function NextSessionCountdown({ targetDate, label }: NextSessionCountdown
   ];
 
   return (
-    <div className="flex flex-col justify-center items-center bg-gray-800 py-6">
-      {label && (
-        <p
-          className={`mb-3 text-sm md:text-base font-medium bg-clip-text text-transparent ${brandGradientClass}`}
-        >
-          {label}
-        </p>
-      )}
-      <div className="grid grid-flow-col gap-4 md:gap-6 text-center auto-cols-max">
+    <div className="coac-countdown">
+      {label && <p className="coac-countdown__label">{label}</p>}
+      <div className="coac-countdown__units">
         {units.map(([value, name]) => (
-          <div key={name} className="flex flex-col p-3 bg-gray-700 rounded-lg text-white">
-            <span className="font-mono text-3xl md:text-5xl">{value}</span>
-            <span className="text-xs md:text-sm">{name}</span>
+          <div key={name} className="coac-countdown__unit">
+            <span className="coac-countdown__value">{value}</span>
+            <span className="coac-countdown__name">{name}</span>
           </div>
         ))}
       </div>

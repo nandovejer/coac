@@ -1,16 +1,21 @@
+import "./SiteFooter.css";
+
 export function SiteFooter() {
   return (
-    <footer className="text-center p-4 text-gray-600 bg-slate-50 pb-24">
+    <footer className="coac-site-footer">
       <aside>
         <p>
-          {" "}
-          Creado por{" "}
-          <a className="text-blue-700 underline  " href="https://twitter.com/nandovejer">
-            Nando Muñoz
+          Hecho con{" "}
+          <a className="coac-site-footer__link" href="https://github.com/nandovejer/luz">
+            Luz
           </a>{" "}
-          y bajo{" "}
-          <a className="text-blue-700 underline  " href="https://es.wikipedia.org/wiki/MIT_License">
-            Licencia MIT
+          por{" "}
+          <a className="coac-site-footer__link" href="https://twitter.com/nandovejer">
+            Nando Muñoz
+          </a>
+          . Código abierto bajo{" "}
+          <a className="coac-site-footer__link" href="https://es.wikipedia.org/wiki/MIT_License">
+            licencia MIT
           </a>
           .
         </p>

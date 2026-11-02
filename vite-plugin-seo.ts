@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { Plugin } from "vite";
@@ -7,7 +10,6 @@ import { SITE } from "./src/config/site";
 import { getSessionStart } from "./src/domain/schedule";
 import { validateSessions } from "./src/domain/validate";
 import { formatLongDate, sortSessionDates } from "./src/lib/dates";
-import { brandGradientClass } from "./src/styles";
 import { NEW_GROUP_LABEL } from "./src/types";
 
 /**
@@ -18,8 +20,17 @@ import { NEW_GROUP_LABEL } from "./src/types";
  * React sustituye este contenido al arrancar (createRoot, no hidratación),
  * así que no hay riesgo de mismatch.
  */
-export default function seoPlugin(): Plugin {
-  return {
+// Aplica el modo de color guardado (o el del sistema) antes del primer pintado,
+// para que quien use oscuro no vea un destello de modo claro.
+function themeBootScript(): string {
+  const packageJson = createRequire(import.meta.url).resolve("@luz-ds/core/package.json");
+  const file = join(dirname(packageJson), "dist", "theme-boot.min.js");
+  // Un "</script" dentro del script cerraría la etiqueta antes de tiempo.
+  return readFileSync(file, "utf8").trim().replaceAll("</script", "<\\/script");
+}
+
+export default function seoPlugin(): Plugin[] {
+  const seo: Plugin = {
     name: "coac-seo",
     buildStart() {
       // Un JSON mal escrito rompe el build, no la web.
@@ -32,6 +43,7 @@ export default function seoPlugin(): Plugin {
       order: "pre",
       handler(html) {
         let result = html.replace(/<title>[\s\S]*?<\/title>/, "");
+        result = result.replace("<head>", `<head>\n    <script>${themeBootScript()}</script>`);
         result = result.replace("</head>", `${buildHeadTags()}\n  </head>`);
         result = result.replace(
           /<div id="root">[\s\S]*?<\/div>/,
@@ -57,6 +69,33 @@ export default function seoPlugin(): Plugin {
       this.emitFile({ type: "asset", fileName: "sitemap.xml", source: sitemap });
     },
   };
+
+  // El CSS bloquea el primer pintado: en línea se ahorra un viaje de red.
+  // Solo en build; en dev no hay bundle y Vite inyecta los estilos.
+  const inlineCss: Plugin = {
+    name: "coac-inline-css",
+    enforce: "post",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        const bundle = ctx.bundle;
+        if (!bundle) return html;
+        return html.replace(
+          /<link rel="stylesheet"[^>]*href="[^"]*\/(assets\/[^"]+\.css)"[^>]*>/g,
+          (tag, fileName: string) => {
+            const asset = bundle[fileName];
+            if (asset?.type !== "asset") return tag;
+            // Un "</style" dentro del CSS cerraría la etiqueta antes de tiempo.
+            const css = String(asset.source).trim().replaceAll("</style", "<\\/style");
+            delete bundle[fileName];
+            return `<style>${css}</style>`;
+          },
+        );
+      },
+    },
+  };
+
+  return [seo, inlineCss];
 }
 
 function escapeHtml(value: string): string {
@@ -166,22 +205,22 @@ function buildStaticContent(): string {
             : "";
 
           return `
-            <li id="${escapeHtml(group.id)}" class="border-b border-gray-200 py-3">
-              <span class="font-bold text-xs uppercase">${escapeHtml(group.modalidad)}</span>
-              — <strong class="capitalize">${escapeHtml(group.autor)}</strong>
+            <li id="${escapeHtml(group.id)}" class="coac-static__item">
+              <span class="coac-static__modalidad">${escapeHtml(group.modalidad)}</span>
+              — <strong class="coac-static__author">${escapeHtml(group.autor)}</strong>
               <p>${escapeHtml(group.nombre)}</p>
-              <p class="text-sm text-gray-500">${escapeHtml(group.ciudad)}</p>
+              <p class="coac-static__city">${escapeHtml(group.ciudad)}</p>
               ${previousHtml}
             </li>`;
         })
         .join("");
 
       return `
-        <section aria-labelledby="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="max-w-4xl mx-auto px-4 py-4">
-          <h2 id="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="text-2xl font-extrabold bg-clip-text text-transparent ${brandGradientClass}">
+        <section aria-labelledby="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="coac-static__session">
+          <h2 id="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="coac-static__title coac-gradient-heading">
             Sesión — ${escapeHtml(formatLongDate(date))}
           </h2>
-          <ul>${itemsHtml}</ul>
+          <ul class="coac-static__list">${itemsHtml}</ul>
         </section>`;
     })
     .join("");

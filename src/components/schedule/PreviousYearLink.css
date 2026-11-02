@@ -1,0 +1,12 @@
+.coac-previous {
+  inline-size: 100%;
+  overflow: hidden;
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+  text-align: right;
+  text-overflow: ellipsis;
+}
+
+.coac-previous__link {
+  text-decoration: underline;
+}
