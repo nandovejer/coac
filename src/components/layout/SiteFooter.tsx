@@ -8,14 +8,14 @@ export function SiteFooter() {
           Hecho con{" "}
           <a className="coac-site-footer__link" href="https://github.com/nandovejer/luz">
             Luz
-          </a>
-          . Creado por{" "}
+          </a>{" "}
+          por{" "}
           <a className="coac-site-footer__link" href="https://twitter.com/nandovejer">
             Nando Muñoz
-          </a>{" "}
-          y bajo{" "}
+          </a>
+          . Código abierto bajo{" "}
           <a className="coac-site-footer__link" href="https://es.wikipedia.org/wiki/MIT_License">
-            Licencia MIT
+            licencia MIT
           </a>
           .
         </p>
