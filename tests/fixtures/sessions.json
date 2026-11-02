@@ -1,0 +1,200 @@
+{
+  "11/02/2026": [
+    {
+      "2025": "Los romanos",
+      "ranking": "top",
+      "modalidad": "CORO",
+      "nombre": "Los fenicios",
+      "autor": "Antonio Martínez Ares",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "ok",
+      "modalidad": "CHIRIGOTA",
+      "nombre": "Los del puerto",
+      "autor": "José Pérez y Ana Ruiz",
+      "ciudad": "El Puerto"
+    },
+    {
+      "2025": "El eco",
+      "ranking": "standar",
+      "modalidad": "COMPARSA",
+      "nombre": "La sombra",
+      "autor": "Manuel Cornejo",
+      "ciudad": "San Fernando"
+    },
+    {
+      "2025": "Los tres",
+      "ranking": "standar",
+      "modalidad": "CUARTETO",
+      "nombre": "Los cuatro",
+      "autor": "Manu Peinado",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "standar",
+      "modalidad": "CORO",
+      "nombre": "Las gaditanas",
+      "autor": "Ramón García",
+      "ciudad": "Chiclana"
+    },
+    {
+      "2025": "El pasodoble",
+      "ranking": "top",
+      "modalidad": "CHIRIGOTA",
+      "nombre": "El marengo",
+      "autor": "Juan Carlos Aragón",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Los profetas",
+      "ranking": "ok",
+      "modalidad": "COMPARSA",
+      "nombre": "Los visionarios",
+      "autor": "Luis Rivero",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "standar",
+      "modalidad": "CUARTETO",
+      "nombre": "Los de la plaza",
+      "autor": "Sara López Díaz",
+      "ciudad": "Alcalá de Guadaíra"
+    }
+  ],
+  "12/02/2026": [
+    {
+      "2025": "El eco",
+      "ranking": "standar",
+      "modalidad": "COMPARSA",
+      "nombre": "La sombra 2",
+      "autor": "Manuel Cornejo 2",
+      "ciudad": "San Fernando"
+    },
+    {
+      "2025": "Los tres",
+      "ranking": "standar",
+      "modalidad": "CUARTETO",
+      "nombre": "Los cuatro 2",
+      "autor": "Manu Peinado 2",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "standar",
+      "modalidad": "CORO",
+      "nombre": "Las gaditanas 2",
+      "autor": "Ramón García 2",
+      "ciudad": "Chiclana"
+    },
+    {
+      "2025": "El pasodoble",
+      "ranking": "top",
+      "modalidad": "CHIRIGOTA",
+      "nombre": "El marengo 2",
+      "autor": "Juan Carlos Aragón 2",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Los profetas",
+      "ranking": "ok",
+      "modalidad": "COMPARSA",
+      "nombre": "Los visionarios 2",
+      "autor": "Luis Rivero 2",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "standar",
+      "modalidad": "CUARTETO",
+      "nombre": "Los de la plaza 2",
+      "autor": "Sara López Díaz 2",
+      "ciudad": "Alcalá de Guadaíra"
+    },
+    {
+      "2025": "Los romanos",
+      "ranking": "top",
+      "modalidad": "CORO",
+      "nombre": "Los fenicios 2",
+      "autor": "Antonio Martínez Ares 2",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "ok",
+      "modalidad": "CHIRIGOTA",
+      "nombre": "Los del puerto 2",
+      "autor": "José Pérez y Ana Ruiz 2",
+      "ciudad": "El Puerto"
+    }
+  ],
+  "13/02/2026": [
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "standar",
+      "modalidad": "CORO",
+      "nombre": "Las gaditanas 4",
+      "autor": "Ramón García 4",
+      "ciudad": "Chiclana"
+    },
+    {
+      "2025": "El pasodoble",
+      "ranking": "top",
+      "modalidad": "CHIRIGOTA",
+      "nombre": "El marengo 4",
+      "autor": "Juan Carlos Aragón 4",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Los profetas",
+      "ranking": "ok",
+      "modalidad": "COMPARSA",
+      "nombre": "Los visionarios 4",
+      "autor": "Luis Rivero 4",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "standar",
+      "modalidad": "CUARTETO",
+      "nombre": "Los de la plaza 4",
+      "autor": "Sara López Díaz 4",
+      "ciudad": "Alcalá de Guadaíra"
+    },
+    {
+      "2025": "Los romanos",
+      "ranking": "top",
+      "modalidad": "CORO",
+      "nombre": "Los fenicios 4",
+      "autor": "Antonio Martínez Ares 4",
+      "ciudad": "Cádiz"
+    },
+    {
+      "2025": "Nueva agrupación",
+      "ranking": "ok",
+      "modalidad": "CHIRIGOTA",
+      "nombre": "Los del puerto 4",
+      "autor": "José Pérez y Ana Ruiz 4",
+      "ciudad": "El Puerto"
+    },
+    {
+      "2025": "El eco",
+      "ranking": "standar",
+      "modalidad": "COMPARSA",
+      "nombre": "La sombra 4",
+      "autor": "Manuel Cornejo 4",
+      "ciudad": "San Fernando"
+    },
+    {
+      "2025": "Los tres",
+      "ranking": "standar",
+      "modalidad": "CUARTETO",
+      "nombre": "Los cuatro 4",
+      "autor": "Manu Peinado 4",
+      "ciudad": "Cádiz"
+    }
+  ]
+}
