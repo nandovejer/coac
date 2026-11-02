@@ -1,0 +1,12 @@
+.coac-site-footer {
+  padding: var(--luz-space-md);
+  padding-block-end: var(--luz-space-4xl);
+  background: var(--coac-footer-bg);
+  color: var(--coac-footer-text);
+  text-align: center;
+}
+
+.coac-site-footer__link {
+  color: var(--coac-link);
+  text-decoration: underline;
+}

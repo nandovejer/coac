@@ -1,35 +1,24 @@
 import { memo } from "react";
 import type { SessionView } from "../../domain/schedule";
-import { activeSessionClass, brandGradientClass } from "../../styles";
 import { formatLongDate } from "../../lib/dates";
 import { GradientHeading } from "../ui/GradientHeading";
 import { PerformanceRow } from "./PerformanceRow";
-
-const statusClass: Record<SessionView["status"], string> = {
-  present: activeSessionClass,
-  past: "opacity-50 hover:opacity-100 grayscale",
-  future: "",
-};
+import "./SessionLineup.css";
 
 /** Orden de actuación de una sesión. */
 function SessionLineupView({ session: { date, status, performances } }: { session: SessionView }) {
   return (
-    <div className={`px-4 py-4 coac-session mt-8 ${statusClass[status]}`} id={date}>
-      <GradientHeading as="h3" className="text-2xl md:text-3xl mb-4">
+    <div className="coac-session" data-status={status} id={date}>
+      <GradientHeading as="h3" className="coac-session__title">
         Sesión - {formatLongDate(date)}
       </GradientHeading>
-      <div className="overflow-x-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded">
-        <section
-          className="min-w-full divide-y divide-gray-200"
-          aria-label={`Agrupaciones de la sesión del ${date}`}
-        >
-          <div className={`flex flex-auto ${brandGradientClass}`}>
-            <div className="px-4 py-3 text-left text-xs font-medium text-white uppercase ">Modalidad</div>
-            <div className="px-4 py-3 text-left text-xs font-medium text-white uppercase">
-              Nombre de agrupación
-            </div>
+      <div className="coac-session__scroller">
+        <section className="coac-session__lineup" aria-label={`Agrupaciones de la sesión del ${date}`}>
+          <div className="coac-session__head">
+            <div className="coac-session__head-cell">Modalidad</div>
+            <div className="coac-session__head-cell">Nombre de agrupación</div>
           </div>
-          <div className="divide-y divide-gray-200">
+          <div className="coac-session__rows">
             {performances.map((performance) => (
               <PerformanceRow key={performance.group.id} performance={performance} />
             ))}

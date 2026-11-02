@@ -1,9 +1,9 @@
-import { modalidadColors } from "../../styles";
 import type { Modalidad } from "../../types";
+import "./ModalidadBadge.css";
 
 export function ModalidadBadge({ modalidad }: { modalidad: Modalidad }) {
   return (
-    <span className={`font-bold rounded px-1 py-0.5 inline-block w-fit ${modalidadColors[modalidad]}`}>
+    <span className="coac-badge" data-modalidad={modalidad}>
       {modalidad}
     </span>
   );

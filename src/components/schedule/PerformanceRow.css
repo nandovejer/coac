@@ -1,0 +1,68 @@
+.coac-performance {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.coac-performance[data-ranking="top"] {
+  background: var(--coac-ranking-top-bg);
+  color: var(--coac-ranking-top-text);
+}
+
+.coac-performance[data-ranking="ok"] {
+  background: var(--coac-ranking-ok-bg);
+  color: var(--coac-ranking-ok-text);
+}
+
+.coac-performance[data-ranking="standar"] {
+  background: var(--coac-ranking-standar-bg);
+  color: var(--coac-ranking-standar-text);
+}
+
+/* Modalidad, hora estimada y ciudad */
+.coac-performance__meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--luz-space-xs) 0 var(--luz-space-xs) var(--luz-space-md);
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+}
+
+.coac-performance__status--live {
+  background: var(--coac-live-bg);
+  color: var(--coac-live-text);
+  font-weight: 700;
+  animation: coac-blink 1s infinite;
+}
+
+.coac-performance__city {
+  overflow: hidden;
+  padding-block: var(--luz-space-xs);
+  text-overflow: ellipsis;
+}
+
+.coac-performance__body {
+  padding: var(--luz-space-md);
+}
+
+.coac-performance__author {
+  overflow: hidden;
+  font-size: var(--coac-text-2xl);
+  font-weight: 700;
+  line-height: var(--coac-leading-2xl);
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  text-wrap: pretty;
+}
+
+.coac-performance__name {
+  margin: 0;
+  font-size: var(--luz-text-lg);
+  line-height: 1.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-performance__status--live {
+    animation: none;
+  }
+}

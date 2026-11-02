@@ -1,0 +1,8 @@
+/*
+ * El botón redondo de Luz va fijo en la esquina inferior derecha; aquí se sube
+ * por encima del menú inferior, que también es fijo.
+ */
+.luz-theme-mode__button--fixed {
+  inset-block-end: calc(var(--coac-nav-height) + var(--luz-space-md));
+  z-index: calc(var(--luz-z-raised) + 1);
+}

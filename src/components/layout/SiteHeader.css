@@ -1,0 +1,33 @@
+.coac-site-header {
+  background: var(--coac-header-bg);
+  text-align: center;
+}
+
+.coac-site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-inline-size: var(--coac-measure-wide);
+  margin-inline: auto;
+  padding: var(--luz-space-lg);
+}
+
+.coac-site-header__title {
+  margin-block-end: var(--luz-space-md);
+  color: var(--coac-header-text);
+  font-size: var(--coac-text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: var(--coac-leading-2xl);
+}
+
+.coac-site-header__phase {
+  background-image: linear-gradient(to right, var(--coac-on-header-from), var(--coac-on-header-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: var(--coac-text-5xl);
+  font-weight: 900;
+  line-height: var(--coac-leading-5xl);
+  text-transform: uppercase;
+}
