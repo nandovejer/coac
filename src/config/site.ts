@@ -5,4 +5,7 @@ export const SITE = {
   name: "¿Quién canta hoy en el COAC?",
   venue: "Gran Teatro Falla",
   city: "Cádiz",
+  // Las sesiones se miden siempre en hora de Cádiz, sea cual sea la zona del
+  // navegador o de la máquina que hace el build.
+  timeZone: "Europe/Madrid",
 } as const;

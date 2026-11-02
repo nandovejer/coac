@@ -4,18 +4,46 @@ Web estática que muestra qué agrupaciones cantan en cada sesión del COAC
 (Concurso Oficial de Agrupaciones Carnavalescas de Cádiz), con horario estimado
 por agrupación, buscador de autores y enlace al directo.
 
-## Stack y comandos
+Vite + React 18 + TypeScript + Tailwind. Sin router, sin estado global, sin
+backend: todo se sirve estático desde GitHub Pages. Comandos y cambio de fase
+(3 pasos): [README.md](README.md). Plan de refactor en curso:
+[.claude/plans/PLAN-OPTIMIZACION.md](.claude/plans/PLAN-OPTIMIZACION.md).
 
-- Vite + React 18 + TypeScript + Tailwind CSS. Sin router, sin estado global,
-  sin backend: todo se sirve estático desde GitHub Pages.
-- `pnpm run dev` — desarrollo local.
-- `pnpm run build` — `tsc` + build de Vite a `dist/`.
-- `pnpm run lint` — ESLint con `--max-warnings 0`.
-- `pnpm run deploy` — publica `dist/` en la rama `gh-pages` (GitHub Pages).
+## Verificar un cambio
 
-## Modelo de datos (no cambiar el formato)
+```bash
+pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build
+pnpm run test:visual   # si tocas UI: compara capturas píxel a píxel
+```
 
-Los datos viven en `src/data/COAC_<año>_<FASE>.json`. Formato:
+`test:visual` falla ante cualquier diferencia visual. Si el cambio de aspecto es
+intencionado, `pnpm run test:visual:update` y revisa las imágenes nuevas. Las
+capturas son de Linux y no se ejecutan en CI.
+
+## Reglas
+
+- Todo el texto visible está en español. Los identificadores en inglés, salvo
+  los campos del JSON (`modalidad`, `autor`, `nombre`, `ciudad`).
+- **No cambies el formato ni el contenido de `src/data/COAC_*.json`** sin que
+  te lo pidan: se copian del listado oficial. Si ves algo raro, avisa.
+- **Zona horaria**: toda hora de sesión es `SITE.timeZone` (`Europe/Madrid`),
+  nunca la del navegador ni la del build. No uses `new Date().getHours()` ni
+  similares: usa `domain/schedule.ts`, que recibe `now` como parámetro.
+- La app se sirve bajo `base: "/coac-quien-canta-hoy/"` (`vite.config.ts`).
+- No renombres los ids del DOM (`siteHeader`, `siteMain`, `searchAuthor`,
+  `session-present|future|past`, las fechas y los ids de agrupación): son
+  anclas del menú y del buscador.
+- No dejes dos archivos con el mismo nombre base en `.ts` y `.tsx`: esbuild
+  resuelve `.tsx` primero y el build se rompió así.
+- El deploy es por GitHub Actions al hacer push a `main`. No existe deploy
+  manual (y `pnpm deploy` sin `run` es otro comando de pnpm).
+- Si pnpm dice `ERR_PNPM_UNEXPECTED_STORE`, el `node_modules` se instaló con
+  otro store: usa `pnpm install` o pasa `--store-dir` al del error.
+
+## Modelo de datos
+
+`src/data/COAC_<año>_<FASE>.json`: fechas de sesión `dd/mm/yyyy` →
+agrupaciones **en orden de actuación**.
 
 ```json
 {
@@ -25,66 +53,49 @@ Los datos viven en `src/data/COAC_<año>_<FASE>.json`. Formato:
       "modalidad": "CORO | COMPARSA | CHIRIGOTA | CUARTETO",
       "nombre": "Nombre de la agrupación",
       "autor": "Autores",
-      "2025": "Nombre de la agrupación del año anterior (o 'Nueva agrupación')",
+      "2025": "Agrupación del año anterior (o 'Nueva agrupación')",
       "ciudad": "Cádiz"
     }
   ]
 }
 ```
 
-- Las claves de primer nivel son las fechas de sesión en `dd/mm/yyyy`.
-- La clave del año anterior (`"2025"` en la temporada 2026) cambia cada año
-  y se lee dinámicamente vía `SEASON.previousYear` (ver más abajo).
-- Las sesiones empiezan a `SEASON.sessionStartTime` y pueden acabar de
-  madrugada: hasta `SEASON.sessionEndTime` se considera que sigue siendo la
+- La clave del año anterior cambia cada año (`SEASON.previousYear`).
+- Las fechas de cada sesión no se declaran en ningún otro sitio.
+- Los datos solo entran en la app por `domain/loadSessions.ts` (tipado + ids).
+  `domain/validate.ts` los valida en el build y en los tests;
+  `src/data/coac-session.schema.json` da lo mismo en el editor.
+- Las sesiones empiezan a `SEASON.sessionStartTime` y hasta
+  `SEASON.sessionEndTime` de la madrugada siguiente se sigue considerando la
   sesión del día anterior.
-- Los datos de temporadas pasadas están archivados en ramas
-  (`2025_COAC_PRE`, `coac2024`, etc.), no en `main`.
-
-## Actualizar de fase o temporada
-
-Todo pasa por **`src/config/season.ts`** — es el único archivo que se toca:
-import del JSON de la fase, año, `previousYear`, título, horas de sesión y
-minutos por agrupación. Las fechas de cada sesión nunca se declaran a mano:
-se derivan de las claves del propio JSON. Ver la chuleta de 3 pasos en
-[README.md](README.md).
+- Las temporadas pasadas se archivan en ramas (`2025_COAC_PRE`, `coac2024`…).
 
 ## Estructura
 
-- `src/App.tsx` — composición de la página; lee todo de `config/season.ts`.
-- `src/config/season.ts` — única config de temporada/fase.
-- `src/config/site.ts` — constantes de sitio que NO cambian con la fase (URL
-  canónica, nombre, lugar de las sesiones).
-- `src/types.ts` — tipos compartidos (`Group`, `SessionsData`).
-- `src/styles.ts` — clases Tailwind reutilizadas y colores por modalidad.
-- `src/components/` — `DynamicTable` (clasifica sesiones en pasadas/hoy/
-  futuras y decide si mostrar la cuenta atrás), `SessionCard` (una sesión),
-  `SearchAuthor`, `MenuHeader` (nav fija inferior), `Footer`, `CountdownTimer`
-  (cuenta atrás a la próxima sesión).
-- `src/utils/handleDate.ts` — toda la lógica de fechas/horas: qué sesión está
-  "activa" ahora, hora estimada de cada agrupación, qué agrupación está
-  probablemente en directo.
-- `src/utils/formatAppData.ts` — añade a cada agrupación un `id` de ancla
-  (usado por el buscador para enlazar a su fila).
-- `vite-plugin-seo.ts` — plugin de Vite que en cada build lee `season.ts` +
-  el JSON de la fase y genera: contenido HTML real dentro de `#root` (para
-  crawlers sin JS), title/description/canonical/OG/Twitter y JSON-LD de
-  eventos (`schema.org/Event`), más `sitemap.xml`. React sustituye ese
-  contenido al arrancar (`createRoot`, no hidratación), así que no cambia
-  nada para los usuarios. Está incluido en `tsconfig.json` (no en
-  `tsconfig.node.json`, que es solo para `vite.config.ts`) porque solo usa
-  APIs de navegador/ES2020, no APIs de Node.
-- `public/` — favicon, apple-touch-icon, iconos del manifest, `og-image.png`,
-  `robots.txt` y `site.webmanifest`. Son estáticos (no dependen de la fase);
-  si se quiere regenerar `og-image.png`/iconos con otro diseño, se hizo con
-  un HTML+CSS renderizado a PNG vía Playwright (no hay script en el repo,
-  fue un paso manual).
+- `src/config/season.ts` — **único archivo que se toca al cambiar de fase**.
+  `src/config/site.ts` — constantes que no cambian con la fase.
+- `src/domain/` — lógica pura y testeada (`*.test.ts`): `schedule.ts`
+  (`buildSchedule`: sesión activa, hora estimada, agrupación en directo),
+  `loadSessions.ts`, `validate.ts`, `ids.ts`, `filterByAuthor.ts`.
+- `src/lib/` — utilidades sin reglas del COAC (`dates.ts`, `youtube.ts`).
+- `src/hooks/useNow.ts` — hora actual refrescada cada 30 s y al volver a la
+  pestaña.
+- `src/components/` — `layout/` (`SiteHeader`, `BottomNav`, `SiteFooter`),
+  `schedule/` (`SessionSchedule`, `SessionLineup`, `PerformanceRow`…),
+  `search/` (`AuthorSearch`), `ui/`. Solo pintan; no calculan fechas.
+- `src/types.ts`, `src/styles.ts` — tipos y clases Tailwind compartidas.
+- `vite-plugin-seo.ts` — en cada build valida los datos y genera el HTML
+  estático dentro de `#root`, metadatos, JSON-LD de eventos y `sitemap.xml`.
+- `tests/` — Playwright (capturas y comportamiento con reloj simulado) contra
+  un build en modo `e2e` que sustituye el JSON por `tests/fixtures/`.
+- `public/` — favicon, iconos, `og-image.png`, `robots.txt`, manifest.
 
-## Convenciones y avisos
+## Decisiones vigentes
 
-- Todo el texto visible de la UI está en español; mantenlo así.
-- El sitio se sirve bajo `base: "/coac-quien-canta-hoy/"` (ver
-  `vite.config.ts`); las rutas absolutas deben respetar ese prefijo. Los
-  assets de `public/` se referencian en `index.html` con `%BASE_URL%`.
-- Hay un histórico de decisiones de refactor en `plan/PLAN-MEJORAS.md` y de
-  SEO en `plan/PLAN-SEO.md` (bugs ya corregidos, motivación de cada cambio).
+- **SEO sin SSR**: el plugin pone en `#root` el contenido real (mismo que ve
+  el usuario) para crawlers sin JS. React lo sustituye con `createRoot`, no
+  hidratación, así que no hay mismatch ni cloaking.
+- `vite-plugin-seo.ts` está en `tsconfig.json` y reutiliza `SiteHeader` y el
+  dominio de `src/`, para que nunca diverjan de la app.
+- Las horas de la UI son estimaciones (`SEASON.minutesPerGroup` por
+  agrupación, actuación + montaje).

@@ -7,33 +7,42 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "lint": "eslint . --max-warnings 0",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@types/react": "18.2.37",
-    "@types/react-dom": "18.2.15",
-    "@typescript-eslint/eslint-plugin": "6.10.0",
-    "@typescript-eslint/parser": "6.10.0",
-    "@vitejs/plugin-react-swc": "3.5.0",
+    "@eslint/js": "^9",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react-swc": "4.3.3",
     "autoprefixer": "10.4.16",
-    "eslint": "8.53.0",
-    "eslint-plugin-react-hooks": "4.6.0",
-    "eslint-plugin-react-refresh": "0.4.4",
-    "gh-pages": "^6.1.0",
-    "postcss": "8.4.31",
+    "eslint": "^9",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^5",
+    "eslint-plugin-react-refresh": "^0.4",
+    "globals": "^17.14.0",
+    "postcss": "8.5.26",
+    "prettier": "^3",
     "tailwind-scrollbar": "3.0.5",
-    "tailwindcss": "3.3.5",
-    "typescript": "5.2.2",
-    "vite": "^5.4.11"
+    "tailwindcss": "3.4.19",
+    "typescript": "5.9.3",
+    "typescript-eslint": "^8",
+    "vite": "^7.3.7",
+    "vitest": "^3"
   },
   "description": "Horario de las sesiones del COAC",
-  "main": "postcss.config.js",
   "keywords": [
     "carnaval",
     "de",
@@ -45,10 +54,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nandovejer/quien-canta-hoy-en-el-coac.git"
+    "url": "git+https://github.com/nandovejer/coac-quien-canta-hoy.git"
   },
   "bugs": {
-    "url": "https://github.com/nandovejer/quien-canta-hoy-en-el-coac/issues"
+    "url": "https://github.com/nandovejer/coac-quien-canta-hoy/issues"
   },
-  "homepage": "https://github.com/nandovejer/quien-canta-hoy-en-el-coac#readme"
+  "homepage": "https://github.com/nandovejer/coac-quien-canta-hoy#readme",
+  "engines": {
+    "node": ">=20"
+  }
 }

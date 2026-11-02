@@ -1,9 +1,14 @@
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import type { Plugin } from "vite";
-import { SEASON, sessions } from "./src/config/season";
+import { SiteHeader } from "./src/components/layout/SiteHeader";
+import { SEASON, rawSessions, scheduleConfig, sessions } from "./src/config/season";
 import { SITE } from "./src/config/site";
-import { classNameGradient } from "./src/styles";
-import formatAppData from "./src/utils/formatAppData";
-import { dateFullFormat, parseDate, buildSessionDateTime } from "./src/utils/handleDate";
+import { getSessionStart } from "./src/domain/schedule";
+import { validateSessions } from "./src/domain/validate";
+import { formatLongDate, sortSessionDates } from "./src/lib/dates";
+import { brandGradientClass } from "./src/styles";
+import { NEW_GROUP_LABEL } from "./src/types";
 
 /**
  * Genera en cada build (a partir de `season.ts` y el JSON de la fase, las
@@ -16,6 +21,13 @@ import { dateFullFormat, parseDate, buildSessionDateTime } from "./src/utils/han
 export default function seoPlugin(): Plugin {
   return {
     name: "coac-seo",
+    buildStart() {
+      // Un JSON mal escrito rompe el build, no la web.
+      const errors = validateSessions(rawSessions, SEASON.previousYear);
+      if (errors.length > 0) {
+        this.error(`Datos de la fase inválidos:\n - ${errors.join("\n - ")}`);
+      }
+    },
     transformIndexHtml: {
       order: "pre",
       handler(html) {
@@ -56,10 +68,6 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-function sortedDates(data: Record<string, unknown>): string[] {
-  return Object.keys(data).sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
-}
-
 function pageTitle(): string {
   return `¿Quién canta hoy en el COAC ${SEASON.year}? — ${SEASON.phaseTitle}`;
 }
@@ -95,12 +103,12 @@ function buildHeadTags(): string {
 }
 
 function buildJsonLd(): string {
-  const data = formatAppData(sessions, SEASON.year);
-  const dates = sortedDates(data);
+  const data = sessions;
+  const dates = sortSessionDates(Object.keys(data));
 
   const events = dates.map((date) => {
     const groups = data[date];
-    const start = buildSessionDateTime(date, SEASON.sessionStartTime);
+    const start = getSessionStart(date, scheduleConfig.sessionStartTime, scheduleConfig.timeZone);
     const end = new Date(start.getTime() + groups.length * SEASON.minutesPerGroup * 60000);
 
     return {
@@ -136,10 +144,7 @@ function buildJsonLd(): string {
 
   const graph = {
     "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "WebSite", name: SITE.name, url: SITE.url },
-      ...events,
-    ],
+    "@graph": [{ "@type": "WebSite", name: SITE.name, url: SITE.url }, ...events],
   };
 
   // Escapamos "<" para que un valor con "</script>" no rompa el documento.
@@ -147,27 +152,25 @@ function buildJsonLd(): string {
 }
 
 function buildStaticContent(): string {
-  const data = formatAppData(sessions, SEASON.year);
-  const dates = sortedDates(data);
+  const data = sessions;
+  const dates = sortSessionDates(Object.keys(data));
 
   const sessionsHtml = dates
     .map((date) => {
       const groups = data[date];
-      const previousYearKey = String(SEASON.previousYear);
 
       const itemsHtml = groups
         .map((group) => {
-          const previous = group[previousYearKey];
-          const previousHtml = previous
-            ? `<p>${previous === "Nueva agrupación" ? "Nueva agrupación" : `Anteriormente: ${escapeHtml(previous)}`}</p>`
+          const previousHtml = group.previous
+            ? `<p>${"isNew" in group.previous ? NEW_GROUP_LABEL : `Anteriormente: ${escapeHtml(group.previous.name)}`}</p>`
             : "";
 
           return `
-            <li id="${escapeHtml(group.id ?? "")}" class="border-b border-gray-200 py-3">
+            <li id="${escapeHtml(group.id)}" class="border-b border-gray-200 py-3">
               <span class="font-bold text-xs uppercase">${escapeHtml(group.modalidad)}</span>
               — <strong class="capitalize">${escapeHtml(group.autor)}</strong>
               <p>${escapeHtml(group.nombre)}</p>
-              <p class="text-sm text-gray-500">${escapeHtml(group.ciudad ?? "")}</p>
+              <p class="text-sm text-gray-500">${escapeHtml(group.ciudad)}</p>
               ${previousHtml}
             </li>`;
         })
@@ -175,17 +178,20 @@ function buildStaticContent(): string {
 
       return `
         <section aria-labelledby="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="max-w-4xl mx-auto px-4 py-4">
-          <h2 id="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="text-2xl font-extrabold bg-clip-text text-transparent ${classNameGradient}">
-            Sesión — ${escapeHtml(dateFullFormat(date))}
+          <h2 id="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="text-2xl font-extrabold bg-clip-text text-transparent ${brandGradientClass}">
+            Sesión — ${escapeHtml(formatLongDate(date))}
           </h2>
           <ul>${itemsHtml}</ul>
         </section>`;
     })
     .join("");
 
+  // La misma cabecera que la app, para que React no la "mueva" al arrancar.
+  const headerHtml = renderToStaticMarkup(
+    createElement(SiteHeader, { year: SEASON.year, phaseTitle: SEASON.phaseTitle }),
+  );
+
   return `
-    <header class="text-center bg-gray-800 p-6">
-      <h1 class="text-2xl font-extrabold text-white">${escapeHtml(pageTitle())}</h1>
-    </header>
-    <main>${sessionsHtml}</main>`;
+    ${headerHtml}
+    <main id="siteMain">${sessionsHtml}</main>`;
 }

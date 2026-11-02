@@ -1,5 +1,7 @@
 import sessionData from "../data/COAC_2026_FINAL.json";
-import type { SessionsData } from "../types";
+import { loadSessions } from "../domain/loadSessions";
+import type { RawSessions, ScheduleConfig } from "../types";
+import { SITE } from "./site";
 
 /**
  * Único punto de actualización al pasar de fase o de temporada.
@@ -22,4 +24,14 @@ export const SEASON = {
   minutesPerGroup: 45,
 } as const;
 
-export const sessions = sessionData as SessionsData;
+// JSON de la fase tal cual (lo valida `validateSessions` en el build).
+export const rawSessions = sessionData as RawSessions;
+
+export const sessions = loadSessions(rawSessions, SEASON);
+
+export const scheduleConfig: ScheduleConfig = {
+  sessionStartTime: SEASON.sessionStartTime,
+  sessionEndTime: SEASON.sessionEndTime,
+  minutesPerGroup: SEASON.minutesPerGroup,
+  timeZone: SITE.timeZone,
+};
