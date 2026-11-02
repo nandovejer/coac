@@ -24,6 +24,6 @@ componentes ni el formato de los datos.
    llevan la fase y las fechas nuevas. `pnpm run test:visual` debe seguir
    pasando (usa su propio fixture).
 5. **Publicar**: commit y push a `main` (con permiso del usuario). El deploy lo
-   hace GitHub Actions; no hay deploy manual.
+   hace GitHub Actions; no lances `pnpm run deploy` tú.
 6. Al empezar una temporada nueva, pregunta si hay que archivar los JSON de la
    anterior en una rama (`<año>_COAC`) y borrarlos de `main`.

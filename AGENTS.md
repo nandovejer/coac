@@ -35,8 +35,10 @@ capturas son de Linux y no se ejecutan en CI.
   anclas del menú y del buscador.
 - No dejes dos archivos con el mismo nombre base en `.ts` y `.tsx`: esbuild
   resuelve `.tsx` primero y el build se rompió así.
-- El deploy es por GitHub Actions al hacer push a `main`. No existe deploy
-  manual (y `pnpm deploy` sin `run` es otro comando de pnpm).
+- El deploy es por GitHub Actions al hacer push a `main`. `pnpm run deploy`
+  solo relanza ese workflow (`gh workflow run`); no publica desde la máquina.
+  Es cosa del usuario: no lo ejecutes (y `pnpm deploy` sin `run` es otro
+  comando de pnpm).
 - Si pnpm dice `ERR_PNPM_UNEXPECTED_STORE`, el `node_modules` se instaló con
   otro store: usa `pnpm install` o pasa `--store-dir` al del error.
 

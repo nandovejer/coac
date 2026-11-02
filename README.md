@@ -15,6 +15,7 @@ pnpm run typecheck    # tsc
 pnpm run test         # tests unitarios (Vitest)
 pnpm run test:visual  # capturas y comportamiento (Playwright, local)
 pnpm run build        # tsc + build de producción a dist/
+pnpm run deploy       # relanza el deploy de main en GitHub Actions (necesita gh)
 ```
 
 `test:visual` necesita Chromium (`pnpm exec playwright install chromium`).
@@ -27,7 +28,8 @@ con `pnpm run test:visual:update`.
    (claves `dd/mm/yyyy` → array de agrupaciones). `pnpm run test` lo valida.
 2. Edita `src/config/season.ts`: cambia el import del JSON y ajusta
    `phaseTitle`, `previousYear` (si toca) y las horas de sesión si cambian.
-3. Haz push a `main`: GitHub Actions comprueba y publica en GitHub Pages.
+3. Haz push a `main`: GitHub Actions comprueba y publica en GitHub Pages
+   (`pnpm run deploy` solo lo vuelve a lanzar, no sube nada desde tu máquina).
 
 Las fechas de cada sesión **no** se declaran a mano en ningún sitio: se
 derivan directamente de las claves del JSON.
