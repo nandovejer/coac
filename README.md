@@ -1,25 +1,118 @@
-# ¿Quién canta hoy en el COAC?
+<div align="center">
 
-Web que muestra qué agrupaciones cantan en cada sesión del COAC (Concurso
-Oficial de Agrupaciones Carnavalescas de Cádiz), con horario estimado,
-buscador de autores y enlace al directo.
+<a href="https://nandovejer.github.io/coac-quien-canta-hoy/">
+  <img src="public/og-image.png" alt="¿Quién canta hoy en el COAC? Horario de sesiones, agrupaciones y directo." width="100%">
+</a>
+
+[![CI](https://github.com/nandovejer/coac-quien-canta-hoy/actions/workflows/ci.yml/badge.svg)](https://github.com/nandovejer/coac-quien-canta-hoy/actions/workflows/ci.yml)
+[![Deploy](https://github.com/nandovejer/coac-quien-canta-hoy/actions/workflows/deploy.yml/badge.svg)](https://github.com/nandovejer/coac-quien-canta-hoy/actions/workflows/deploy.yml)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-2365a6)](./LICENSE)
+[![Hecho con Luz](https://img.shields.io/badge/hecho%20con-Luz-2365a6)](https://github.com/nandovejer/luz)
+![Sin backend](https://img.shields.io/badge/backend-ninguno-2365a6)
+
+[Qué es](#qué-es) ·
+[Funciones](#funciones) ·
+[Cómo funciona](#cómo-funciona) ·
+[Desarrollo](#desarrollo) ·
+[Nueva fase](#actualizar-a-una-nueva-fase-3-pasos) ·
+[Web](https://nandovejer.github.io/coac-quien-canta-hoy/)
+
+</div>
+
+---
+
+## Qué es
+
+**¿Quién canta hoy en el COAC?** responde a la pregunta que se hace todo el
+mundo durante el Carnaval de Cádiz: _¿qué agrupación sale ahora y cuándo me
+toca verla?_
+
+El COAC (Concurso Oficial de Agrupaciones Carnavalescas, en el Gran Teatro
+Falla) dura semanas, con una sesión por noche y más de una decena de
+agrupaciones en cada una. El listado oficial es una tabla larga y sin horas. Esta
+web lo convierte en una página que se abre en el móvil y dice, de un vistazo:
+
+- qué sesión es la de **hoy**, cuáles vienen y cuáles ya pasaron;
+- a qué **hora aproximada** sale cada agrupación;
+- cuál está **en directo ahora mismo**;
+- cuánto falta para la próxima sesión, si hoy no hay.
+
+Es una web estática, sin cuentas, sin cookies y sin servidor: se abre, se mira y
+se cierra.
+
+## Funciones
+
+| Función               | Qué hace                                                                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Sesión de hoy**     | Destaca la sesión en curso y marca «en directo» la agrupación que debería estar actuando.                                 |
+| **Horario estimado**  | Calcula la hora de cada agrupación a partir del orden de actuación (actuación + montaje). Son estimaciones, no oficiales. |
+| **Cuenta atrás**      | Cuando no hay sesión hoy, muestra el tiempo que falta para la siguiente.                                                  |
+| **Buscador**          | Filtra por autor y lleva a la agrupación dentro de su sesión.                                                             |
+| **Directo**           | Enlace a la emisión en YouTube y al vídeo del año anterior de cada agrupación.                                            |
+| **Tres modos**        | Claro, oscuro y alto contraste. El oscuro y el de alto contraste cumplen WCAG AA.                                         |
+| **Visible sin JS**    | El contenido real va dentro del HTML, para buscadores y lectores sin JavaScript (datos estructurados JSON-LD incluidos).  |
+| **Siempre a la hora** | Todas las horas son de `Europe/Madrid`, estés donde estés.                                                                |
+
+## Cómo funciona
+
+```text
+src/data/COAC_<año>_<FASE>.json   listado oficial: fecha → agrupaciones, en orden
+        │
+        ▼
+src/domain/                       lógica pura y testeada: sesión activa,
+        │                         hora estimada, agrupación en directo
+        ▼
+src/components/                   React: solo pintan, con CSS propio
+        │
+        ▼
+vite-plugin-seo.ts                en el build, HTML real en #root, metadatos,
+                                  JSON-LD y sitemap
+```
+
+Todo se sirve estático desde GitHub Pages. La hora actual se refresca cada 30
+segundos y al volver a la pestaña.
+
+### Tecnología
+
+| Pieza            | Uso                                                                                                 |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| **Luz**          | Sistema de diseño: [`@luz-ds/*`](https://github.com/nandovejer/luz) (tokens, base y selector de modo) con tema propio `coac`. |
+| React 18         | Interfaz, sin router ni estado global.                                                              |
+| Vite + TypeScript | Build, tipado y plugin propio de SEO.                                                              |
+| CSS propio       | Un `.css` por componente, con tokens de Luz. Sin Tailwind ni utilidades.                            |
+| Vitest           | Tests de la lógica de fechas, datos y contraste.                                                    |
+| Playwright + axe | Capturas, modos de color, reloj simulado y accesibilidad.                                           |
+| GitHub Actions   | CI en cada PR y deploy a GitHub Pages al subir a `main`.                                            |
+
+Hecho con [Luz](https://github.com/nandovejer/luz), el sistema de diseño en
+CSS plano de [Nando Muñoz](https://twitter.com/nandovejer).
+
+> [!NOTE]
+> **Luz está en beta.** `@luz-ds/*` está fijado a una versión exacta. Lee su
+> [CHANGELOG](https://github.com/nandovejer/luz/blob/main/packages/tokens/CHANGELOG.md)
+> y revisa las capturas antes de subirla.
 
 ## Desarrollo
+
+Necesitas Node 20 o superior y [pnpm](https://pnpm.io).
 
 ```bash
 pnpm install
 pnpm run dev          # servidor de desarrollo
-pnpm run lint         # ESLint
-pnpm run format       # Prettier (format:check solo comprueba)
-pnpm run typecheck    # tsc
-pnpm run check:contrast  # contraste WCAG del tema de Luz en los 3 modos
-pnpm run lint:luz     # luz-check sobre el HTML (dist/) y el CSS
-pnpm run test         # tests unitarios (Vitest)
-pnpm run test:visual  # capturas, modos de color y axe (Playwright, local)
-pnpm run test:visual:compare  # imágenes antes | después | diferencias
-pnpm run build        # tsc + build de producción a dist/
-pnpm run deploy       # relanza el deploy de main en GitHub Actions (necesita gh)
 ```
+
+| Comando                         | Para qué                                                      |
+| ------------------------------- | ------------------------------------------------------------- |
+| `pnpm run lint`                 | ESLint                                                        |
+| `pnpm run format`               | Prettier (`format:check` solo comprueba)                      |
+| `pnpm run typecheck`            | `tsc`                                                         |
+| `pnpm run test`                 | Tests unitarios (Vitest)                                      |
+| `pnpm run check:contrast`       | Contraste WCAG del tema de Luz en los 3 modos                 |
+| `pnpm run lint:luz`             | `luz-check` sobre el HTML (`dist/`) y el CSS                  |
+| `pnpm run test:visual`          | Capturas, modos de color y axe (Playwright, local)            |
+| `pnpm run test:visual:compare`  | Imágenes antes \| después \| diferencias                      |
+| `pnpm run build`                | `tsc` + build de producción a `dist/`                         |
+| `pnpm run deploy`               | Relanza el deploy de `main` en GitHub Actions (necesita `gh`) |
 
 `test:visual` necesita Chromium (`pnpm exec playwright install chromium`).
 Compara contra capturas de Linux: si cambias el aspecto a propósito, revisa
@@ -37,7 +130,14 @@ Compara contra capturas de Linux: si cambias el aspecto a propósito, revisa
 Las fechas de cada sesión **no** se declaran a mano en ningún sitio: se
 derivan directamente de las claves del JSON.
 
+> [!IMPORTANT]
 > GitHub Pages debe estar configurado con la fuente **GitHub Actions**
 > (Settings → Pages → Build and deployment).
 
-Más contexto del proyecto en [AGENTS.md](AGENTS.md).
+Las temporadas pasadas se archivan en ramas (`2025_COAC_PRE`, `coac2024`…).
+Más contexto del proyecto, reglas y decisiones en [AGENTS.md](AGENTS.md).
+
+## Licencia
+
+[MIT](./LICENSE). Los datos de las agrupaciones se copian del listado oficial
+del COAC.
