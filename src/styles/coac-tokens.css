@@ -1,0 +1,217 @@
+/*
+ * Tokens propios de la app (los que Luz no tiene): colores de la cabecera,
+ * del degradado de marca, de cada modalidad y de cada ranking.
+ * Cada bloque usa los mismos selectores que theme-coac.css, así que cambian
+ * con el modo de color (también sin JavaScript, con los radios de
+ * <luz-theme-mode>). Sin layer: ganan siempre a Luz.
+ *
+ * Modo claro = el aspecto original de la web.
+ */
+
+/* Medidas que no cambian con el modo */
+:root {
+  --coac-text-2xl: 1.5rem;
+  --coac-leading-2xl: 2rem;
+  --coac-text-3xl: 1.875rem;
+  --coac-leading-3xl: 2.25rem;
+  --coac-text-4xl: 2.25rem;
+  --coac-leading-4xl: 2.5rem;
+  --coac-text-5xl: 3rem;
+  --coac-leading-5xl: 1;
+  --coac-nav-height: 3.5rem;
+  --coac-radius-lg: 0.5rem;
+  --coac-measure-session: 56rem;
+  --coac-measure-wide: 72rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --coac-nav-height: 3.75rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   CLARO
+   -------------------------------------------------------------------------- */
+
+[data-theme="coac"],
+[data-theme="coac"][data-mode="light"],
+:is(:root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="light"]:checked)) {
+  /* Cabecera, menú inferior y cuenta atrás */
+  --coac-header-bg: #1f2937;
+  --coac-header-text: #ffffff;
+  --coac-on-gradient: #ffffff;
+  --coac-panel-bg: #374151;
+  --coac-nav-bg: #1f2937;
+  --coac-nav-text: #ffffff;
+  --coac-nav-hover-from: #3b82f6;
+  --coac-nav-hover-to: #60a5fa;
+
+  /* Degradado de marca (títulos, cabecera de sesión, etiqueta de cuenta atrás) */
+  --coac-gradient-from: #3b82f6;
+  --coac-gradient-to: #2dd4bf;
+  /* Degradado cuando va sobre el fondo de la cabecera (título de fase, etiqueta de la cuenta atrás) */
+  --coac-on-header-from: #3b82f6;
+  --coac-on-header-to: #2dd4bf;
+
+  /* Líneas, buscador, pie */
+  --coac-border: #e5e7eb;
+  --coac-input-border: #e5e7eb;
+  --coac-chip-bg: #bfdbfe;
+  --coac-chip-bg-hover: #93c5fd;
+  --coac-chip-text: #000000;
+  --coac-chip-edge: transparent;
+  --coac-placeholder: #9ca3af;
+  --coac-footer-text: #4b5563;
+  --coac-footer-bg: #f8fafc;
+  --coac-link: #1d4ed8;
+  --coac-scroll-thumb: #6b7280;
+  --coac-scroll-track: #f3f4f6;
+
+  /* Sombras */
+  --coac-shadow-session: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --coac-shadow-raised: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --coac-shadow-input: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+  /* "EN DIRECTO" */
+  --coac-live-bg: #fdf2f8;
+  --coac-live-text: #be185d;
+
+  /* Modalidad */
+  --coac-badge-edge: transparent;
+  --coac-modalidad-coro-bg: #e0e7ff;
+  --coac-modalidad-coro-text: #3730a3;
+  --coac-modalidad-comparsa-bg: #d1fae5;
+  --coac-modalidad-comparsa-text: #065f46;
+  --coac-modalidad-chirigota-bg: #fef3c7;
+  --coac-modalidad-chirigota-text: #92400e;
+  --coac-modalidad-cuarteto-bg: #ffe4e6;
+  --coac-modalidad-cuarteto-text: #9f1239;
+
+  /* Ranking de la fila */
+  --coac-ranking-top-bg: #be123c;
+  --coac-ranking-top-text: #fff1f2;
+  --coac-ranking-ok-bg: #fcd34d;
+  --coac-ranking-ok-text: #b45309;
+  --coac-ranking-standar-bg: #fff7ed;
+  --coac-ranking-standar-text: inherit;
+}
+
+/* -------------------------------------------------------------------------
+   OSCURO
+   -------------------------------------------------------------------------- */
+
+[data-theme="coac"][data-mode="dark"],
+:is(:root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="dark"]:checked)) {
+  --coac-header-bg: #030712;
+  --coac-header-text: #f9fafb;
+  --coac-on-gradient: #030712;
+  --coac-panel-bg: #1f2937;
+  --coac-nav-bg: #030712;
+  --coac-nav-text: #f9fafb;
+  --coac-nav-hover-from: #1d4ed8;
+  --coac-nav-hover-to: #2563eb;
+
+  --coac-gradient-from: #60a5fa;
+  --coac-gradient-to: #2dd4bf;
+  --coac-on-header-from: #60a5fa;
+  --coac-on-header-to: #2dd4bf;
+
+  --coac-border: #374151;
+  --coac-input-border: #8b94a3;
+  --coac-chip-bg: #1e3a8a;
+  --coac-chip-bg-hover: #1e40af;
+  --coac-chip-text: #dbeafe;
+  --coac-chip-edge: transparent;
+  --coac-placeholder: #9ca3af;
+  --coac-footer-text: #b0b7c3;
+  --coac-footer-bg: #111827;
+  --coac-link: #93c5fd;
+  --coac-scroll-thumb: #6b7280;
+  --coac-scroll-track: #1f2937;
+
+  --coac-shadow-session: 0 25px 50px -12px rgb(0 0 0 / 0.6);
+  --coac-shadow-raised: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --coac-shadow-input: 0 1px 3px 0 rgb(0 0 0 / 0.5);
+
+  --coac-live-bg: #500724;
+  --coac-live-text: #fbcfe8;
+
+  --coac-badge-edge: transparent;
+  --coac-modalidad-coro-bg: #312e81;
+  --coac-modalidad-coro-text: #c7d2fe;
+  --coac-modalidad-comparsa-bg: #064e3b;
+  --coac-modalidad-comparsa-text: #a7f3d0;
+  --coac-modalidad-chirigota-bg: #78350f;
+  --coac-modalidad-chirigota-text: #fde68a;
+  --coac-modalidad-cuarteto-bg: #881337;
+  --coac-modalidad-cuarteto-text: #fecdd3;
+
+  --coac-ranking-top-bg: #9f1239;
+  --coac-ranking-top-text: #fff1f2;
+  --coac-ranking-ok-bg: #92400e;
+  --coac-ranking-ok-text: #fef3c7;
+  --coac-ranking-standar-bg: #292524;
+  --coac-ranking-standar-text: #f5f5f4;
+}
+
+/* -------------------------------------------------------------------------
+   ALTO CONTRASTE
+   Sin degradados (color sólido), bordes negros y sombras como líneas.
+   -------------------------------------------------------------------------- */
+
+[data-theme="coac"][data-mode="high-contrast"],
+:is(
+  :root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="high-contrast"]:checked)
+) {
+  --coac-header-bg: #000000;
+  --coac-header-text: #ffffff;
+  --coac-on-gradient: #ffffff;
+  --coac-panel-bg: #262626;
+  --coac-nav-bg: #000000;
+  --coac-nav-text: #ffffff;
+  --coac-nav-hover-from: #00256c;
+  --coac-nav-hover-to: #00256c;
+
+  --coac-gradient-from: #00256c;
+  --coac-gradient-to: #00256c;
+  --coac-on-header-from: #a5c8ff;
+  --coac-on-header-to: #a5c8ff;
+
+  --coac-border: #000000;
+  --coac-input-border: #000000;
+  --coac-chip-bg: #ffffff;
+  --coac-chip-bg-hover: #e5e5e5;
+  --coac-chip-text: #000000;
+  --coac-chip-edge: #000000;
+  --coac-placeholder: #595959;
+  --coac-footer-text: #000000;
+  --coac-footer-bg: #ffffff;
+  --coac-link: #00256c;
+  --coac-scroll-thumb: #000000;
+  --coac-scroll-track: #e5e5e5;
+
+  --coac-shadow-session: 0 0 0 2px #000000;
+  --coac-shadow-raised: 0 0 0 1px #000000;
+  --coac-shadow-input: none;
+
+  --coac-live-bg: #000000;
+  --coac-live-text: #ffffff;
+
+  --coac-badge-edge: #000000;
+  --coac-modalidad-coro-bg: #dbe4ff;
+  --coac-modalidad-coro-text: #000000;
+  --coac-modalidad-comparsa-bg: #d1f5e0;
+  --coac-modalidad-comparsa-text: #000000;
+  --coac-modalidad-chirigota-bg: #fff0b3;
+  --coac-modalidad-chirigota-text: #000000;
+  --coac-modalidad-cuarteto-bg: #ffd9e0;
+  --coac-modalidad-cuarteto-text: #000000;
+
+  --coac-ranking-top-bg: #000000;
+  --coac-ranking-top-text: #ffffff;
+  --coac-ranking-ok-bg: #ffd84d;
+  --coac-ranking-ok-text: #000000;
+  --coac-ranking-standar-bg: #ffffff;
+  --coac-ranking-standar-text: #000000;
+}

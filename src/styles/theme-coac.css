@@ -1,0 +1,272 @@
+@layer luz.tokens, luz.themes, luz.settings, luz.generic, luz.elements, luz.objects, luz.components, luz.utilities, luz.catalog, luz.print;
+@layer luz.themes {
+  /* ==========================================================================
+   Tema "coac" de Luz: los tokens semánticos de la web, en los tres modos.
+   Se parte de themes/_template.css. Un tema solo sobrescribe tokens
+   semánticos; lo propio de la app (colores de modalidad, ranking, cabecera…)
+   va en coac-tokens.css.
+
+   Comprobar el contraste tras tocarlo:
+     pnpm run check:contrast
+   ========================================================================== */
+
+  /* -------------------------------------------------------------------------
+   LIGHT: the default mode of the theme
+   -------------------------------------------------------------------------- */
+
+  [data-theme="coac"],
+  [data-theme="coac"][data-mode="light"],
+  :is(:root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="light"]:checked)) {
+    /* Fuentes: sans del sistema (la web no usa ET Book) */
+    --luz-font-body: var(--luz-font-sans);
+    --luz-font-heading: var(--luz-font-sans);
+
+    /* Sombras: las de la web actual (en alto contraste, un borde) */
+    --luz-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --luz-shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --luz-shadow-lg: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+    /* Surfaces */
+    --luz-surface-page: #f8fafc;
+    --luz-surface: #ffffff;
+    --luz-surface-hover: #f1f5f9;
+    --luz-surface-pressed: #e2e8f0;
+    --luz-surface-muted: #f8fafc;
+    --luz-surface-strong: #e2e8f0;
+    --luz-scrim: rgba(13, 14, 17, 0.6); /* gray-100 */
+    --luz-surface-media: #000;
+
+    /* Text (icons use the same tokens) */
+    --luz-text-primary: #000000;
+    --luz-text-secondary: #4b5563;
+    --luz-text-muted: #525c6b;
+    --luz-text-disabled: #6b7280;
+    --luz-text-on-fill: #fff;
+
+    /* Lines */
+    --luz-divider: #e5e7eb;
+    --luz-outline: #6b7280;
+    --luz-focus-ring: #1d4ed8;
+
+    /* Brand */
+    --luz-brand-primary: #1d4ed8;
+    --luz-brand-hover: #1e40af;
+    --luz-brand-active: #1e3a8a;
+    --luz-brand-subtle: #dbeafe;
+    --luz-brand-fill: #1d4ed8;
+    --luz-brand-fill-hover: #1e40af;
+    --luz-brand-fill-active: #1e3a8a;
+    --luz-sidebar-bg: #2a211a;
+    --luz-sidebar-text: #e3d5bf; /* 10.9:1 */
+    --luz-sidebar-text-hover: #fff;
+    --luz-sidebar-hover: #3a2f25;
+    --luz-sidebar-active-bg: #9cc8ee; /* light sky */
+    --luz-sidebar-active-text: #1a140f; /* 10.4:1 */
+    --luz-sidebar-border: #3d3127;
+    --luz-sidebar-label: #b9a78f; /* 6.8:1 */
+    --luz-sidebar-logo-bg: #9cc8ee; /* shares the active link's text colour */
+
+    /* Status */
+    --luz-color-success: #177734;
+    --luz-color-success-bg: var(--luz-green-10);
+    --luz-color-danger: #ca1c25;
+    --luz-color-danger-bg: var(--luz-red-10);
+    --luz-color-danger-fill: var(--luz-color-danger);
+    --luz-color-warning: var(--luz-yellow-60);
+    --luz-color-warning-accent: var(--luz-yellow-30);
+    --luz-color-warning-bg: var(--luz-yellow-10);
+    --luz-color-info: var(--luz-blue-70);
+    --luz-color-info-bg: var(--luz-blue-10);
+
+    /* Inputs */
+    --luz-input-bg: #ffffff;
+    --luz-input-border: #6b7280;
+
+    /* Extended */
+    --luz-color-teal: #00736f;
+    --luz-color-teal-bg: var(--luz-teal-10);
+    --luz-color-purple: #803ae9;
+    --luz-color-purple-bg: var(--luz-purple-10);
+    --luz-color-code: #803ae9;
+
+    /* Code syntax (pre.luz-code-block, on --luz-surface-muted). Keywords stay
+     ink and bold; colour goes to what the author wrote: names, properties,
+     values. Comments are muted and italic. No red: red means error. */
+    --luz-code-comment: var(--luz-gray-60); /* 5.2:1 */
+    --luz-code-keyword: var(--luz-text-primary);
+    --luz-code-name: var(--luz-blue-70); /* 9.0:1 */
+    --luz-code-property: var(--luz-purple-60); /* 5.8:1 */
+    --luz-code-string: var(--luz-green-70); /* 8.2:1 */
+    --luz-code-literal: var(--luz-yellow-60); /* 6.9:1 */
+  }
+
+  /* -------------------------------------------------------------------------
+   DARK
+   -------------------------------------------------------------------------- */
+
+  [data-theme="coac"][data-mode="dark"],
+  :is(:root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="dark"]:checked)) {
+    /* Surfaces */
+    --luz-surface-page: #111827;
+    --luz-surface: #1f2937;
+    --luz-surface-hover: #212b3a;
+    --luz-surface-pressed: #374151;
+    --luz-surface-muted: #111827;
+    --luz-surface-strong: #374151;
+    --luz-scrim: rgba(0, 0, 0, 0.7);
+    --luz-surface-media: #000;
+
+    /* Shadows: the same offsets on a darker ground, so a heavier black */
+    --luz-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --luz-shadow-md: 0 4px 10px rgba(0, 0, 0, 0.5);
+    --luz-shadow-lg: 0 14px 28px rgba(0, 0, 0, 0.6);
+
+    /* Text (icons use the same tokens) */
+    --luz-text-primary: #f9fafb;
+    --luz-text-secondary: #d1d5db;
+    --luz-text-muted: #b0b7c3;
+    --luz-text-disabled: #98a0ad;
+    --luz-text-on-fill: #fff;
+
+    /* Lines */
+    --luz-divider: #4b5563;
+    --luz-outline: #6b7280;
+    --luz-focus-ring: #93c5fd;
+
+    /* Brand */
+    /* blue-40: 4.5:1 or more as text on every dark surface */
+    --luz-brand-primary: #93c5fd;
+    --luz-brand-hover: #bfdbfe;
+    --luz-brand-active: #dbeafe;
+    --luz-brand-subtle: rgba(32, 143, 255, 0.14); /* blue-50 */
+    --luz-brand-fill: #3470db;
+    --luz-brand-fill-hover: #2b5fc2;
+    --luz-brand-fill-active: #234ea3;
+    --luz-sidebar-bg: #030712;
+    --luz-sidebar-text: #d1d5db;
+    --luz-sidebar-text-hover: #fff;
+    --luz-sidebar-hover: #1f2937;
+    --luz-sidebar-active-bg: #93c5fd;
+    --luz-sidebar-active-text: #030712;
+    --luz-sidebar-border: #1f2937;
+    --luz-sidebar-label: #a8b0bd;
+    --luz-sidebar-logo-bg: #93c5fd;
+    --luz-color-success: var(--luz-green-30);
+    --luz-color-success-bg: rgba(82, 207, 146, 0.12);
+    --luz-color-danger: var(--luz-red-30);
+    --luz-color-danger-bg: rgba(239, 79, 81, 0.12);
+    --luz-color-danger-fill: var(--luz-red-60); /* white text 4.8:1 */
+    --luz-color-warning: var(--luz-yellow-30);
+    --luz-color-warning-accent: var(--luz-yellow-20);
+    --luz-color-warning-bg: rgba(255, 205, 81, 0.12);
+    --luz-color-info: var(--luz-blue-30);
+    --luz-color-info-bg: rgba(119, 185, 255, 0.12);
+
+    /* Inputs */
+    --luz-input-bg: #1f2937;
+    --luz-input-border: #8b94a3;
+
+    /* Extended */
+    --luz-color-teal: var(--luz-teal-20);
+    --luz-color-teal-bg: rgba(98, 201, 181, 0.12);
+    --luz-color-purple: var(--luz-purple-20);
+    --luz-color-purple-bg: rgba(202, 154, 255, 0.12);
+    --luz-color-code: var(--luz-purple-40); /* 5.5:1 on surface-strong */
+
+    /* Code syntax, on --luz-surface-muted (gray-80) */
+    --luz-code-comment: var(--luz-gray-40);
+    --luz-code-keyword: var(--luz-text-primary);
+    --luz-code-name: var(--luz-blue-30);
+    --luz-code-property: var(--luz-purple-40);
+    --luz-code-string: var(--luz-green-40);
+    --luz-code-literal: var(--luz-yellow-40);
+  }
+
+  /* -------------------------------------------------------------------------
+   HIGH CONTRAST
+   -------------------------------------------------------------------------- */
+
+  [data-theme="coac"][data-mode="high-contrast"],
+  :is(
+    :root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="high-contrast"]:checked)
+  ) {
+    /* Surfaces */
+    --luz-surface-page: #fff;
+    --luz-surface: #fff;
+    --luz-surface-hover: var(--luz-gray-10);
+    --luz-surface-pressed: var(--luz-gray-20);
+    --luz-surface-muted: var(--luz-gray-10);
+    --luz-surface-strong: var(--luz-gray-20);
+    --luz-scrim: rgba(13, 14, 17, 0.6); /* gray-100 */
+    --luz-surface-media: #000;
+
+    /* Shadows: an edge instead of a blur, which a low-vision reader cannot see */
+    --luz-shadow-sm: none;
+    --luz-shadow-md: 0 0 0 1px #000;
+    --luz-shadow-lg: 0 0 0 2px #000;
+
+    /* Text (icons use the same tokens) */
+    --luz-text-primary: #000;
+    --luz-text-secondary: var(--luz-gray-100);
+    --luz-text-muted: var(--luz-gray-70);
+    --luz-text-disabled: var(--luz-gray-60); /* 3.8:1 on surface-strong */
+    --luz-text-on-fill: #fff;
+
+    /* Lines */
+    --luz-divider: var(--luz-gray-70);
+    --luz-outline: #000;
+    --luz-focus-ring: #000;
+
+    /* Brand */
+    --luz-brand-primary: var(--luz-blue-80);
+    --luz-brand-hover: var(--luz-blue-90);
+    --luz-brand-active: var(--luz-blue-100);
+    --luz-brand-subtle: var(--luz-blue-10);
+    --luz-brand-fill: var(--luz-blue-80); /* white text 6:1 */
+    --luz-brand-fill-hover: var(--luz-blue-90);
+    --luz-brand-fill-active: var(--luz-blue-100);
+
+    /* Sidebar */
+    --luz-sidebar-bg: #000;
+    --luz-sidebar-text: var(--luz-gray-30);
+    --luz-sidebar-text-hover: #fff;
+    --luz-sidebar-hover: var(--luz-gray-90);
+    --luz-sidebar-active-bg: #fff;
+    --luz-sidebar-active-text: #000;
+    --luz-sidebar-border: var(--luz-gray-80);
+    --luz-sidebar-label: var(--luz-gray-50);
+    --luz-sidebar-logo-bg: #fff;
+
+    /* Status */
+    --luz-color-success: #105224;
+    --luz-color-success-bg: var(--luz-green-10);
+    --luz-color-danger: #8d131a;
+    --luz-color-danger-bg: var(--luz-red-10);
+    --luz-color-danger-fill: var(--luz-color-danger);
+    --luz-color-warning: #5a4300;
+    --luz-color-warning-accent: var(--luz-yellow-40);
+    --luz-color-warning-bg: var(--luz-yellow-10);
+    --luz-color-info: var(--luz-blue-80);
+    --luz-color-info-bg: var(--luz-blue-10);
+
+    /* Inputs */
+    --luz-input-bg: #fff;
+    --luz-input-border: #000;
+
+    /* Extended */
+    --luz-color-teal: #00504d;
+    --luz-color-teal-bg: var(--luz-teal-10);
+    --luz-color-purple: #5828a1;
+    --luz-color-purple-bg: var(--luz-purple-10);
+    --luz-color-code: #5828a1;
+
+    /* Code syntax, on --luz-surface-muted: 7:1 or more, darker steps of the
+     same hues as light */
+    --luz-code-comment: var(--luz-gray-70); /* 8.7:1 */
+    --luz-code-keyword: var(--luz-text-primary);
+    --luz-code-name: var(--luz-blue-80); /* 13.6:1 */
+    --luz-code-property: var(--luz-purple-70); /* 9.7:1 */
+    --luz-code-string: var(--luz-green-70); /* 8.3:1 */
+    --luz-code-literal: var(--luz-yellow-70); /* 11.1:1 */
+  }
+}

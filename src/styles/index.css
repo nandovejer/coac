@@ -1,0 +1,8 @@
+/* Orden de carga: tokens de Luz, reset y etiquetas de Luz, selector de modo, tema propio y CSS de la app. */
+@import "@luz-ds/tokens/tokens.css";
+@import "@luz-ds/core/base.css";
+@import "@luz-ds/core/components/theme-mode.css";
+@import "./theme-coac.css";
+@import "./coac-tokens.css";
+@import "./global.css";
+@import "./static-shell.css";
