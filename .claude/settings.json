@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm run lint)",
+      "Bash(pnpm run typecheck)",
+      "Bash(pnpm run test)",
+      "Bash(pnpm run test:visual)",
+      "Bash(pnpm run build)",
+      "Bash(pnpm run format:check)",
+      "Bash(pnpm run dev)",
+      "Bash(pnpm run preview)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": ["Bash(pnpm deploy:*)", "Bash(pnpm run deploy:*)", "Bash(git push origin gh-pages:*)"]
+  }
+}
