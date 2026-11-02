@@ -132,6 +132,10 @@ agrupaciones **en orden de actuación**.
   `SiteHeader` se importa desde `App.tsx` (esbuild no carga CSS al leer
   `vite.config.ts`). El plugin también mete en línea `theme-boot` de Luz al
   principio del `<head>`: aplica el modo de color antes del primer pintado.
+- **CSS en línea**: un segundo plugin de `vite-plugin-seo.ts` mete el CSS del
+  build en un `<style>` del `index.html` (FCP 580 → 264 ms en móvil lento).
+  No pruebes `content-visibility` en las sesiones: la altura estimada descuadra
+  el scroll y las anclas.
 - `<luz-theme-mode>` es un elemento personalizado de Luz que añade su propio
   botón al DOM: se renderiza una vez (`memo`) y React no debe volver a tocarlo.
   Luz no escribe textos propios; los de `ThemeModeSwitch` son los del lector de

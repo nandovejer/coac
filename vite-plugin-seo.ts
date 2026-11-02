@@ -29,8 +29,8 @@ function themeBootScript(): string {
   return readFileSync(file, "utf8").trim().replaceAll("</script", "<\\/script");
 }
 
-export default function seoPlugin(): Plugin {
-  return {
+export default function seoPlugin(): Plugin[] {
+  const seo: Plugin = {
     name: "coac-seo",
     buildStart() {
       // Un JSON mal escrito rompe el build, no la web.
@@ -69,6 +69,33 @@ export default function seoPlugin(): Plugin {
       this.emitFile({ type: "asset", fileName: "sitemap.xml", source: sitemap });
     },
   };
+
+  // El CSS bloquea el primer pintado: en línea se ahorra un viaje de red.
+  // Solo en build; en dev no hay bundle y Vite inyecta los estilos.
+  const inlineCss: Plugin = {
+    name: "coac-inline-css",
+    enforce: "post",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        const bundle = ctx.bundle;
+        if (!bundle) return html;
+        return html.replace(
+          /<link rel="stylesheet"[^>]*href="[^"]*\/(assets\/[^"]+\.css)"[^>]*>/g,
+          (tag, fileName: string) => {
+            const asset = bundle[fileName];
+            if (asset?.type !== "asset") return tag;
+            // Un "</style" dentro del CSS cerraría la etiqueta antes de tiempo.
+            const css = String(asset.source).trim().replaceAll("</style", "<\\/style");
+            delete bundle[fileName];
+            return `<style>${css}</style>`;
+          },
+        );
+      },
+    },
+  };
+
+  return [seo, inlineCss];
 }
 
 function escapeHtml(value: string): string {
