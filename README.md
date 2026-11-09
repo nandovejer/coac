@@ -122,6 +122,8 @@ Compara contra capturas de Linux: si cambias el aspecto a propósito, revisa
 
 1. Crea `src/data/COAC_<año>_<FASE>.json` con el mismo formato que el actual
    (claves `dd/mm/yyyy` → array de agrupaciones). `pnpm run test` lo valida.
+   Si hay plantilla en `src/data/plantillas/` (fechas de la fase ya puestas),
+   rellénala y muévela a `src/data/`.
 2. Edita `src/config/season.ts`: cambia el import del JSON y ajusta
    `phaseTitle`, `previousYear` (si toca) y las horas de sesión si cambian.
 3. Haz push a `main`: GitHub Actions comprueba y publica en GitHub Pages

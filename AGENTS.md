@@ -96,6 +96,12 @@ agrupaciones **en orden de actuación**.
   `SEASON.sessionEndTime` de la madrugada siguiente se sigue considerando la
   sesión del día anterior.
 - Las temporadas pasadas se archivan en ramas (`2025_COAC_PRE`, `coac2024`…).
+- `src/data/plantillas/`: JSON de las próximas fases con las fechas ya puestas
+  y listas vacías. No se validan ni se importan; se rellenan y se mueven a
+  `src/data/` al llegar la fase. El calendario está comentado en `season.ts`.
+- Los tests visuales (build `e2e`) sustituyen el JSON por
+  `tests/fixtures/sessions.json` y `season.ts` por `tests/fixtures/season.ts`,
+  así que cambiar de fase no altera las capturas.
 
 ## Estructura
 

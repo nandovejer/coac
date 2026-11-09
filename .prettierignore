@@ -8,6 +8,7 @@ playwright-report
 tests/visual/*-snapshots
 # Datos de las fases: se copian del listado oficial, no se reformatean.
 src/data/*.json
+src/data/plantillas/*.json
 # Registros y planes: texto libre.
 *.md
 .claude

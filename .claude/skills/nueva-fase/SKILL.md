@@ -11,7 +11,10 @@ componentes ni el formato de los datos.
 1. **Datos**: crea `src/data/COAC_<año>_<FASE>.json` (`PRE`, `CUARTOS`, `SEMI`,
    `FINAL`) con el mismo formato que los existentes. Las claves son fechas
    `dd/mm/yyyy` y las agrupaciones van en orden de actuación. Cada agrupación
-   lleva la clave del año anterior (`"2025"` en la temporada 2026).
+   lleva la clave del año anterior (`"2025"` en la temporada 2026). Si existe
+   `src/data/plantillas/COAC_<año>_<FASE>.json` (fechas ya puestas, listas
+   vacías), rellénalo y muévelo a `src/data/`. Las plantillas viven aparte
+   porque la validación no admite sesiones vacías.
 2. **Validar**: `pnpm run test`. Corrige lo que diga `data.test.ts` (modalidad,
    ranking, campos vacíos, clave del año anterior…). No "arregles" el contenido
    de los datos por tu cuenta: avisa de lo raro.

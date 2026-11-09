@@ -1,0 +1,990 @@
+{
+    "08/01/2027": [
+        {
+            "ranking": "top",
+            "modalidad": "CORO",
+            "nombre": "Un coro increíble",
+            "autor": "Luis Rivero y Juanma Moreno",
+            "2026": "ADN",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "5.500 + IVA, si no, no IVA",
+            "autor": "J.A. Molina, Antonio 'El Mago' y Juan Blanco",
+            "2026": "Los que la tienen de mármol",
+            "ciudad": "Chiclana"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "Las cloacas",
+            "autor": "Jonatan Pérez 'Jona'",
+            "2026": "El manicomio",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "A dos velas, los desokupas de almas",
+            "autor": "Juan Luis Soto 'Cascana' y José A. Segundo",
+            "2026": "Los quince en las algas",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CUARTETO",
+            "nombre": "De aquí no se mueve ni Dios",
+            "autor": "José M. Soto y Francisco M. Amador",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Aquí vive un comparsista",
+            "autor": "Marcos García y Antonio Pedrosa",
+            "2026": "Mil noches en vela",
+            "ciudad": "Chipiona"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "La elegida",
+            "autor": "Palmi Santander y Francisco J. Tizón 'Pájaro'",
+            "2026": "La biblioteca",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los carajotes",
+            "autor": "La agrupación y Juan R. Fernández Barberi",
+            "2026": "Nueva agrupación",
+            "ciudad": "San Fernando"
+        }
+    ],
+    "09/01/2027": [
+        {
+            "ranking": "top",
+            "modalidad": "CORO",
+            "nombre": "La porfía",
+            "autor": "Antonio Bayón y Rubén Cao",
+            "2026": "Las mil maravillas",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "La primavera",
+            "autor": "Nono Galán y Miguel Novo",
+            "2026": "El jovencito Frankenstein",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "No va dá tú ná",
+            "autor": "Los Villegas",
+            "2026": "Piensa mal y acertarás: Los desconfiaos",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CUARTETO",
+            "nombre": "La chirigota del Lobby",
+            "autor": "M. Ángel Moreno",
+            "2026": "¡Que no vengan!",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "Los calichas",
+            "autor": "José Luis Orellana, Jesús Bernal, K. Álvarez y J. Rodríguez",
+            "2026": "Los caletarios",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Al alba",
+            "autor": "Javier Vargas",
+            "2026": "Las taradas",
+            "ciudad": "Sevilla"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Voxes negras (Prioridad nazi-oná)",
+            "autor": "Juanma Bocuñano y Moisés Botana",
+            "2026": "Nueva agrupación",
+            "ciudad": "Torre Pacheco"
+        }
+    ],
+    "10/01/2027": [
+        {
+            "ranking": "top",
+            "modalidad": "CORO",
+            "nombre": "La rebujina",
+            "autor": "Álvaro García y Jesús Rivera",
+            "2026": "La ciudad perfecta",
+            "ciudad": "Chiclana"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Las antiguas",
+            "autor": "Carlitos Pérez e Iván Romero",
+            "2026": "Los antiguos",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "En la orillita de la Caleta",
+            "autor": "Hermanos Pastrana",
+            "2026": "El hombre de hojalata",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CUARTETO",
+            "nombre": "Los Bunker King",
+            "autor": "David Reyes",
+            "2026": "El despertar de la fuerza. Abre el ojete",
+            "ciudad": "Córdoba"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Coser y cantar",
+            "autor": "Miguel Ángel Márquez, Rubén Vallejo y Francisco M. Millán",
+            "2026": "Mindundi",
+            "ciudad": "Isla Cristina"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Tú va pa entro (De demoniacas maneras)",
+            "autor": "Rubén Galán",
+            "2026": "San taratachin",
+            "ciudad": "Sanlúcar"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Letras",
+            "autor": "José D. Menguiano y Fernando Borrallo",
+            "2026": "La ciudad prohibida",
+            "ciudad": "Cortegana"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Ay, ay, ay… cómo han cambiao los Jackson Five",
+            "autor": "Miguel Choza",
+            "2026": "Los de la tribu 'de al lado'",
+            "ciudad": "Cádiz"
+        }
+    ],
+    "11/01/2027": [
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "El visado",
+            "autor": "Francisco Rosales y Daniel Rosales",
+            "2026": "Al garete",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "El parlamento",
+            "autor": "Eder Rey y Tatán",
+            "2026": "La Marea",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "¡Que viene, que viene!",
+            "autor": "David Corrales 'Sise'",
+            "2026": "Los niños con nombre",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los soñadores",
+            "autor": "Alejandro Cheza",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los Pititis",
+            "autor": "Melli, Juan A. de los Ríos, Ramón de los Ríos, Alejandro Díaz y Borja Romero",
+            "2026": "Nueva agrupación",
+            "ciudad": "El Puerto"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Si queréis venir, venid",
+            "autor": "Enrique Moncada y Nicolás Moncada",
+            "2026": "Los que te dan el último viaje",
+            "ciudad": "Salar"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los hijos del pueblo",
+            "autor": "Jesús Gutiérrez y Francisco Ruiz",
+            "2026": "Nueva agrupación",
+            "ciudad": "Málaga"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los que van detrás de la raya",
+            "autor": "Roberto Oneto y Rubén Muñoz 'Yato'",
+            "2026": "¡¡Qué más quiere que te diga!!",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "Los torpes",
+            "autor": "Alejandro Pérez 'Peluca'",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Payoyo el mío (Especie en peligro de propagación)",
+            "autor": "Mamen Rodríguez y Lidia Sánchez",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        }
+    ],
+    "12/01/2027": [
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "Entre mareas",
+            "autor": "Jesús Monje y José L. Alcántara",
+            "2026": "La viña del mar",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los últimos de la fila",
+            "autor": "Francisco J. Macías, Gonzalo Madrid y Manuel Benítez",
+            "2026": "Los compay",
+            "ciudad": "Chiclana"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La razón de volver",
+            "autor": "Juan Fernández",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Que no te entherian",
+            "autor": "Constancio Pérez, Fran Olivera y Sergio Toro",
+            "2026": "Yo con esto no puedo",
+            "ciudad": "Mairena del Aljarafe"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La calle",
+            "autor": "La agrupación, Eder Rey y Javier Noriega",
+            "2026": "Las manos de Cádiz",
+            "ciudad": "El Puerto"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CUARTETO",
+            "nombre": "Nos tienen que matá",
+            "autor": "Iván Romero, Yeray Romero y Borja Romero",
+            "2026": "En mi caseta cabe todo el mundo",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Lo perdido",
+            "autor": "Hugo Flores, Ramón Zamudio y Carlos J. García",
+            "2026": "Culpable",
+            "ciudad": "Alcalá de Guadaíra"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "A caraperro",
+            "autor": "Lolo Sevilla Pecci y Marcos Nogueroles",
+            "2026": "La condená",
+            "ciudad": "Chiclana"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Estamos en el chasis",
+            "autor": "Agustín C. González, José R. Castro y Álvaro Castro",
+            "2026": "¡A quien le importa!",
+            "ciudad": "Algeciras"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "El relojero",
+            "autor": "Manuel Márquez 'Mazita' y Manolo Márquez 'Maza'",
+            "2026": "Los señalaos",
+            "ciudad": "Alcalá de Guadaíra"
+        }
+    ],
+    "13/01/2027": [
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "No tocar",
+            "autor": "Paquito Sánchez",
+            "2026": "Al lío",
+            "ciudad": "Ceuta"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "Los plateros",
+            "autor": "Jesús Gómez, Francisco Ramos y Juanma Moreno",
+            "2026": "El patriota",
+            "ciudad": "Alcalá de Guadaíra"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "No salimos",
+            "autor": "Antonio Álvarez 'Bizcocho' y Pablo de la Prida",
+            "2026": "Ssshhhhh!!!",
+            "ciudad": "La Rinconada"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Volver",
+            "autor": "J.M. Soto y Alejandro Rodríguez",
+            "2026": "Los mariposas",
+            "ciudad": "Punta Umbría"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Una chirigota sin filtro",
+            "autor": "Jesús Manuel Selma 'Melli'",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La malhablá",
+            "autor": "Jesús Franco",
+            "2026": "La última cuerda",
+            "ciudad": "Tarifa"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "El marío de turmana",
+            "autor": "Juan Carlos Nevado y Jesús Melero",
+            "2026": "To pa mi",
+            "ciudad": "Sevilla"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "Los escorpiones",
+            "autor": "Hermanos Carapapa",
+            "2026": "La Resistencia",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "La liga de los hombres extraordinarios",
+            "autor": "Francisco J. Fernández y Ángel Piulestán",
+            "2026": "Los mohigangas",
+            "ciudad": "Cádiz"
+        }
+    ],
+    "14/01/2027": [
+        {
+            "ranking": "ok",
+            "modalidad": "CORO",
+            "nombre": "El guirigay",
+            "autor": "Emilio Gutiérrez, Antonio Rodríguez y Manuel Alvarado",
+            "2026": "Dame veneno",
+            "ciudad": "Huelva"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "La explosión",
+            "autor": "Joaquín Fernández y J.M. Fuentes",
+            "2026": "La palabra de Cádiz",
+            "ciudad": "El Puerto"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los 11 mil sioux",
+            "autor": "Rober Gómez y Raúl Cabrera",
+            "2026": "Los robins",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Luzciérnagas",
+            "autor": "Francisco J. Oliveros",
+            "2026": "El ejército de Pancho Viña",
+            "ciudad": "Sanlúcar"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "La auténtica carnevale",
+            "autor": "Jesús David Román y Francisco Javier Gallardo",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Sin salida",
+            "autor": "Jesús Díaz y José L. de Celis",
+            "2026": "Nueva agrupación",
+            "ciudad": "Chiclana"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Pa haberlos matao",
+            "autor": "Raúl Calzado, Fernando Martín y M.Á. Calero",
+            "2026": "Mírala cara a cara",
+            "ciudad": "S. Juan de Aznalfarache"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La clandestina",
+            "autor": "David Campano y Jesús Bou",
+            "2026": "Los plumeritos",
+            "ciudad": "Sevilla"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los enganxaos",
+            "autor": "Eder Rey, J. Rodríguez Endrina, J.M. Ballesteros y M. Nogueroles",
+            "2026": "Nueva agrupación",
+            "ciudad": "Sevilla"
+        }
+    ],
+    "15/01/2027": [
+        {
+            "ranking": "top",
+            "modalidad": "CORO",
+            "nombre": "Los napoleones",
+            "autor": "Julio Pardo, Antonio Rivas y Canijo de Carmona",
+            "2026": "El sindicato",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Adetrás Andalucía",
+            "autor": "Diego Letrán, Luis Rossi y Quique Parodi",
+            "2026": "Seguimos cayendo mal",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "OBDC por amor a Cádiz",
+            "autor": "Germán García Rendón",
+            "2026": "OBDC me quedo contigo",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Pppfffff…!!!",
+            "autor": "J. Francisco Castro y David Castro",
+            "2026": "Nos hemos venío arriba",
+            "ciudad": "Écija"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CUARTETO",
+            "nombre": "Un cuarteto para enmarcar",
+            "autor": "Juan Antonio Chulián, Rubén Orihuela y Juan Antonio Díaz",
+            "2026": "¡Que vengan!",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La Lola",
+            "autor": "Damián Gómez y Ramón Ruiz",
+            "2026": "La juguetería",
+            "ciudad": "Alcalá de Guadaíra"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los del pío pío",
+            "autor": "La agrupación, Andrés García y Joaquín Boje",
+            "2026": "¿No son pa matarlos?",
+            "ciudad": "Alcalá de Guadaíra"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los coloristas",
+            "autor": "Horacio Calvillo y Lolo Barragán",
+            "2026": "Los trapos",
+            "ciudad": "El Bosque"
+        }
+    ],
+    "16/01/2027": [
+        {
+            "ranking": "ok",
+            "modalidad": "CORO",
+            "nombre": "Pancho Villa y su brigada amarilla",
+            "autor": "José M. Valdés, Cesáreo López, José M. Martínez y Juan A. Díaz",
+            "2026": "¡Qué pechá de paja!",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los malage",
+            "autor": "Ale Helmo, Tomate y Javi el Ojo",
+            "2026": "Los hombres de Paco",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "De puerta en puerta",
+            "autor": "José M. Utrera, Ezequiel Marín y Jesús Romero",
+            "2026": "Nueva agrupación",
+            "ciudad": "Dos Hermanas"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CUARTETO",
+            "nombre": "El incendiario de Cádiz",
+            "autor": "David Caro y Pedripol",
+            "2026": "Crónica de una muerte más que anunciada",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "El coro de P.R.",
+            "autor": "Francisco J. Fernández y Juan Carlos Moreno",
+            "2026": "Nueva agrupación",
+            "ciudad": "Puerto Real"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los inmunes",
+            "autor": "Juanmy Alpairo y Javi Vázquez",
+            "2026": "Sociedad Limitada",
+            "ciudad": "Morón"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "La plaga",
+            "autor": "Miguel Ángel García Argüez (Chapa)",
+            "2026": "El desguace",
+            "ciudad": "Cádiz"
+        }
+    ],
+    "17/01/2027": [
+        {
+            "ranking": "top",
+            "modalidad": "CORO",
+            "nombre": "Cádiz in love",
+            "autor": "Victoriano Cano, F. Sevilla Pecci y Luis A. Betanzos",
+            "2026": "El reino de los cielos",
+            "ciudad": "San Fernando"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "La copla sencilla",
+            "autor": "Fran Quintana",
+            "2026": "Los hijos de Cádiz",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Calienta que sales",
+            "autor": "M. Ángel Llull y José Arauz",
+            "2026": "Una chirigota en teoría",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CUARTETO",
+            "nombre": "No me pises que llevas chanclas",
+            "autor": "Jorge Gil y Bizcocho",
+            "2026": "Mira en tu interior",
+            "ciudad": "Alcalá de Guadaíra"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "El refugio",
+            "autor": "Rafael Aragón",
+            "2026": "Nueva agrupación",
+            "ciudad": "Madrid"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La fábrica",
+            "autor": "Daniel Heredia",
+            "2026": "El verdugo",
+            "ciudad": "Vilches"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los de la cara oculta, La Viña 2.0",
+            "autor": "Luis Alfonso Martínez, Fernando Castro y Jesús Romero",
+            "2026": "Un muerto muy vivo",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La farsa",
+            "autor": "Felipe Jiménez y Fernando M. Rodríguez",
+            "2026": "Nueva agrupación",
+            "ciudad": "Sevilla"
+        }
+    ],
+    "18/01/2027": [
+        {
+            "ranking": "ok",
+            "modalidad": "CORO",
+            "nombre": "La rue del percebe",
+            "autor": "Nandi Migueles, Riki Rivera e Inés Migueles",
+            "2026": "La desafinada",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los que no se bajan del burro",
+            "autor": "Iván Herrera, Antoñito Molina, Juanmi Villegas y David Carapapa",
+            "2026": "Los muerting planner, una chirigota pa to tus muertos",
+            "ciudad": "Rota"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los chalaos",
+            "autor": "Óscar Mosteiro y Selu Torres",
+            "2026": "Cadirvana",
+            "ciudad": "Conil de la Frontera"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los carapremios",
+            "autor": "Víctor Jurado",
+            "2026": "Los camper del sur",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Mentiras",
+            "autor": "Guillermo Guerrero, Manuel Santander y Antonio Quiñones",
+            "2026": "El desvelo",
+            "ciudad": "Marbella"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los de la plaza Pinto",
+            "autor": "Canijo de Carmona y el Lacio",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "El viejo",
+            "autor": "Miguel López, Jesús de la Puente y José Antonio Arias",
+            "2026": "Nueva agrupación",
+            "ciudad": "Sevilla"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "TR14J3",
+            "autor": "Javier Bonet y Guillermo García",
+            "2026": "El costurero de la reina",
+            "ciudad": "San Fernando"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los universibarrios",
+            "autor": "J.A. López Molina y J.A. López Rondón",
+            "2026": "La gracia divina",
+            "ciudad": "Algeciras"
+        }
+    ],
+    "19/01/2027": [
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "El batiburrillo",
+            "autor": "José Manuel Utrera y José Luis Espinosa",
+            "2026": "Tu muralla",
+            "ciudad": "Sevilla"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "Las paletas",
+            "autor": "Antonio Medina y David Castro",
+            "2026": "Las jorobadas",
+            "ciudad": "Alcalá de Guadaíra"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los ascetas de la Caleta que buscando a su profeta se hartaron de croqueta y se quedaron majareta, vulgo «Los yogui» (La conspiración)",
+            "autor": "Alejandro Pérez 'Peluca'",
+            "2026": "Los amish del mono, fuimos a por piononos (la decepción)",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "El llavero",
+            "autor": "Juan Miguel Armuña y Sergio Fernández",
+            "2026": "El gran comandante",
+            "ciudad": "Granada"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CUARTETO",
+            "nombre": "Los caballeros inclusivos y el santo grial del Carnaval",
+            "autor": "Álvaro Galán y Paco Luque",
+            "2026": "La pandilla inclusiva",
+            "ciudad": "El Puerto"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los muertos de frío",
+            "autor": "Carlos Acal, J. Antonio Gobea y David Corrales",
+            "2026": "Omá no me esperes pa almorzar",
+            "ciudad": "Dos Hermanas"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "El cántaro y la fuente",
+            "autor": "José Luis Bustelo",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "¡Vámonos de frente!",
+            "autor": "José E. Solano y Sergio Caro",
+            "2026": "¡Cariño...vaya ambientazo!",
+            "ciudad": "Camas"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los herederos",
+            "autor": "Juan Miguel Villegas y Lale Villegas",
+            "2026": "Nueva agrupación",
+            "ciudad": "Cádiz"
+        }
+    ],
+    "20/01/2027": [
+        {
+            "ranking": "standar",
+            "modalidad": "CORO",
+            "nombre": "El cuarto poder",
+            "autor": "Paco Mora",
+            "2026": "Café Puerto América",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Shang-Bombá (Así canta Pekín)",
+            "autor": "Moisés Serrano y Rubén Berea",
+            "2026": "Los Camerún de la Isla",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "La gaditana",
+            "autor": "Manuel Cornejo",
+            "2026": "Los invisibles",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Me llega hasta el cuello",
+            "autor": "Juan Bautista, José Manuel Gómez y Mariano Ruiz",
+            "2026": "Los ahumaos",
+            "ciudad": "Roquetas de Mar"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "¡Oh, claro que sí, mi amo!",
+            "autor": "José Barrios",
+            "2026": "La moda de Cádiz",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "Los pecadores",
+            "autor": "Antonio Martínez Ares",
+            "2026": "Los humanos",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "La tita Laura (De beata a farmear aura)",
+            "autor": "David Alvarado y J. Antonio Alvarado",
+            "2026": "La comunidad autónoma",
+            "ciudad": "Sevilla"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los Casapuerta",
+            "autor": "M.A. Zampaña, José Luis Zampaña y David Ganaza",
+            "2026": "Salud, gaditanismo y libertad",
+            "ciudad": "El Puerto"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Martilleando",
+            "autor": "José Cruz",
+            "2026": "Las lobas",
+            "ciudad": "San Fernando"
+        }
+    ],
+    "21/01/2027": [
+        {
+            "ranking": "top",
+            "modalidad": "CORO",
+            "nombre": "La romería",
+            "autor": "Miguel Ángel García Argüez (Chapa)",
+            "2026": "La carnicería",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "top",
+            "modalidad": "COMPARSA",
+            "nombre": "La mascarada",
+            "autor": "Tomate y Piru",
+            "2026": "Los locos",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los hijos de ruta",
+            "autor": "Juanma Braza 'Sheriff' y Manuel Peinado",
+            "2026": "Los semicuraos",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "ok",
+            "modalidad": "COMPARSA",
+            "nombre": "La Pepa",
+            "autor": "Canijo de Carmona y el Lacio",
+            "2026": "Las muñecas",
+            "ciudad": "Cádiz"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Los que vienen de o mar o montes, los de Alicante",
+            "autor": "La agrupación",
+            "2026": "Nueva agrupación",
+            "ciudad": "Torrevieja"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "Los majaretas",
+            "autor": "Alberto Rueda",
+            "2026": "Nueva agrupación",
+            "ciudad": "Martos"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "¿Qué pinto yo aquí?",
+            "autor": "Jesús Riego y Agustín de Buiza",
+            "2026": "Nueva agrupación",
+            "ciudad": "Gines"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "COMPARSA",
+            "nombre": "La joya de la corona",
+            "autor": "Salvador Gómez",
+            "2026": "El refugio",
+            "ciudad": "Chipiona"
+        },
+        {
+            "ranking": "standar",
+            "modalidad": "CHIRIGOTA",
+            "nombre": "Las invisibles",
+            "autor": "Jesús Martínez 'Suso' y Antonio Logroño",
+            "2026": "Los que luchan por su sueño (Los narcolépticos)",
+            "ciudad": "La Rinconada"
+        }
+    ]
+}
