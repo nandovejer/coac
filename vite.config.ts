@@ -7,12 +7,17 @@ import seoPlugin from "./vite-plugin-seo";
 export default defineConfig(({ mode }) => ({
   plugins: [react(), seoPlugin()],
   base: "/coac-quien-canta-hoy/",
-  // En modo "e2e" (tests visuales) cualquier JSON de fase se sustituye por un
-  // fixture fijo, para que las capturas no dependan de la fase en curso.
+  // En modo "e2e" (tests visuales) la configuración de la fase y cualquier JSON
+  // de fase se sustituyen por fixtures fijos, para que las capturas no dependan
+  // de la fase en curso.
   resolve:
     mode === "e2e"
       ? {
           alias: [
+            {
+              find: /^(.*\/)?config\/season(\.ts)?$/,
+              replacement: fileURLToPath(new URL("./tests/fixtures/season.ts", import.meta.url)),
+            },
             {
               find: /^.*\/COAC_\d{4}_[A-Z]+\.json$/,
               replacement: fileURLToPath(new URL("./tests/fixtures/sessions.json", import.meta.url)),
