@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./base";
 
 // Red de seguridad del refactor: la web debe verse y comportarse igual.
 // Cada escenario fija la hora (Europe/Madrid, ver playwright.config.ts) contra

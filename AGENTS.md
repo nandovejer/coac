@@ -146,5 +146,14 @@ agrupaciones **en orden de actuación**.
   botón al DOM: se renderiza una vez (`memo`) y React no debe volver a tocarlo.
   Luz no escribe textos propios; los de `ThemeModeSwitch` son los del lector de
   pantalla.
+- **Cuenta atrás**: va sobre el buscador (la pinta `App.tsx`, no
+  `SessionSchedule`) con la fuente de siete segmentos DSEG7 Classic Bold (SIL
+  OFL), cargada desde jsDelivr (`npm/dseg@0.46.0`). Es la única petición a un
+  tercero de la web: sin cookies, pero jsDelivr ve la IP. Si se cambia de
+  versión o de fuente, hay que medir otra vez el ancho de cifra
+  (`.coac-digit`, 0,82 em) para que no haya saltos al cargarla. Los tests
+  visuales sirven la fuente desde `tests/fixtures/dseg/` (`tests/visual/base.ts`)
+  y no dependen de la red. Los dígitos van `aria-hidden`; el texto accesible
+  cambia solo por minutos.
 - Las horas de la UI son estimaciones (`SEASON.minutesPerGroup` por
   agrupación, actuación + montaje).

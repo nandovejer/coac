@@ -1,28 +1,16 @@
 import type { Schedule } from "../../domain/schedule";
 import { GradientHeading } from "../ui/GradientHeading";
-import { NextSessionCountdown } from "./NextSessionCountdown";
 import { SessionLineup } from "./SessionLineup";
 import "./SessionSchedule.css";
 
 const sectionTitleClass = "coac-schedule__title";
 
-/** Reparte las sesiones en hoy / próximas / pasadas y muestra la cuenta atrás cuando no hay sesión hoy. */
-export function SessionSchedule({
-  schedule: { present, future, past, nextSession },
-}: {
-  schedule: Schedule;
-}) {
-  const showCountdown = present === null && nextSession !== null;
+/** Reparte las sesiones en hoy / próximas / pasadas. */
+export function SessionSchedule({ schedule: { present, future, past } }: { schedule: Schedule }) {
   const onlyPastSessions = present === null && future.length === 0;
 
   return (
     <div className="coac-schedule">
-      {showCountdown && (
-        <NextSessionCountdown
-          label={`Próxima sesión: ${nextSession.date}`}
-          targetDate={nextSession.startsAt.toISOString()}
-        />
-      )}
       {present && (
         <div id="session-present">
           <GradientHeading className={sectionTitleClass}>Sesión de Hoy</GradientHeading>

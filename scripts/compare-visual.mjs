@@ -25,8 +25,10 @@ const png = (path) => `data:image/png;base64,${readFileSync(path).toString("base
 const browser = await chromium.launch();
 let count = 0;
 
-for (const dir of readdirSync(results)) {
-  if (!dir.includes(filter)) continue;
+for (const entry of readdirSync(results, { withFileTypes: true })) {
+  // `test-results/` también trae archivos sueltos (.last-run.json): solo carpetas.
+  if (!entry.isDirectory() || !entry.name.includes(filter)) continue;
+  const dir = entry.name;
   const files = readdirSync(join(results, dir));
   const find = (suffix) => files.find((f) => f.endsWith(suffix));
   const [expected, actual, diff] = ["-expected.png", "-actual.png", "-diff.png"].map(find);

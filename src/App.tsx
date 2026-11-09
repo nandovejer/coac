@@ -7,6 +7,7 @@ import { SiteFooter } from "./components/layout/SiteFooter";
 import { SiteHeader } from "./components/layout/SiteHeader";
 import { ThemeModeSwitch } from "./components/layout/ThemeModeSwitch";
 import "./components/layout/SiteHeader.css";
+import { NextSessionCountdown } from "./components/schedule/NextSessionCountdown";
 import { SessionSchedule } from "./components/schedule/SessionSchedule";
 import { AuthorSearch } from "./components/search/AuthorSearch";
 
@@ -21,6 +22,12 @@ function App() {
       <SiteHeader year={SEASON.year} phaseTitle={SEASON.phaseTitle} />
 
       <main id="siteMain">
+        {schedule.present === null && schedule.nextSession && (
+          <NextSessionCountdown
+            label={`Próxima sesión: ${schedule.nextSession.date}`}
+            targetDate={schedule.nextSession.startsAt.toISOString()}
+          />
+        )}
         <AuthorSearch sessions={sessions} />
         <SessionSchedule schedule={schedule} />
       </main>

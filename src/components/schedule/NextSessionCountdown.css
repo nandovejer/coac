@@ -1,3 +1,19 @@
+/*
+ * Fuente de siete segmentos DSEG7 Classic Bold (keshikan, licencia SIL OFL 1.1),
+ * servida por jsDelivr desde el paquete npm `dseg`. Solo se descarga si se
+ * muestra la cuenta atrás (~5 KB). Mientras llega se usa la monoespaciada; las
+ * medidas de `.coac-digit` y `.coac-countdown__separator` son las de esta
+ * fuente, así que el contador no se mueve al cargarla.
+ */
+@font-face {
+  font-family: "DSEG7 Classic";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2")
+    format("woff2");
+}
+
 .coac-countdown {
   display: flex;
   flex-direction: column;
@@ -19,31 +35,99 @@
 }
 
 .coac-countdown__units {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: max-content;
-  gap: var(--luz-space-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--luz-space-xs);
+  color: var(--coac-header-text);
   text-align: center;
 }
 
 .coac-countdown__unit {
   display: flex;
   flex-direction: column;
-  padding: var(--luz-space-sm);
-  border-radius: var(--coac-radius-lg);
-  background: var(--coac-panel-bg);
-  color: var(--coac-header-text);
+  align-items: center;
+  gap: var(--luz-space-xs);
+}
+
+.coac-countdown__value,
+.coac-countdown__separator {
+  font-family: "DSEG7 Classic", var(--luz-font-mono), monospace;
+  font-size: var(--coac-text-3xl);
+  font-weight: 700;
+  line-height: 1;
 }
 
 .coac-countdown__value {
-  font-family: var(--luz-font-mono);
-  font-size: var(--coac-text-3xl);
-  line-height: var(--coac-leading-3xl);
+  display: flex;
+  gap: 0.06em;
+}
+
+.coac-countdown__separator {
+  inline-size: 0.2em;
+  color: var(--coac-on-header-to);
 }
 
 .coac-countdown__name {
   font-size: var(--luz-text-xs);
   line-height: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Cada cifra es un rodillo: la nueva entra desde abajo y la anterior sube y se apaga. */
+.coac-digit {
+  position: relative;
+  display: inline-block;
+  inline-size: 0.82em;
+  text-align: center;
+}
+
+/* Segmentos apagados, como en un display de verdad. */
+.coac-digit::before {
+  content: "8";
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+}
+
+.coac-digit__current {
+  position: relative;
+  display: block;
+}
+
+.coac-digit__current[data-rolling] {
+  animation: coac-digit-in 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.coac-digit__previous {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: coac-digit-out 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes coac-digit-in {
+  from {
+    opacity: 0;
+    transform: translateY(60%);
+  }
+}
+
+@keyframes coac-digit-out {
+  to {
+    opacity: 0;
+    transform: translateY(-60%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-digit__current[data-rolling] {
+    animation: none;
+  }
+
+  .coac-digit__previous {
+    display: none;
+  }
 }
 
 @media (min-width: 48rem) {
@@ -53,12 +137,12 @@
   }
 
   .coac-countdown__units {
-    gap: var(--luz-space-lg);
+    gap: var(--luz-space-sm);
   }
 
-  .coac-countdown__value {
+  .coac-countdown__value,
+  .coac-countdown__separator {
     font-size: var(--coac-text-5xl);
-    line-height: var(--coac-leading-5xl);
   }
 
   .coac-countdown__name {
