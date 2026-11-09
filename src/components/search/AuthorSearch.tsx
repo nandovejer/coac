@@ -30,14 +30,14 @@ export function AuthorSearch({ sessions }: { sessions: SessionsData }) {
 
       {searchTerm && ( // Solo renderiza cuando hay un término de búsqueda
         <div className="coac-search__results" role="list">
-          {matches.map(({ date, group }) => (
+          {matches.map(({ date, group, label }) => (
             <a
               key={group.id}
               href={`#${group.id}`}
               title={`Canta su ${group.modalidad} el ${date}`}
               className="coac-search__chip"
             >
-              {group.autor}
+              {label}
             </a>
           ))}
         </div>
