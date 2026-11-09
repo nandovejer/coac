@@ -215,7 +215,7 @@
             "ciudad": "Cádiz"
         },
         {
-            "ranking": "standar",
+            "ranking": "top",
             "modalidad": "COMPARSA",
             "nombre": "Los soñadores",
             "autor": "Alejandro Cheza",
@@ -255,7 +255,7 @@
             "ciudad": "Cádiz"
         },
         {
-            "ranking": "ok",
+            "ranking": "top",
             "modalidad": "COMPARSA",
             "nombre": "Los torpes",
             "autor": "Alejandro Pérez 'Peluca'",
