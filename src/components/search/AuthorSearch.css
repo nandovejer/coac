@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   inline-size: 100%;
-  padding: var(--luz-space-lg);
+  padding: var(--luz-space-md);
   border-radius: var(--coac-radius-lg);
   background: var(--luz-surface);
   box-shadow: var(--coac-shadow-raised);
@@ -10,18 +10,35 @@
   color: var(--luz-text-primary);
 }
 
+/* En móvil el placeholder ya dice qué buscar: el título solo lo leen los lectores de pantalla */
 .coac-search__title {
-  margin-block-end: var(--luz-space-md);
-  font-size: var(--coac-text-2xl);
-  line-height: var(--coac-leading-2xl);
-  text-align: center;
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (min-width: 64rem) {
+  .coac-search__title {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    margin-block-end: var(--luz-space-xs);
+    overflow: visible;
+    clip: auto;
+    font-size: var(--luz-text-lg);
+    line-height: 1.5rem;
+    white-space: normal;
+  }
 }
 
 .coac-search__input {
   inline-size: 100%;
   max-inline-size: var(--coac-measure-session);
   block-size: 3rem;
-  margin: 0 auto var(--luz-space-md);
+  margin: 0;
   padding: var(--luz-space-xs);
   border: 1px solid var(--coac-input-border);
   border-radius: var(--luz-radius-md);
@@ -38,6 +55,7 @@
 
 .coac-search__results {
   display: flex;
+  margin-block-start: var(--luz-space-md);
   flex-wrap: wrap;
   gap: var(--luz-space-xs);
   max-inline-size: var(--coac-measure-wide);
@@ -57,23 +75,4 @@
 
 .coac-search__chip:hover {
   background: var(--coac-chip-bg-hover);
-}
-
-@media (min-width: 48rem) {
-  .coac-search__title {
-    font-size: var(--coac-text-3xl);
-    line-height: var(--coac-leading-3xl);
-  }
-}
-
-/* En el panel lateral de escritorio, más compacto. */
-@media (min-width: 64rem) {
-  .coac-search {
-    padding: var(--luz-space-md);
-  }
-
-  .coac-search__title {
-    font-size: var(--coac-text-2xl);
-    line-height: var(--coac-leading-2xl);
-  }
 }

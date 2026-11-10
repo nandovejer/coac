@@ -1,0 +1,105 @@
+.coac-scroll-row {
+  position: relative;
+  min-inline-size: 0;
+}
+
+/*
+ * El desplazamiento con el dedo es el nativo (overflow-x: auto): sin barra y
+ * con el gesto horizontal contenido, para que al llegar al extremo no se
+ * dispare el «atrás» del navegador.
+ */
+.coac-scroll-row__viewport {
+  /* Bloque de contención de lo absoluto de dentro (p. ej. el texto solo para lectores de pantalla): sin esto
+     se colocaría respecto a la página, fuera del recorte, y ensancharía el documento */
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.coac-scroll-row__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Desvanecido en el borde con más contenido: del todo transparente bajo la flecha y opaco a su lado */
+.coac-scroll-row[data-more-after] .coac-scroll-row__viewport {
+  mask-image: linear-gradient(
+    to right,
+    var(--coac-mask-opaque) calc(100% - 4.25rem),
+    transparent calc(100% - 2rem)
+  );
+}
+
+.coac-scroll-row[data-more-before] .coac-scroll-row__viewport {
+  mask-image: linear-gradient(to right, transparent 2rem, var(--coac-mask-opaque) 4.25rem);
+}
+
+.coac-scroll-row[data-more-before][data-more-after] .coac-scroll-row__viewport {
+  mask-image: linear-gradient(
+    to right,
+    transparent 2rem,
+    var(--coac-mask-opaque) 4.25rem,
+    var(--coac-mask-opaque) calc(100% - 4.25rem),
+    transparent calc(100% - 2rem)
+  );
+}
+
+/* Solo el chevron, sin círculo: aparece y desaparece con suavidad según haya más que ver */
+.coac-scroll-row__arrow {
+  position: absolute;
+  inset-block: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  margin: auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--luz-radius-full);
+  background: none;
+  color: var(--coac-scroll-arrow);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  visibility: hidden;
+}
+
+.coac-scroll-row__arrow--before {
+  inset-inline-start: 0;
+}
+
+.coac-scroll-row__arrow--after {
+  inset-inline-end: 0;
+}
+
+.coac-scroll-row[data-more-before] > .coac-scroll-row__arrow--before,
+.coac-scroll-row[data-more-after] > .coac-scroll-row__arrow--after {
+  opacity: 0.85;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.coac-scroll-row__arrow:hover {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-scroll-row__arrow {
+    transition: none;
+  }
+}
+
+/* En el panel de escritorio la rejilla enseña todo: ni máscara ni flechas */
+@media (min-width: 64rem) {
+  .coac-scroll-row .coac-scroll-row__viewport {
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .coac-scroll-row > .coac-scroll-row__arrow {
+    display: none;
+  }
+}

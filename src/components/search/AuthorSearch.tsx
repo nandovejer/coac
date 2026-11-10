@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { filterByAuthor } from "../../domain/filterByAuthor";
 import type { SessionsData } from "../../types";
-import { GradientHeading } from "../ui/GradientHeading";
+import { Heading } from "../ui/Heading";
 import "./AuthorSearch.css";
 
 /** Buscador de autores: lista enlaces a la fila de cada agrupación que coincide. */
@@ -15,7 +15,7 @@ export function AuthorSearch({ sessions }: { sessions: SessionsData }) {
 
   return (
     <aside className="coac-search" id="searchAuthor">
-      <GradientHeading className="coac-search__title">Busca el autor@ destacad@</GradientHeading>
+      <Heading className="coac-search__title">Busca el autor@ destacad@</Heading>
 
       <label htmlFor="searchAuthorInput" className="coac-sr-only">
         Buscar por autor@

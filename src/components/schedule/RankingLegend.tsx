@@ -1,19 +1,20 @@
+import { RankingPilot } from "./RankingPilot";
 import "./RankingLegend.css";
 
-/** Qué significan los colores de las filas y de dónde salen las horas. */
-export function RankingLegend({ minutesPerGroup }: { minutesPerGroup: number }) {
+interface RankingLegendProps {
+  minutesPerGroup: number;
+  /** "side": en el panel lateral de escritorio; "main": sobre las sesiones, en móvil. */
+  placement: "side" | "main";
+}
+
+/** Qué significan los pilotos de las filas y de dónde salen las horas. */
+export function RankingLegend({ minutesPerGroup, placement }: RankingLegendProps) {
   return (
-    <div className="coac-legend">
-      <ul className="coac-legend__list">
-        <li className="coac-legend__item">
-          <span className="coac-legend__swatch" data-ranking="top" aria-hidden="true" />
-          Imprescindible
-        </li>
-        <li className="coac-legend__item">
-          <span className="coac-legend__swatch" data-ranking="ok" aria-hidden="true" />
-          Recomendada
-        </li>
-      </ul>
+    <div className="coac-legend" data-placement={placement}>
+      <p className="coac-legend__pilots">
+        <RankingPilot ranking="top" />
+        <RankingPilot ranking="ok" />
+      </p>
       <p className="coac-legend__note">
         Horas estimadas: {minutesPerGroup} min por agrupación (actuación y montaje).
       </p>

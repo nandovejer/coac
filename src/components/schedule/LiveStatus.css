@@ -13,12 +13,15 @@
 }
 
 .coac-live-status__badge {
-  padding-inline: var(--luz-space-3xs);
+  display: inline-block;
+  padding: var(--luz-space-3xs) var(--luz-space-xs);
+  border-radius: var(--luz-radius-full);
   background: var(--coac-live-bg);
   color: var(--coac-live-text);
   font-size: var(--luz-text-xs);
   font-weight: 700;
-  animation: coac-live-ring 1s infinite;
+  line-height: 1rem;
+  animation: coac-live-ring 1.4s infinite;
 }
 
 .coac-live-status__author {

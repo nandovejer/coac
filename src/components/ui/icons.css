@@ -3,3 +3,11 @@
   inline-size: 1.5rem;
   block-size: 1.5rem;
 }
+
+/* Junto a un texto: del tamaño de la letra y alineado con ella */
+.coac-icon--inline {
+  display: inline-block;
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  vertical-align: -0.2em;
+}

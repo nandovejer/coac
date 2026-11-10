@@ -6,12 +6,9 @@ const read = (file: string) => readFileSync(new URL(file, import.meta.url), "utf
 const coacTokens = read("./coac-tokens.css");
 const themeCoac = read("./theme-coac.css");
 
-// Contraste WCAG de los colores propios (coac-tokens.css) en los modos oscuro y
-// alto contraste. El modo claro conserva el aspecto original de la web y NO
-// cumple AA en la cabecera de sesión, los títulos en degradado y las filas "ok"
-// (deuda aceptada, ver AGENTS.md): por eso no se comprueba aquí.
-// Los tokens semánticos de Luz (theme-coac.css) los comprueba
-// `pnpm run check:contrast`.
+// Contraste WCAG de los colores propios (coac-tokens.css) en los tres modos:
+// claro, oscuro y alto contraste. Los tokens semánticos de Luz (theme-coac.css)
+// los comprueba `pnpm run check:contrast`.
 
 type Tokens = Record<string, string>;
 
@@ -27,7 +24,7 @@ function parseBlocks(css: string): Array<{ selector: string; tokens: Tokens }> {
   }));
 }
 
-function tokensOf(mode: "dark" | "high-contrast"): Tokens {
+function tokensOf(mode: "light" | "dark" | "high-contrast"): Tokens {
   const pick = (css: string) =>
     parseBlocks(css)
       .filter(({ selector }) => selector.includes(`data-mode="${mode}"`))
@@ -54,18 +51,15 @@ const pairs: Array<[string, string, number]> = [
   ["--coac-header-text", "--coac-header-bg", 4.5],
   ["--coac-header-text", "--coac-panel-bg", 4.5],
   ["--coac-nav-text", "--coac-nav-bg", 4.5],
-  ["--coac-nav-text", "--coac-nav-hover-from", 4.5],
-  ["--coac-nav-text", "--coac-nav-hover-to", 4.5],
+  ["--coac-nav-text", "--coac-nav-hover-bg", 4.5],
   ["--coac-cta-text", "--coac-cta-bg", 4.5],
-  ["--coac-cta-text", "--coac-header-bg", 4.5],
-  ["--coac-on-gradient", "--coac-gradient-from", 4.5],
-  ["--coac-on-gradient", "--coac-gradient-to", 4.5],
-  ["--coac-on-header-from", "--coac-header-bg", 4.5],
-  ["--coac-on-header-to", "--coac-header-bg", 4.5],
-  ["--coac-gradient-from", "--luz-surface-page", 3],
-  ["--coac-gradient-to", "--luz-surface-page", 3],
-  ["--coac-gradient-from", "--luz-surface", 3],
-  ["--coac-gradient-to", "--luz-surface", 3],
+  ["--coac-table-head-text", "--coac-table-head-bg", 4.5],
+  ["--coac-on-header-accent", "--coac-header-bg", 4.5],
+  ["--coac-on-header-accent", "--coac-panel-bg", 4.5],
+  // Flecha de las filas deslizables: elemento de interfaz sobre el panel
+  ["--coac-scroll-arrow", "--coac-header-bg", 3],
+  ["--coac-accent", "--luz-surface-page", 4.5],
+  ["--coac-accent", "--luz-surface", 4.5],
   ["--coac-chip-text", "--coac-chip-bg", 4.5],
   ["--coac-chip-text", "--coac-chip-bg-hover", 4.5],
   ["--coac-footer-text", "--coac-footer-bg", 4.5],
@@ -75,6 +69,13 @@ const pairs: Array<[string, string, number]> = [
   ["--coac-placeholder", "--luz-input-bg", 4.5],
   ["--coac-input-border", "--luz-input-bg", 3],
   ["--coac-live-text", "--coac-live-bg", 4.5],
+  // El punto de "en directo" es un elemento gráfico sobre la cabecera
+  ["--coac-live-dot", "--coac-header-bg", 3],
+  ["--coac-pilot-text", "--coac-pilot-bg", 4.5],
+  // La luz del piloto (círculo) sobre la pastilla
+  ["--coac-ranking-top-bg", "--coac-pilot-bg", 3],
+  ["--coac-ranking-ok-bg", "--coac-pilot-bg", 3],
+  ["--coac-scroll-thumb", "--luz-surface", 3],
   ...["coro", "comparsa", "chirigota", "cuarteto"].map((m): [string, string, number] => [
     `--coac-modalidad-${m}-text`,
     `--coac-modalidad-${m}-bg`,
@@ -87,12 +88,15 @@ const pairs: Array<[string, string, number]> = [
   ]),
 ];
 
-describe.each(["dark", "high-contrast"] as const)("contraste de coac-tokens.css en modo %s", (mode) => {
-  const tokens = tokensOf(mode);
+describe.each(["light", "dark", "high-contrast"] as const)(
+  "contraste de coac-tokens.css en modo %s",
+  (mode) => {
+    const tokens = tokensOf(mode);
 
-  it.each(pairs)("%s sobre %s ≥ %s:1", (foreground, background, minimum) => {
-    expect(tokens[foreground], `falta ${foreground}`).toBeDefined();
-    expect(tokens[background], `falta ${background}`).toBeDefined();
-    expect(contrast(tokens[foreground], tokens[background])).toBeGreaterThanOrEqual(minimum);
-  });
-});
+    it.each(pairs)("%s sobre %s ≥ %s:1", (foreground, background, minimum) => {
+      expect(tokens[foreground], `falta ${foreground}`).toBeDefined();
+      expect(tokens[background], `falta ${background}`).toBeDefined();
+      expect(contrast(tokens[foreground], tokens[background])).toBeGreaterThanOrEqual(minimum);
+    });
+  },
+);

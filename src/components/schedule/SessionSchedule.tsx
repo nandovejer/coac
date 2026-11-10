@@ -1,5 +1,5 @@
 import type { Schedule, SessionView } from "../../domain/schedule";
-import { GradientHeading } from "../ui/GradientHeading";
+import { Heading } from "../ui/Heading";
 import { SessionLineup } from "./SessionLineup";
 import "./SessionSchedule.css";
 
@@ -29,21 +29,19 @@ export function SessionSchedule({ schedule: { present, future, past }, previousY
     <div className="coac-schedule">
       {present && (
         <section id="session-present" className="coac-schedule__section">
-          <GradientHeading className="coac-schedule__title">Sesión de Hoy</GradientHeading>
+          <Heading className="coac-schedule__title">Sesión de hoy</Heading>
           {lineup(present)}
         </section>
       )}
       {future.length > 0 && (
         <section id="session-future" className="coac-schedule__section">
-          <GradientHeading className="coac-schedule__title">Próximas sesiones</GradientHeading>
+          <Heading className="coac-schedule__title">Próximas sesiones</Heading>
           {future.map(lineup)}
         </section>
       )}
       {past.length > 0 && (
         <section id="session-past" className="coac-schedule__section">
-          <GradientHeading className="coac-schedule__title coac-schedule__title--past">
-            Sesiones Pasadas
-          </GradientHeading>
+          <Heading className="coac-schedule__title">Sesiones pasadas</Heading>
           {[...past].reverse().map(lineup)}
         </section>
       )}

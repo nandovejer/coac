@@ -1,4 +1,5 @@
 import type { SessionView } from "../../domain/schedule";
+import { BroadcastIcon } from "../ui/icons";
 import { ModalidadBadge } from "./ModalidadBadge";
 import "./LiveStatus.css";
 
@@ -16,8 +17,10 @@ export function LiveStatus({ session }: { session: SessionView }) {
   return (
     <section className="coac-live-status" aria-label="Ahora mismo en el Falla">
       <p className="coac-live-status__label">
-        <span className="coac-live-status__badge">📡EN DIRECTO</span> {index + 1} de{" "}
-        {session.performances.length}
+        <span className="coac-live-status__badge">
+          <BroadcastIcon inline /> EN DIRECTO
+        </span>{" "}
+        {index + 1} de {session.performances.length}
       </p>
       <a className="coac-live-status__author" href={`#${group.id}`}>
         {group.autor}

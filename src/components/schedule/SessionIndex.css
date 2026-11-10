@@ -1,16 +1,20 @@
 /* Índice de sesiones del panel lateral (sobre el fondo de la cabecera). */
 .coac-session-index {
   display: grid;
+  /* minmax(0, …): una pista "auto" crecería hasta el ancho de la fila deslizable y ensancharía la página */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--luz-space-sm);
   color: var(--coac-header-text);
 }
 
+/* Elemento de rejilla: sin esto no baja del ancho de todas las pastillas y ensancha la página */
+.coac-session-index__group {
+  min-inline-size: 0;
+}
+
 .coac-session-index__label {
   margin-block-end: var(--luz-space-2xs);
-  background-image: linear-gradient(to right, var(--coac-on-header-from), var(--coac-on-header-to));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--coac-on-header-accent);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -18,15 +22,17 @@
   text-transform: uppercase;
 }
 
-/* En móvil, una fila con scroll lateral; en el panel de escritorio, rejilla. */
+/* En móvil, una fila que se desliza (ScrollRow); en el panel de escritorio, rejilla. */
 .coac-session-index__list {
   display: flex;
   gap: var(--luz-space-2xs);
   margin: 0;
   padding: 0;
-  overflow-x: auto;
   list-style: none;
-  scrollbar-width: none;
+}
+
+.coac-session-index__list > li {
+  flex: none;
 }
 
 .coac-session-index__link {
@@ -43,7 +49,8 @@
 }
 
 .coac-session-index__link:hover {
-  background-image: linear-gradient(to right, var(--coac-nav-hover-from), var(--coac-nav-hover-to));
+  background: var(--coac-nav-hover-bg);
+  box-shadow: inset 0 0 0 2px var(--coac-nav-text);
   color: var(--coac-nav-text);
 }
 
@@ -66,8 +73,8 @@
   inline-size: 0.5rem;
   block-size: 0.5rem;
   border-radius: 50%;
-  background: var(--coac-live-text);
-  animation: coac-blink 1s infinite;
+  background: var(--coac-live-dot);
+  animation: coac-live-ring 1.4s infinite;
 }
 
 .coac-session-index__count {
@@ -80,7 +87,10 @@
   .coac-session-index__list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
-    overflow: visible;
+  }
+
+  .coac-session-index__list > li {
+    flex: initial;
   }
 }
 

@@ -1,6 +1,8 @@
 import type { PerformanceView } from "../../domain/schedule";
+import { BroadcastIcon } from "../ui/icons";
 import { ModalidadBadge } from "./ModalidadBadge";
 import { PreviousYearLink } from "./PreviousYearLink";
+import { RankingPilot } from "./RankingPilot";
 import "./PerformanceRow.css";
 
 /**
@@ -20,7 +22,9 @@ export function PerformanceRow({
         title="Estimación más o menos teniendo en cuenta actuación más el montaje"
       >
         {isLive ? (
-          <span className="coac-performance__status--live">📡EN DIRECTO</span>
+          <span className="coac-performance__status--live">
+            <BroadcastIcon inline /> EN DIRECTO
+          </span>
         ) : (
           <>
             {estimatedTime} <small className="coac-performance__approx">aprox.</small>
@@ -28,6 +32,7 @@ export function PerformanceRow({
         )}
       </div>
       <div className="coac-performance__body">
+        <RankingPilot ranking={group.ranking} />
         <strong className="coac-performance__author">{group.autor}</strong>
         <p className="coac-performance__name">{group.nombre}</p>
       </div>

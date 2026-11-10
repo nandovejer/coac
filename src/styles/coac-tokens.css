@@ -1,11 +1,12 @@
 /*
- * Tokens propios de la app (los que Luz no tiene): colores de la cabecera,
- * del degradado de marca, de cada modalidad y de cada ranking.
+ * Tokens propios de la app (los que Luz no tiene): colores de la cabecera, del
+ * acento de marca, de cada modalidad y del semáforo del ranking.
  * Cada bloque usa los mismos selectores que theme-coac.css, así que cambian
  * con el modo de color (también sin JavaScript, con los radios de
  * <luz-theme-mode>). Sin layer: ganan siempre a Luz.
  *
- * Modo claro = el aspecto original de la web.
+ * Sin degradados: todo color sólido. Los tres modos cumplen WCAG AA (lo vigilan
+ * `check:contrast`, `coac-tokens.test.ts` y axe).
  */
 
 /* Medidas que no cambian con el modo */
@@ -22,6 +23,11 @@
   --coac-radius-lg: 0.5rem;
   --coac-measure-session: 56rem;
   --coac-measure-wide: 72rem;
+  /* Barra de desplazamiento sobre el panel lateral, que es oscuro en los tres modos */
+  --coac-scroll-on-header: rgb(255 255 255 / 0.4);
+  --coac-scroll-on-header-hover: rgb(255 255 255 / 0.65);
+  /* Máscara del índice de días: solo importa que sea opaco */
+  --coac-mask-opaque: #000000;
 }
 
 @media (min-width: 48rem) {
@@ -37,67 +43,75 @@
 [data-theme="coac"],
 [data-theme="coac"][data-mode="light"],
 :is(:root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="light"]:checked)) {
-  /* Cabecera, menú inferior y cuenta atrás */
-  --coac-header-bg: #1f2937;
-  --coac-header-text: #ffffff;
-  --coac-on-gradient: #ffffff;
-  --coac-panel-bg: #374151;
-  --coac-nav-bg: #1f2937;
-  --coac-nav-text: #ffffff;
-  --coac-nav-hover-from: #3b82f6;
-  --coac-nav-hover-to: #60a5fa;
-  /* Botón "Ver el directo" y día de hoy en el índice: sólido para que el texto cumpla AA */
-  --coac-cta-bg: #1d4ed8;
-  --coac-cta-text: #ffffff;
+  /* Cabecera, panel lateral, menú inferior y cuenta atrás */
+  --coac-header-bg: #192c60;
+  --coac-header-text: #f3ece2;
+  --coac-panel-bg: #213b80;
+  --coac-nav-bg: #192c60;
+  --coac-nav-text: #f3ece2;
+  --coac-nav-hover-bg: #2d51a5;
+  /* Botón "Ver el directo" y día de hoy en el índice */
+  --coac-cta-bg: #2d51a5;
+  --coac-cta-text: #f3ece2;
 
-  /* Degradado de marca (títulos, cabecera de sesión, etiqueta de cuenta atrás) */
-  --coac-gradient-from: #3b82f6;
-  --coac-gradient-to: #2dd4bf;
-  /* Degradado cuando va sobre el fondo de la cabecera (título de fase, etiqueta de la cuenta atrás) */
-  --coac-on-header-from: #3b82f6;
-  --coac-on-header-to: #2dd4bf;
+  /* Acento de marca: sobre la superficie y sobre el fondo de la cabecera */
+  --coac-accent: #2d51a5;
+  --coac-on-header-accent: #e3ab93;
+  /* Flechas de las filas deslizables, sobre el panel oscuro: azul suave en claro, blanco en oscuro */
+  --coac-scroll-arrow: #e3ab93;
+  /* Cabecera de la tabla de cada sesión */
+  --coac-table-head-bg: #192c60;
+  --coac-table-head-text: #f3ece2;
 
   /* Líneas, buscador, pie */
-  --coac-border: #e5e7eb;
-  --coac-input-border: #e5e7eb;
-  --coac-chip-bg: #bfdbfe;
-  --coac-chip-bg-hover: #93c5fd;
-  --coac-chip-text: #000000;
+  --coac-border: #e2d3c3;
+  --coac-input-border: #4a6680;
+  --coac-chip-bg: #d6dff2;
+  --coac-chip-bg-hover: #bccbea;
+  --coac-chip-text: #192c60;
   --coac-chip-edge: transparent;
-  --coac-placeholder: #9ca3af;
-  --coac-footer-text: #4b5563;
-  --coac-footer-bg: #f8fafc;
-  --coac-link: #1d4ed8;
-  --coac-scroll-thumb: #6b7280;
-  --coac-scroll-track: #f3f4f6;
+  --coac-placeholder: #4a6680;
+  --coac-footer-text: #2e1f24;
+  --coac-footer-bg: #e2d3c3;
+  --coac-link: #2d51a5;
+  --coac-scroll-thumb: #4a6680;
+  --coac-scroll-thumb-hover: #192c60;
 
   /* Sombras */
   --coac-shadow-session: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --coac-shadow-raised: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --coac-shadow-input: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 
-  /* "EN DIRECTO" */
-  --coac-live-bg: #fdf2f8;
-  --coac-live-text: #be185d;
+  /* "EN DIRECTO": pastilla roja de emisión; el punto va sobre la cabecera */
+  --coac-live-bg: #b91c1c;
+  --coac-live-text: #ffffff;
+  --coac-live-dot: #ef4444;
 
-  /* Modalidad */
+  /* Modalidad (sin verdes ni amarillos: son del semáforo) */
   --coac-badge-edge: transparent;
-  --coac-modalidad-coro-bg: #e0e7ff;
-  --coac-modalidad-coro-text: #3730a3;
-  --coac-modalidad-comparsa-bg: #d1fae5;
-  --coac-modalidad-comparsa-text: #065f46;
-  --coac-modalidad-chirigota-bg: #fef3c7;
-  --coac-modalidad-chirigota-text: #92400e;
-  --coac-modalidad-cuarteto-bg: #ffe4e6;
-  --coac-modalidad-cuarteto-text: #9f1239;
+  --coac-modalidad-coro-bg: #dbeafe;
+  --coac-modalidad-coro-text: #1e3a8a;
+  --coac-modalidad-comparsa-bg: #ede9fe;
+  --coac-modalidad-comparsa-text: #4c1d95;
+  --coac-modalidad-chirigota-bg: #fce7f3;
+  --coac-modalidad-chirigota-text: #831843;
+  --coac-modalidad-cuarteto-bg: #e2e8f0;
+  --coac-modalidad-cuarteto-text: #1e293b;
 
-  /* Ranking de la fila */
-  --coac-ranking-top-bg: #be123c;
-  --coac-ranking-top-text: #fff1f2;
-  --coac-ranking-ok-bg: #fcd34d;
-  --coac-ranking-ok-text: #b45309;
-  --coac-ranking-standar-bg: #fff7ed;
-  --coac-ranking-standar-text: inherit;
+  /* Semáforo del ranking: verde = imprescindible, amarillo = recomendada, el resto neutro */
+  --coac-ranking-top-bg: #22c55e;
+  --coac-ranking-top-text: #000000;
+  --coac-ranking-ok-bg: #facc15;
+  --coac-ranking-ok-text: #000000;
+  --coac-ranking-standar-bg: #ffffff;
+  --coac-ranking-standar-text: #2e1f24;
+  /* Piloto con forma y texto: la señal que no depende del color */
+  --coac-pilot-bg: #2e1f24;
+  --coac-pilot-text: #f3ece2;
+  --coac-pilot-edge: rgb(255 255 255 / 0.4);
+
+  --coac-band-base: #e2d3c3;
+  --coac-band-accent: #e3ab93;
 }
 
 /* -------------------------------------------------------------------------
@@ -106,63 +120,69 @@
 
 [data-theme="coac"][data-mode="dark"],
 :is(:root[data-theme="coac"]:not([data-mode]):has(input[name="luz-theme-mode"][value="dark"]:checked)) {
-  --coac-header-bg: #030712;
-  --coac-header-text: #f9fafb;
-  --coac-on-gradient: #030712;
-  --coac-panel-bg: #1f2937;
-  --coac-nav-bg: #030712;
-  --coac-nav-text: #f9fafb;
-  --coac-nav-hover-from: #1d4ed8;
-  --coac-nav-hover-to: #2563eb;
-  --coac-cta-bg: #1d4ed8;
-  --coac-cta-text: #ffffff;
+  --coac-header-bg: #160c10;
+  --coac-header-text: #f4d9a6;
+  --coac-panel-bg: #3b0a14;
+  --coac-nav-bg: #160c10;
+  --coac-nav-text: #f4d9a6;
+  --coac-nav-hover-bg: #6e0f22;
+  --coac-cta-bg: #c9a46a;
+  --coac-cta-text: #160c10;
 
-  --coac-gradient-from: #60a5fa;
-  --coac-gradient-to: #2dd4bf;
-  --coac-on-header-from: #60a5fa;
-  --coac-on-header-to: #2dd4bf;
+  --coac-accent: #c9a46a;
+  --coac-on-header-accent: #c9a46a;
+  --coac-scroll-arrow: #ffffff;
+  --coac-table-head-bg: #6e0f22;
+  --coac-table-head-text: #f4d9a6;
 
-  --coac-border: #374151;
-  --coac-input-border: #8b94a3;
-  --coac-chip-bg: #1e3a8a;
-  --coac-chip-bg-hover: #1e40af;
-  --coac-chip-text: #dbeafe;
+  --coac-border: #5b1f2e;
+  --coac-input-border: #8f6e3c;
+  --coac-chip-bg: #5b1f2e;
+  --coac-chip-bg-hover: #6e0f22;
+  --coac-chip-text: #f4d9a6;
   --coac-chip-edge: transparent;
-  --coac-placeholder: #9ca3af;
-  --coac-footer-text: #b0b7c3;
-  --coac-footer-bg: #111827;
-  --coac-link: #93c5fd;
-  --coac-scroll-thumb: #6b7280;
-  --coac-scroll-track: #1f2937;
+  --coac-placeholder: #d3b47f;
+  --coac-footer-text: #d9be8e;
+  --coac-footer-bg: #160c10;
+  --coac-link: #c9a46a;
+  --coac-scroll-thumb: #8f6e3c;
+  --coac-scroll-thumb-hover: #c9a46a;
 
   --coac-shadow-session: 0 25px 50px -12px rgb(0 0 0 / 0.6);
   --coac-shadow-raised: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
   --coac-shadow-input: 0 1px 3px 0 rgb(0 0 0 / 0.5);
 
-  --coac-live-bg: #500724;
-  --coac-live-text: #fbcfe8;
+  --coac-live-bg: #b91c1c;
+  --coac-live-text: #ffffff;
+  --coac-live-dot: #f87171;
 
   --coac-badge-edge: transparent;
-  --coac-modalidad-coro-bg: #312e81;
-  --coac-modalidad-coro-text: #c7d2fe;
-  --coac-modalidad-comparsa-bg: #064e3b;
-  --coac-modalidad-comparsa-text: #a7f3d0;
-  --coac-modalidad-chirigota-bg: #78350f;
-  --coac-modalidad-chirigota-text: #fde68a;
-  --coac-modalidad-cuarteto-bg: #881337;
-  --coac-modalidad-cuarteto-text: #fecdd3;
+  --coac-modalidad-coro-bg: #1e3a8a;
+  --coac-modalidad-coro-text: #dbeafe;
+  --coac-modalidad-comparsa-bg: #4c1d95;
+  --coac-modalidad-comparsa-text: #ede9fe;
+  --coac-modalidad-chirigota-bg: #831843;
+  --coac-modalidad-chirigota-text: #fce7f3;
+  --coac-modalidad-cuarteto-bg: #334155;
+  --coac-modalidad-cuarteto-text: #e2e8f0;
 
-  --coac-ranking-top-bg: #9f1239;
-  --coac-ranking-top-text: #fff1f2;
-  --coac-ranking-ok-bg: #92400e;
-  --coac-ranking-ok-text: #fef3c7;
-  --coac-ranking-standar-bg: #292524;
-  --coac-ranking-standar-text: #f5f5f4;
+  --coac-ranking-top-bg: #16a34a;
+  --coac-ranking-top-text: #000000;
+  --coac-ranking-ok-bg: #eab308;
+  --coac-ranking-ok-text: #000000;
+  --coac-ranking-standar-bg: #111b3f;
+  --coac-ranking-standar-text: #f4d9a6;
+  --coac-pilot-bg: #160c10;
+  --coac-pilot-text: #f4d9a6;
+  --coac-pilot-edge: rgb(255 255 255 / 0.4);
+
+  --coac-band-base: #5b1f2e;
+  --coac-band-accent: #8f6e3c;
 }
 
 /* -------------------------------------------------------------------------
    ALTO CONTRASTE
-   Sin degradados (color sólido), bordes negros y sombras como líneas.
+   Bordes negros y sombras como líneas; semáforo en colores puros.
    -------------------------------------------------------------------------- */
 
 [data-theme="coac"][data-mode="high-contrast"],
@@ -171,19 +191,18 @@
 ) {
   --coac-header-bg: #000000;
   --coac-header-text: #ffffff;
-  --coac-on-gradient: #ffffff;
   --coac-panel-bg: #262626;
   --coac-nav-bg: #000000;
   --coac-nav-text: #ffffff;
-  --coac-nav-hover-from: #00256c;
-  --coac-nav-hover-to: #00256c;
+  --coac-nav-hover-bg: #00256c;
   --coac-cta-bg: #00256c;
   --coac-cta-text: #ffffff;
 
-  --coac-gradient-from: #00256c;
-  --coac-gradient-to: #00256c;
-  --coac-on-header-from: #a5c8ff;
-  --coac-on-header-to: #a5c8ff;
+  --coac-accent: #00256c;
+  --coac-on-header-accent: #a5c8ff;
+  --coac-scroll-arrow: #ffffff;
+  --coac-table-head-bg: #000000;
+  --coac-table-head-text: #ffffff;
 
   --coac-border: #000000;
   --coac-input-border: #000000;
@@ -196,29 +215,36 @@
   --coac-footer-bg: #ffffff;
   --coac-link: #00256c;
   --coac-scroll-thumb: #000000;
-  --coac-scroll-track: #e5e5e5;
+  --coac-scroll-thumb-hover: #000000;
 
   --coac-shadow-session: 0 0 0 2px #000000;
   --coac-shadow-raised: 0 0 0 1px #000000;
   --coac-shadow-input: none;
 
-  --coac-live-bg: #000000;
+  --coac-live-bg: #a80000;
   --coac-live-text: #ffffff;
+  --coac-live-dot: #ff6b6b;
 
   --coac-badge-edge: #000000;
   --coac-modalidad-coro-bg: #dbe4ff;
   --coac-modalidad-coro-text: #000000;
-  --coac-modalidad-comparsa-bg: #d1f5e0;
+  --coac-modalidad-comparsa-bg: #ede0ff;
   --coac-modalidad-comparsa-text: #000000;
-  --coac-modalidad-chirigota-bg: #fff0b3;
+  --coac-modalidad-chirigota-bg: #ffdcec;
   --coac-modalidad-chirigota-text: #000000;
-  --coac-modalidad-cuarteto-bg: #ffd9e0;
+  --coac-modalidad-cuarteto-bg: #e5e7eb;
   --coac-modalidad-cuarteto-text: #000000;
 
-  --coac-ranking-top-bg: #000000;
-  --coac-ranking-top-text: #ffffff;
-  --coac-ranking-ok-bg: #ffd84d;
+  --coac-ranking-top-bg: #1ee06e;
+  --coac-ranking-top-text: #000000;
+  --coac-ranking-ok-bg: #ffe600;
   --coac-ranking-ok-text: #000000;
   --coac-ranking-standar-bg: #ffffff;
   --coac-ranking-standar-text: #000000;
+  --coac-pilot-bg: #000000;
+  --coac-pilot-text: #ffffff;
+  --coac-pilot-edge: #ffffff;
+
+  --coac-band-base: #000000;
+  --coac-band-accent: #000000;
 }

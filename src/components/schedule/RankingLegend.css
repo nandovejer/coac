@@ -1,41 +1,41 @@
-/* Leyenda del panel lateral (sobre el fondo de la cabecera). */
+/*
+ * Leyenda de los pilotos. Hay dos copias, una por sitio, y cada ancho enseña
+ * solo una: en escritorio va en el panel lateral y en móvil sobre las sesiones,
+ * para que el panel de arriba no empuje la sesión de hoy hacia abajo.
+ */
 .coac-legend {
-  color: var(--coac-header-text);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
-.coac-legend__list {
+.coac-legend__pilots {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--luz-space-2xs) var(--luz-space-md);
-  margin: 0 0 var(--luz-space-2xs);
-  padding: 0;
-  list-style: none;
-}
-
-.coac-legend__item {
-  display: flex;
-  align-items: center;
-  gap: var(--luz-space-2xs);
-}
-
-.coac-legend__swatch {
-  inline-size: 1rem;
-  block-size: 1rem;
-  border-radius: var(--luz-radius-sm);
-  box-shadow: inset 0 0 0 1px var(--coac-header-text);
-}
-
-.coac-legend__swatch[data-ranking="top"] {
-  background: var(--coac-ranking-top-bg);
-}
-
-.coac-legend__swatch[data-ranking="ok"] {
-  background: var(--coac-ranking-ok-bg);
+  gap: var(--luz-space-xs);
+  margin-block-end: var(--luz-space-xs);
 }
 
 .coac-legend__note {
   font-size: var(--luz-text-xs);
   line-height: 1rem;
+}
+
+.coac-legend[data-placement="side"] {
+  display: none;
+  color: var(--coac-header-text);
+}
+
+.coac-legend[data-placement="main"] {
+  margin-block-end: var(--luz-space-md);
+  color: var(--luz-text-muted);
+}
+
+@media (min-width: 64rem) {
+  .coac-legend[data-placement="side"] {
+    display: block;
+  }
+
+  .coac-legend[data-placement="main"] {
+    display: none;
+  }
 }

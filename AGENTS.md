@@ -9,7 +9,9 @@ Vite + React 18 + TypeScript + [Luz](https://github.com/nandovejer/luz)
 backend: todo se sirve estático desde GitHub Pages. Comandos y cambio de fase
 (3 pasos): [README.md](README.md). Planes (registro de lo hecho y por qué):
 [.claude/plans/PLAN-OPTIMIZACION.md](.claude/plans/PLAN-OPTIMIZACION.md) y
-[.claude/plans/PLAN-LUZ.md](.claude/plans/PLAN-LUZ.md).
+[.claude/plans/PLAN-LUZ.md](.claude/plans/PLAN-LUZ.md). Paleta e inspiración
+visual del Gran Teatro Falla (aplicada en claro y oscuro):
+[.claude/plans/PLAN-DISENO-FALLA.md](.claude/plans/PLAN-DISENO-FALLA.md).
 
 ## Verificar un cambio
 
@@ -47,13 +49,26 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
     ningún `@layer`, así gana siempre a Luz.
   - `@luz-ds/*` está fijado a una versión exacta y está en beta: lee su
     CHANGELOG antes de subirla y comprueba las capturas.
-- **Modos de color**: claro, oscuro y alto contraste (`ThemeModeSwitch`, el
-  botón flotante de Luz sobre el menú). Oscuro y alto contraste cumplen WCAG AA
-  (lo vigilan `check:contrast`, `src/styles/coac-tokens.test.ts` y axe).
-  **Deuda aceptada en modo claro**, que conserva el aspecto original: el texto
-  blanco sobre el degradado de la cabecera de sesión, los títulos y la etiqueta
-  de cuenta atrás con texto en degradado, y el texto ámbar de las filas "ok" no
-  llegan a 4,5:1. No los "arregles" sin que te lo pidan.
+- **Modos de color** (claro = fachada del Falla, oscuro = sala; paleta en el plan): claro, oscuro y alto contraste (`ThemeModeSwitch`, el
+  botón flotante de Luz sobre el menú). Los tres cumplen WCAG AA, sin
+  excepciones (lo vigilan `check:contrast`, `src/styles/coac-tokens.test.ts` y
+  axe). Al añadir un color, añade su pareja de contraste al test.
+- **Sin degradados**: todo color sólido (títulos en tinta, acento de marca
+  `--coac-accent` / `--coac-on-header-accent`). El único degradado es el
+  desvanecido (`mask-image`) del índice de días en móvil, que avisa de que hay
+  más. Los títulos usan `Heading`; los de sección son etiquetas en mayúsculas
+  con una línea fina.
+- **Semáforo del ranking**: `top` verde, `ok` amarillo, `standar` neutro (nunca
+  rojo: se leería como «malo»). El color no es la única señal: `RankingPilot`
+  añade un piloto con forma (círculo lleno / medio) y texto. «EN DIRECTO» es
+  siempre rojo de emisión, en pastilla con icono, y se marca con un anillo
+  (`coac-live-ring`) en vez de parpadear: un texto que se desvanece pierde
+  contraste a media animación. Las modalidades usan azul, violeta, rosa y gris
+  pizarra: nada de verdes ni amarillos, que son del semáforo.
+- **Scrolls**: la clase `coac-scrollbar` (`global.css`) da la barra fina y
+  redondeada, con color por modo (`--coac-scroll-thumb`, 3:1 como mínimo);
+  `coac-scrollbar--on-header` es para el panel oscuro. Los iconos son SVG
+  (`ui/icons.tsx`), no emojis.
 - La app se sirve bajo `base: "/coac-quien-canta-hoy/"` (`vite.config.ts`).
 - No renombres los ids del DOM (`siteHeader`, `siteMain`, `searchAuthor`,
   `session-present|future|past`, las fechas y los ids de agrupación): son

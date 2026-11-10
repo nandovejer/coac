@@ -1,3 +1,4 @@
+import { PlayIcon } from "../ui/icons";
 import { youtubeSearchUrl } from "../../lib/youtube";
 import type { PreviousGroup } from "../../types";
 import "./PreviousYearLink.css";
@@ -11,7 +12,8 @@ export function PreviousYearLink({ previous }: { previous: PreviousGroup | null 
   } else if (previous) {
     content = (
       <a className="coac-previous__link" href={youtubeSearchUrl(`COAC ${previous.name}`)}>
-        Anteriormente: {previous.name} (📺 video)
+        <PlayIcon inline /> Anteriormente: {previous.name}
+        <span className="coac-sr-only"> (vídeo en YouTube)</span>
       </a>
     );
   }

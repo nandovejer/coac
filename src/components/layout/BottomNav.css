@@ -25,7 +25,7 @@
 }
 
 .coac-bottom-nav__link:hover {
-  background-image: linear-gradient(to right, var(--coac-nav-hover-from), var(--coac-nav-hover-to));
+  background: var(--coac-nav-hover-bg);
 }
 
 .coac-bottom-nav__label {

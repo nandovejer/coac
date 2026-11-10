@@ -2,9 +2,11 @@ import "./icons.css";
 
 interface IconProps {
   path: string;
+  /** Del tamaño del texto que lo rodea, en vez de 1,5 rem. */
+  inline?: boolean;
 }
 
-function Icon({ path }: IconProps) {
+function Icon({ path, inline = false }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +14,7 @@ function Icon({ path }: IconProps) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="coac-icon"
+      className={inline ? "coac-icon coac-icon--inline" : "coac-icon"}
       aria-hidden="true"
     >
       <path strokeLinecap="round" strokeLinejoin="round" d={path} />
@@ -35,3 +37,23 @@ export const MonitorIcon = () => (
 export const BellIcon = () => (
   <Icon path="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
 );
+
+/** Señal de emisión, para "en directo". */
+export const BroadcastIcon = ({ inline }: { inline?: boolean }) => (
+  <Icon
+    inline={inline}
+    path="M9.348 14.652a3.75 3.75 0 0 1 0-5.304m5.304 0a3.75 3.75 0 0 1 0 5.304m-7.425 2.121a6.75 6.75 0 0 1 0-9.546m9.546 0a6.75 6.75 0 0 1 0 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788M12 12h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+  />
+);
+
+/** Triángulo de reproducir, para los enlaces a vídeo. */
+export const PlayIcon = ({ inline }: { inline?: boolean }) => (
+  <Icon
+    inline={inline}
+    path="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+  />
+);
+
+export const ChevronLeftIcon = () => <Icon path="M15.75 19.5 8.25 12l7.5-7.5" />;
+
+export const ChevronRightIcon = () => <Icon path="m8.25 4.5 7.5 7.5-7.5 7.5" />;

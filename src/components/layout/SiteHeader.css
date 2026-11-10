@@ -22,47 +22,41 @@
 }
 
 .coac-site-header__phase {
-  background-image: linear-gradient(to right, var(--coac-on-header-from), var(--coac-on-header-to));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--coac-on-header-accent);
   font-size: var(--coac-text-5xl);
   font-weight: 900;
   line-height: var(--coac-leading-5xl);
   text-transform: uppercase;
 }
 
-/* Dentro del panel lateral: sin fondo propio (lo pone el panel) y sin relleno. */
+/* Dentro del panel lateral: sin fondo propio (lo pone el panel), alineada a la izquierda y más compacta. */
 .coac-site-header--sidebar {
   background: none;
+  text-align: start;
 }
 
 .coac-site-header--sidebar .coac-site-header__inner {
+  justify-content: flex-start;
   padding: 0;
 }
 
 .coac-site-header--sidebar .coac-site-header__title {
   margin-block-end: 0;
+  font-size: var(--luz-text-lg);
+  letter-spacing: -0.02em;
+  line-height: 1.5rem;
+}
+
+.coac-site-header--sidebar .coac-site-header__phase {
+  display: block;
+  margin-block-start: var(--luz-space-2xs);
+  font-size: var(--coac-text-2xl);
+  letter-spacing: -0.01em;
+  line-height: var(--coac-leading-2xl);
 }
 
 @media (min-width: 64rem) {
-  .coac-site-header--sidebar {
-    text-align: start;
-  }
-
-  .coac-site-header--sidebar .coac-site-header__inner {
-    justify-content: flex-start;
-  }
-
-  .coac-site-header--sidebar .coac-site-header__title {
-    font-size: var(--luz-text-lg);
-    line-height: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-
   .coac-site-header--sidebar .coac-site-header__phase {
-    display: block;
-    margin-block-start: var(--luz-space-2xs);
     font-size: var(--coac-text-3xl);
     line-height: var(--coac-leading-3xl);
   }

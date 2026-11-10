@@ -35,7 +35,10 @@ function App() {
       <ThemeModeSwitch />
 
       <div className="coac-layout">
-        <aside className="coac-layout__side" aria-label="Estado de la fase, buscador e índice de sesiones">
+        <aside
+          className="coac-layout__side coac-scrollbar coac-scrollbar--on-header"
+          aria-label="Estado de la fase, buscador e índice de sesiones"
+        >
           <SiteHeader year={SEASON.year} phaseTitle={SEASON.phaseTitle} variant="sidebar" />
           {present && <LiveStatus session={present} />}
           {!isLive && upcomingSession && (
@@ -54,10 +57,11 @@ function App() {
           </a>
           <AuthorSearch sessions={sessions} />
           <SessionIndex schedule={schedule} />
-          <RankingLegend minutesPerGroup={SEASON.minutesPerGroup} />
+          <RankingLegend minutesPerGroup={SEASON.minutesPerGroup} placement="side" />
         </aside>
 
         <main id="siteMain" className="coac-layout__main">
+          <RankingLegend minutesPerGroup={SEASON.minutesPerGroup} placement="main" />
           <SessionSchedule schedule={schedule} previousYear={SEASON.previousYear} />
         </main>
       </div>

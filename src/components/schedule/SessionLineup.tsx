@@ -1,7 +1,7 @@
 import { memo } from "react";
 import type { SessionView } from "../../domain/schedule";
 import { formatLongDate } from "../../lib/dates";
-import { GradientHeading } from "../ui/GradientHeading";
+import { Heading } from "../ui/Heading";
 import { PerformanceRow } from "./PerformanceRow";
 import "./SessionLineup.css";
 
@@ -24,14 +24,14 @@ function SessionLineupView({
   return (
     <details className="coac-session" data-status={status} id={date} open={defaultOpen}>
       <summary className="coac-session__summary">
-        <GradientHeading as="h3" className="coac-session__title">
+        <Heading as="h3" className="coac-session__title">
           Sesión - {formatLongDate(date)}
-        </GradientHeading>
+        </Heading>
         <span className="coac-session__meta">
           {performances.length} agrupaciones · {startTime}–{estimatedEndTime} aprox.
         </span>
       </summary>
-      <div className="coac-session__scroller">
+      <div className="coac-session__scroller coac-scrollbar">
         <section className="coac-session__lineup" aria-label={`Agrupaciones de la sesión del ${date}`}>
           <div className="coac-session__head" aria-hidden="true">
             <div className="coac-session__head-cell">Hora</div>

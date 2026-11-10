@@ -44,17 +44,25 @@
 }
 
 .coac-performance__status--live {
-  padding-inline: var(--luz-space-3xs);
+  display: inline-block;
+  padding: var(--luz-space-3xs) var(--luz-space-xs);
+  border-radius: var(--luz-radius-full);
   background: var(--coac-live-bg);
   color: var(--coac-live-text);
   font-size: var(--luz-text-xs);
   font-weight: 700;
-  animation: coac-live-ring 1s infinite;
+  line-height: 1rem;
+  animation: coac-live-ring 1.4s infinite;
 }
 
 .coac-performance__body {
   grid-area: body;
   min-inline-size: 0;
+}
+
+/* El piloto va encima del autor, con aire para no pegarse al texto */
+.coac-performance__body > .coac-pilot {
+  margin-block-end: var(--luz-space-2xs);
 }
 
 .coac-performance__author {

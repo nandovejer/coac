@@ -44,20 +44,52 @@ summary:hover {
    ver PerformanceRow.css y LiveStatus.css). */
 @keyframes coac-live-ring {
   50% {
-    box-shadow: 0 0 0 2px var(--coac-live-text);
+    box-shadow: 0 0 0 3px var(--coac-live-dot);
   }
 }
 
-/* Parpadeo del punto de "en directo" del índice (SessionIndex.css) */
-@keyframes coac-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
+/* Barra de desplazamiento fina y redondeada, sin pista; el color lo da el modo.
+   Luz oculta las barras de WebKit: se muestran aquí con display: block. */
+.coac-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--coac-scroll-thumb) transparent;
+}
 
-  50% {
-    opacity: 0;
-  }
+.coac-scrollbar::-webkit-scrollbar {
+  display: block;
+  inline-size: 10px;
+  block-size: 10px;
+}
+
+.coac-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.coac-scrollbar::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--luz-radius-full);
+  background: var(--coac-scroll-thumb);
+  background-clip: content-box;
+}
+
+.coac-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--coac-scroll-thumb-hover);
+  background-clip: content-box;
+}
+
+/* Sobre el fondo oscuro del panel lateral */
+.coac-scrollbar--on-header {
+  scrollbar-color: var(--coac-scroll-on-header) transparent;
+}
+
+.coac-scrollbar--on-header::-webkit-scrollbar-thumb {
+  background: var(--coac-scroll-on-header);
+  background-clip: content-box;
+}
+
+.coac-scrollbar--on-header::-webkit-scrollbar-thumb:hover {
+  background: var(--coac-scroll-on-header-hover);
+  background-clip: content-box;
 }
 
 .coac-sr-only {

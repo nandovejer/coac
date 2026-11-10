@@ -1,0 +1,6 @@
+/* Título en tinta (el color de texto del modo); la jerarquía la da el tamaño y el peso */
+.coac-heading {
+  color: var(--luz-text-primary);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}

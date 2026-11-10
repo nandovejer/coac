@@ -25,10 +25,7 @@
 
 .coac-countdown__label {
   margin-block-end: var(--luz-space-sm);
-  background-image: linear-gradient(to right, var(--coac-on-header-from), var(--coac-on-header-to));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--coac-on-header-accent);
   font-size: var(--luz-text-sm);
   font-weight: 500;
   line-height: 1.25rem;
@@ -64,7 +61,7 @@
 
 .coac-countdown__separator {
   inline-size: 0.2em;
-  color: var(--coac-on-header-to);
+  color: var(--coac-on-header-accent);
 }
 
 .coac-countdown__name {

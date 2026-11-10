@@ -6,20 +6,26 @@
   margin-block-start: var(--luz-space-2xl);
 }
 
-.coac-schedule__title {
+/* Título de sección como etiqueta de programa impreso: mayúsculas pequeñas y una línea fina */
+.coac-schedule__title.coac-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-sm);
   margin: 0;
-  font-size: var(--coac-text-2xl);
-  line-height: var(--coac-leading-2xl);
+  color: var(--luz-text-muted);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.25rem;
   text-transform: uppercase;
 }
 
-.coac-schedule__title--past {
-  filter: grayscale(100%);
-}
-
-@media (min-width: 48rem) {
-  .coac-schedule__title {
-    font-size: var(--coac-text-3xl);
-    line-height: var(--coac-leading-3xl);
-  }
+/* Banda bicolor de la fachada: dos tonos sin degradado (fondo + borde discontinuo) */
+.coac-schedule__title::after {
+  content: "";
+  flex: 1;
+  box-sizing: border-box;
+  block-size: 4px;
+  border-block-start: 4px dashed var(--coac-band-accent);
+  background: var(--coac-band-base);
 }

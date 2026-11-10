@@ -47,41 +47,20 @@
   line-height: var(--coac-leading-2xl);
 }
 
-.coac-session[data-status="past"] .coac-session__title {
-  filter: grayscale(100%);
-}
-
 .coac-session__meta {
   color: var(--luz-text-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
+/* La barra de desplazamiento la da .coac-scrollbar (global.css) */
 .coac-session__scroller {
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--coac-scroll-thumb) var(--coac-scroll-track);
-}
-
-/* Safari antiguo y navegadores sin scrollbar-color */
-.coac-session__scroller::-webkit-scrollbar {
-  display: block;
-  inline-size: 8px;
-  block-size: 8px;
-}
-
-.coac-session__scroller::-webkit-scrollbar-track {
-  background: var(--coac-scroll-track);
-}
-
-.coac-session__scroller::-webkit-scrollbar-thumb {
-  background: var(--coac-scroll-thumb);
-  border-radius: var(--luz-radius-md);
 }
 
 /* Columnas compartidas por la cabecera y las filas (PerformanceRow.css). */
 .coac-session__lineup {
-  --coac-lineup-columns: 5rem minmax(12rem, 1fr) 6.5rem 7rem minmax(8rem, 12rem);
+  --coac-lineup-columns: 6.5rem minmax(12rem, 1fr) 6.5rem 7rem minmax(8rem, 12rem);
   min-inline-size: 100%;
 }
 
@@ -93,13 +72,14 @@
 /* En móvil las filas se apilan y la cabecera de columnas sobra. */
 .coac-session__head {
   display: none;
-  background-image: linear-gradient(to right, var(--coac-gradient-from), var(--coac-gradient-to));
+  background: var(--coac-table-head-bg);
 }
 
 .coac-session__head-cell {
-  color: var(--coac-on-gradient);
+  color: var(--coac-table-head-text);
   font-size: var(--luz-text-xs);
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   line-height: 1rem;
   text-align: start;
   text-transform: uppercase;

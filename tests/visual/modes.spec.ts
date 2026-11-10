@@ -13,8 +13,8 @@ type Mode = "light" | "dark" | "high-contrast";
 const modes: Mode[] = ["light", "dark", "high-contrast"];
 // background-color de <body> en cada modo (--luz-surface-page de theme-coac.css)
 const pageBackground: Record<Mode, string> = {
-  light: "rgb(248, 250, 252)",
-  dark: "rgb(17, 24, 39)",
+  light: "rgb(243, 236, 226)",
+  dark: "rgb(22, 12, 16)",
   "high-contrast": "rgb(255, 255, 255)",
 };
 
@@ -107,10 +107,7 @@ test("el selector tiene nombre accesible y avisa del modo elegido", async ({ pag
   await expect(button).toHaveAttribute("aria-label", /Modo de color: Claro/);
 });
 
-// Accesibilidad (axe). En modo claro se mantiene el aspecto original, que no
-// cumple el contraste AA en tres sitios (deuda aceptada, ver AGENTS.md).
-const lightDebt = [".coac-session__head", ".coac-gradient-heading", '.coac-performance[data-ranking="ok"]'];
-
+// Accesibilidad (axe): sin excepciones en ningún modo.
 const axeScenes = [
   { name: "sesión en directo", at: "2026-02-12T20:10:00+01:00" },
   { name: "cuenta atrás", at: "2026-02-09T12:00:00+01:00" },
@@ -120,9 +117,7 @@ for (const mode of modes) {
   for (const { name, at } of axeScenes) {
     test(`axe sin violaciones en modo ${mode}: ${name}`, async ({ page }) => {
       await openIn(page, mode, at);
-      let axe = new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]);
-      // Una cadena con comas: en axe un array sería una ruta a través de iframes.
-      if (mode === "light") axe = axe.exclude(lightDebt.join(", "));
+      const axe = new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]);
       const { violations } = await axe.analyze();
       expect(violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual(
         [],
