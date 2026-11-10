@@ -7,16 +7,16 @@
   --vd-head: #10131a;
   --vd-head-text: #f4f5f8;
   --vd-head-muted: #c5cad6;
-  --vd-top-text: #166534;
-  --vd-ok-text: #854d0e;
 
   --vc-bg: #eef0f4;
   --vc-card: #ffffff;
   --vc-text: #10131a;
   --vc-muted: #4a5364;
   --vc-line: #d5d9e2;
-  --vc-primary: #ffb020;
-  --vc-on-primary: #1a1000;
+  /* Azul: cobalto sobre claro; sobre lo oscuro, uno más claro (--vd-blue-on-dark) */
+  --vd-blue-on-dark: #7aa2ff;
+  --vc-primary: #2d51a5;
+  --vc-on-primary: #ffffff;
   --vc-soft: #dfe3ea;
   --vc-shadow: none;
   --vc-radius: 0;
@@ -36,10 +36,10 @@
 }
 
 [data-mode="dark"] .coac-vc[data-skin="board"] {
+  --vc-primary: var(--vd-blue-on-dark);
+  --vc-on-primary: #0b0d12;
   --vd-head: #1d2330;
   --vd-head-text: #e8eaf0;
-  --vd-top-text: #4ade80;
-  --vd-ok-text: #facc15;
 
   --vc-bg: #0f1218;
   --vc-card: #151922;
@@ -63,17 +63,25 @@
   outline-color: var(--vc-text);
 }
 
-/* ---- Columna izquierda: siempre oscura, con ámbar ---- */
-.coac-vc[data-skin="board"] .coac-vc__side {
+/* ---- Columna izquierda, cabecera fija y pie en móvil: siempre oscuros, con azul claro ---- */
+.coac-vc[data-skin="board"] .coac-vc__rail,
+.coac-vc[data-skin="board"] .coac-vc__footer {
+  --vc-primary: var(--vd-blue-on-dark);
+  --vc-on-primary: #0b0d12;
   --vc-bg: #0b0d12;
   --vc-card: #141821;
   --vc-text: #e8eaf0;
   --vc-muted: #9aa3b5;
   --vc-line: #262c3b;
   --vc-soft: #141821;
+}
 
+.coac-vc[data-skin="board"] .coac-vc__rail {
   border-inline-end: 0;
-  background: var(--vc-bg);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__brand,
+.coac-vc[data-skin="board"] .coac-vc__side {
   color: var(--vc-text);
 }
 
@@ -89,6 +97,7 @@
 .coac-vc[data-skin="board"] .coac-vc__time,
 .coac-vc[data-skin="board"] .coac-vc__badges,
 .coac-vc[data-skin="board"] .coac-vc__context,
+.coac-vc[data-skin="board"] .coac-vc__legend,
 .coac-vc[data-skin="board"] .coac-vc__footer {
   font-family: var(--vd-mono);
 }
@@ -104,7 +113,7 @@
 .coac-vc[data-skin="board"] .coac-vc__badges,
 .coac-vc[data-skin="board"] .coac-vc__context,
 .coac-vc[data-skin="board"] .coac-vc__reset,
-.coac-vc[data-skin="board"] .coac-vc__footer {
+.coac-vc[data-skin="board"] .coac-vc__legend {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -136,7 +145,6 @@
 
 .coac-vc[data-skin="board"] .coac-vc__now {
   border: 1px solid var(--vc-line);
-  border-inline-start: 4px solid var(--vc-primary);
 }
 
 .coac-vc[data-skin="board"] .coac-vc__tile {
@@ -169,6 +177,9 @@
 
 /* ---- Programa: cabecera de tablero, tarjetas con piloto ---- */
 .coac-vc[data-skin="board"] .coac-vc__session-head {
+  --vc-primary: var(--vd-blue-on-dark);
+  --vc-on-primary: #0b0d12;
+
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -221,25 +232,39 @@
   border-inline-start-color: var(--vc-ok-edge);
 }
 
-.coac-vc[data-skin="board"] .coac-vc__slot[data-live] .coac-vc__card {
-  box-shadow: inset 0 0 0 2px var(--vc-live);
+/* En directo: marco rojo de 2px; el borde izquierdo sigue siendo el del semáforo */
+.coac-vc[data-skin="board"] .coac-vc__slot[data-stage="live"] .coac-vc__card {
+  border-width: 2px 2px 2px 6px;
+  border-block-color: var(--vc-live);
+  border-inline-end-color: var(--vc-live);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__live-strip,
+.coac-vc[data-skin="board"] .coac-vc__live-bar,
+.coac-vc[data-skin="board"] .coac-vc__stage,
+.coac-vc[data-skin="board"] .coac-vc__now-link {
+  font-family: var(--vd-mono);
+  letter-spacing: 0.06em;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__live-strip-label,
+.coac-vc[data-skin="board"] .coac-vc__stage,
+.coac-vc[data-skin="board"] .coac-vc__live-bar {
+  font-weight: 400;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__live-strip-go,
+.coac-vc[data-skin="board"] .coac-vc__now-link {
+  text-transform: uppercase;
+}
+
+/* Todo es recto en el tablero, salvo el punto que late */
+.coac-vc[data-skin="board"] .coac-vc__live-dot {
+  border-radius: 50%;
 }
 
 .coac-vc[data-skin="board"] .coac-vc__badge[data-modalidad] {
   border: 1px solid currentColor;
-}
-
-.coac-vc[data-skin="board"] .coac-vc__card .coac-vc__badge[data-kind="ranking"] {
-  padding-inline: 0;
-  background: none;
-}
-
-.coac-vc[data-skin="board"] .coac-vc__card[data-ranking="top"] .coac-vc__badge[data-kind="ranking"] {
-  color: var(--vd-top-text);
-}
-
-.coac-vc[data-skin="board"] .coac-vc__card[data-ranking="ok"] .coac-vc__badge[data-kind="ranking"] {
-  color: var(--vd-ok-text);
 }
 
 .coac-vc[data-skin="board"] .coac-vc__reset {
@@ -249,10 +274,36 @@
 }
 
 .coac-vc[data-skin="board"] .coac-vc__footer {
+  border-block-start: 0;
+  background: var(--vc-bg);
   font-size: var(--luz-text-xs);
+  line-height: 1.25rem;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__footer :focus-visible {
+  outline-color: var(--vc-primary);
 }
 
 @media (min-width: 64rem) {
+  /* En escritorio el pie va bajo el programa, con sus colores */
+  .coac-vc[data-skin="board"] .coac-vc__footer {
+    --vc-bg: inherit;
+    --vc-card: inherit;
+    --vc-text: inherit;
+    --vc-muted: inherit;
+    --vc-line: inherit;
+    --vc-soft: inherit;
+    --vc-primary: inherit;
+    --vc-on-primary: inherit;
+
+    border-block-start: 1px solid var(--vc-line);
+    background: none;
+  }
+
+  .coac-vc[data-skin="board"] .coac-vc__footer :focus-visible {
+    outline-color: var(--vc-text);
+  }
+
   .coac-vc[data-skin="board"] .coac-vc__slot {
     grid-template-columns: 5.5rem minmax(0, 1fr);
   }
@@ -264,4 +315,70 @@
   .coac-vc[data-skin="board"] .coac-vc__time {
     font-size: var(--luz-text-xl);
   }
+}
+
+/* ---- Estados de sesión en el tablero ---- */
+.coac-vc[data-skin="board"] .coac-vc__day[data-status="past"] {
+  border-width: 1px;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__day[data-status="present"] .coac-vc__day-count {
+  color: var(--vc-primary);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__pill {
+  border-radius: 0;
+  font-family: var(--vd-mono);
+  font-weight: 400;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__pill[data-label="Mañana"] {
+  border: 1px solid var(--vc-primary);
+  color: var(--vd-head-text);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__pill[data-label="Celebrada"] {
+  border: 1px solid var(--vc-muted);
+  background: transparent;
+  color: var(--vc-muted);
+}
+
+/* La cabecera de una sesión celebrada deja de ser negra: pasa a gris claro */
+.coac-vc[data-skin="board"] .coac-vc__session[data-status="past"] .coac-vc__session-head {
+  background: var(--vc-soft);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__session[data-status="past"] .coac-vc__session-title,
+.coac-vc[data-skin="board"] .coac-vc__session[data-status="past"] .coac-vc__session-meta {
+  color: var(--vc-muted);
+}
+
+/* ---- Pie: fases y botón del modo de color ---- */
+.coac-vc[data-skin="board"] .coac-vc__footer-heading,
+.coac-vc[data-skin="board"] .coac-vc__phase-name,
+.coac-vc[data-skin="board"] .coac-vc__phase-state {
+  font-family: var(--vd-mono);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__footer-heading {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__phase-item[data-home] .coac-vc__phase-name {
+  font-weight: 700;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__phase-item[data-home] {
+  background: var(--vc-card);
+}
+
+/* El botón de Luz toma los colores del pie, que en móvil es oscuro */
+.coac-vc[data-skin="board"] .coac-vc__footer .luz-theme-mode__button {
+  border-color: var(--vc-muted);
+  background: var(--vc-card);
+  color: var(--vc-text);
 }

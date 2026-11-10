@@ -32,6 +32,8 @@
   --vc-radius: 1.25rem;
   --vc-font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
 
+  display: flex;
+  flex-direction: column;
   min-block-size: 100dvh;
   background: var(--vc-bg);
   color: var(--vc-text);
@@ -79,38 +81,128 @@
 }
 
 /* ---- Columna izquierda ---- */
+
+/* En móvil no pinta caja: la cabecera se pega arriba de toda la página */
+.coac-vc__rail {
+  display: contents;
+}
+
 .coac-vc__side {
   display: grid;
   gap: var(--luz-space-lg);
   align-content: start;
   min-inline-size: 0;
-  padding: var(--luz-space-lg) var(--luz-space-md) var(--luz-space-md);
+  padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-md);
+  background: var(--vc-bg);
 }
 
 .coac-vc__brand {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border-block-end: 1px solid var(--vc-line);
+  background: var(--vc-bg);
+}
+
+/* Logo y título: vuelven a la portada (la fase en curso) */
+.coac-vc__home {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-inline-size: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.coac-vc__brand-text {
+  display: grid;
+  gap: var(--luz-space-2xs);
+  min-inline-size: 0;
+}
+
+/* Accesos rápidos de la cabecera: buscar, directo y horario de hoy */
+.coac-vc__actions {
+  display: flex;
+  flex: none;
+  /* Sin borde, el icono queda alineado con el margen de la página */
+  margin-inline-end: calc(var(--luz-space-xs) * -1);
+}
+
+/* En pantallas muy estrechas el título baja un punto para caber entero */
+@media (max-width: 25.99rem) {
+  .coac-vc .coac-vc__title {
+    font-size: var(--luz-text-base);
+  }
+
+  .coac-vc .coac-vc__action {
+    inline-size: 2.25rem;
+  }
+}
+
+.coac-vc .coac-vc__action {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--luz-radius-full);
+  color: var(--vc-text);
+}
+
+/* Sin borde: solo aparece al pasar el ratón */
+.coac-vc .coac-vc__action:hover {
+  border-color: var(--vc-muted);
+}
+
+.coac-vc__action .coac-icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+/* Con una agrupación actuando, el punto del icono de emisión se pone rojo y late */
+.coac-vc__action[data-live] .coac-icon__live-dot {
+  fill: #ef4444;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: coac-vc-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes coac-vc-dot {
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+.coac-vc__session-title:focus {
+  outline: none;
 }
 
 .coac-vc__logo {
   display: grid;
   flex: none;
   place-items: center;
-  inline-size: 3rem;
-  block-size: 3rem;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
   border-radius: 1rem;
+  padding: 0.3rem;
   background: var(--vc-primary);
   color: var(--vc-on-primary);
-  font-weight: 800;
-  letter-spacing: -0.02em;
 }
 
 .coac-vc__title {
   margin: 0;
+  overflow: hidden;
   color: var(--vc-text);
   font-family: var(--vc-font);
-  font-size: var(--luz-text-xl);
+  font-size: var(--luz-text-lg);
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.5rem;
@@ -118,9 +210,12 @@
 
 .coac-vc__phase {
   margin: 0;
+  overflow: hidden;
   color: var(--vc-muted);
-  font-size: var(--luz-text-sm);
+  font-size: var(--luz-text-xs);
   line-height: 1.25rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .coac-vc__search {
@@ -318,10 +413,11 @@
 
 /* ---- Agenda ---- */
 .coac-vc__main {
+  flex: 1;
   display: grid;
   gap: var(--luz-space-2xl);
   align-content: start;
-  padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-3xl);
+  padding: var(--luz-space-xl) var(--luz-space-md) var(--luz-space-3xl);
 }
 
 .coac-vc__context {
@@ -341,6 +437,34 @@
   background: var(--vc-soft);
   font-size: var(--luz-text-sm);
   font-weight: 700;
+}
+
+/* Leyenda discreta del semáforo: la misma franja que llevan las tarjetas */
+.coac-vc__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-2xs) var(--luz-space-md);
+  margin: 0 0 calc(var(--luz-space-2xl) * -0.5);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+}
+
+.coac-vc__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--luz-space-2xs);
+}
+
+.coac-vc__legend-item::before {
+  content: "";
+  inline-size: 0.375rem;
+  block-size: 1rem;
+  background: var(--vc-top-edge);
+}
+
+.coac-vc__legend-item[data-ranking="ok"]::before {
+  background: var(--vc-ok-edge);
 }
 
 .coac-vc__session-head {
@@ -544,17 +668,111 @@ a.coac-vc__previous {
   text-align: center;
 }
 
+/* ---- Pie: a todo lo ancho en móvil; en escritorio, bajo el programa ---- */
 .coac-vc__footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--luz-space-md);
+  padding: var(--luz-space-xl) var(--luz-space-md);
+  padding-block-end: calc(var(--luz-space-2xl) + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid var(--vc-line);
+  background: var(--vc-soft);
   color: var(--vc-muted);
   font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
 }
 
-.coac-vc__footer p {
+.coac-vc__footer-inner {
+  display: grid;
+  gap: var(--luz-space-md);
+  justify-items: center;
+  text-align: center;
+}
+
+.coac-vc__phases {
+  display: grid;
+  gap: var(--luz-space-sm);
+  inline-size: 100%;
+  text-align: start;
+}
+
+.coac-vc__footer-heading {
   margin: 0;
+  color: var(--vc-text);
+  font-family: var(--vc-font);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.coac-vc__phase-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--luz-space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coac-vc__phase-item {
+  display: grid;
+  gap: 0;
+  block-size: 100%;
+  padding: var(--luz-space-sm);
+  border: 1px solid var(--vc-line);
+  color: var(--vc-muted);
+  text-decoration: none;
+}
+
+.coac-vc__phase-name {
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+.coac-vc__phase-dates,
+.coac-vc__phase-state {
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+}
+
+/* La de la portada: resaltada y enlazada */
+.coac-vc__phase-item[data-home] {
+  border-color: var(--vc-primary);
+  border-inline-start-width: 4px;
+}
+
+.coac-vc__phase-item[data-home] .coac-vc__phase-state {
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+.coac-vc__phase-item[data-status="past"]:not([data-home]) {
+  border-style: dashed;
+}
+
+/* Las fases que aún no se pueden abrir: desactivadas */
+.coac-vc__phase-item[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.coac-vc__footer-theme {
+  position: relative;
+  display: flex;
+}
+
+.coac-vc__footer-text {
+  display: grid;
+  gap: var(--luz-space-xs);
+  max-inline-size: 36rem;
+}
+
+.coac-vc__footer-text p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.coac-vc__footer-link {
+  color: var(--vc-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 /* ---- Escritorio: dos columnas, la izquierda fija ---- */
@@ -562,16 +780,73 @@ a.coac-vc__previous {
   .coac-vc {
     display: grid;
     grid-template-columns: 24rem minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
     align-items: start;
   }
 
-  .coac-vc__side {
+  .coac-vc__rail {
     position: sticky;
     inset-block-start: 0;
+    display: grid;
+    grid-row: 1 / span 2;
+    gap: var(--luz-space-lg);
+    align-content: start;
     block-size: 100dvh;
     padding: var(--luz-space-xl) var(--luz-space-lg);
     border-inline-end: 2px solid var(--vc-line);
+    background: var(--vc-bg);
     overflow-y: auto;
+  }
+
+  .coac-vc__brand {
+    position: static;
+    padding: 0;
+    border: 0;
+  }
+
+  .coac-vc__logo {
+    inline-size: 3rem;
+    block-size: 3rem;
+  }
+
+  .coac-vc__title {
+    font-size: var(--luz-text-xl);
+  }
+
+  .coac-vc__actions {
+    display: none;
+  }
+
+  .coac-vc__side {
+    padding: 0;
+  }
+
+  .coac-vc__main {
+    grid-column: 2;
+  }
+
+  .coac-vc__footer {
+    grid-column: 2;
+    padding: var(--luz-space-xl) var(--luz-space-2xl);
+    background: none;
+  }
+
+  .coac-vc__phases {
+    grid-column: 1 / -1;
+    margin-block-end: var(--luz-space-sm);
+  }
+
+  .coac-vc__phase-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .coac-vc__footer-inner {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    gap: var(--luz-space-lg);
+    max-inline-size: calc(54rem - var(--luz-space-2xl) * 2);
+    text-align: start;
   }
 
   .coac-vc__chips {
@@ -618,4 +893,227 @@ a.coac-vc__previous {
 
 .coac-vc__field input:focus-visible {
   outline: none;
+}
+
+/* ---- Estados de sesión: hoy, mañana, próximas y, al final, las celebradas ---- */
+.coac-vc__calendar {
+  gap: var(--luz-space-md);
+}
+
+.coac-vc__day-group {
+  display: grid;
+  gap: var(--luz-space-xs);
+  min-inline-size: 0;
+}
+
+.coac-vc .coac-vc__day[data-status="present"] .coac-vc__day-count,
+.coac-vc .coac-vc__day[data-label="Mañana"] .coac-vc__day-count {
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+.coac-vc .coac-vc__day[data-label="Mañana"] {
+  border-color: var(--vc-muted);
+}
+
+/* Ya pasó: sin relleno, borde discontinuo y en gris */
+.coac-vc .coac-vc__day[data-status="past"] {
+  border: 2px dashed var(--vc-line);
+  background: transparent;
+  box-shadow: none;
+  color: var(--vc-muted);
+}
+
+.coac-vc .coac-vc__pill[data-label="Mañana"] {
+  border: 2px solid var(--vc-primary);
+  background: transparent;
+  color: var(--vc-text);
+}
+
+.coac-vc .coac-vc__pill[data-label="Celebrada"] {
+  background: var(--vc-soft);
+  color: var(--vc-muted);
+}
+
+/* Una sesión celebrada (al elegirla o al buscar) se ve apagada: gris, sin semáforo */
+.coac-vc__session[data-status="past"] .coac-vc__session-title {
+  color: var(--vc-muted);
+}
+
+.coac-vc__session[data-status="past"] .coac-vc__timeline {
+  filter: grayscale(1);
+}
+
+.coac-vc__session[data-status="past"] .coac-vc__card {
+  background: var(--vc-bg);
+  box-shadow: none;
+}
+
+/* ---- Quién está actuando: según la hora estimada ---- */
+
+/* Tira «En directo» bajo la cabecera fija (solo móvil): lleva a la tarjeta */
+.coac-vc__brand {
+  flex-wrap: wrap;
+}
+
+.coac-vc__live-strip {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 2.25rem;
+  margin: 0 calc(var(--luz-space-md) * -1) calc(var(--luz-space-sm) * -1);
+  padding-inline: var(--luz-space-md);
+  background: var(--vc-live);
+  color: #ffffff;
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+  text-decoration: none;
+}
+
+.coac-vc__live-strip-label {
+  flex: none;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.coac-vc__live-strip-name {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.coac-vc__live-strip-go {
+  flex: none;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.coac-vc .coac-vc__live-strip:focus-visible {
+  outline-color: #ffffff;
+  outline-offset: -4px;
+}
+
+/* Punto que «late» con un anillo (no parpadea el texto) */
+.coac-vc__live-dot {
+  flex: none;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: coac-vc-pulse 1.6s ease-out infinite;
+}
+
+@keyframes coac-vc-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(255 255 255 / 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 0.5rem rgb(255 255 255 / 0);
+  }
+}
+
+.coac-vc__now-link {
+  justify-self: start;
+  color: var(--vc-primary);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Tarjeta en directo: marco rojo, barra arriba y progreso del turno abajo */
+.coac-vc__slot[data-stage="live"] .coac-vc__card {
+  border-color: var(--vc-live);
+}
+
+.coac-vc__live-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-2xs) var(--luz-space-xs);
+  margin: calc(var(--luz-space-md) * -1) calc(var(--luz-space-md) * -1) var(--luz-space-xs);
+  padding: var(--luz-space-2xs) var(--luz-space-md);
+  background: var(--vc-live);
+  color: #ffffff;
+  font-size: var(--luz-text-xs);
+  font-weight: 800;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+}
+
+.coac-vc__live-bar-time {
+  margin-inline-start: auto;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+
+.coac-vc__progress {
+  display: block;
+  block-size: 0.25rem;
+  margin: var(--luz-space-sm) calc(var(--luz-space-md) * -1) calc(var(--luz-space-md) * -1);
+  background: var(--vc-line);
+}
+
+.coac-vc__progress::before {
+  content: "";
+  display: block;
+  block-size: 100%;
+  background: var(--vc-live);
+  transform: scaleX(var(--vc-progress, 0));
+  transform-origin: left;
+}
+
+.coac-vc__slot[data-stage="live"] .coac-vc__dot {
+  background: var(--vc-live);
+  animation: coac-vc-pulse-live 1.6s ease-out infinite;
+}
+
+@keyframes coac-vc-pulse-live {
+  0% {
+    box-shadow: 0 0 0 0 rgb(185 28 28 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 0.625rem rgb(185 28 28 / 0);
+  }
+}
+
+/* Ya actuó: en gris, sin semáforo */
+.coac-vc__slot[data-stage="done"] .coac-vc__card {
+  background: var(--vc-bg);
+  box-shadow: none;
+  filter: grayscale(1);
+}
+
+.coac-vc__slot[data-stage="done"] .coac-vc__time,
+.coac-vc__slot[data-stage="done"] .coac-vc__author {
+  color: var(--vc-muted);
+}
+
+.coac-vc__stage {
+  padding-inline: var(--luz-space-xs);
+  border: 1px solid currentColor;
+  color: var(--vc-muted);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.coac-vc__stage[data-stage="next"] {
+  color: var(--vc-primary);
+}
+
+@media (min-width: 64rem) {
+  .coac-vc__live-strip {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-vc__action[data-live] .coac-icon__live-dot,
+  .coac-vc__live-dot,
+  .coac-vc__slot[data-stage="live"] .coac-vc__dot {
+    animation: none;
+  }
 }

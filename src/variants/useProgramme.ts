@@ -3,19 +3,31 @@ import { scheduleConfig, sessions } from "../config/season";
 import { searchGroups } from "../domain/filterByAuthor";
 import { buildSchedule, type PerformanceView, type SessionView } from "../domain/schedule";
 import { useNow } from "../hooks/useNow";
-import { addDays, formatSessionDate, parseSessionDate } from "../lib/dates";
+import { addDays, formatMinutesOfDay, formatSessionDate, parseSessionDate, parseTime } from "../lib/dates";
 import type { Modalidad } from "../types";
 
 /** Un bloque del programa: una sesión (entera o solo las filas que coinciden con la búsqueda). */
 export interface ProgrammeSection {
   key: string;
-  /** «Hoy», «Mañana» o vacío. */
+  /** «Hoy», «Mañana», «Celebrada» o vacío. */
   label: string;
   session: SessionView;
   performances: PerformanceView[];
 }
 
 export type ProgrammeMode = "focus" | "day" | "search";
+
+/**
+ * En qué punto está cada actuación según la hora estimada: ya actuó, está
+ * actuando, es la siguiente o queda por llegar.
+ */
+export type Stage = "done" | "live" | "next" | "pending";
+
+/** Hora estimada (`HH:mm`) más `minutes`. */
+export const addMinutes = (time: string, minutes: number) => {
+  const [hour, minute] = parseTime(time);
+  return formatMinutesOfDay(hour * 60 + minute + minutes);
+};
 
 /**
  * Estado común de los prototipos (variantes A, B y C): el programa de hoy y
@@ -29,8 +41,9 @@ export function useProgramme() {
   const [modalidad, setModalidad] = useState<Modalidad | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
+  // Hoy, luego las próximas y, al final, las ya celebradas (ver AGENTS.md, «Estados de sesión»).
   const all = useMemo(
-    () => [...schedule.past, ...(schedule.present ? [schedule.present] : []), ...schedule.future],
+    () => [...(schedule.present ? [schedule.present] : []), ...schedule.future, ...schedule.past],
     [schedule],
   );
 
@@ -38,7 +51,14 @@ export function useProgramme() {
     const today = schedule.activeSessionDate;
     const parsed = parseSessionDate(today);
     const tomorrow = parsed ? formatSessionDate(addDays(parsed, 1)) : "";
-    return (date: string) => (date === today ? "Hoy" : date === tomorrow ? "Mañana" : "");
+    return (session: SessionView) =>
+      session.date === today
+        ? "Hoy"
+        : session.date === tomorrow
+          ? "Mañana"
+          : session.status === "past"
+            ? "Celebrada"
+            : "";
   }, [schedule.activeSessionDate]);
 
   const searching = term.trim() !== "" || modalidad !== null;
@@ -46,7 +66,7 @@ export function useProgramme() {
   const { mode, sections } = useMemo((): { mode: ProgrammeMode; sections: ProgrammeSection[] } => {
     const whole = (session: SessionView): ProgrammeSection => ({
       key: session.date,
-      label: dayLabel(session.date),
+      label: dayLabel(session),
       session,
       performances: session.performances,
     });
@@ -76,9 +96,40 @@ export function useProgramme() {
     return { mode: "focus", sections: focus.map(whole) };
   }, [all, dayLabel, modalidad, schedule, searching, selectedDate, term]);
 
+  const present = schedule.present;
+  const liveIndex = present ? present.performances.findIndex((performance) => performance.isLive) : -1;
+
+  /** Estado de una actuación de `session` (la sesión entera o una fila del buscador). */
+  const stageOf = (session: SessionView, performance: PerformanceView): Stage => {
+    if (session.status === "past") return "done";
+    if (session.status === "future") return "pending";
+    // Sesión de hoy sin nadie en directo: o no ha empezado, o ya terminó.
+    if (liveIndex === -1) return now >= session.startsAt ? "done" : "pending";
+    const index = session.performances.indexOf(performance);
+    if (index < liveIndex) return "done";
+    if (index === liveIndex) return "live";
+    return index === liveIndex + 1 ? "next" : "pending";
+  };
+
+  /** Parte transcurrida (0–1) del turno de la agrupación en directo. */
+  const liveProgress =
+    present && liveIndex >= 0
+      ? Math.min(
+          1,
+          Math.max(
+            0,
+            ((now.getTime() - present.startsAt.getTime()) / 60000 -
+              liveIndex * scheduleConfig.minutesPerGroup) /
+              scheduleConfig.minutesPerGroup,
+          ),
+        )
+      : 0;
+
   return {
     schedule,
     all,
+    stageOf,
+    liveProgress,
     dayLabel,
     mode,
     sections,

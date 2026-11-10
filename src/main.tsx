@@ -4,13 +4,10 @@ import App from "./App.tsx";
 import "@luz-ds/core/theme-mode";
 import "./styles/index.css";
 
-// Prototipos de rediseño, solo en desarrollo: `vite --mode variant-a|b|c|d`
-// (ver src/variants/). En el build de producción esto se elimina.
+// Prototipo de rediseño, solo en desarrollo: `vite --mode variant-d`
+// (ver src/variants/: D es la estructura de VariantC con la piel de VariantD.css). En el build de producción esto se elimina.
 const variants: Record<string, LazyExoticComponent<ComponentType>> = import.meta.env.DEV
   ? {
-      "variant-a": lazy(() => import("./variants/VariantA")),
-      "variant-b": lazy(() => import("./variants/VariantB")),
-      "variant-c": lazy(() => import("./variants/VariantC")),
       "variant-d": lazy(() => import("./variants/VariantD")),
     }
   : {};
