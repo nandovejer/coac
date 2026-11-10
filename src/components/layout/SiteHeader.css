@@ -42,17 +42,29 @@
 
 .coac-site-header--sidebar .coac-site-header__title {
   margin-block-end: 0;
-  font-size: var(--luz-text-lg);
+  font-size: var(--luz-text-base);
   letter-spacing: -0.02em;
   line-height: 1.5rem;
 }
 
 .coac-site-header--sidebar .coac-site-header__phase {
   display: block;
-  margin-block-start: var(--luz-space-2xs);
-  font-size: var(--coac-text-2xl);
+  margin-block-start: 0;
+  font-size: var(--luz-text-lg);
   letter-spacing: -0.01em;
-  line-height: var(--coac-leading-2xl);
+  line-height: 1.75rem;
+}
+
+@media (min-width: 64rem) {
+  .coac-site-header--sidebar .coac-site-header__title {
+    font-size: var(--luz-text-lg);
+  }
+
+  .coac-site-header--sidebar .coac-site-header__phase {
+    margin-block-start: var(--luz-space-2xs);
+    font-size: var(--coac-text-2xl);
+    line-height: var(--coac-leading-2xl);
+  }
 }
 
 @media (min-width: 64rem) {

@@ -3,7 +3,7 @@ import "./ThemeModeSwitch.css";
 
 // El elemento <luz-theme-mode> lo define @luz-ds/core/theme-mode (ver main.tsx).
 // Sin JavaScript es un grupo de radios nativo que cambia el modo con :has();
-// con JavaScript añade un botón redondo fijo y esconde los radios. Luz no
+// con JavaScript añade un botón redondo (en línea: va en el panel) y esconde los radios. Luz no
 // escribe ningún texto: los de aquí son los que lee un lector de pantalla.
 
 interface ModeOption {
@@ -48,7 +48,7 @@ const modes: ModeOption[] = [
 
 function ThemeModeSwitchView() {
   return (
-    <luz-theme-mode>
+    <luz-theme-mode inline="true">
       <fieldset className="luz-theme-mode__group">
         <legend className="luz-theme-mode__legend">Modo de color</legend>
         {modes.map(({ value, label, icon }) => (

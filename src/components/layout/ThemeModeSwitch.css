@@ -1,15 +1,5 @@
 /*
- * El botón redondo de Luz va fijo en la esquina inferior derecha; aquí se sube
- * por encima del menú inferior, que también es fijo.
+ * El botón redondo de Luz va en línea (atributo `inline`) dentro del panel
+ * lateral, en su esquina (ver `.coac-layout__theme` en App.css): no flota sobre
+ * el contenido ni sobre el menú inferior.
  */
-.luz-theme-mode__button--fixed {
-  inset-block-end: calc(var(--coac-nav-height) + var(--luz-space-md));
-  z-index: calc(var(--luz-z-raised) + 1);
-}
-
-/* En escritorio no hay menú inferior. */
-@media (min-width: 64rem) {
-  .luz-theme-mode__button--fixed {
-    inset-block-end: var(--luz-space-md);
-  }
-}

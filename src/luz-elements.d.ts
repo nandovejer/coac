@@ -4,7 +4,7 @@ import type { DetailedHTMLProps, HTMLAttributes } from "react";
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      "luz-theme-mode": DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+      "luz-theme-mode": DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & { inline?: string };
     }
   }
 }

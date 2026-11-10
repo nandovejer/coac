@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   formatLongDate,
+  formatSessionTitleDate,
   formatShortDate,
   formatMinutesOfDay,
   formatSessionDate,
@@ -89,6 +90,17 @@ describe("zonas horarias (el proceso corre en UTC)", () => {
     const after = zonedTimeToInstant({ year: 2026, month: 3, day: 29 }, 20, 0, "Europe/Madrid");
     expect(before.toISOString()).toBe("2026-03-28T19:00:00.000Z");
     expect(after.toISOString()).toBe("2026-03-29T18:00:00.000Z");
+  });
+});
+
+describe("formatSessionTitleDate", () => {
+  it("da el día y el mes con la inicial en mayúscula, sin año", () => {
+    expect(formatSessionTitleDate("21/01/2027")).toBe("Jueves 21 de enero");
+    expect(formatSessionTitleDate("09/01/2027")).toBe("Sábado 9 de enero");
+  });
+
+  it("devuelve el texto tal cual si no es una fecha", () => {
+    expect(formatSessionTitleDate("mañana")).toBe("mañana");
   });
 });
 

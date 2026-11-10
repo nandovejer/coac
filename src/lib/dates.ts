@@ -138,6 +138,20 @@ export function formatLongDate(value: string): string {
   });
 }
 
+/** `dd/mm/yyyy` → "Jueves 21 de enero" (título de sesión; el año ya está en la cabecera). */
+export function formatSessionTitleDate(value: string): string {
+  const date = parseSessionDate(value);
+  if (!date) return value;
+
+  const text = new Date(Date.UTC(date.year, date.month - 1, date.day, 12)).toLocaleDateString("es-ES", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  });
+  return text.replace(",", "").replace(/^./, (c) => c.toUpperCase());
+}
+
 /** `dd/mm/yyyy` → "sáb 9" (para índices y listas cortas). */
 export function formatShortDate(value: string): string {
   const date = parseSessionDate(value);

@@ -88,15 +88,12 @@ test("el modo guardado se aplica antes de que cargue la app (sin destello)", asy
   await expect(page.locator("body")).toHaveCSS("background-color", pageBackground.dark);
 });
 
-test("el botón del selector no tapa el menú inferior", async ({ page }) => {
+test("el botón del selector va en el panel, no flotando sobre el contenido", async ({ page }) => {
   await page.goto("./");
-  const menu = page.locator(".coac-bottom-nav");
-  // En escritorio no hay menú inferior: el panel lateral tiene sus enlaces.
-  test.skip(!(await menu.isVisible()), "sin menú inferior en este ancho");
-  const button = await page.locator(".luz-theme-mode__button--fixed").boundingBox();
-  const nav = await menu.boundingBox();
-  expect(button && nav).toBeTruthy();
-  expect(button!.y + button!.height).toBeLessThanOrEqual(nav!.y);
+  const button = page.locator(".luz-theme-mode__button");
+  await expect(button).toBeVisible();
+  await expect(button).not.toHaveClass(/luz-theme-mode__button--fixed/);
+  await expect(page.locator(".coac-layout__side").locator(".luz-theme-mode__button")).toHaveCount(1);
 });
 
 test("el selector tiene nombre accesible y avisa del modo elegido", async ({ page }) => {

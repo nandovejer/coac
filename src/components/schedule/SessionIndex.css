@@ -3,7 +3,7 @@
   display: grid;
   /* minmax(0, …): una pista "auto" crecería hasta el ancho de la fila deslizable y ensancharía la página */
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--luz-space-sm);
+  gap: var(--luz-space-xs);
   color: var(--coac-header-text);
 }
 
@@ -12,8 +12,14 @@
   min-inline-size: 0;
 }
 
+.coac-session-index__hint {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .coac-session-index__label {
-  margin-block-end: var(--luz-space-2xs);
+  margin-block-end: var(--luz-space-3xs);
   color: var(--coac-on-header-accent);
   font-size: var(--luz-text-xs);
   font-weight: 700;
@@ -39,7 +45,7 @@
   display: flex;
   align-items: center;
   gap: var(--luz-space-2xs);
-  min-block-size: 2.75rem;
+  min-block-size: 2.5rem;
   padding-inline: var(--luz-space-sm);
   border-radius: var(--coac-radius-lg);
   background: var(--coac-panel-bg);

@@ -15,7 +15,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--luz-space-3xs) var(--luz-space-md);
-  padding: var(--luz-space-md);
+  padding: var(--luz-space-sm) var(--luz-space-md);
   cursor: pointer;
   list-style: none;
 }
@@ -43,8 +43,8 @@
 
 .coac-session__title {
   margin: 0;
-  font-size: var(--coac-text-2xl);
-  line-height: var(--coac-leading-2xl);
+  font-size: var(--luz-text-xl);
+  line-height: 1.75rem;
 }
 
 .coac-session__meta {
@@ -87,8 +87,8 @@
 
 @media (min-width: 48rem) {
   .coac-session__title {
-    font-size: var(--coac-text-3xl);
-    line-height: var(--coac-leading-3xl);
+    font-size: var(--coac-text-2xl);
+    line-height: var(--coac-leading-2xl);
   }
 
   .coac-session__head {

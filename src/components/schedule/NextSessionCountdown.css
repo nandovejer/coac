@@ -19,12 +19,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-block: var(--luz-space-lg);
+  padding-block: 0;
   background: var(--coac-header-bg);
 }
 
 .coac-countdown__label {
-  margin-block-end: var(--luz-space-sm);
+  margin-block-end: var(--luz-space-2xs);
   color: var(--coac-on-header-accent);
   font-size: var(--luz-text-sm);
   font-weight: 500;
@@ -43,13 +43,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--luz-space-xs);
+  gap: var(--luz-space-3xs);
 }
 
 .coac-countdown__value,
 .coac-countdown__separator {
   font-family: "DSEG7 Classic", var(--luz-font-mono), monospace;
-  font-size: var(--coac-text-3xl);
+  font-size: var(--coac-text-2xl);
   font-weight: 700;
   line-height: 1;
 }
@@ -139,7 +139,7 @@
 
   .coac-countdown__value,
   .coac-countdown__separator {
-    font-size: var(--coac-text-5xl);
+    font-size: var(--coac-text-3xl);
   }
 
   .coac-countdown__name {

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import type { SessionView } from "../../domain/schedule";
-import { formatLongDate } from "../../lib/dates";
+import { formatSessionTitleDate } from "../../lib/dates";
 import { Heading } from "../ui/Heading";
 import { PerformanceRow } from "./PerformanceRow";
 import "./SessionLineup.css";
@@ -25,7 +25,8 @@ function SessionLineupView({
     <details className="coac-session" data-status={status} id={date} open={defaultOpen}>
       <summary className="coac-session__summary">
         <Heading as="h3" className="coac-session__title">
-          Sesión - {formatLongDate(date)}
+          <span className="coac-sr-only">Sesión: </span>
+          {formatSessionTitleDate(date)}
         </Heading>
         <span className="coac-session__meta">
           {performances.length} agrupaciones · {startTime}–{estimatedEndTime} aprox.

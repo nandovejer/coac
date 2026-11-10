@@ -168,7 +168,11 @@ agrupaciones **en orden de actuación**.
   la siguiente (o la última si la fase terminó). `useOpenDetailsOnAnchor`
   despliega la sesión antes de seguir un enlace a ella o a una agrupación. Por
   debajo de 64rem el panel va arriba y las filas se apilan; en escritorio no
-  hay menú inferior.
+  hay menú inferior. En móvil el panel es compacto y «Ver el directo» solo
+  sale en escritorio (en móvil está en el menú inferior: un solo acceso). El
+  botón del modo de color es el de Luz en línea (`inline`), dentro del panel
+  (`.coac-layout__theme`), no flotando sobre el contenido. El título de cada
+  sesión es corto («Jueves 21 de enero», `formatSessionTitleDate`).
 - **Cuenta atrás**: va en el panel lateral (la pinta `App.tsx`, no
   `SessionSchedule`) hacia `schedule.upcomingSession`: la sesión de hoy si aún
   no ha empezado, si no la siguiente (también de madrugada). Sin agrupación en

@@ -15,9 +15,18 @@ export function SessionIndex({ schedule: { present, future, past } }: { schedule
     <nav aria-label="Sesiones de la fase" className="coac-session-index">
       {groups
         .filter(([, sessions]) => sessions.length > 0)
-        .map(([label, sessions]) => (
+        .map(([label, sessions], index) => (
           <div key={label} className="coac-session-index__group">
-            <p className="coac-session-index__label">{label}</p>
+            <p className="coac-session-index__label">
+              {label}
+              {/* El número de cada día no se explica solo: una pista visible, una sola vez */}
+              {index === 0 && (
+                <span className="coac-session-index__hint" aria-hidden="true">
+                  {" "}
+                  · nº de agrupaciones
+                </span>
+              )}
+            </p>
             <ScrollRow>
               <ul className="coac-session-index__list">
                 {sessions.map((session) => {

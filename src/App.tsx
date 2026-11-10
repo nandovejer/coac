@@ -32,13 +32,15 @@ function App() {
   return (
     <>
       <BottomNav liveUrl={SEASON.liveUrl} activeSessionDate={schedule.activeSessionDate} />
-      <ThemeModeSwitch />
 
       <div className="coac-layout">
         <aside
           className="coac-layout__side coac-scrollbar coac-scrollbar--on-header"
           aria-label="Estado de la fase, buscador e índice de sesiones"
         >
+          <div className="coac-layout__theme">
+            <ThemeModeSwitch />
+          </div>
           <SiteHeader year={SEASON.year} phaseTitle={SEASON.phaseTitle} variant="sidebar" />
           {present && <LiveStatus session={present} />}
           {!isLive && upcomingSession && (
