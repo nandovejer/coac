@@ -9,9 +9,8 @@ Vite + React 18 + TypeScript + [Luz](https://github.com/nandovejer/luz)
 backend: todo se sirve estático desde GitHub Pages. Comandos y cambio de fase
 (3 pasos): [README.md](README.md). Planes (registro de lo hecho y por qué):
 [.claude/plans/PLAN-OPTIMIZACION.md](.claude/plans/PLAN-OPTIMIZACION.md) y
-[.claude/plans/PLAN-LUZ.md](.claude/plans/PLAN-LUZ.md). Paleta e inspiración
-visual del Gran Teatro Falla (aplicada en claro y oscuro):
-[.claude/plans/PLAN-DISENO-FALLA.md](.claude/plans/PLAN-DISENO-FALLA.md).
+[.claude/plans/PLAN-LUZ.md](.claude/plans/PLAN-LUZ.md). Los colores se inspiran
+en el Gran Teatro Falla (fotos en `.claude/plans/inspiracion-falla/`).
 
 ## Verificar un cambio
 
@@ -49,7 +48,7 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
     ningún `@layer`, así gana siempre a Luz.
   - `@luz-ds/*` está fijado a una versión exacta y está en beta: lee su
     CHANGELOG antes de subirla y comprueba las capturas.
-- **Modos de color** (claro = fachada del Falla, oscuro = sala; paleta en el plan): claro, oscuro y alto contraste (`ThemeModeSwitch`, el
+- **Modos de color** (claro = fachada del Falla: cal, marino y cobalto; oscuro = azul noche con oro): claro, oscuro y alto contraste (`ThemeModeSwitch`, el
   botón flotante de Luz sobre el menú). Los tres cumplen WCAG AA, sin
   excepciones (lo vigilan `check:contrast`, `src/styles/coac-tokens.test.ts` y
   axe). Al añadir un color, añade su pareja de contraste al test.
@@ -81,6 +80,36 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   comando de pnpm).
 - Si pnpm dice `ERR_PNPM_UNEXPECTED_STORE`, el `node_modules` se instaló con
   otro store: usa `pnpm install` o pasa `--store-dir` al del error.
+
+## Requisitos funcionales
+
+Los cumple el prototipo D (`vite --mode variant-d`, `src/variants/`). La app
+aún no: al llevar D a la app, se aplican también ahí.
+
+- **Estados de sesión**: siempre se distingue a simple vista la sesión de hoy,
+  la de mañana, las próximas y las ya celebradas. Orden: hoy, mañana, las
+  próximas y, **al final**, las celebradas. «Hoy» y «Mañana» llevan etiqueta
+  propia; las celebradas van apagadas (en gris, borde discontinuo, sin
+  semáforo) con la etiqueta «Celebrada». El color nunca es la única señal.
+- **Quién está actuando**: según la hora estimada (`isLive` de
+  `buildSchedule`), en la sesión de hoy cada agrupación es «Ya actuó» (en
+  gris), «Actuando ahora» (marco y barra rojos, franja horaria y progreso del
+  turno), «A continuación» o pendiente. Un acceso lleva a la que está
+  actuando (en móvil, una tira «En directo» bajo la cabecera fija), aunque se
+  esté viendo una búsqueda u otro día. Nada parpadea: solo late el punto.
+- **Semáforo en las tarjetas**: solo la franja de color del borde, sin el
+  texto «Imprescindible» / «Recomendada» a la vista. Ese texto va en una
+  leyenda discreta encima del programa y, oculto, para lectores de pantalla.
+- **Fases**: preliminares, cuartos, semifinales y final. El pie lista las
+  cuatro con sus fechas y su estado (celebrada, en curso, próximamente). La
+  portada es siempre la fase de `season.ts`, y el logo y el título de la
+  cabecera llevan a ella (y la dejan sin búsqueda ni día elegido). Las fases
+  ya celebradas tienen que poder abrirse desde el pie; falta decidir cómo
+  (hoy se archivan en ramas).
+- **Cabecera fija solo en móvil**, con el logo, el título, la fase y «Buscar».
+  En escritorio, la columna izquierda fija hace ese papel.
+- **Pie**: las fases, el botón del modo de color (claro, oscuro y alto
+  contraste), la nota de horas estimadas y los créditos (Luz, autor, MIT).
 
 ## Modelo de datos
 
