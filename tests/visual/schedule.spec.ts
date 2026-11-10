@@ -136,9 +136,7 @@ test("el buscador filtra por modalidad y encuentra por nombre de agrupación", a
   await expect(page.locator(".coac-result", { hasText: nombre }).first()).toBeVisible();
 });
 
-test("la barra superior lleva la cuenta atrás en marquesina y se puede pausar (solo móvil)", async ({
-  page,
-}) => {
+test("la barra superior lleva la cuenta atrás en una línea (solo móvil)", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-02-09T12:00:00+01:00"));
   await page.goto("./");
   test.skip(!(await page.locator(".coac-bottom-nav").isVisible()), "en escritorio el panel ya es fijo");
@@ -146,8 +144,9 @@ test("la barra superior lleva la cuenta atrás en marquesina y se puede pausar (
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   const ticker = page.locator(".coac-topbar .coac-ticker");
   await expect(ticker).toBeVisible();
-  await expect(ticker).toContainText("Próxima sesión");
-  await expect(ticker).toHaveAttribute("aria-pressed", "false");
-  await ticker.click();
-  await expect(ticker).toHaveAttribute("aria-pressed", "true");
+  await expect(ticker).toContainText("Próxima");
+  await expect(ticker).toContainText(/Faltan \d+ d \d{2}:\d{2}:\d{2}/);
+  // En una sola línea: no se recorta
+  const fits = await ticker.locator(".coac-ticker__text").evaluate((el) => el.scrollWidth <= el.clientWidth);
+  expect(fits).toBe(true);
 });

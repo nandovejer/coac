@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { RollingNumber } from "../ui/RollingNumber";
 import "./CountdownTicker.css";
 
 interface CountdownTickerProps {
-  /** Qué sesión es, p. ej. «Próxima sesión · Viernes 8 de enero · 20:00». */
+  /** Qué sesión es, corto para que quepa en una línea: «Próxima: vie 8 · 20:00». */
   label: string;
   /** Inicio de la sesión (ISO). */
   targetDate: string;
@@ -27,18 +28,24 @@ function timeLeft(targetDate: string): TimeLeft | null {
   };
 }
 
-const pad = (value: number) => String(value).padStart(2, "0");
+/** Cifras que ruedan al cambiar, como en la cuenta atrás del hero. */
+function Rolling({ value }: { value: number }) {
+  return (
+    <span className="coac-ticker__digits">
+      <RollingNumber value={value} />
+    </span>
+  );
+}
+
 const plural = (value: number, one: string, many: string) => `${value} ${value === 1 ? one : many}`;
 
 /**
- * Cuenta atrás en una línea, como la marquesina de un teatro: el texto pasa
- * de derecha a izquierda. Se pausa al tocarla (es un botón) o al pasar el
- * ratón, y queda quieta con «reducir movimiento». El texto que se mueve es
- * decorativo; el lector de pantalla lee uno fijo que solo cambia por minutos.
+ * Cuenta atrás en una tira fina y fija, a todo el ancho de la barra superior.
+ * Las cifras ruedan al cambiar. El texto visible cambia cada segundo y va oculto a los lectores de pantalla;
+ * ellos leen uno que solo cambia por minutos.
  */
 export function CountdownTicker({ label, targetDate }: CountdownTickerProps) {
   const [left, setLeft] = useState(() => timeLeft(targetDate));
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => setLeft(timeLeft(targetDate)), 1000);
@@ -48,28 +55,17 @@ export function CountdownTicker({ label, targetDate }: CountdownTickerProps) {
   if (!left) return null;
 
   const { days, hours, minutes, seconds } = left;
-  const text = `${label} · Faltan ${days} d ${pad(hours)} h ${pad(minutes)} min ${pad(seconds)} s`;
-  const spoken =
-    `${label}. Faltan ${plural(days, "día", "días")}, ${plural(hours, "hora", "horas")} ` +
-    `y ${plural(minutes, "minuto", "minutos")}.`;
 
   return (
-    <button
-      type="button"
-      className="coac-ticker"
-      data-paused={paused || undefined}
-      aria-pressed={paused}
-      onClick={() => setPaused((p) => !p)}
-    >
+    <p className="coac-ticker">
       <span className="coac-sr-only">
-        {spoken} {paused ? "Marquesina en pausa." : "Pulsa para pausar la marquesina."}
+        {label}. Faltan {plural(days, "día", "días")}, {plural(hours, "hora", "horas")} y{" "}
+        {plural(minutes, "minuto", "minutos")}.
       </span>
-      <span className="coac-ticker__viewport" aria-hidden="true">
-        <span className="coac-ticker__track">
-          <span className="coac-ticker__item">{text}</span>
-          <span className="coac-ticker__item">{text}</span>
-        </span>
+      <span className="coac-ticker__text" aria-hidden="true">
+        {label} · Faltan <Rolling value={days} /> d <Rolling value={hours} />:<Rolling value={minutes} />:
+        <Rolling value={seconds} />
       </span>
-    </button>
+    </p>
   );
 }

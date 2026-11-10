@@ -174,9 +174,8 @@ agrupaciones **en orden de actuación**.
   debajo de 64rem el panel va arriba y las filas se apilan; en escritorio no
   hay menú inferior. Por debajo de 64rem hay además una barra fija superior (`TopBar`,
   `useScrolledPast`), oculta mientras se ve el hero y visible al pasarlo, con
-  título, subtítulo, buscador y, debajo, la cuenta atrás en marquesina
-  (`CountdownTicker`: se pausa al tocarla o con el ratón; quieta con «reducir
-  movimiento»); el h1 es el del `Hero`.
+  título, subtítulo, buscador y, debajo, la cuenta atrás en una tira fina y fija
+  (`CountdownTicker`); el h1 es el del `Hero`.
   En móvil el panel es compacto y «Ver el directo» solo
   sale en escritorio (en móvil está en el menú inferior: un solo acceso). El
   botón del modo de color es el de Luz en línea (`inline`), en el pie de la
@@ -190,7 +189,7 @@ agrupaciones **en orden de actuación**.
   (`npm/dseg@0.46.0`). Es la única petición a un
   tercero de la web: sin cookies, pero jsDelivr ve la IP. Si se cambia de
   versión o de fuente, hay que medir otra vez el ancho de cifra
-  (`.coac-digit`, 0,82 em) para que no haya saltos al cargarla. Los tests
+  (`.coac-digit` en `ui/RollingNumber.css`, 0,82 em) para que no haya saltos al cargarla. Los tests
   visuales sirven la fuente desde `tests/fixtures/dseg/` (`tests/visual/base.ts`)
   y no dependen de la red. Los dígitos van `aria-hidden`; el texto accesible
   cambia solo por minutos.

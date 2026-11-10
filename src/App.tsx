@@ -8,7 +8,7 @@ import { SiteFooter } from "./components/layout/SiteFooter";
 import { Hero } from "./components/layout/Hero";
 import { CountdownTicker } from "./components/layout/CountdownTicker";
 import { TopBar } from "./components/layout/TopBar";
-import { formatSessionTitleDate } from "./lib/dates";
+import { formatShortDate } from "./lib/dates";
 import "./components/layout/SiteHeader.css";
 import { LiveStatus } from "./components/schedule/LiveStatus";
 import { NextSessionCountdown } from "./components/schedule/NextSessionCountdown";
@@ -38,8 +38,8 @@ function App() {
           <CountdownTicker
             label={
               upcomingSession.status === "present"
-                ? `Sesión de hoy · ${SEASON.sessionStartTime}`
-                : `Próxima sesión · ${formatSessionTitleDate(upcomingSession.date)} · ${SEASON.sessionStartTime}`
+                ? `Hoy · ${SEASON.sessionStartTime}`
+                : `Próxima: ${formatShortDate(upcomingSession.date)} · ${SEASON.sessionStartTime}`
             }
             targetDate={upcomingSession.startsAt.toISOString()}
           />
