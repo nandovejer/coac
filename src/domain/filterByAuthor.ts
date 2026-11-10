@@ -1,5 +1,5 @@
 import { sortSessionDates } from "../lib/dates";
-import type { Group, SessionsData } from "../types";
+import type { Group, Modalidad, SessionsData } from "../types";
 
 export interface AuthorMatch {
   date: string;
@@ -40,5 +40,42 @@ export function filterByAuthor(sessions: SessionsData, term: string): AuthorMatc
         .filter((group) => group.autor.toLowerCase().includes(needle))
         .map((group) => ({ date, group })),
     ),
+  );
+}
+
+/** Minúsculas y sin tildes, para que «cadiz» encuentre «Cádiz». */
+const normalize = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+
+export interface GroupSearch {
+  /** Texto a buscar en el autor y en el nombre de la agrupación (vacío: todas). */
+  term: string;
+  /** Solo esa modalidad; `null` para todas. */
+  modalidad: Modalidad | null;
+}
+
+/**
+ * Agrupaciones cuyo autor o nombre contienen `term` (sin distinguir mayúsculas
+ * ni tildes) y, si se pide, de una modalidad. Por orden de sesión y de
+ * actuación. Sin texto ni modalidad no devuelve nada.
+ */
+export function searchGroups(
+  sessions: SessionsData,
+  { term, modalidad }: GroupSearch,
+): Array<{ date: string; group: Group }> {
+  const needle = normalize(term.trim());
+  if (!needle && !modalidad) return [];
+
+  return sortSessionDates(Object.keys(sessions)).flatMap((date) =>
+    sessions[date]
+      .filter(
+        (group) =>
+          (!modalidad || group.modalidad === modalidad) &&
+          (!needle || normalize(group.autor).includes(needle) || normalize(group.nombre).includes(needle)),
+      )
+      .map((group) => ({ date, group })),
   );
 }

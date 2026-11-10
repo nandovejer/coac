@@ -14,7 +14,7 @@ const modes: Mode[] = ["light", "dark", "high-contrast"];
 // background-color de <body> en cada modo (--luz-surface-page de theme-coac.css)
 const pageBackground: Record<Mode, string> = {
   light: "rgb(243, 236, 226)",
-  dark: "rgb(22, 12, 16)",
+  dark: "rgb(10, 15, 36)",
   "high-contrast": "rgb(255, 255, 255)",
 };
 
@@ -44,12 +44,10 @@ for (const mode of ["dark", "high-contrast"] as const) {
 
   test(`${mode}: buscador de autores con resultados`, async ({ page }) => {
     await openIn(page, mode, "2026-02-09T12:00:00+01:00");
+    await page.getByRole("button", { name: "Busca por autor@ o agrupación" }).click();
     await page.getByLabel("Buscar por autor@").fill("ma");
-    await expect(page.locator("#searchAuthor a").first()).toBeVisible();
-    await expect(page.locator("#searchAuthor")).toHaveScreenshot(
-      `${mode}-buscador-con-resultados.png`,
-      tolerance,
-    );
+    await expect(page.locator(".coac-result").first()).toBeVisible();
+    await expect(page.getByRole("dialog")).toHaveScreenshot(`${mode}-buscador-con-resultados.png`, tolerance);
   });
 }
 
@@ -88,12 +86,12 @@ test("el modo guardado se aplica antes de que cargue la app (sin destello)", asy
   await expect(page.locator("body")).toHaveCSS("background-color", pageBackground.dark);
 });
 
-test("el botón del selector va en el panel, no flotando sobre el contenido", async ({ page }) => {
+test("el botón del selector va en el pie, no flotando sobre el contenido", async ({ page }) => {
   await page.goto("./");
   const button = page.locator(".luz-theme-mode__button");
   await expect(button).toBeVisible();
   await expect(button).not.toHaveClass(/luz-theme-mode__button--fixed/);
-  await expect(page.locator(".coac-layout__side").locator(".luz-theme-mode__button")).toHaveCount(1);
+  await expect(page.locator(".coac-site-footer").locator(".luz-theme-mode__button")).toHaveCount(1);
 });
 
 test("el selector tiene nombre accesible y avisa del modo elegido", async ({ page }) => {

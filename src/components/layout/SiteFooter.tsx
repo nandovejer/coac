@@ -1,8 +1,12 @@
+import { ThemeModeSwitch } from "./ThemeModeSwitch";
 import "./SiteFooter.css";
 
 export function SiteFooter() {
   return (
     <footer className="coac-site-footer">
+      <div className="coac-site-footer__theme">
+        <ThemeModeSwitch />
+      </div>
       <aside>
         <p>
           Hecho con{" "}

@@ -54,6 +54,8 @@ export const PlayIcon = ({ inline }: { inline?: boolean }) => (
   />
 );
 
+export const CloseIcon = () => <Icon path="M6 18 18 6M6 6l12 12" />;
+
 export const ChevronLeftIcon = () => <Icon path="M15.75 19.5 8.25 12l7.5-7.5" />;
 
 export const ChevronRightIcon = () => <Icon path="m8.25 4.5 7.5 7.5-7.5 7.5" />;

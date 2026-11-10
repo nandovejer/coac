@@ -3,7 +3,7 @@ import "./ThemeModeSwitch.css";
 
 // El elemento <luz-theme-mode> lo define @luz-ds/core/theme-mode (ver main.tsx).
 // Sin JavaScript es un grupo de radios nativo que cambia el modo con :has();
-// con JavaScript añade un botón redondo (en línea: va en el panel) y esconde los radios. Luz no
+// con JavaScript añade un botón redondo (en línea: va en el pie) y esconde los radios. Luz no
 // escribe ningún texto: los de aquí son los que lee un lector de pantalla.
 
 interface ModeOption {

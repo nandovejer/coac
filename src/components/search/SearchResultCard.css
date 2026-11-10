@@ -1,0 +1,107 @@
+/*
+ * Tarjeta de resultado del buscador: mismos colores del semáforo que la fila
+ * del programa. El enlace de la tarjeta se estira sobre toda ella.
+ */
+.coac-result {
+  position: relative;
+  display: grid;
+  gap: var(--luz-space-2xs);
+  justify-items: start;
+  padding: var(--luz-space-md);
+  border-radius: var(--coac-radius-lg);
+  box-shadow: inset 0 0 0 1px var(--coac-border);
+}
+
+.coac-result[data-ranking="top"] {
+  background: var(--coac-ranking-top-bg);
+  color: var(--coac-ranking-top-text);
+}
+
+.coac-result[data-ranking="ok"] {
+  background: var(--coac-ranking-ok-bg);
+  color: var(--coac-ranking-ok-text);
+}
+
+.coac-result[data-ranking="standar"] {
+  background: var(--coac-ranking-standar-bg);
+  color: var(--coac-ranking-standar-text);
+}
+
+.coac-result__when {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-3xs) var(--luz-space-sm);
+  margin: 0;
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.coac-result__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.coac-result__live {
+  display: inline-block;
+  padding: 0 var(--luz-space-xs);
+  border-radius: var(--luz-radius-full);
+  background: var(--coac-live-bg);
+  color: var(--coac-live-text);
+  font-size: var(--luz-text-xs);
+  line-height: 1.25rem;
+}
+
+.coac-result__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* El enlace cubre toda la tarjeta */
+.coac-result__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.coac-result__link:hover::after {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.coac-result__link:focus-visible {
+  outline: none;
+}
+
+.coac-result__link:focus-visible::after {
+  outline: 3px solid var(--luz-focus-ring);
+  outline-offset: 2px;
+}
+
+.coac-result__author {
+  font-size: var(--luz-text-lg);
+  line-height: 1.5rem;
+  text-transform: capitalize;
+  text-wrap: pretty;
+}
+
+.coac-result__name {
+  margin: 0;
+  font-size: var(--luz-text-base);
+  line-height: 1.5rem;
+}
+
+.coac-result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+}
+
+/* Por encima del enlace estirado: el vídeo se puede pulsar aparte */
+.coac-result__previous {
+  position: relative;
+  z-index: 1;
+  min-inline-size: 0;
+}

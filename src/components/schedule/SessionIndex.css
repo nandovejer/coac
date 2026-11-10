@@ -3,7 +3,7 @@
   display: grid;
   /* minmax(0, …): una pista "auto" crecería hasta el ancho de la fila deslizable y ensancharía la página */
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--luz-space-xs);
+  gap: var(--luz-space-md);
   color: var(--coac-header-text);
 }
 

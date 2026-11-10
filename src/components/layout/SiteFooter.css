@@ -6,6 +6,14 @@
   text-align: center;
 }
 
+/* El botón del modo de color va al final de la página, no flotando sobre el contenido */
+.coac-site-footer__theme {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-block-end: var(--luz-space-md);
+}
+
 .coac-site-footer__link {
   color: var(--coac-link);
   text-decoration: underline;

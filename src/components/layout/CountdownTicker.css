@@ -1,0 +1,77 @@
+/*
+ * Marquesina de la barra fija: una línea estrecha a todo el ancho con la
+ * cuenta atrás desplazándose. Dos copias del texto seguidas y la pista se
+ * mueve la mitad de su ancho: el bucle no tiene saltos. Solo anima transform.
+ */
+.coac-ticker {
+  display: block;
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--coac-nav-hover-bg);
+  box-shadow: none;
+  color: var(--coac-nav-text);
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+}
+
+.coac-ticker:focus-visible {
+  outline: 2px solid var(--coac-nav-text);
+  outline-offset: -2px;
+}
+
+.coac-ticker__viewport {
+  display: block;
+  overflow: hidden;
+}
+
+.coac-ticker__track {
+  display: flex;
+  inline-size: max-content;
+  animation: coac-marquee 28s linear infinite;
+}
+
+.coac-ticker__item {
+  padding-block: var(--luz-space-3xs);
+  padding-inline-end: var(--luz-space-3xl);
+  font-size: var(--luz-text-xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Pausa: al tocarla (botón) o con el ratón encima */
+.coac-ticker[data-paused] .coac-ticker__track,
+.coac-ticker:hover .coac-ticker__track {
+  animation-play-state: paused;
+}
+
+@keyframes coac-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Sin movimiento: quieta, una sola copia, recortada si no cabe */
+@media (prefers-reduced-motion: reduce) {
+  .coac-ticker__track {
+    inline-size: auto;
+    animation: none;
+  }
+
+  .coac-ticker__item {
+    overflow: hidden;
+    padding-inline: var(--luz-space-md);
+    text-overflow: ellipsis;
+  }
+
+  .coac-ticker__item + .coac-ticker__item {
+    display: none;
+  }
+}

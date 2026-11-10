@@ -5,20 +5,22 @@ import { useNow } from "./hooks/useNow";
 import { useOpenDetailsOnAnchor } from "./hooks/useOpenDetailsOnAnchor";
 import { BottomNav } from "./components/layout/BottomNav";
 import { SiteFooter } from "./components/layout/SiteFooter";
-import { SiteHeader } from "./components/layout/SiteHeader";
-import { ThemeModeSwitch } from "./components/layout/ThemeModeSwitch";
+import { Hero } from "./components/layout/Hero";
+import { CountdownTicker } from "./components/layout/CountdownTicker";
+import { TopBar } from "./components/layout/TopBar";
+import { formatSessionTitleDate } from "./lib/dates";
 import "./components/layout/SiteHeader.css";
 import { LiveStatus } from "./components/schedule/LiveStatus";
 import { NextSessionCountdown } from "./components/schedule/NextSessionCountdown";
 import { RankingLegend } from "./components/schedule/RankingLegend";
 import { SessionIndex } from "./components/schedule/SessionIndex";
 import { SessionSchedule } from "./components/schedule/SessionSchedule";
-import { AuthorSearch } from "./components/search/AuthorSearch";
+import { SearchSection } from "./components/search/SearchSection";
 import { MonitorIcon } from "./components/ui/icons";
 import "./App.css";
 
 /**
- * Panel lateral (estado de la sesión, buscador, índice de sesiones y leyenda)
+ * Hero arriba (título, descripción y cuenta atrás), luego el buscador y debajo el panel lateral (estado de la sesión, índice de sesiones y leyenda)
  * y el programa de cada sesión al lado. En móvil el panel va arriba.
  */
 function App() {
@@ -31,33 +33,42 @@ function App() {
 
   return (
     <>
+      <TopBar year={SEASON.year} phaseTitle={SEASON.phaseTitle}>
+        {!isLive && upcomingSession && (
+          <CountdownTicker
+            label={
+              upcomingSession.status === "present"
+                ? `Sesión de hoy · ${SEASON.sessionStartTime}`
+                : `Próxima sesión · ${formatSessionTitleDate(upcomingSession.date)} · ${SEASON.sessionStartTime}`
+            }
+            targetDate={upcomingSession.startsAt.toISOString()}
+          />
+        )}
+      </TopBar>
       <BottomNav liveUrl={SEASON.liveUrl} activeSessionDate={schedule.activeSessionDate} />
+
+      <Hero
+        year={SEASON.year}
+        phaseTitle={SEASON.phaseTitle}
+        description="Las agrupaciones de cada sesión en su orden de actuación, con la hora estimada de cada una y el acceso al directo."
+      >
+        {!isLive && upcomingSession && (
+          <NextSessionCountdown targetDate={upcomingSession.startsAt.toISOString()} />
+        )}
+      </Hero>
+
+      <SearchSection sessions={sessions} schedule={schedule} />
 
       <div className="coac-layout">
         <aside
           className="coac-layout__side coac-scrollbar coac-scrollbar--on-header"
-          aria-label="Estado de la fase, buscador e índice de sesiones"
+          aria-label="Estado de la fase e índice de sesiones"
         >
-          <div className="coac-layout__theme">
-            <ThemeModeSwitch />
-          </div>
-          <SiteHeader year={SEASON.year} phaseTitle={SEASON.phaseTitle} variant="sidebar" />
           {present && <LiveStatus session={present} />}
-          {!isLive && upcomingSession && (
-            <NextSessionCountdown
-              label={
-                upcomingSession.status === "present"
-                  ? `La sesión de hoy empieza a las ${SEASON.sessionStartTime}`
-                  : `Próxima sesión: ${upcomingSession.date}`
-              }
-              targetDate={upcomingSession.startsAt.toISOString()}
-            />
-          )}
           <a className="coac-layout__live" href={SEASON.liveUrl} target="_blank" rel="noopener noreferrer">
             <MonitorIcon />
             Ver el directo
           </a>
-          <AuthorSearch sessions={sessions} />
           <SessionIndex schedule={schedule} />
           <RankingLegend minutesPerGroup={SEASON.minutesPerGroup} placement="side" />
         </aside>

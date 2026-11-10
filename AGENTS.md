@@ -161,19 +161,28 @@ agrupaciones **en orden de actuación**.
   botón al DOM: se renderiza una vez (`memo`) y React no debe volver a tocarlo.
   Luz no escribe textos propios; los de `ThemeModeSwitch` son los del lector de
   pantalla.
-- **Layout**: panel lateral (`App.tsx`, `App.css`) con el fondo de la
-  cabecera: `SiteHeader` (`variant="sidebar"`), `LiveStatus` o la cuenta
-  atrás, «Ver el directo», el buscador, `SessionIndex` y `RankingLegend`. Al
-  lado, cada sesión es una tabla plegable (`<details>`): se abren la de hoy y
-  la siguiente (o la última si la fase terminó). `useOpenDetailsOnAnchor`
+- **Layout**: arriba el `Hero` (título, descripción y cuenta atrás);
+  debajo, panel lateral (`App.tsx`, `App.css`) con el fondo de la cabecera:
+  `LiveStatus`, «Ver el directo», `SessionIndex` y `RankingLegend`. Entre el hero y esa
+  rejilla va `SearchSection`: una frase y el buscador (un campo que abre un modal `<dialog>`, a pantalla
+  completa en móvil, con una tarjeta por resultado con todos los datos de la
+  fila; busca por autor o por nombre de agrupación, sin tildes, y filtra por
+  modalidad con `searchGroups`; al pulsar una tarjeta se cierra y baja a la fila). Al
+  lado del panel, cada sesión es una tabla plegable (`<details>`): van todas plegadas
+  salvo la de hoy o, si hoy no hay sesión, la próxima (acabada la fase, ninguna). `useOpenDetailsOnAnchor`
   despliega la sesión antes de seguir un enlace a ella o a una agrupación. Por
   debajo de 64rem el panel va arriba y las filas se apilan; en escritorio no
-  hay menú inferior. En móvil el panel es compacto y «Ver el directo» solo
+  hay menú inferior. Por debajo de 64rem hay además una barra fija superior (`TopBar`,
+  `useScrolledPast`), oculta mientras se ve el hero y visible al pasarlo, con
+  título, subtítulo, buscador y, debajo, la cuenta atrás en marquesina
+  (`CountdownTicker`: se pausa al tocarla o con el ratón; quieta con «reducir
+  movimiento»); el h1 es el del `Hero`.
+  En móvil el panel es compacto y «Ver el directo» solo
   sale en escritorio (en móvil está en el menú inferior: un solo acceso). El
-  botón del modo de color es el de Luz en línea (`inline`), dentro del panel
-  (`.coac-layout__theme`), no flotando sobre el contenido. El título de cada
+  botón del modo de color es el de Luz en línea (`inline`), en el pie de la
+  página (`.coac-site-footer__theme`), no flotando sobre el contenido. El título de cada
   sesión es corto («Jueves 21 de enero», `formatSessionTitleDate`).
-- **Cuenta atrás**: va en el panel lateral (la pinta `App.tsx`, no
+- **Cuenta atrás**: va en el `Hero` (la pinta `App.tsx`, no
   `SessionSchedule`) hacia `schedule.upcomingSession`: la sesión de hoy si aún
   no ha empezado, si no la siguiente (también de madrugada). Sin agrupación en
   directo y con sesión por venir siempre hay cuenta atrás. Usa la fuente de

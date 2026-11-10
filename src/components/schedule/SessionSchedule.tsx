@@ -10,12 +10,12 @@ interface SessionScheduleProps {
 
 /**
  * Reparte las sesiones en hoy / próximas / pasadas (las pasadas, de la más
- * reciente a la más antigua). Se despliegan la de hoy y la siguiente; si la
- * fase ya terminó, la última. El resto, plegadas.
+ * reciente a la más antigua). Todas van plegadas salvo la de hoy o, si hoy no
+ * hay sesión (p. ej. antes de que empiece el concurso), la próxima.
  */
 export function SessionSchedule({ schedule: { present, future, past }, previousYear }: SessionScheduleProps) {
-  const focus = present ?? future[0] ?? past.at(-1);
-  const isOpen = (session: SessionView) => session === focus || (present !== null && session === future[0]);
+  const focus = present ?? future[0];
+  const isOpen = (session: SessionView) => session === focus;
   const lineup = (session: SessionView) => (
     <SessionLineup
       key={session.date}

@@ -1,16 +1,8 @@
 .coac-search {
-  display: flex;
-  flex-direction: column;
   inline-size: 100%;
-  padding: var(--luz-space-md);
-  border-radius: var(--coac-radius-lg);
-  background: var(--luz-surface);
-  box-shadow: var(--coac-shadow-raised);
-  /* Va dentro del panel lateral, que tiene el texto claro de la cabecera. */
-  color: var(--luz-text-primary);
 }
 
-/* En móvil el placeholder ya dice qué buscar: el título solo lo leen los lectores de pantalla */
+/* La frase de encima (SearchSection) ya dice qué buscar: el título solo lo leen los lectores de pantalla */
 .coac-search__title {
   position: absolute;
   inline-size: 1px;
@@ -20,23 +12,9 @@
   white-space: nowrap;
 }
 
-@media (min-width: 64rem) {
-  .coac-search__title {
-    position: static;
-    inline-size: auto;
-    block-size: auto;
-    margin-block-end: var(--luz-space-xs);
-    overflow: visible;
-    clip: auto;
-    font-size: var(--luz-text-lg);
-    line-height: 1.5rem;
-    white-space: normal;
-  }
-}
-
+/* Campo de búsqueda del modal */
 .coac-search__input {
   inline-size: 100%;
-  max-inline-size: var(--coac-measure-session);
   block-size: 3rem;
   margin: 0;
   padding: var(--luz-space-xs);
@@ -53,26 +31,151 @@
   opacity: 1;
 }
 
-.coac-search__results {
+/* Campo del panel: abre el modal; parece un campo de búsqueda */
+.coac-search__trigger {
   display: flex;
-  margin-block-start: var(--luz-space-md);
-  flex-wrap: wrap;
+  align-items: center;
   gap: var(--luz-space-xs);
-  max-inline-size: var(--coac-measure-wide);
-  margin-inline: auto;
+  inline-size: 100%;
+  block-size: 3rem;
+  margin: 0;
+  padding: var(--luz-space-xs);
+  border: 1px solid var(--coac-input-border);
+  border-radius: var(--luz-radius-md);
+  background: var(--luz-input-bg);
+  box-shadow: var(--coac-shadow-input);
+  color: var(--coac-placeholder);
+  cursor: text;
+  font: inherit;
+  text-align: start;
 }
 
-.coac-search__chip {
-  padding: var(--luz-space-3xs) var(--luz-space-xs);
-  padding-block: var(--luz-space-2xs);
-  border-radius: var(--coac-radius-lg);
-  background: var(--coac-chip-bg);
-  color: var(--coac-chip-text);
-  box-shadow: inset 0 0 0 1px var(--coac-chip-edge);
+.coac-search__trigger > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Modal del buscador */
+/* En móvil ocupa toda la pantalla; desde 48rem es un modal centrado arriba */
+.coac-search-dialog {
+  inline-size: 100vw;
+  max-inline-size: none;
+  block-size: 100dvh;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--luz-surface);
+  color: var(--luz-text-primary);
+  overflow: hidden;
+}
+
+@media (min-width: 48rem) {
+  .coac-search-dialog {
+    inline-size: min(40rem, calc(100vw - 2rem));
+    block-size: auto;
+    max-block-size: calc(100dvh - 2rem);
+    margin-block: var(--luz-space-md) auto;
+    margin-inline: auto;
+    border: 1px solid var(--coac-border);
+    border-radius: var(--coac-radius-lg);
+    box-shadow: var(--coac-shadow-session);
+  }
+}
+
+.coac-search-dialog[open] {
+  display: flex;
+}
+
+.coac-search-dialog::backdrop {
+  background: var(--luz-scrim);
+}
+
+.coac-search-dialog__panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--luz-space-sm);
+  min-block-size: 0;
+  padding: var(--luz-space-md);
+}
+
+.coac-search-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--luz-space-md);
+}
+
+.coac-search-dialog__title {
+  margin: 0;
+  font-size: var(--luz-text-lg);
+  line-height: 1.5rem;
+}
+
+.coac-search-dialog__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--coac-input-border);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+}
+
+.coac-search-dialog__close:hover {
+  background: var(--luz-surface-hover);
+}
+
+.coac-search-dialog__status {
+  margin: 0;
+  color: var(--luz-text-secondary);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
-.coac-search__chip:hover {
-  background: var(--coac-chip-bg-hover);
+.coac-search-dialog__results {
+  display: grid;
+  gap: var(--luz-space-sm);
+  min-block-size: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  overscroll-behavior: contain;
+}
+
+/* Filtro por modalidad: botones de alternar */
+.coac-search-dialog__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-xs);
+}
+
+.coac-search-dialog__filter {
+  min-block-size: 2.5rem;
+  padding-inline: var(--luz-space-md);
+  border: 1px solid var(--coac-input-border);
+  border-radius: var(--luz-radius-full);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+}
+
+.coac-search-dialog__filter:hover {
+  background: var(--luz-surface-hover);
+}
+
+.coac-search-dialog__filter[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--coac-cta-bg);
+  color: var(--coac-cta-text);
 }

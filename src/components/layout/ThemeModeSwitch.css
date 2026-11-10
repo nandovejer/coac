@@ -1,5 +1,5 @@
 /*
- * El botón redondo de Luz va en línea (atributo `inline`) dentro del panel
- * lateral, en su esquina (ver `.coac-layout__theme` en App.css): no flota sobre
- * el contenido ni sobre el menú inferior.
+ * El botón redondo de Luz va en línea (atributo `inline`) en el pie de
+ * la página (ver `.coac-site-footer__theme`): no flota sobre el contenido ni
+ * sobre el menú inferior.
  */

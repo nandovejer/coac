@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Group, Modalidad, SessionsData } from "../types";
-import { filterByAuthor } from "./filterByAuthor";
+import { filterByAuthor, searchGroups } from "./filterByAuthor";
 
 function group(autor: string, nombre: string, modalidad: Modalidad = "COMPARSA"): Group {
   return { ranking: "standar", modalidad, nombre, autor, ciudad: "Cádiz", id: nombre, previous: null };
@@ -39,5 +39,31 @@ describe("filterByAuthor", () => {
       "Manu Peinado - CUARTETO - Los tres",
       "Manu Peinado - CUARTETO - Los cuatro",
     ]);
+  });
+});
+
+describe("searchGroups", () => {
+  it("encuentra por autor o por nombre de la agrupación, sin tildes ni mayúsculas", () => {
+    expect(searchGroups(sessions, { term: "SOMBRA", modalidad: null }).map((m) => m.group.nombre)).toEqual([
+      "La sombra",
+    ]);
+    expect(searchGroups(sessions, { term: "perez", modalidad: null }).map((m) => m.group.nombre)).toEqual([
+      "Los torpes",
+      "Los ascetas",
+    ]);
+  });
+
+  it("filtra por modalidad, con o sin texto", () => {
+    expect(searchGroups(sessions, { term: "", modalidad: "CUARTETO" }).map((m) => m.group.nombre)).toEqual([
+      "Los tres",
+      "Los cuatro",
+    ]);
+    expect(
+      searchGroups(sessions, { term: "peluca", modalidad: "CHIRIGOTA" }).map((m) => m.group.nombre),
+    ).toEqual(["Los ascetas"]);
+  });
+
+  it("sin texto ni modalidad no devuelve nada", () => {
+    expect(searchGroups(sessions, { term: "  ", modalidad: null })).toEqual([]);
   });
 });

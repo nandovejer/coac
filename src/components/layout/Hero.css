@@ -1,0 +1,100 @@
+/*
+ * Hero centrado: título grande en dos tonos, fase en etiqueta, descripción y
+ * la cuenta atrás integrada, todo en una columna. Sitio de sobra arriba y
+ * abajo para que respire.
+ */
+.coac-hero {
+  position: relative;
+  padding: var(--luz-space-2xl) var(--luz-space-md);
+  background: var(--coac-header-bg);
+  color: var(--coac-header-text);
+  text-align: center;
+}
+
+.coac-hero__inner {
+  display: grid;
+  justify-items: center;
+  gap: var(--luz-space-lg);
+  max-inline-size: var(--coac-measure-session);
+  margin-inline: auto;
+}
+
+.coac-hero__text {
+  display: grid;
+  gap: var(--luz-space-sm);
+  justify-items: center;
+}
+
+/* Color explícito: los h1 de Luz llevan el color del texto de página */
+.coac-hero__title {
+  margin: 0;
+  color: var(--coac-header-text);
+  font-size: clamp(var(--coac-text-3xl), 8vw, var(--coac-text-5xl));
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.coac-hero__question {
+  display: block;
+}
+
+.coac-hero__where {
+  display: block;
+  color: var(--coac-on-header-accent);
+  font-weight: 700;
+}
+
+.coac-hero__phase {
+  margin: var(--luz-space-2xs) 0 0;
+  padding: var(--luz-space-3xs) var(--luz-space-sm);
+  border: 1px solid currentColor;
+  border-radius: var(--luz-radius-full);
+  color: var(--coac-on-header-accent);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+}
+
+.coac-hero__description {
+  max-inline-size: 38ch;
+  margin: 0;
+  color: var(--coac-header-text);
+  font-size: var(--luz-text-sm);
+  line-height: 1.375rem;
+  text-wrap: pretty;
+}
+
+/* Cuenta atrás integrada en el hero: sin caja ni filetes, centrada */
+.coac-hero__aside .coac-countdown {
+  background: none;
+}
+
+.coac-hero__aside .coac-countdown__units {
+  gap: var(--luz-space-2xs);
+}
+
+/* Rótulos DÍAS, HORAS… pequeños y separados de las cifras para que no compitan con ellas */
+.coac-hero__aside .coac-countdown__unit {
+  gap: var(--luz-space-xs);
+}
+
+.coac-hero__aside .coac-countdown__name {
+  font-size: calc(var(--luz-text-xs) * 0.75);
+  letter-spacing: 0.1em;
+  line-height: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .coac-hero__description {
+    font-size: var(--luz-text-lg);
+    line-height: 1.75rem;
+  }
+
+  .coac-hero__aside .coac-countdown__units {
+    gap: var(--luz-space-xs);
+  }
+}

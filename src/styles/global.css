@@ -110,3 +110,10 @@ h3,
 h4 {
   text-wrap: pretty;
 }
+
+/* La barra fija superior (móvil y tablet) no tapa el destino de un ancla */
+@media (max-width: 63.999rem) {
+  html {
+    scroll-padding-block-start: calc(var(--coac-topbar-height) + var(--luz-space-xl));
+  }
+}

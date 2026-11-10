@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /** Despliega el `<details>` que es (o contiene) el elemento con ese id. */
-function openDetailsFor(id: string) {
+export function openDetailsFor(id: string) {
   const target = document.getElementById(id);
   if (!target) return;
   const details = target instanceof HTMLDetailsElement ? target : target.closest("details");
