@@ -27,7 +27,9 @@ const FACADE = [
 
 export function FallaLogo({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+    // El viewBox se ciñe al dibujo (x 3–45, y 5,5–45) y lo centra: así el logo
+    // queda centrado ópticamente junto al texto, sin aire de más arriba.
+    <svg className={className} viewBox="3 4.25 42 42" aria-hidden="true" focusable="false">
       <path d={FACADE} fill="currentColor" fillRule="evenodd" />
     </svg>
   );
