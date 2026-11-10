@@ -46,6 +46,30 @@ export const BroadcastIcon = ({ inline }: { inline?: boolean }) => (
   />
 );
 
+/**
+ * Emisión en vivo, ((•)): punto macizo con dos ondas a cada lado. El punto
+ * lleva su clase (`coac-icon__live-dot`) para pintarlo de rojo cuando hay
+ * alguien actuando.
+ */
+export const LiveIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.75}
+    stroke="currentColor"
+    className="coac-icon"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M8.288 15.712a5.25 5.25 0 0 1 0-7.424m7.424 0a5.25 5.25 0 0 1 0 7.424M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788"
+    />
+    <circle className="coac-icon__live-dot" cx="12" cy="12" r="2.25" fill="currentColor" stroke="none" />
+  </svg>
+);
+
 /** Triángulo de reproducir, para los enlaces a vídeo. */
 export const PlayIcon = ({ inline }: { inline?: boolean }) => (
   <Icon
