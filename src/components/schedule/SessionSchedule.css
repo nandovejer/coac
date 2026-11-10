@@ -1,25 +1,25 @@
 .coac-schedule {
-  max-inline-size: var(--coac-measure-session);
-  margin-inline: auto;
+  max-inline-size: var(--coac-measure-wide);
+}
+
+.coac-schedule__section + .coac-schedule__section {
+  margin-block-start: var(--luz-space-2xl);
 }
 
 .coac-schedule__title {
-  margin: var(--luz-space-md);
-  margin-block-start: var(--luz-space-xl);
+  margin: 0;
   font-size: var(--coac-text-2xl);
   line-height: var(--coac-leading-2xl);
-  text-align: center;
   text-transform: uppercase;
 }
 
 .coac-schedule__title--past {
   filter: grayscale(100%);
-  cursor: pointer;
 }
 
 @media (min-width: 48rem) {
   .coac-schedule__title {
-    font-size: var(--coac-text-4xl);
-    line-height: var(--coac-leading-4xl);
+    font-size: var(--coac-text-3xl);
+    line-height: var(--coac-leading-3xl);
   }
 }

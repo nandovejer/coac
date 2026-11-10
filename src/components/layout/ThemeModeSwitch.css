@@ -6,3 +6,10 @@
   inset-block-end: calc(var(--coac-nav-height) + var(--luz-space-md));
   z-index: calc(var(--luz-z-raised) + 1);
 }
+
+/* En escritorio no hay menú inferior. */
+@media (min-width: 64rem) {
+  .luz-theme-mode__button--fixed {
+    inset-block-end: var(--luz-space-md);
+  }
+}

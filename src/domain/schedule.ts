@@ -23,6 +23,8 @@ export interface SessionView {
   date: string;
   status: SessionStatus;
   startsAt: Date;
+  /** Hora estimada de fin (`HH:mm`): la última agrupación más su duración. */
+  estimatedEndTime: string;
   performances: PerformanceView[];
 }
 
@@ -32,8 +34,13 @@ export interface Schedule {
   past: SessionView[];
   present: SessionView | null;
   future: SessionView[];
-  /** Primera sesión futura, para la cuenta atrás. */
+  /** Primera sesión futura. */
   nextSession: SessionView | null;
+  /**
+   * Próxima sesión que aún no ha empezado, para la cuenta atrás: la de hoy si
+   * todavía no son las `sessionStartTime`; si no, la primera futura.
+   */
+  upcomingSession: SessionView | null;
 }
 
 /**
@@ -112,6 +119,7 @@ export function buildSchedule(sessions: SessionsData, now: Date, config: Schedul
       date,
       status,
       startsAt,
+      estimatedEndTime: estimateGroupTime(sessionStartTime, groups.length, minutesPerGroup),
       performances: groups.map((group, index) => ({
         group,
         estimatedTime: estimateGroupTime(sessionStartTime, index, minutesPerGroup),
@@ -124,5 +132,8 @@ export function buildSchedule(sessions: SessionsData, now: Date, config: Schedul
     else future.push(view);
   }
 
-  return { activeSessionDate, past, present, future, nextSession: future[0] ?? null };
+  const nextSession = future[0] ?? null;
+  const upcomingSession = present && now < present.startsAt ? present : nextSession;
+
+  return { activeSessionDate, past, present, future, nextSession, upcomingSession };
 }

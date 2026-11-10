@@ -1,10 +1,8 @@
 .coac-previous {
-  inline-size: 100%;
-  overflow: hidden;
+  min-inline-size: 0;
   font-size: var(--luz-text-xs);
   line-height: 1rem;
-  text-align: right;
-  text-overflow: ellipsis;
+  text-wrap: pretty;
 }
 
 .coac-previous__link {

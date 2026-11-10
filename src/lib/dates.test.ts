@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   formatLongDate,
+  formatShortDate,
   formatMinutesOfDay,
   formatSessionDate,
   getZonedParts,
@@ -88,5 +89,16 @@ describe("zonas horarias (el proceso corre en UTC)", () => {
     const after = zonedTimeToInstant({ year: 2026, month: 3, day: 29 }, 20, 0, "Europe/Madrid");
     expect(before.toISOString()).toBe("2026-03-28T19:00:00.000Z");
     expect(after.toISOString()).toBe("2026-03-29T18:00:00.000Z");
+  });
+});
+
+describe("formatShortDate", () => {
+  it("escribe el día de la semana abreviado y el día", () => {
+    expect(formatShortDate("12/02/2026")).toBe("jue 12");
+    expect(formatShortDate("09/01/2027")).toBe("sáb 9");
+  });
+
+  it("no lanza con una fecha inválida", () => {
+    expect(formatShortDate("mañana")).toBe("mañana");
   });
 });

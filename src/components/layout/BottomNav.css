@@ -43,3 +43,10 @@
     line-height: 1.25rem;
   }
 }
+
+/* En escritorio el panel lateral ya tiene el índice, el buscador y el directo. */
+@media (min-width: 64rem) {
+  .coac-bottom-nav {
+    display: none;
+  }
+}

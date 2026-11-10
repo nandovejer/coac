@@ -1,41 +1,51 @@
-import type { Schedule } from "../../domain/schedule";
+import type { Schedule, SessionView } from "../../domain/schedule";
 import { GradientHeading } from "../ui/GradientHeading";
 import { SessionLineup } from "./SessionLineup";
 import "./SessionSchedule.css";
 
-const sectionTitleClass = "coac-schedule__title";
+interface SessionScheduleProps {
+  schedule: Schedule;
+  previousYear: number;
+}
 
-/** Reparte las sesiones en hoy / próximas / pasadas. */
-export function SessionSchedule({ schedule: { present, future, past } }: { schedule: Schedule }) {
-  const onlyPastSessions = present === null && future.length === 0;
+/**
+ * Reparte las sesiones en hoy / próximas / pasadas (las pasadas, de la más
+ * reciente a la más antigua). Se despliegan la de hoy y la siguiente; si la
+ * fase ya terminó, la última. El resto, plegadas.
+ */
+export function SessionSchedule({ schedule: { present, future, past }, previousYear }: SessionScheduleProps) {
+  const focus = present ?? future[0] ?? past.at(-1);
+  const isOpen = (session: SessionView) => session === focus || (present !== null && session === future[0]);
+  const lineup = (session: SessionView) => (
+    <SessionLineup
+      key={session.date}
+      session={session}
+      previousYear={previousYear}
+      defaultOpen={isOpen(session)}
+    />
+  );
 
   return (
     <div className="coac-schedule">
       {present && (
-        <div id="session-present">
-          <GradientHeading className={sectionTitleClass}>Sesión de Hoy</GradientHeading>
-          <SessionLineup session={present} />
-        </div>
+        <section id="session-present" className="coac-schedule__section">
+          <GradientHeading className="coac-schedule__title">Sesión de Hoy</GradientHeading>
+          {lineup(present)}
+        </section>
       )}
       {future.length > 0 && (
-        <div id="session-future">
-          <GradientHeading className={sectionTitleClass}>Próximas sesiones</GradientHeading>
-          {future.map((session) => (
-            <SessionLineup key={session.date} session={session} />
-          ))}
-        </div>
+        <section id="session-future" className="coac-schedule__section">
+          <GradientHeading className="coac-schedule__title">Próximas sesiones</GradientHeading>
+          {future.map(lineup)}
+        </section>
       )}
       {past.length > 0 && (
-        // Si la fase ya terminó (no queda sesión de hoy ni futura) abrimos el
-        // bloque: si no, la página se vería vacía con todo plegado aquí dentro.
-        <details id="session-past" open={onlyPastSessions}>
-          <GradientHeading as="summary" className={`${sectionTitleClass} coac-schedule__title--past`}>
+        <section id="session-past" className="coac-schedule__section">
+          <GradientHeading className="coac-schedule__title coac-schedule__title--past">
             Sesiones Pasadas
           </GradientHeading>
-          {past.map((session) => (
-            <SessionLineup key={session.date} session={session} />
-          ))}
-        </details>
+          {[...past].reverse().map(lineup)}
+        </section>
       )}
     </div>
   );

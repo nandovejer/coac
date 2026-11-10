@@ -46,6 +46,9 @@
   --coac-nav-text: #ffffff;
   --coac-nav-hover-from: #3b82f6;
   --coac-nav-hover-to: #60a5fa;
+  /* Botón "Ver el directo" y día de hoy en el índice: sólido para que el texto cumpla AA */
+  --coac-cta-bg: #1d4ed8;
+  --coac-cta-text: #ffffff;
 
   /* Degradado de marca (títulos, cabecera de sesión, etiqueta de cuenta atrás) */
   --coac-gradient-from: #3b82f6;
@@ -111,6 +114,8 @@
   --coac-nav-text: #f9fafb;
   --coac-nav-hover-from: #1d4ed8;
   --coac-nav-hover-to: #2563eb;
+  --coac-cta-bg: #1d4ed8;
+  --coac-cta-text: #ffffff;
 
   --coac-gradient-from: #60a5fa;
   --coac-gradient-to: #2dd4bf;
@@ -172,6 +177,8 @@
   --coac-nav-text: #ffffff;
   --coac-nav-hover-from: #00256c;
   --coac-nav-hover-to: #00256c;
+  --coac-cta-bg: #00256c;
+  --coac-cta-text: #ffffff;
 
   --coac-gradient-from: #00256c;
   --coac-gradient-to: #00256c;

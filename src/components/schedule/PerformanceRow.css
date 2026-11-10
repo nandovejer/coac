@@ -1,6 +1,17 @@
+/*
+ * Fila del programa. Las columnas las define .coac-session__lineup
+ * (--coac-lineup-columns) para que la cabecera y las filas cuadren.
+ */
 .coac-performance {
-  display: flex;
-  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  grid-template-areas:
+    "time modalidad city"
+    "body body body"
+    "previous previous previous";
+  align-items: center;
+  gap: var(--luz-space-2xs) var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
 }
 
 .coac-performance[data-ranking="top"] {
@@ -18,47 +29,91 @@
   color: var(--coac-ranking-standar-text);
 }
 
-/* Modalidad, hora estimada y ciudad */
-.coac-performance__meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--luz-space-xs) 0 var(--luz-space-xs) var(--luz-space-md);
+.coac-performance__time {
+  grid-area: time;
+  font-size: var(--luz-text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1.25rem;
+  white-space: nowrap;
+}
+
+.coac-performance__approx {
   font-size: var(--luz-text-xs);
-  line-height: 1rem;
+  font-weight: 400;
 }
 
 .coac-performance__status--live {
+  padding-inline: var(--luz-space-3xs);
   background: var(--coac-live-bg);
   color: var(--coac-live-text);
+  font-size: var(--luz-text-xs);
   font-weight: 700;
-  animation: coac-blink 1s infinite;
-}
-
-.coac-performance__city {
-  overflow: hidden;
-  padding-block: var(--luz-space-xs);
-  text-overflow: ellipsis;
+  animation: coac-live-ring 1s infinite;
 }
 
 .coac-performance__body {
-  padding: var(--luz-space-md);
+  grid-area: body;
+  min-inline-size: 0;
 }
 
 .coac-performance__author {
-  overflow: hidden;
-  font-size: var(--coac-text-2xl);
+  display: block;
+  font-size: var(--luz-text-lg);
   font-weight: 700;
-  line-height: var(--coac-leading-2xl);
-  text-overflow: ellipsis;
+  line-height: 1.5rem;
   text-transform: capitalize;
   text-wrap: pretty;
 }
 
 .coac-performance__name {
   margin: 0;
-  font-size: var(--luz-text-lg);
-  line-height: 1.75rem;
+  font-size: var(--luz-text-base);
+  line-height: 1.5rem;
+}
+
+.coac-performance__modalidad {
+  grid-area: modalidad;
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+}
+
+.coac-performance__city {
+  grid-area: city;
+  overflow: hidden;
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coac-performance .coac-previous {
+  grid-area: previous;
+}
+
+/* En escritorio, columnas de tabla: Hora | Autor y agrupación | Modalidad | Localidad | Año anterior */
+@media (min-width: 48rem) {
+  .coac-performance {
+    grid-template-columns: var(--coac-lineup-columns);
+    grid-template-areas: "time body modalidad city previous";
+    align-items: start;
+    gap: var(--luz-space-md);
+  }
+
+  .coac-performance__time,
+  .coac-performance__modalidad,
+  .coac-performance__city,
+  .coac-performance .coac-previous {
+    padding-block-start: var(--luz-space-3xs);
+  }
+
+  .coac-performance__approx {
+    display: block;
+  }
+
+  .coac-performance__city {
+    white-space: normal;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -39,7 +39,16 @@ summary:hover {
   background: none;
 }
 
-/* Parpadeo del "EN DIRECTO" (se detiene con prefers-reduced-motion, ver PerformanceRow.css) */
+/* Anillo que se enciende y apaga alrededor del "EN DIRECTO": el texto no se
+   desvanece, así que su contraste no cambia (se detiene con prefers-reduced-motion,
+   ver PerformanceRow.css y LiveStatus.css). */
+@keyframes coac-live-ring {
+  50% {
+    box-shadow: 0 0 0 2px var(--coac-live-text);
+  }
+}
+
+/* Parpadeo del punto de "en directo" del índice (SessionIndex.css) */
 @keyframes coac-blink {
   0%,
   100% {

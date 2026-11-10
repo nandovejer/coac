@@ -1,0 +1,41 @@
+/* Leyenda del panel lateral (sobre el fondo de la cabecera). */
+.coac-legend {
+  color: var(--coac-header-text);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-legend__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-2xs) var(--luz-space-md);
+  margin: 0 0 var(--luz-space-2xs);
+  padding: 0;
+  list-style: none;
+}
+
+.coac-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-2xs);
+}
+
+.coac-legend__swatch {
+  inline-size: 1rem;
+  block-size: 1rem;
+  border-radius: var(--luz-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--coac-header-text);
+}
+
+.coac-legend__swatch[data-ranking="top"] {
+  background: var(--coac-ranking-top-bg);
+}
+
+.coac-legend__swatch[data-ranking="ok"] {
+  background: var(--coac-ranking-ok-bg);
+}
+
+.coac-legend__note {
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
+}

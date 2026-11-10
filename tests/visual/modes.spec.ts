@@ -90,8 +90,11 @@ test("el modo guardado se aplica antes de que cargue la app (sin destello)", asy
 
 test("el botón del selector no tapa el menú inferior", async ({ page }) => {
   await page.goto("./");
+  const menu = page.locator(".coac-bottom-nav");
+  // En escritorio no hay menú inferior: el panel lateral tiene sus enlaces.
+  test.skip(!(await menu.isVisible()), "sin menú inferior en este ancho");
   const button = await page.locator(".luz-theme-mode__button--fixed").boundingBox();
-  const nav = await page.locator("nav[aria-label]").boundingBox();
+  const nav = await menu.boundingBox();
   expect(button && nav).toBeTruthy();
   expect(button!.y + button!.height).toBeLessThanOrEqual(nav!.y);
 });

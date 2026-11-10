@@ -1,27 +1,60 @@
 .coac-session {
-  padding: var(--luz-space-md);
-  margin-block-start: var(--luz-space-xl);
+  margin-block-start: var(--luz-space-lg);
+  border-radius: var(--coac-radius-lg);
+  background: var(--luz-surface);
+  box-shadow: var(--coac-shadow-raised);
+  overflow: hidden;
 }
 
 .coac-session[data-status="present"] {
-  border-radius: var(--coac-radius-lg);
-  background: var(--luz-surface);
   box-shadow: var(--coac-shadow-session);
 }
 
-.coac-session[data-status="past"] {
-  opacity: 0.5;
-  filter: grayscale(100%);
+.coac-session__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--luz-space-3xs) var(--luz-space-md);
+  padding: var(--luz-space-md);
+  cursor: pointer;
+  list-style: none;
 }
 
-.coac-session[data-status="past"]:hover {
-  opacity: 1;
+.coac-session__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Flecha de plegar, dibujada con bordes para que herede el color del texto. */
+.coac-session__summary::before {
+  content: "";
+  align-self: center;
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  margin-inline-end: var(--luz-space-3xs);
+  border-block-end: 2px solid currentColor;
+  border-inline-end: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s;
+}
+
+.coac-session[open] > .coac-session__summary::before {
+  transform: rotate(45deg);
 }
 
 .coac-session__title {
-  margin-block-end: var(--luz-space-md);
+  margin: 0;
   font-size: var(--coac-text-2xl);
   line-height: var(--coac-leading-2xl);
+}
+
+.coac-session[data-status="past"] .coac-session__title {
+  filter: grayscale(100%);
+}
+
+.coac-session__meta {
+  color: var(--luz-text-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
 }
 
 .coac-session__scroller {
@@ -46,7 +79,9 @@
   border-radius: var(--luz-radius-md);
 }
 
+/* Columnas compartidas por la cabecera y las filas (PerformanceRow.css). */
 .coac-session__lineup {
+  --coac-lineup-columns: 5rem minmax(12rem, 1fr) 6.5rem 7rem minmax(8rem, 12rem);
   min-inline-size: 100%;
 }
 
@@ -55,14 +90,13 @@
   border-block-start: 1px solid var(--coac-border);
 }
 
+/* En móvil las filas se apilan y la cabecera de columnas sobra. */
 .coac-session__head {
-  display: flex;
-  flex: 1 1 auto;
+  display: none;
   background-image: linear-gradient(to right, var(--coac-gradient-from), var(--coac-gradient-to));
 }
 
 .coac-session__head-cell {
-  padding: var(--luz-space-sm) var(--luz-space-md);
   color: var(--coac-on-gradient);
   font-size: var(--luz-text-xs);
   font-weight: 500;
@@ -75,5 +109,12 @@
   .coac-session__title {
     font-size: var(--coac-text-3xl);
     line-height: var(--coac-leading-3xl);
+  }
+
+  .coac-session__head {
+    display: grid;
+    grid-template-columns: var(--coac-lineup-columns);
+    gap: var(--luz-space-md);
+    padding: var(--luz-space-sm) var(--luz-space-md);
   }
 }

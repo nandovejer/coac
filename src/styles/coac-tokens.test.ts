@@ -56,6 +56,8 @@ const pairs: Array<[string, string, number]> = [
   ["--coac-nav-text", "--coac-nav-bg", 4.5],
   ["--coac-nav-text", "--coac-nav-hover-from", 4.5],
   ["--coac-nav-text", "--coac-nav-hover-to", 4.5],
+  ["--coac-cta-text", "--coac-cta-bg", 4.5],
+  ["--coac-cta-text", "--coac-header-bg", 4.5],
   ["--coac-on-gradient", "--coac-gradient-from", 4.5],
   ["--coac-on-gradient", "--coac-gradient-to", 4.5],
   ["--coac-on-header-from", "--coac-header-bg", 4.5],

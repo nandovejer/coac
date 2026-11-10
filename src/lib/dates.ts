@@ -137,3 +137,14 @@ export function formatLongDate(value: string): string {
     timeZone: "UTC",
   });
 }
+
+/** `dd/mm/yyyy` → "sáb 9" (para índices y listas cortas). */
+export function formatShortDate(value: string): string {
+  const date = parseSessionDate(value);
+  if (!date) return value;
+
+  const weekday = new Date(Date.UTC(date.year, date.month - 1, date.day, 12))
+    .toLocaleDateString("es-ES", { weekday: "short", timeZone: "UTC" })
+    .replace(".", "");
+  return `${weekday} ${date.day}`;
+}

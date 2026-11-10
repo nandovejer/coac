@@ -113,6 +113,22 @@ describe("buildSchedule", () => {
     expect(schedule.past[0].performances.some((p) => p.isLive)).toBe(false);
   });
 
+  it("estima la hora de fin de cada sesión", () => {
+    const schedule = buildSchedule(sessions, at("2026-02-12T21:00:00+01:00"), config);
+
+    expect(schedule.present?.estimatedEndTime).toBe("22:15");
+    expect(schedule.past[0].estimatedEndTime).toBe("21:30");
+  });
+
+  it("la cuenta atrás apunta a la sesión de hoy mientras no ha empezado", () => {
+    const before = buildSchedule(sessions, at("2026-02-12T18:30:00+01:00"), config);
+    expect(before.present?.date).toBe("12/02/2026");
+    expect(before.upcomingSession?.date).toBe("12/02/2026");
+
+    const live = buildSchedule(sessions, at("2026-02-12T21:00:00+01:00"), config);
+    expect(live.upcomingSession?.date).toBe("13/02/2026");
+  });
+
   it("antes de la primera sesión todo es futuro y hay cuenta atrás", () => {
     const schedule = buildSchedule(sessions, at("2026-02-09T12:00:00+01:00"), config);
 
@@ -120,6 +136,7 @@ describe("buildSchedule", () => {
     expect(schedule.past).toEqual([]);
     expect(schedule.nextSession?.date).toBe("11/02/2026");
     expect(schedule.nextSession?.startsAt.toISOString()).toBe("2026-02-11T19:00:00.000Z");
+    expect(schedule.upcomingSession).toBe(schedule.nextSession);
   });
 
   it("de madrugada la sesión de ayer sigue siendo la de hoy", () => {
@@ -127,6 +144,7 @@ describe("buildSchedule", () => {
 
     expect(schedule.present?.date).toBe("12/02/2026");
     expect(schedule.present?.performances.every((p) => !p.isLive)).toBe(true);
+    expect(schedule.upcomingSession?.date).toBe("13/02/2026");
   });
 
   it("terminada la fase solo quedan sesiones pasadas", () => {
@@ -135,6 +153,7 @@ describe("buildSchedule", () => {
     expect(schedule.present).toBeNull();
     expect(schedule.future).toEqual([]);
     expect(schedule.nextSession).toBeNull();
+    expect(schedule.upcomingSession).toBeNull();
     expect(schedule.past.map((s) => s.date)).toEqual(["11/02/2026", "12/02/2026", "13/02/2026"]);
   });
 });

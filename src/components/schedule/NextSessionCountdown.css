@@ -150,3 +150,29 @@
     line-height: 1.25rem;
   }
 }
+
+/* En el panel lateral de escritorio el reloj cabe en 22rem: vuelve al tamaño de móvil. */
+@media (min-width: 64rem) {
+  .coac-countdown {
+    padding-block: 0;
+  }
+
+  .coac-countdown__label {
+    font-size: var(--luz-text-sm);
+    line-height: 1.25rem;
+  }
+
+  .coac-countdown__units {
+    gap: var(--luz-space-xs);
+  }
+
+  .coac-countdown__value,
+  .coac-countdown__separator {
+    font-size: var(--coac-text-3xl);
+  }
+
+  .coac-countdown__name {
+    font-size: var(--luz-text-xs);
+    line-height: 1rem;
+  }
+}

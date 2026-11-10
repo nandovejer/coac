@@ -1,0 +1,60 @@
+/*
+ * Distribución de la página: panel lateral fijo con el fondo de la cabecera y
+ * el programa al lado. Por debajo de 64rem el panel va arriba, a lo ancho.
+ */
+.coac-layout {
+  display: grid;
+  /* minmax(0, …): la fila con scroll del índice no puede ensanchar la página */
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.coac-layout__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--luz-space-lg);
+  padding: var(--luz-space-lg) var(--luz-space-md);
+  background: var(--coac-header-bg);
+  color: var(--coac-header-text);
+}
+
+.coac-layout__live {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 3rem;
+  border-radius: var(--coac-radius-lg);
+  background: var(--coac-cta-bg);
+  color: var(--coac-cta-text);
+  font-weight: 700;
+}
+
+.coac-layout__live:hover {
+  background-image: linear-gradient(to right, var(--coac-nav-hover-from), var(--coac-nav-hover-to));
+}
+
+.coac-layout__main {
+  min-inline-size: 0;
+  padding: var(--luz-space-xl) var(--luz-space-md);
+}
+
+@media (min-width: 64rem) {
+  .coac-layout {
+    grid-template-columns: 22rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .coac-layout__side {
+    position: sticky;
+    top: 0;
+    min-block-size: 100dvh;
+    max-block-size: 100dvh;
+    overflow-y: auto;
+    padding: var(--luz-space-xl) var(--luz-space-lg);
+    scrollbar-width: thin;
+  }
+
+  .coac-layout__main {
+    padding: var(--luz-space-xl) var(--luz-space-2xl);
+  }
+}

@@ -6,6 +6,8 @@
   border-radius: var(--coac-radius-lg);
   background: var(--luz-surface);
   box-shadow: var(--coac-shadow-raised);
+  /* Va dentro del panel lateral, que tiene el texto claro de la cabecera. */
+  color: var(--luz-text-primary);
 }
 
 .coac-search__title {
@@ -61,5 +63,17 @@
   .coac-search__title {
     font-size: var(--coac-text-3xl);
     line-height: var(--coac-leading-3xl);
+  }
+}
+
+/* En el panel lateral de escritorio, más compacto. */
+@media (min-width: 64rem) {
+  .coac-search {
+    padding: var(--luz-space-md);
+  }
+
+  .coac-search__title {
+    font-size: var(--coac-text-2xl);
+    line-height: var(--coac-leading-2xl);
   }
 }
