@@ -27,10 +27,10 @@ export const SEASON = {
   // Las sesiones empiezan a esta hora y se consideran del día anterior hasta
   // sessionEndTime de la madrugada siguiente (ver utils/handleDate).
   sessionStartTime: "20:00",
-  // Con 10 agrupaciones las sesiones de preliminares acaban sobre las 02:00.
+  // Con 10 agrupaciones las sesiones de preliminares acaban sobre las 03:00.
   sessionEndTime: "04:00",
   // Duración estimada de actuación + montaje en preliminares.
-  minutesPerGroup: 35,
+  minutesPerGroup: 45,
 } as const;
 
 // JSON de la fase tal cual (lo valida `validateSessions` en el build).
