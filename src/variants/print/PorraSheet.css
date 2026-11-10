@@ -1,0 +1,214 @@
+/*
+ * Hoja de la porra. Se apoya en la del horario (.coac-print-sheet: papel,
+ * tinta, cabecera y pie) y añade las casillas, las columnas y la tabla de premios.
+ */
+.coac-porra__question {
+  font-size: var(--luz-text-base);
+  font-weight: 800;
+}
+
+/* Huecos para escribir a mano */
+.coac-porra__fill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-xs) var(--luz-space-xl);
+  margin-block-start: var(--luz-space-xs);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+}
+
+.coac-porra__fill > span {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: var(--luz-space-xs);
+}
+
+.coac-porra__line {
+  display: inline-block;
+  inline-size: 3rem;
+  border-block-end: 1px solid var(--ps-ink);
+}
+
+.coac-porra__line--long {
+  inline-size: 12rem;
+}
+
+/* Casilla para marcar con boli */
+.coac-porra__box {
+  display: inline-block;
+  flex: none;
+  box-sizing: border-box;
+  inline-size: 0.85rem;
+  block-size: 0.85rem;
+  border: 1px solid var(--ps-ink);
+  background: #ffffff;
+}
+
+.coac-print-sheet .coac-porra__modalidad {
+  margin-block-end: var(--luz-space-2xs);
+  padding-block-end: var(--luz-space-3xs);
+  border-block-end: 1px solid var(--ps-ink);
+  font-size: var(--luz-text-sm);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.coac-porra__modalidad span {
+  color: var(--ps-muted);
+  font-weight: 400;
+}
+
+/* ---- ¿Quién pasa? Tres columnas (dos en pantallas estrechas) ---- */
+.coac-porra__columns {
+  column-count: 2;
+  column-gap: var(--luz-space-lg);
+}
+
+@media (min-width: 40rem) {
+  .coac-porra__columns {
+    column-count: 3;
+  }
+}
+
+.coac-porra__section {
+  margin-block-end: var(--luz-space-md);
+}
+
+.coac-porra__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coac-porra__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--luz-space-xs);
+  padding-block: 0.2rem;
+  font-size: var(--luz-text-xs);
+  line-height: 1.25;
+  break-inside: avoid;
+}
+
+.coac-porra__item .coac-porra__box {
+  margin-block-start: 0.05rem;
+}
+
+/* ---- Final: tabla de premios por modalidad ---- */
+.coac-porra[data-kind="prizes"] .coac-porra__section {
+  break-inside: avoid;
+}
+
+.coac-porra__prizes {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--luz-text-xs);
+}
+
+.coac-porra__prizes th {
+  padding: var(--luz-space-3xs) var(--luz-space-xs);
+  border-block-end: 1px solid var(--ps-ink);
+  background: none;
+  color: var(--ps-muted);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  text-align: center;
+}
+
+.coac-porra__prizes th:first-child {
+  padding-inline-start: 0;
+  text-align: start;
+}
+
+.coac-porra__prizes td {
+  padding: var(--luz-space-xs);
+  border-block-end: 1px solid var(--ps-line);
+  background: none;
+  color: var(--ps-ink);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.coac-porra__prizes td:first-child {
+  padding-inline-start: 0;
+  text-align: start;
+}
+
+.coac-porra__prizes th:not(:first-child),
+.coac-porra__prizes td:not(:first-child) {
+  inline-size: 3rem;
+}
+
+.coac-porra__prizes .coac-porra__box {
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+  vertical-align: middle;
+}
+
+.coac-porra__name {
+  display: block;
+  font-weight: 700;
+}
+
+/* ---- En papel: todo en un A4 ---- */
+@media print {
+  .coac-porra__head {
+    margin-block-end: 10pt;
+  }
+
+  .coac-porra__question {
+    font-size: 12pt;
+  }
+
+  .coac-porra__fill {
+    margin-block-start: 6pt;
+    font-size: 9pt;
+  }
+
+  .coac-porra__columns {
+    column-count: 3;
+    column-gap: 14pt;
+  }
+
+  .coac-porra__section {
+    margin-block-end: 8pt;
+  }
+
+  .coac-porra__modalidad {
+    margin-block-end: 3pt;
+    font-size: 9pt;
+    break-after: avoid;
+  }
+
+  .coac-porra__item {
+    gap: 4pt;
+    padding-block: 1.6pt;
+    font-size: 7.5pt;
+  }
+
+  .coac-porra__box {
+    inline-size: 8pt;
+    block-size: 8pt;
+    border-width: 0.8pt;
+  }
+
+  .coac-porra__prizes,
+  .coac-porra__prizes th {
+    font-size: 8.5pt;
+  }
+
+  .coac-porra__prizes td {
+    padding: 2.5pt 4pt;
+    line-height: 1.2;
+  }
+
+  .coac-porra__prizes .coac-porra__box {
+    inline-size: 11pt;
+    block-size: 11pt;
+  }
+
+  .coac-porra[data-kind="prizes"] .coac-porra__section {
+    margin-block-end: 8pt;
+  }
+}

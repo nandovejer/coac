@@ -1,0 +1,266 @@
+/*
+ * Hoja del horario: papel blanco y tinta negra en cualquier modo de color
+ * (es lo que sale por la impresora). La vista previa del modal la muestra igual.
+ */
+.coac-print-sheet {
+  --ps-ink: #111111;
+  --ps-muted: #4b4b4b;
+  --ps-line: #c8c8c8;
+  --ps-top: #15803d;
+  --ps-ok: #a16207;
+  --ps-head: #e8e8e8;
+  --ps-zebra: #f4f4f4;
+
+  display: grid;
+  gap: var(--luz-space-lg);
+  padding: var(--luz-space-lg);
+  background: #ffffff;
+  color: var(--ps-ink);
+  font-family: var(--luz-font-sans);
+  font-size: var(--luz-text-sm);
+  letter-spacing: normal;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.coac-print-sheet p,
+.coac-print-sheet h2,
+.coac-print-sheet h3 {
+  margin: 0;
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.coac-print-sheet__head {
+  display: grid;
+  gap: var(--luz-space-3xs);
+  padding-block-end: var(--luz-space-sm);
+  border-block-end: 2px solid var(--ps-ink);
+}
+
+.coac-print-sheet__brand {
+  color: var(--ps-muted);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-print-sheet__title {
+  font-size: var(--luz-text-xl);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.coac-print-sheet__note {
+  color: var(--ps-muted);
+  font-size: var(--luz-text-xs);
+}
+
+/* Semáforo con forma: círculo lleno (imprescindible) o anillo (recomendada) */
+.coac-print-sheet__mark {
+  display: inline-block;
+  box-sizing: border-box;
+  inline-size: 0.6em;
+  block-size: 0.6em;
+  margin-inline: 0.15em 0.4em;
+  border-radius: 50%;
+  vertical-align: 0.05em;
+}
+
+.coac-print-sheet__mark[data-ranking="top"] {
+  background: var(--ps-top);
+}
+
+.coac-print-sheet__mark[data-ranking="ok"] {
+  border: 0.14em solid var(--ps-ok);
+}
+
+/* Dos columnas de sesiones, como en el papel, cuando la vista previa tiene
+   ancho para dos tablas; en el móvil, una (si no, no se leería) */
+.coac-print-sheet {
+  container-type: inline-size;
+}
+
+.coac-print-sheet__sessions {
+  column-gap: var(--luz-space-md);
+}
+
+@container (min-width: 34rem) {
+  .coac-print-sheet__sessions {
+    column-count: 2;
+  }
+}
+
+/* Cada sesión entera en una columna: nunca se parte */
+.coac-print-sheet__session {
+  display: block;
+  margin-block-end: var(--luz-space-md);
+  break-inside: avoid;
+}
+
+.coac-print-sheet__day {
+  margin-block-end: var(--luz-space-3xs);
+  font-size: var(--luz-text-sm);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.coac-print-sheet__day span {
+  color: var(--ps-muted);
+  font-weight: 400;
+}
+
+/* Una tabla de verdad: cabecera gris, rejilla fina y filas alternas */
+.coac-print-sheet__table {
+  inline-size: 100%;
+  border: 1px solid var(--ps-ink);
+  border-collapse: collapse;
+  font-size: var(--luz-text-xs);
+  table-layout: fixed;
+}
+
+.coac-print-sheet__table th {
+  padding: var(--luz-space-3xs) var(--luz-space-xs);
+  border: 1px solid var(--ps-line);
+  border-block-end-color: var(--ps-ink);
+  background: var(--ps-head);
+  color: var(--ps-ink);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: start;
+  text-transform: uppercase;
+}
+
+.coac-print-sheet__table abbr {
+  text-decoration: none;
+}
+
+.coac-print-sheet__table td {
+  padding: var(--luz-space-3xs) var(--luz-space-xs);
+  border: 1px solid var(--ps-line);
+  background: none;
+  color: var(--ps-ink);
+  line-height: 1.25;
+  vertical-align: top;
+}
+
+.coac-print-sheet__table tbody tr:nth-child(even) td {
+  background: var(--ps-zebra);
+}
+
+/* Nº de orden de actuación: estrecho, alineado a la derecha */
+.coac-print-sheet__table .coac-print-sheet__order {
+  inline-size: 1.75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  text-align: end;
+}
+
+.coac-print-sheet__table .coac-print-sheet__modalidad {
+  inline-size: 5rem;
+}
+
+.coac-print-sheet__name {
+  display: block;
+  font-weight: 700;
+}
+
+.coac-print-sheet__meta {
+  display: block;
+  color: var(--ps-muted);
+}
+
+.coac-print-sheet__author {
+  text-transform: capitalize;
+}
+
+.coac-print-sheet__foot {
+  padding-block-start: var(--luz-space-xs);
+  border-block-start: 1px solid var(--ps-line);
+  color: var(--ps-muted);
+  font-size: var(--luz-text-xs);
+}
+
+/* ---- En papel: tamaños en puntos, dos columnas y sin cortar sesiones ---- */
+@media print {
+  /* En bloque (no en rejilla): así se respetan los saltos de página */
+  .coac-print-sheet,
+  .coac-print-sheet__head {
+    display: block;
+  }
+
+  .coac-print-sheet {
+    padding: 0;
+    font-size: 8pt;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .coac-print-sheet__head {
+    margin-block-end: 10pt;
+  }
+
+  .coac-print-sheet__title {
+    font-size: 15pt;
+  }
+
+  .coac-print-sheet__brand,
+  .coac-print-sheet__note,
+  .coac-print-sheet__foot {
+    font-size: 7pt;
+  }
+
+  .coac-print-sheet__sessions {
+    column-count: 2;
+    column-gap: 16pt;
+  }
+
+  .coac-print-sheet__session {
+    margin-block-end: 10pt;
+  }
+
+  .coac-print-sheet__day {
+    margin-block-end: 2pt;
+    font-size: 9.5pt;
+  }
+
+  .coac-print-sheet__table {
+    border-width: 0.75pt;
+    font-size: 8pt;
+  }
+
+  .coac-print-sheet__table th {
+    padding: 1.5pt 3pt;
+    border-width: 0.5pt;
+    font-size: 6.5pt;
+  }
+
+  .coac-print-sheet__table td {
+    padding: 1.5pt 3pt;
+    border-width: 0.5pt;
+  }
+
+  .coac-print-sheet__table .coac-print-sheet__order {
+    inline-size: 17pt;
+  }
+
+  .coac-print-sheet__table .coac-print-sheet__modalidad {
+    inline-size: 52pt;
+  }
+
+  .coac-print-sheet__meta {
+    font-size: 7pt;
+  }
+
+  .coac-print-sheet__table tr {
+    break-inside: avoid;
+  }
+
+  .coac-print-sheet__foot {
+    margin-block-start: 4pt;
+  }
+}

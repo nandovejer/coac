@@ -1,0 +1,409 @@
+/*
+ * Modal «Imprime tu horario». Va dentro de .coac-vc, así que usa sus colores
+ * (--vc-*) y su piel. Este CSS solo se descarga al abrir el modal.
+ */
+.coac-print-dialog {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--vc-bg);
+  color: var(--vc-text);
+}
+
+.coac-print-dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+.coac-print-dialog__panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  block-size: 100%;
+}
+
+.coac-print-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border-block-end: 1px solid var(--vc-line);
+}
+
+.coac-print-dialog__title {
+  margin: 0;
+  color: var(--vc-text);
+  font-family: inherit;
+  font-size: var(--luz-text-lg);
+  font-weight: 800;
+  line-height: 1.5rem;
+}
+
+.coac-vc .coac-print-dialog__close {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid transparent;
+}
+
+.coac-vc .coac-print-dialog__close:hover {
+  border-color: var(--vc-muted);
+}
+
+.coac-print-dialog__body {
+  display: grid;
+  align-content: start;
+  gap: var(--luz-space-lg);
+  padding: var(--luz-space-md);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ---- Filtros ---- */
+.coac-print-filters {
+  display: grid;
+  gap: var(--luz-space-md);
+  min-inline-size: 0;
+}
+
+.coac-print-filters__group {
+  display: grid;
+  gap: var(--luz-space-xs);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* Sin el fondo que Luz da a los fieldset */
+  background: none;
+}
+
+.coac-print-filters__group legend {
+  margin-block-end: var(--luz-space-xs);
+  padding: 0;
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-print-filters__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-xs);
+}
+
+.coac-vc .coac-print-filters__quick button {
+  min-block-size: 2.25rem;
+  padding-inline: var(--luz-space-sm);
+  border: 1px solid var(--vc-line);
+  background: var(--vc-card);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+}
+
+.coac-vc .coac-print-filters__quick button:hover {
+  border-color: var(--vc-muted);
+}
+
+.coac-print-filters__days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: var(--luz-space-2xs);
+}
+
+.coac-print-filters__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-2xs);
+}
+
+.coac-print-check {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 2.75rem;
+  padding-inline: var(--luz-space-sm);
+  border: 1px solid var(--vc-line);
+  background: var(--vc-card);
+  font-size: var(--luz-text-sm);
+  cursor: pointer;
+}
+
+.coac-print-check:has(input:checked) {
+  border-color: var(--vc-primary);
+}
+
+.coac-print-check input {
+  flex: none;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  margin: 0;
+  accent-color: var(--vc-primary);
+}
+
+.coac-print-check > span {
+  display: grid;
+  line-height: 1.1rem;
+}
+
+.coac-print-check__day {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.coac-print-check__hint {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+}
+
+.coac-print-filters__past summary {
+  margin-block-end: var(--luz-space-xs);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  cursor: pointer;
+}
+
+.coac-print-filters__search {
+  display: grid;
+  gap: var(--luz-space-2xs);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-print-filters__search input {
+  block-size: 2.75rem;
+  padding-inline: var(--luz-space-sm);
+  border: 1px solid var(--vc-muted);
+  background: var(--vc-card);
+  color: var(--vc-text);
+  font: inherit;
+  font-size: var(--luz-text-base);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* En modo porra, los filtros que no cuentan se apagan */
+.coac-print-filters__group:disabled {
+  opacity: 0.45;
+}
+
+.coac-print-filters__group:disabled .coac-print-check,
+.coac-print-filters__group:disabled button,
+.coac-print-filters__group:disabled input {
+  cursor: not-allowed;
+}
+
+/* ---- Modo porra: un interruptor grande, con su explicación ---- */
+.coac-vc .coac-print-porra {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-md);
+  inline-size: 100%;
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border: 1px solid var(--vc-line);
+  background: var(--vc-card);
+  color: var(--vc-text);
+  text-align: start;
+}
+
+.coac-vc .coac-print-porra:hover {
+  border-color: var(--vc-muted);
+}
+
+.coac-vc .coac-print-porra[aria-checked="true"] {
+  border-color: var(--vc-primary);
+}
+
+.coac-print-porra__text {
+  display: grid;
+  flex: 1;
+  gap: var(--luz-space-3xs);
+}
+
+.coac-print-porra__label {
+  font-size: var(--luz-text-base);
+  font-weight: 800;
+}
+
+.coac-print-porra__hint {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Interruptor: carril con una bola que va a la derecha (y se rellena) al activarlo */
+.coac-print-porra__switch {
+  position: relative;
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 1.5rem;
+  border: 2px solid var(--vc-muted);
+  border-radius: var(--luz-radius-full);
+  transition: background-color 150ms ease;
+}
+
+.coac-print-porra__switch::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.125rem;
+  inset-inline-start: 0.125rem;
+  inline-size: 1rem;
+  block-size: 1rem;
+  border-radius: 50%;
+  background: var(--vc-muted);
+  transition: transform 150ms ease;
+}
+
+.coac-print-porra[aria-checked="true"] .coac-print-porra__switch {
+  border-color: var(--vc-primary);
+  background: var(--vc-primary);
+}
+
+.coac-print-porra[aria-checked="true"] .coac-print-porra__switch::after {
+  background: var(--vc-on-primary);
+  transform: translateX(1.25rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-print-porra__switch,
+  .coac-print-porra__switch::after {
+    transition: none;
+  }
+}
+
+/* ---- Vista previa: la hoja como un papel ---- */
+.coac-print-dialog__preview {
+  min-inline-size: 0;
+  padding: var(--luz-space-sm);
+  background: var(--vc-soft);
+}
+
+.coac-print-dialog__preview .coac-print-sheet {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+}
+
+.coac-print-dialog__empty {
+  margin: 0;
+  padding: var(--luz-space-xl) var(--luz-space-md);
+  color: var(--vc-muted);
+  text-align: center;
+}
+
+/* ---- Acciones, siempre a la vista abajo ---- */
+.coac-print-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--luz-space-xs) var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  padding-block-end: calc(var(--luz-space-sm) + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid var(--vc-line);
+  background: var(--vc-bg);
+}
+
+.coac-print-dialog__count {
+  flex: 1 0 100%;
+  order: -2;
+  margin: 0;
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+}
+
+/* En móvil: «Descargar PDF» a todo lo ancho; «Imprimir» e «Imagen» debajo, a medias */
+.coac-vc .coac-print-dialog__button {
+  flex: 1 1 40%;
+  min-block-size: 3rem;
+  padding-inline: var(--luz-space-md);
+  border: 1px solid var(--vc-muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.coac-vc .coac-print-dialog__button[data-primary] {
+  flex-basis: 100%;
+  order: -1;
+  border-color: var(--vc-primary);
+  background: var(--vc-primary);
+  color: var(--vc-on-primary);
+}
+
+.coac-vc .coac-print-dialog__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (min-width: 48rem) {
+  .coac-print-dialog {
+    inline-size: min(70rem, calc(100% - 2 * var(--luz-space-xl)));
+    block-size: min(52rem, calc(100dvh - 2 * var(--luz-space-xl)));
+    margin: auto;
+    border: 1px solid var(--vc-line);
+  }
+
+  .coac-print-dialog__body {
+    grid-template-columns: 20rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .coac-print-filters {
+    position: sticky;
+    inset-block-start: 0;
+  }
+
+  .coac-print-dialog__count {
+    flex-basis: auto;
+  }
+
+  .coac-vc .coac-print-dialog__button,
+  .coac-vc .coac-print-dialog__button[data-primary] {
+    flex: none;
+    order: 0;
+  }
+}
+
+/* ---- Impresión: solo la hoja, fuera de la app ---- */
+.coac-print-root {
+  display: none;
+}
+
+@media print {
+  /* Número de página al pie de cada hoja (navegadores con cajas de margen: Chrome, Edge) */
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm;
+
+    @bottom-right {
+      content: "Página " counter(page) " de " counter(pages);
+      color: #4b4b4b;
+      font-family: system-ui, sans-serif;
+      font-size: 7.5pt;
+    }
+  }
+
+  /* Solo mientras el modal está abierto: si no, la página se imprime como siempre */
+  html.coac-print-mode,
+  html.coac-print-mode body {
+    background: #ffffff !important;
+  }
+
+  html.coac-print-mode body > :not(.coac-print-root) {
+    display: none !important;
+  }
+
+  html.coac-print-mode .coac-print-root {
+    display: block;
+  }
+}
