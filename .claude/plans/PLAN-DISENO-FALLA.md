@@ -242,3 +242,14 @@ Encajan con el principio rector y no dependen de la paleta:
 hay bloque de fecha), filete en las etiquetas, serifa en las fechas, marca de la
 rueda para el favicon y las ideas de §7. No se midió Lighthouse: el cambio es
 solo de valores de color (la banda añade unos 100 bytes de CSS).
+
+### Ajustes posteriores (2026-11-10)
+
+- **Modo oscuro en azul noche, sin vino ni marrón.** A petición del usuario, las
+  superficies del oscuro pasan del telón/terciopelo a azules oscuros del marino de
+  las puertas: página `#0a0f24`, tarjetas y panel `#0f1738`, cabecera de tabla
+  `#1d2b5c`, bordes y chips `#22305f`. El oro y el candil se mantienen para
+  acentos y texto. El texto secundario y el atenuado pasan de dorado a grises
+  cálidos (`#cfc3b6`, `#b9ad9f`). Lo de telón, terciopelo y granate de §2 queda
+  como referencia, no como valores aplicados al oscuro.
+- **Botón del modo de color** en el pie de la página (el botón de Luz en línea).
