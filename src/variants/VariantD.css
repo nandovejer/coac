@@ -382,3 +382,24 @@
   background: var(--vc-card);
   color: var(--vc-text);
 }
+
+/* ---- Imprime tu horario ---- */
+.coac-vc[data-skin="board"] .coac-vc__print-title,
+.coac-vc[data-skin="board"] .coac-vc__print-button,
+.coac-vc[data-skin="board"] .coac-print-dialog__title,
+.coac-vc[data-skin="board"] .coac-print-dialog__button,
+.coac-vc[data-skin="board"] .coac-print-filters__quick button {
+  font-family: var(--vd-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__print-button,
+.coac-vc[data-skin="board"] .coac-print-dialog__button {
+  font-weight: 400;
+}
+
+/* Interruptor del «Modo porra»: recto como todo el tablero */
+.coac-vc[data-skin="board"] .coac-print-porra__switch::after {
+  border-radius: 0;
+}

@@ -183,16 +183,12 @@
   outline: none;
 }
 
+/* Solo la fachada, sin caja: en azul de marca */
 .coac-vc__logo {
-  display: grid;
   flex: none;
-  place-items: center;
-  inline-size: 2.5rem;
-  block-size: 2.5rem;
-  border-radius: 1rem;
-  padding: 0.3rem;
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  color: var(--vc-primary);
 }
 
 .coac-vc__title {
@@ -671,7 +667,10 @@ a.coac-vc__previous {
 /* ---- Pie: a todo lo ancho en móvil; en escritorio, bajo el programa ---- */
 .coac-vc__footer {
   padding: var(--luz-space-xl) var(--luz-space-md);
-  padding-block-end: calc(var(--luz-space-2xl) + env(safe-area-inset-bottom, 0px));
+  /* Más el alto del aviso de privacidad mientras se ve, para que no tape el final */
+  padding-block-end: calc(
+    var(--luz-space-2xl) + env(safe-area-inset-bottom, 0px) + var(--coac-privacy-notice-h, 0px)
+  );
   border-block-start: 1px solid var(--vc-line);
   background: var(--vc-soft);
   color: var(--vc-muted);
@@ -805,8 +804,8 @@ a.coac-vc__previous {
   }
 
   .coac-vc__logo {
-    inline-size: 3rem;
-    block-size: 3rem;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
   }
 
   .coac-vc__title {
@@ -828,6 +827,8 @@ a.coac-vc__previous {
   .coac-vc__footer {
     grid-column: 2;
     padding: var(--luz-space-xl) var(--luz-space-2xl);
+    /* Sitio para el aviso de privacidad mientras se ve (no tapa los créditos) */
+    padding-block-end: calc(var(--luz-space-xl) + var(--coac-privacy-notice-h, 0px));
     background: none;
   }
 
@@ -847,6 +848,11 @@ a.coac-vc__previous {
     gap: var(--luz-space-lg);
     max-inline-size: calc(54rem - var(--luz-space-2xl) * 2);
     text-align: start;
+  }
+
+  /* Más específico: la regla general va más abajo en el archivo */
+  .coac-vc .coac-vc__footer-text .coac-vc__footer-pages {
+    justify-content: start;
   }
 
   .coac-vc__chips {
@@ -1115,5 +1121,81 @@ a.coac-vc__previous {
   .coac-vc__live-dot,
   .coac-vc__slot[data-stage="live"] .coac-vc__dot {
     animation: none;
+  }
+}
+
+/* ---- «Imprime tu horario», al final del programa ---- */
+.coac-vc__print {
+  display: grid;
+  gap: var(--luz-space-md);
+  padding: var(--luz-space-lg);
+  border: 1px solid var(--vc-line);
+  background: var(--vc-card);
+}
+
+.coac-vc__print-text {
+  display: grid;
+  gap: var(--luz-space-2xs);
+}
+
+.coac-vc__print-title {
+  margin: 0;
+  color: var(--vc-text);
+  font-family: inherit;
+  font-size: var(--luz-text-lg);
+  font-weight: 800;
+  line-height: 1.5rem;
+}
+
+.coac-vc__print-desc {
+  margin: 0;
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+}
+
+.coac-vc .coac-vc__print-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 3rem;
+  padding-inline: var(--luz-space-lg);
+  background: var(--vc-primary);
+  color: var(--vc-on-primary);
+  font-weight: 800;
+}
+
+@media (min-width: 40rem) {
+  .coac-vc__print {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+}
+
+/* «Quiénes somos» y «Privacidad» en el pie (abren un modal) */
+.coac-vc__footer-text .coac-vc__footer-pages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--luz-space-lg);
+}
+
+.coac-vc .coac-vc__footer-page {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: var(--vc-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Con un modal abierto (imprimir, quiénes somos, privacidad), la página de
+   detrás no se mueve: un solo scroll, el del modal. El hueco de la barra se
+   mantiene para que nada salte. Solo en pantalla: en papel cortaría la hoja. */
+@media screen {
+  html:has(.coac-vc dialog[open]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
   }
 }

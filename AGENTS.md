@@ -109,7 +109,16 @@ aún no: al llevar D a la app, se aplican también ahí.
 - **Cabecera fija solo en móvil**, con el logo, el título, la fase y «Buscar».
   En escritorio, la columna izquierda fija hace ese papel.
 - **Pie**: las fases, el botón del modo de color (claro, oscuro y alto
-  contraste), la nota de horas estimadas y los créditos (Luz, autor, MIT).
+  contraste), «Quiénes somos» y «Privacidad», la nota de horas estimadas y los
+  créditos (Luz, autor, MIT).
+- **Privacidad**: la web no usa cookies, analítica ni recursos de terceros, así
+  que no pide consentimiento. Una franja fina y discreta abajo del todo (sin
+  bloquear, se cierra con «Lo entiendo») lo cuenta una vez y enlaza a la página de privacidad (modal en `#privacidad`,
+  se puede enlazar y «Atrás» la cierra). Los dos textos se escriben para que
+  los entienda cualquiera, de 15 a 90 años: frases cortas y sin tecnicismos.
+  Si se añade algo que guarde o envíe datos (estadísticas, un vídeo embebido,
+  una fuente de un CDN), se actualiza la página y `PRIVACY_VERSION`, y el
+  aviso vuelve a salir.
 
 ## Modelo de datos
 

@@ -1,13 +1,31 @@
-import type { CSSProperties, MouseEvent } from "react";
+import { lazy, Suspense, useCallback, useState, type CSSProperties, type MouseEvent } from "react";
 import { SEASON } from "../config/season";
 import { ThemeModeSwitch } from "../components/layout/ThemeModeSwitch";
 import { FallaLogo } from "../components/ui/FallaLogo";
-import { BroadcastIcon, CalendarIcon, LiveIcon, PlayIcon, SearchIcon } from "../components/ui/icons";
+import {
+  BroadcastIcon,
+  CalendarIcon,
+  LiveIcon,
+  PlayIcon,
+  PrinterIcon,
+  SearchIcon,
+} from "../components/ui/icons";
 import { formatSessionTitleDate, formatShortDate } from "../lib/dates";
 import { ModalidadFilter, PreviousNote } from "./parts";
 import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
+import { PRIVACY_HASH } from "./privacy/policy";
+import { PrivacyNotice } from "./privacy/PrivacyNotice";
+import { usePrivacyRoute } from "./privacy/usePrivacyRoute";
 import { addMinutes, pad2, useProgramme, useRemaining } from "./useProgramme";
 import "./VariantC.css";
+
+// El modal de imprimir (y su CSS de impresión) solo se descarga al pedirlo.
+const loadPrintSchedule = () => import("./print/PrintSchedule");
+const PrintSchedule = lazy(loadPrintSchedule);
+const loadAbout = () => import("./about/AboutDialog");
+const AboutDialog = lazy(loadAbout);
+const loadPrivacy = () => import("./privacy/PrivacyDialog");
+const PrivacyDialog = lazy(loadPrivacy);
 
 const RANKING_LABEL = { top: "Imprescindible", ok: "Recomendada", standar: "" } as const;
 
@@ -48,6 +66,16 @@ function scrollToGroup(id: string) {
  */
 export default function VariantC({ skin }: { skin?: string }) {
   const p = useProgramme();
+  const [printOpen, setPrintOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const { privacyOpen, openPrivacy, closePrivacy } = usePrivacyRoute();
+  // Botón «Hoy y mañana» del modal de imprimir (o las dos próximas). Al abrir van todas.
+  const printSoon = (() => {
+    const labelled = p.all.filter((s) => ["Hoy", "Mañana"].includes(p.dayLabel(s)));
+    if (labelled.length > 0) return labelled.map((s) => s.date);
+    const upcoming = p.all.filter((s) => s.status !== "past").slice(0, 2);
+    return (upcoming.length > 0 ? upcoming : p.all.slice(-1)).map((s) => s.date);
+  })();
   const remaining = useRemaining(p.live ? null : p.schedule.upcomingSession?.startsAt);
 
   // La portada es siempre la fase en curso: sin búsqueda ni día elegido, arriba del todo.
@@ -57,6 +85,9 @@ export default function VariantC({ skin }: { skin?: string }) {
     p.reset();
     window.scrollTo({ top: 0 });
   };
+
+  const closePrint = useCallback(() => setPrintOpen(false), []);
+  const closeAbout = useCallback(() => setAboutOpen(false), []);
 
   // Vuelve al programa de hoy (sin búsqueda ni día elegido) y baja hasta él.
   const goToToday = () => {
@@ -342,6 +373,39 @@ export default function VariantC({ skin }: { skin?: string }) {
         {p.sections.length === 0 && (
           <p className="coac-vc__empty">No hay nada con ese nombre. Prueba con otro.</p>
         )}
+
+        <section className="coac-vc__print" aria-labelledby="vc-print-title">
+          <div className="coac-vc__print-text">
+            <h2 id="vc-print-title" className="coac-vc__print-title">
+              Llévate el programa
+            </h2>
+            <p className="coac-vc__print-desc">
+              Elige sesiones, modalidades y favoritas, y llévatelo en papel, en PDF o como imagen.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="coac-vc__print-button"
+            aria-haspopup="dialog"
+            onPointerEnter={loadPrintSchedule}
+            onFocus={loadPrintSchedule}
+            onClick={() => setPrintOpen(true)}
+          >
+            <PrinterIcon />
+            Imprime tu horario
+          </button>
+        </section>
+
+        {printOpen && (
+          <Suspense fallback={null}>
+            <PrintSchedule
+              sessions={p.all}
+              soonDates={printSoon}
+              dayLabel={p.dayLabel}
+              onClose={closePrint}
+            />
+          </Suspense>
+        )}
       </main>
 
       <footer className="coac-vc__footer">
@@ -395,6 +459,27 @@ export default function VariantC({ skin }: { skin?: string }) {
             <ThemeModeSwitch />
           </div>
           <div className="coac-vc__footer-text">
+            <p className="coac-vc__footer-pages">
+              <button
+                type="button"
+                className="coac-vc__footer-page"
+                aria-haspopup="dialog"
+                onPointerEnter={loadAbout}
+                onFocus={loadAbout}
+                onClick={() => setAboutOpen(true)}
+              >
+                Quiénes somos
+              </button>
+              <a
+                className="coac-vc__footer-page"
+                href={PRIVACY_HASH}
+                onPointerEnter={loadPrivacy}
+                onFocus={loadPrivacy}
+                onClick={openPrivacy}
+              >
+                Privacidad
+              </a>
+            </p>
             <p>Horas estimadas: {SEASON.minutesPerGroup} min por agrupación, con actuación y montaje.</p>
             <p>
               Hecho con{" "}
@@ -414,6 +499,19 @@ export default function VariantC({ skin }: { skin?: string }) {
           </div>
         </div>
       </footer>
+
+      {aboutOpen && (
+        <Suspense fallback={null}>
+          <AboutDialog onClose={closeAbout} />
+        </Suspense>
+      )}
+      {privacyOpen && (
+        <Suspense fallback={null}>
+          <PrivacyDialog onClose={closePrivacy} />
+        </Suspense>
+      )}
+
+      <PrivacyNotice onOpenPrivacy={openPrivacy} />
     </div>
   );
 }
