@@ -1,0 +1,267 @@
+/*
+ * Variante D: piel «Tablero» sobre el marcado de la variante C. Solo cambia
+ * tokens y formas; la estructura (línea de tiempo, tarjetas, fichas) es la de C.
+ */
+.coac-vc[data-skin="board"] {
+  --vd-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --vd-head: #10131a;
+  --vd-head-text: #f4f5f8;
+  --vd-head-muted: #c5cad6;
+  --vd-top-text: #166534;
+  --vd-ok-text: #854d0e;
+
+  --vc-bg: #eef0f4;
+  --vc-card: #ffffff;
+  --vc-text: #10131a;
+  --vc-muted: #4a5364;
+  --vc-line: #d5d9e2;
+  --vc-primary: #ffb020;
+  --vc-on-primary: #1a1000;
+  --vc-soft: #dfe3ea;
+  --vc-shadow: none;
+  --vc-radius: 0;
+  --vc-top-bg: var(--vc-card);
+  --vc-ok-bg: var(--vc-card);
+  --vc-top-edge: #22c55e;
+  --vc-ok-edge: #facc15;
+  --vc-coro-bg: transparent;
+  --vc-comparsa-bg: transparent;
+  --vc-chirigota-bg: transparent;
+  --vc-cuarteto-bg: transparent;
+  --vc-coro-text: #1e40af;
+  --vc-comparsa-text: #5b21b6;
+  --vc-chirigota-text: #9d174d;
+  --vc-cuarteto-text: #334155;
+  --vc-font: var(--luz-font-sans);
+}
+
+[data-mode="dark"] .coac-vc[data-skin="board"] {
+  --vd-head: #1d2330;
+  --vd-head-text: #e8eaf0;
+  --vd-top-text: #4ade80;
+  --vd-ok-text: #facc15;
+
+  --vc-bg: #0f1218;
+  --vc-card: #151922;
+  --vc-text: #e8eaf0;
+  --vc-muted: #9aa3b5;
+  --vc-line: #262c3b;
+  --vc-soft: #1d2330;
+  --vc-coro-text: #93c5fd;
+  --vc-comparsa-text: #c4b5fd;
+  --vc-chirigota-text: #f9a8d4;
+  --vc-cuarteto-text: #cbd5e1;
+}
+
+/* Todo recto: fuera los redondeos de C */
+.coac-vc[data-skin="board"] *,
+.coac-vc[data-skin="board"] *::before {
+  border-radius: 0;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__main :focus-visible {
+  outline-color: var(--vc-text);
+}
+
+/* ---- Columna izquierda: siempre oscura, con ámbar ---- */
+.coac-vc[data-skin="board"] .coac-vc__side {
+  --vc-bg: #0b0d12;
+  --vc-card: #141821;
+  --vc-text: #e8eaf0;
+  --vc-muted: #9aa3b5;
+  --vc-line: #262c3b;
+  --vc-soft: #141821;
+
+  border-inline-end: 0;
+  background: var(--vc-bg);
+  color: var(--vc-text);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__logo,
+.coac-vc[data-skin="board"] .coac-vc__phase,
+.coac-vc[data-skin="board"] .coac-vc__now-label,
+.coac-vc[data-skin="board"] .coac-vc__heading,
+.coac-vc[data-skin="board"] .coac-vc__chip,
+.coac-vc[data-skin="board"] .coac-vc__cta,
+.coac-vc[data-skin="board"] .coac-vc__day-name,
+.coac-vc[data-skin="board"] .coac-vc__day-count,
+.coac-vc[data-skin="board"] .coac-vc__tile,
+.coac-vc[data-skin="board"] .coac-vc__time,
+.coac-vc[data-skin="board"] .coac-vc__badges,
+.coac-vc[data-skin="board"] .coac-vc__context,
+.coac-vc[data-skin="board"] .coac-vc__footer {
+  font-family: var(--vd-mono);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__phase,
+.coac-vc[data-skin="board"] .coac-vc__now-label,
+.coac-vc[data-skin="board"] .coac-vc__heading,
+.coac-vc[data-skin="board"] .coac-vc__chip,
+.coac-vc[data-skin="board"] .coac-vc__cta,
+.coac-vc[data-skin="board"] .coac-vc__day-name,
+.coac-vc[data-skin="board"] .coac-vc__day-count,
+.coac-vc[data-skin="board"] .coac-vc__tile,
+.coac-vc[data-skin="board"] .coac-vc__badges,
+.coac-vc[data-skin="board"] .coac-vc__context,
+.coac-vc[data-skin="board"] .coac-vc__reset,
+.coac-vc[data-skin="board"] .coac-vc__footer {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__phase,
+.coac-vc[data-skin="board"] .coac-vc__now-label,
+.coac-vc[data-skin="board"] .coac-vc__heading {
+  font-size: var(--luz-text-xs);
+  font-weight: 400;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__field,
+.coac-vc[data-skin="board"] .coac-vc__chip,
+.coac-vc[data-skin="board"] .coac-vc__day {
+  border-width: 1px;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__field {
+  border-color: var(--vc-muted);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__field:focus-within {
+  border-color: var(--vc-primary);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__chip {
+  font-size: var(--luz-text-xs);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__now {
+  border: 1px solid var(--vc-line);
+  border-inline-start: 4px solid var(--vc-primary);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__tile {
+  background: var(--vc-bg);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__tile strong {
+  color: var(--vc-primary);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__day {
+  border-color: var(--vc-line);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__day[data-status="present"] {
+  border-color: var(--vc-primary);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__day[data-status="present"] .coac-vc__day-name {
+  color: var(--vc-primary);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__day[aria-pressed="true"] .coac-vc__day-name {
+  color: inherit;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__day-count {
+  font-size: 0.6875rem;
+}
+
+/* ---- Programa: cabecera de tablero, tarjetas con piloto ---- */
+.coac-vc[data-skin="board"] .coac-vc__session-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-2xs) var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  background: var(--vd-head);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__session-title {
+  color: var(--vd-head-text);
+  font-family: var(--vd-mono);
+  font-size: var(--luz-text-lg);
+  letter-spacing: 0.04em;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__session-meta {
+  flex-basis: 100%;
+  color: var(--vd-head-muted);
+  font-family: var(--vd-mono);
+  font-size: var(--luz-text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__slot {
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__slot::before {
+  inset-inline-start: calc(4.25rem - 1px);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__time {
+  font-size: var(--luz-text-base);
+}
+
+/* Piloto de color al borde, sin teñir la tarjeta */
+.coac-vc[data-skin="board"] .coac-vc__card {
+  border: 1px solid var(--vc-line);
+  border-inline-start: 6px solid var(--vc-line);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__card[data-ranking="top"] {
+  border-inline-start-color: var(--vc-top-edge);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__card[data-ranking="ok"] {
+  border-inline-start-color: var(--vc-ok-edge);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__slot[data-live] .coac-vc__card {
+  box-shadow: inset 0 0 0 2px var(--vc-live);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__badge[data-modalidad] {
+  border: 1px solid currentColor;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__card .coac-vc__badge[data-kind="ranking"] {
+  padding-inline: 0;
+  background: none;
+}
+
+.coac-vc[data-skin="board"] .coac-vc__card[data-ranking="top"] .coac-vc__badge[data-kind="ranking"] {
+  color: var(--vd-top-text);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__card[data-ranking="ok"] .coac-vc__badge[data-kind="ranking"] {
+  color: var(--vd-ok-text);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__reset {
+  border: 1px solid var(--vc-muted);
+  background: none;
+  font-family: var(--vd-mono);
+}
+
+.coac-vc[data-skin="board"] .coac-vc__footer {
+  font-size: var(--luz-text-xs);
+}
+
+@media (min-width: 64rem) {
+  .coac-vc[data-skin="board"] .coac-vc__slot {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .coac-vc[data-skin="board"] .coac-vc__slot::before {
+    inset-inline-start: calc(5.5rem - 1px);
+  }
+
+  .coac-vc[data-skin="board"] .coac-vc__time {
+    font-size: var(--luz-text-xl);
+  }
+}
