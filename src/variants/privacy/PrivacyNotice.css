@@ -1,0 +1,92 @@
+/*
+ * Aviso de privacidad: una franja fina pegada abajo del todo, discreta (texto
+ * pequeño, sin sombra ni color de marca). En móvil ocupa todo el ancho; en
+ * escritorio, solo la columna del programa (la izquierda queda libre). Va
+ * dentro de .coac-vc: usa --vc-* y la piel.
+ */
+.coac-privacy-notice {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--luz-space-2xs) var(--luz-space-md);
+  padding: var(--luz-space-xs) var(--luz-space-md);
+  padding-block-end: calc(var(--luz-space-xs) + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid var(--vc-line);
+  background: var(--vc-card);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+  animation: coac-privacy-notice-in 200ms ease-out;
+}
+
+@keyframes coac-privacy-notice-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-privacy-notice {
+    animation: none;
+  }
+}
+
+.coac-privacy-notice__text {
+  flex: 1 1 18rem;
+  margin: 0;
+  color: var(--vc-muted);
+  text-wrap: pretty;
+}
+
+.coac-privacy-notice__text strong {
+  color: var(--vc-text);
+}
+
+.coac-privacy-notice__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--luz-space-md);
+  margin-inline-start: auto;
+}
+
+.coac-privacy-notice__more {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: var(--vc-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Botón suave, sin borde salvo al pasar el ratón (como los de la cabecera) */
+.coac-vc .coac-privacy-notice__ok {
+  min-block-size: 2.75rem;
+  padding-inline: var(--luz-space-md);
+  border: 1px solid transparent;
+  background: var(--vc-soft);
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+.coac-vc .coac-privacy-notice__ok:hover {
+  border-color: var(--vc-muted);
+}
+
+@media (min-width: 64rem) {
+  .coac-privacy-notice {
+    inset-inline-start: 24rem;
+    padding-inline: var(--luz-space-2xl);
+  }
+}
+
+@media print {
+  .coac-privacy-notice {
+    display: none;
+  }
+}

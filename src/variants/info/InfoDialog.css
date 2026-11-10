@@ -1,0 +1,150 @@
+/*
+ * Modal de lectura (Quiénes somos, Privacidad). Va dentro de .coac-vc (usa
+ * --vc-* y la piel). A pantalla completa en móvil; en escritorio, una columna
+ * de lectura centrada.
+ */
+.coac-info {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--vc-bg);
+  color: var(--vc-text);
+}
+
+.coac-info::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+.coac-info__panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  block-size: 100%;
+}
+
+.coac-info__head {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border-block-end: 1px solid var(--vc-line);
+}
+
+.coac-info__logo {
+  flex: none;
+  inline-size: 2rem;
+  block-size: 2rem;
+  color: var(--vc-primary);
+}
+
+.coac-info__title {
+  flex: 1;
+  margin: 0;
+  color: var(--vc-text);
+  font-family: inherit;
+  font-size: var(--luz-text-lg);
+  font-weight: 800;
+  line-height: 1.5rem;
+}
+
+.coac-vc .coac-info__close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid transparent;
+}
+
+.coac-vc .coac-info__close:hover {
+  border-color: var(--vc-muted);
+}
+
+.coac-info__body {
+  display: grid;
+  align-content: start;
+  gap: var(--luz-space-xl);
+  padding: var(--luz-space-lg) var(--luz-space-md) var(--luz-space-2xl);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.coac-info__section {
+  display: grid;
+  gap: var(--luz-space-xs);
+  max-inline-size: 38rem;
+}
+
+.coac-info__section h3 {
+  margin: 0;
+  color: var(--vc-muted);
+  font-family: inherit;
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+}
+
+.coac-info__section p {
+  margin: 0;
+  color: var(--vc-text);
+  font-family: var(--luz-font-sans);
+  font-size: var(--luz-text-base);
+  letter-spacing: normal;
+  line-height: 1.6;
+  text-transform: none;
+  text-wrap: pretty;
+}
+
+.coac-info__section a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.coac-info__section .coac-info__note {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+}
+
+/* Listas de lectura (Privacidad): viñeta sencilla, mismo cuerpo que los párrafos */
+.coac-info__section ul {
+  display: grid;
+  gap: var(--luz-space-xs);
+  margin: 0;
+  padding-inline-start: var(--luz-space-lg);
+  font-family: var(--luz-font-sans);
+  font-size: var(--luz-text-base);
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.coac-info__section li {
+  text-wrap: pretty;
+}
+
+/* Lo esencial, en una caja al principio: quien solo lee esto ya lo sabe todo */
+.coac-info__section .coac-info__summary {
+  padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-md)
+    calc(var(--luz-space-md) + var(--luz-space-lg));
+  border: 1px solid var(--vc-line);
+  background: var(--vc-card);
+}
+
+@media (min-width: 48rem) {
+  .coac-info {
+    inline-size: min(44rem, calc(100% - 2 * var(--luz-space-xl)));
+    block-size: min(48rem, calc(100dvh - 2 * var(--luz-space-xl)));
+    margin: auto;
+    border: 1px solid var(--vc-line);
+  }
+
+  .coac-info__body {
+    padding: var(--luz-space-xl);
+  }
+}
