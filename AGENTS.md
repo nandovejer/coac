@@ -86,11 +86,13 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
 
 ## Requisitos funcionales
 
-Los cumple el prototipo D (`src/variants/`), que es la app que se publica
-(`main.tsx` lo monta). La app anterior (`App.tsx`, `components/`) solo se ve
-en desarrollo con `vite --mode anterior`; el HTML estático del SEO aún usa su
-`SiteHeader`. Los tests de Playwright (`tests/visual/`) siguen escritos para
-la app anterior y hay que rehacerlos para D. En local, `localhost:5173/`
+Los cumple el rediseño E (`src/variants/VariantE.tsx`), que es la app que se
+publica (`main.tsx` lo monta). Comparte con el prototipo D los modales y el
+estado (`useProgramme`, `useShell`, `ShellDialogs`, `print/`, `privacy/`); D
+solo se ve en desarrollo con `vite --mode variant-d`, y la app anterior
+(`App.tsx`, `components/`) con `vite --mode anterior`; el HTML estático del SEO
+aún usa su `SiteHeader`. Los tests de Playwright (`tests/visual/`) siguen
+escritos para la app anterior y hay que rehacerlos para E. En local, `localhost:5173/`
 redirige a la base (`/coac/`). El favicon (`public/favicon.*`, iconos) es la
 fachada de `FallaLogo` con los colores de la cabecera en modo claro.
 
