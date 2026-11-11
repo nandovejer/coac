@@ -17,7 +17,6 @@ export function PorraSheet({ porra }: { porra: Porra }) {
       <header className="coac-print-sheet__head coac-porra__head">
         <p className="coac-print-sheet__brand">¿Quién canta hoy? · COAC {SEASON.year}</p>
         <h2 className="coac-print-sheet__title">{porra.title}</h2>
-        <p className="coac-porra__question">{porra.question}</p>
         <p className="coac-print-sheet__note">{porra.howTo}</p>
         <p className="coac-porra__fill">
           <span>

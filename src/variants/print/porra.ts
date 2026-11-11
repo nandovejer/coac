@@ -1,4 +1,3 @@
-import { SEASON } from "../../config/season";
 import type { SessionView } from "../../domain/schedule";
 import { MODALIDADES, type Group, type Modalidad } from "../../types";
 import { PHASES, isHomePhase } from "../phases";
@@ -22,8 +21,6 @@ export interface PorraSection {
 export interface Porra {
   kind: PorraKind;
   title: string;
-  /** La pregunta, en una frase. */
-  question: string;
   /** Qué hay que hacer en la hoja. */
   howTo: string;
   sections: PorraSection[];
@@ -67,8 +64,7 @@ export function buildPorra(sessions: SessionView[], modalidades: ReadonlySet<Mod
   const next = phase && phase.id !== "final" ? NEXT_PHASE[phase.id] : "la siguiente fase";
   return {
     kind,
-    title: `Porra · ${SEASON.phaseTitle}`,
-    question: kind === "prizes" ? "¿Quién gana?" : `¿Quién pasa a ${next}?`,
+    title: `Porra · ${kind === "prizes" ? "¿Quién gana?" : `¿Quién pasa a ${next}?`}`,
     howTo:
       kind === "prizes"
         ? "En cada modalidad, marca qué premio crees que se lleva cada agrupación, del 1.º al 4.º."

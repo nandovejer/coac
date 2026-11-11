@@ -2,11 +2,6 @@
  * Hoja de la porra. Se apoya en la del horario (.coac-print-sheet: papel,
  * tinta, cabecera y pie) y añade las casillas, las columnas y la tabla de premios.
  */
-.coac-porra__question {
-  font-size: var(--luz-text-base);
-  font-weight: 800;
-}
-
 /* Huecos para escribir a mano */
 .coac-porra__fill {
   display: flex;
@@ -155,10 +150,6 @@
 @media print {
   .coac-porra__head {
     margin-block-end: 10pt;
-  }
-
-  .coac-porra__question {
-    font-size: 12pt;
   }
 
   .coac-porra__fill {

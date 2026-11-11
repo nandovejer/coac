@@ -126,6 +126,8 @@
   display: flex;
   align-items: center;
   gap: var(--luz-space-xs);
+  /* Sin el margen que Luz pone a una casilla detrás de otra: todas a la misma altura */
+  margin: 0;
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-sm);
   border: 1px solid var(--vc-line);
@@ -207,6 +209,7 @@
   display: flex;
   align-items: center;
   gap: var(--luz-space-md);
+  margin: 0;
   inline-size: 100%;
   padding: var(--luz-space-sm) var(--luz-space-md);
   border: 1px solid var(--vc-line);

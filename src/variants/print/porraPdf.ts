@@ -69,9 +69,7 @@ export function downloadPorraPdf(porra: Porra) {
   text(`¿QUIÉN CANTA HOY? · COAC ${SEASON.year}`, MARGIN_X, y, 8, true, MUTED);
   y += 8;
   text(porra.title, MARGIN_X, y, 16, true);
-  y += 7;
-  text(porra.question, MARGIN_X, y, 11, true);
-  y += 5;
+  y += 6;
   text(porra.howTo, MARGIN_X, y, 8, false, MUTED);
   y += 8;
   text("Nombre", MARGIN_X, y, 9, true);

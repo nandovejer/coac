@@ -9,7 +9,7 @@ import { PRIZES, porraItems, type Porra, type PorraItem } from "./porra";
  */
 const WIDTH = 1080;
 const PAD = 56;
-const HEAD = 250;
+const HEAD = 208;
 const FOOT = 70;
 const COLUMNS = 2;
 const GAP = 40;
@@ -116,14 +116,13 @@ export function renderPorraImage(porra: Porra): Promise<Blob> {
   write(`¿QUIÉN CANTA HOY? · COAC ${SEASON.year}`, PAD, y + 22, "700 22px", MUTED);
   ctx.font = `800 40px ${FONT}`;
   write(fit(ctx, porra.title, WIDTH - PAD * 2), PAD, y + 76, "800 40px");
-  write(porra.question, PAD, y + 122, "800 28px");
   ctx.font = `400 21px ${FONT}`;
-  write(fit(ctx, porra.howTo, WIDTH - PAD * 2), PAD, y + 158, "400 21px", MUTED);
-  const nameW = write("Nombre", PAD, y + 206, "700 22px");
-  rule(PAD + nameW + 12, y + 208, 360, 2);
+  write(fit(ctx, porra.howTo, WIDTH - PAD * 2), PAD, y + 116, "400 21px", MUTED);
+  const nameW = write("Nombre", PAD, y + 164, "700 22px");
+  rule(PAD + nameW + 12, y + 166, 360, 2);
   const hitsX = PAD + nameW + 400;
-  const hitsW = write("Aciertos", hitsX, y + 206, "700 22px");
-  rule(hitsX + hitsW + 12, y + 208, 110, 2);
+  const hitsW = write("Aciertos", hitsX, y + 164, "700 22px");
+  rule(hitsX + hitsW + 12, y + 166, 110, 2);
   y += HEAD;
   rule(PAD, y - 20, WIDTH - PAD * 2, 3);
 
