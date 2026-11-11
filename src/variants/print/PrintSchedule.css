@@ -155,6 +155,7 @@
 
 .coac-print-check__day {
   font-weight: 700;
+  white-space: nowrap;
   text-transform: capitalize;
 }
 
@@ -356,14 +357,77 @@
     border: 1px solid var(--vc-line);
   }
 
+  /* Filtros y vista previa con scroll propio: los filtros no caben en alto */
   .coac-print-dialog__body {
-    grid-template-columns: 20rem minmax(0, 1fr);
-    align-items: start;
+    grid-template-columns: 18rem minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
   }
 
   .coac-print-filters {
-    position: sticky;
-    inset-block-start: 0;
+    align-content: start;
+    gap: var(--luz-space-sm);
+    padding: var(--luz-space-md);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-inline-end: 1px solid var(--vc-line);
+  }
+
+  .coac-print-dialog__preview {
+    padding: var(--luz-space-md);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Con ratón: botones y casillas más pequeños y estrechos */
+  .coac-vc .coac-print-filters__quick button {
+    min-block-size: 1.75rem;
+    padding-inline: var(--luz-space-xs);
+    font-size: var(--luz-text-xs);
+  }
+
+  .coac-print-filters__quick {
+    gap: var(--luz-space-2xs);
+  }
+
+  .coac-print-filters__days {
+    grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr));
+  }
+
+  .coac-print-check {
+    gap: var(--luz-space-2xs);
+    min-block-size: 2rem;
+    padding-inline: var(--luz-space-xs);
+    font-size: var(--luz-text-xs);
+  }
+
+  .coac-print-check input {
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+  }
+
+  .coac-print-check > span {
+    line-height: 1rem;
+  }
+
+  .coac-print-filters__search input {
+    block-size: 2.25rem;
+    font-size: var(--luz-text-sm);
+  }
+
+  .coac-vc .coac-print-porra {
+    gap: var(--luz-space-sm);
+    padding: var(--luz-space-xs) var(--luz-space-sm);
+  }
+
+  .coac-print-porra__label {
+    font-size: var(--luz-text-sm);
+  }
+
+  .coac-print-porra__hint {
+    font-size: var(--luz-text-xs);
   }
 
   .coac-print-dialog__count {

@@ -196,7 +196,7 @@ export default function PrintSchedule({ sessions, soonDates, dayLabel, onClose }
           </header>
 
           <div className="coac-print-dialog__body">
-            <form className="coac-print-filters" onSubmit={(event) => event.preventDefault()}>
+            <form className="coac-print-filters coac-scrollbar" onSubmit={(event) => event.preventDefault()}>
               {/* En modo porra van todas las sesiones: estos filtros no cuentan */}
               <fieldset className="coac-print-filters__group" disabled={porraMode}>
                 <legend>Sesiones</legend>
@@ -289,7 +289,7 @@ export default function PrintSchedule({ sessions, soonDates, dayLabel, onClose }
               </button>
             </form>
 
-            <section className="coac-print-dialog__preview" aria-label="Vista previa">
+            <section className="coac-print-dialog__preview coac-scrollbar" aria-label="Vista previa">
               {count > 0 ? (
                 sheet
               ) : (
