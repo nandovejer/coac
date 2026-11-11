@@ -161,27 +161,52 @@
   inset-block-start: 0;
   z-index: 10;
   display: grid;
+  /* Columna que no crece con el nombre largo de la tira «En directo» */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--luz-space-xs);
-  padding: var(--luz-space-sm) var(--luz-space-md);
+  padding: var(--luz-space-xs) var(--luz-space-md);
   border-block-end: 1px solid var(--vc-line);
   background: var(--vc-bg);
+  transition: transform 0.2s ease;
+}
+
+/* Al bajar se esconde (y el buscador fijo sube a ocupar su sitio); al subir
+   vuelve. Con el foco dentro, siempre a la vista. */
+.coac-ve[data-header-hidden] .coac-ve__top:not(:focus-within) {
+  transform: translateY(-100%);
 }
 
 /* Arriba, el sobretítulo a todo el ancho; debajo, la marca y los accesos */
 .coac-ve__top-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--luz-space-3xs) var(--luz-space-xs);
+  gap: var(--luz-space-xs);
   align-items: center;
 }
 
+/* Título y fase forman un bloque del alto del logo, centrado con él y con los accesos */
+.coac-ve__brand-text {
+  display: grid;
+  gap: var(--luz-space-3xs);
+  align-content: center;
+  min-inline-size: 0;
+}
+
+/* La fase, debajo del título y en pequeño; en móvil, con su nombre corto */
 .coac-ve__phase {
-  grid-column: 1 / -1;
   overflow: hidden;
+  color: var(--vc-muted);
   font-size: var(--coac-text-2xs);
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 0.75rem;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
+}
+
+.coac-ve__phase-full {
+  display: none;
 }
 
 /* Logo y título: vuelven a la portada (la fase en curso) */
@@ -197,8 +222,8 @@
 
 .coac-ve__logo {
   flex: none;
-  inline-size: 2rem;
-  block-size: 2rem;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
   color: var(--ve-accent-text);
 }
 
@@ -208,9 +233,10 @@
   overflow: hidden;
   color: var(--vc-text);
   /* Crece con la pantalla para caber entero junto a los tres accesos */
-  font-size: clamp(1rem, 4.4vw, var(--luz-text-lg));
+  font-size: clamp(1rem, 4.2vw, 1.125rem);
   font-weight: 700;
-  line-height: 1.5rem;
+  letter-spacing: -0.01em;
+  line-height: 1.25rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -226,8 +252,12 @@
   }
 
   .coac-ve__logo {
-    inline-size: 1.75rem;
-    block-size: 1.75rem;
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+
+  .coac-ve__phase {
+    letter-spacing: 0.04em;
   }
 }
 
@@ -495,29 +525,58 @@
   outline-color: currentColor;
 }
 
-/* Buscador: encima del programa, que es lo que filtra. Al buscar se queda fijo
-   bajo la cabecera (--ve-top-h, que pone useHeaderHeight) y los resultados
-   pasan por debajo. */
-.coac-ve__search {
+/* Zona de horarios: buscador, leyenda y sesiones. Es el límite del buscador fijo */
+.coac-ve__programme {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--luz-space-sm);
+  gap: var(--luz-space-lg);
+  align-content: start;
   min-inline-size: 0;
 }
 
-.coac-ve[data-view="search"] .coac-ve__search {
+/* Filtro (buscador, modalidades y días): encima del programa, que es lo que
+   filtra. Mientras se recorren los horarios se queda fijo bajo la cabecera
+   (--ve-top-h, que pone useHeaderHeight) y las sesiones pasan por debajo; fuera
+   de la zona de horarios se suelta. Compacto, para no tapar media pantalla. */
+.coac-ve__filters {
   position: sticky;
   inset-block-start: var(--ve-top-h, 0);
   z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-xs);
+  min-inline-size: 0;
   /* El fondo llega a los bordes de la columna para tapar las tarjetas al pasar */
   margin-inline: calc(var(--luz-space-md) * -1);
-  padding: var(--luz-space-sm) var(--luz-space-md);
+  padding: var(--luz-space-xs) var(--luz-space-md) 0;
   border-block-end: 1px solid var(--vc-line);
   background: var(--vc-bg);
+  transition: inset-block-start 0.2s ease;
 }
 
-.coac-ve__search-label {
+.coac-ve__search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-xs);
+  min-inline-size: 0;
+}
+
+.coac-ve__search-label,
+.coac-ve__programme-label {
   color: var(--vc-text);
+}
+
+.coac-ve[data-header-hidden]:not(:has(.coac-ve__top:focus-within)) .coac-ve__filters {
+  inset-block-start: 0;
+}
+
+/* Fijo sobre los horarios, el título sobra: solo lo oye el lector de pantalla */
+.coac-ve__filters[data-stuck] .coac-ve__search-label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* Botón para borrar lo escrito, dentro del campo */
@@ -556,7 +615,7 @@
 .coac-ve__field input {
   flex: 1;
   min-inline-size: 0;
-  block-size: 3.25rem;
+  block-size: 2.75rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -585,8 +644,8 @@
 
 .coac-ve .coac-ve__chip {
   flex: none;
-  min-block-size: 2.75rem;
-  padding-inline: var(--luz-space-md);
+  min-block-size: 2.25rem;
+  padding-inline: var(--luz-space-sm);
   border: 1px solid var(--ve-edge);
   border-radius: var(--ve-radius);
   background: var(--vc-card);
@@ -604,35 +663,23 @@
 
 /* ---- Días: número grande, día de la semana debajo ---- */
 
+/* Bajo el buscador, sin título: es parte del filtro */
 .coac-ve__calendar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--luz-space-md);
   min-inline-size: 0;
 }
 
-.coac-ve__day-group {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--luz-space-2xs);
-  min-inline-size: 0;
-}
-
-.coac-ve__day-heading {
+/* Etiqueta de sección en mayúsculas seguida de una línea fina hasta el borde */
+.coac-ve__ruled {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--luz-space-sm);
-  min-block-size: 1.75rem;
 }
 
-.coac-ve .coac-ve__text-button {
-  min-block-size: 1.75rem;
-  color: var(--ve-second-ink);
-  font-size: var(--luz-text-sm);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+.coac-ve__ruled::after {
+  flex: 1;
+  order: 1;
+  border-block-start: 1px solid var(--vc-line);
+  content: "";
 }
 
 /* Una sola fila deslizable con una flecha a cada lado */
@@ -650,8 +697,8 @@
 .coac-ve .coac-ve__arrow {
   display: none;
   place-items: center;
-  inline-size: 2.75rem;
-  block-size: 2.75rem;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
   border: 1px solid var(--ve-edge);
   border-radius: var(--ve-radius);
   background: var(--vc-card);
@@ -680,7 +727,7 @@
   display: flex;
   flex-wrap: nowrap;
   gap: var(--luz-space-2xs);
-  padding: var(--luz-space-xs) var(--luz-space-3xs) var(--luz-space-sm);
+  padding: var(--luz-space-2xs) var(--luz-space-3xs) var(--luz-space-xs);
   overflow-x: auto;
   list-style: none;
   scroll-behavior: smooth;
@@ -702,11 +749,11 @@
   /* Contiene el texto oculto: fuera de la tira ensancharía la página */
   position: relative;
   display: grid;
-  grid-template-rows: 1rem auto auto 0.375rem;
-  gap: var(--luz-space-2xs);
+  grid-template-rows: 0.75rem auto auto 0.25rem;
+  gap: var(--luz-space-3xs);
   justify-items: center;
-  inline-size: 3.5rem;
-  padding: var(--luz-space-sm) 0;
+  inline-size: 3rem;
+  padding: var(--luz-space-2xs) 0;
   border: 1px solid transparent;
   border-radius: var(--ve-radius);
   color: var(--vc-text);
@@ -716,19 +763,19 @@
   color: var(--ve-accent-text);
   font-size: var(--coac-text-2xs);
   font-weight: 700;
-  line-height: 1rem;
+  line-height: 0.75rem;
 }
 
 .coac-ve__day-num {
-  font-size: var(--coac-text-2xl);
+  font-size: var(--luz-text-lg);
   font-variant-numeric: tabular-nums;
-  line-height: 1.75rem;
+  line-height: 1.25rem;
 }
 
 .coac-ve__day-week {
   color: var(--vc-muted);
-  font-size: var(--luz-text-sm);
-  line-height: 1.25rem;
+  font-size: var(--luz-text-xs);
+  line-height: 0.875rem;
 }
 
 .coac-ve__day[data-label="Hoy"] .coac-ve__day-num {
@@ -758,8 +805,8 @@
 
 .coac-ve__day-dots::before,
 .coac-ve__day-dots::after {
-  inline-size: 0.375rem;
-  block-size: 0.375rem;
+  inline-size: 0.25rem;
+  block-size: 0.25rem;
   border-radius: 50%;
   background: var(--vc-primary);
   content: "";
@@ -790,7 +837,7 @@
   inline-size: 100%;
   max-inline-size: 44rem;
   margin-inline: auto;
-  padding: var(--luz-space-lg) var(--luz-space-md) var(--luz-space-2xl);
+  padding: var(--luz-space-2xl) var(--luz-space-md) var(--luz-space-2xl);
 }
 
 .coac-ve__context {
@@ -818,24 +865,26 @@
 }
 
 /* Leyenda del semáforo: la misma marca que llevan las tarjetas */
+/* Discreta: pequeña y a la derecha, encima del programa */
 .coac-ve__legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--luz-space-2xs) var(--luz-space-md);
+  justify-content: flex-end;
+  gap: var(--luz-space-2xs) var(--luz-space-sm);
   color: var(--vc-muted);
-  font-size: var(--luz-text-sm);
-  line-height: 1.25rem;
+  font-size: var(--luz-text-xs);
+  line-height: 1rem;
 }
 
 .coac-ve__legend-item {
   display: inline-flex;
   align-items: flex-start;
-  gap: var(--luz-space-xs);
+  gap: var(--luz-space-2xs);
 }
 
 .coac-ve__legend-item::before {
   inline-size: 0.5rem;
-  block-size: 1.25rem;
+  block-size: 1rem;
   background: var(--ve-top);
   content: "";
 }
@@ -853,6 +902,12 @@
 
 .coac-ve__sessions:empty {
   display: none;
+}
+
+/* Una sesión debajo de otra: una línea las separa */
+.coac-ve__session + .coac-ve__session {
+  padding-block-start: var(--luz-space-2xl);
+  border-block-start: 1px solid var(--vc-line);
 }
 
 .coac-ve__session {
@@ -906,6 +961,104 @@
   color: var(--vc-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
+}
+
+/* La sesión de hoy: cabecera en bloque cobalto, con una barra de un segmento por
+   agrupación (llena = ya actuó, roja y más alta = actuando, hueca = pendiente).
+   La forma y el texto dicen lo mismo que el color. */
+.coac-ve__session[data-status="present"] .coac-ve__session-head {
+  gap: var(--luz-space-xs);
+  justify-items: stretch;
+  padding: var(--luz-space-md) var(--luz-space-lg) var(--luz-space-lg);
+  border-radius: var(--ve-radius);
+  background: var(--ve-feature);
+  box-shadow: var(--ve-shadow-feature);
+  color: var(--ve-on-feature);
+}
+
+.coac-ve__session[data-status="present"] .coac-ve__label {
+  justify-self: start;
+  border-color: var(--ve-on-feature);
+  background: var(--ve-on-feature);
+  color: var(--ve-feature);
+}
+
+.coac-ve__session[data-status="present"] .coac-ve__session-meta {
+  color: var(--ve-on-feature);
+}
+
+/* La próxima sesión: rótulo propio y cuándo empieza, sobre el panel azul claro */
+.coac-ve__session[data-featured="next"] .coac-ve__session-head {
+  gap: var(--luz-space-xs);
+  justify-items: stretch;
+  padding-inline: var(--luz-space-xs);
+}
+
+/* La sesión destacada (hoy o la próxima) es un panel azul claro que envuelve su
+   cabecera y todas sus tarjetas: se ve de un vistazo dónde empieza y acaba */
+.coac-ve .coac-ve__session[data-featured] {
+  padding: var(--luz-space-md) var(--luz-space-sm);
+  border: 1px solid var(--ve-card-edge);
+  border-radius: var(--ve-radius);
+  background: var(--ve-second-soft);
+}
+
+.coac-ve__session-eyebrow {
+  color: var(--ve-accent-text);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+.coac-ve__session-when {
+  display: flex;
+  gap: var(--luz-space-xs);
+  align-items: center;
+  margin-block-start: var(--luz-space-2xs);
+  color: var(--ve-second-ink);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.coac-ve__session-when .coac-icon {
+  flex: none;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+}
+
+.coac-ve__session-progress {
+  display: grid;
+  gap: var(--luz-space-xs);
+  margin-block-start: var(--luz-space-2xs);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.coac-ve__segments {
+  display: flex;
+  gap: var(--luz-space-3xs);
+  align-items: center;
+  block-size: 0.875rem;
+}
+
+.coac-ve__segment {
+  flex: 1;
+  block-size: 0.5rem;
+  border: 1px solid var(--ve-on-feature);
+}
+
+.coac-ve__segment[data-stage="done"] {
+  background: var(--ve-on-feature);
+}
+
+.coac-ve__segment[data-stage="live"] {
+  block-size: 0.875rem;
+  border-width: 2px;
+  background: var(--coac-live-bg);
 }
 
 .coac-ve__slots {
@@ -1389,6 +1542,24 @@ a.coac-ve__previous:focus-visible::after {
     line-height: var(--coac-leading-2xl);
   }
 
+  /* Con sitio, la fase con su nombre entero */
+  .coac-ve__brand-text {
+    gap: var(--luz-space-2xs);
+  }
+
+  .coac-ve__phase {
+    line-height: 1rem;
+    white-space: normal;
+  }
+
+  .coac-ve__phase-short {
+    display: none;
+  }
+
+  .coac-ve__phase-full {
+    display: inline;
+  }
+
   /* Con sitio, los accesos son tres fichas con su nombre a la vista */
   .coac-ve__actions {
     display: grid;
@@ -1447,16 +1618,12 @@ a.coac-ve__previous:focus-visible::after {
     white-space: nowrap;
   }
 
-  /* El buscador es la barra de filtro del programa: siempre a mano, arriba */
-  .coac-ve .coac-ve__search {
-    position: sticky;
+  /* El filtro es la barra del programa: siempre a mano, arriba */
+  .coac-ve__filters {
     inset-block-start: 0;
-    z-index: 5;
     margin-block-start: calc(var(--luz-space-xl) * -1);
     margin-inline: calc(var(--luz-space-2xl) * -1);
-    padding: var(--luz-space-md) var(--luz-space-2xl);
-    border-block-end: 1px solid var(--vc-line);
-    background: var(--vc-bg);
+    padding: var(--luz-space-sm) var(--luz-space-2xl) 0;
   }
 
   .coac-ve__chips {
@@ -1490,6 +1657,12 @@ a.coac-ve__previous:focus-visible::after {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Lado a lado no hace falta línea entre sesiones */
+  .coac-ve__session + .coac-ve__session {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
   .coac-ve[data-view="day"] .coac-ve__slots {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--luz-space-sm) var(--luz-space-lg);
@@ -1499,6 +1672,11 @@ a.coac-ve__previous:focus-visible::after {
 @media (prefers-reduced-motion: reduce) {
   .coac-ve__days {
     scroll-behavior: auto;
+  }
+
+  .coac-ve__top,
+  .coac-ve__filters {
+    transition: none;
   }
 
   .coac-ve__on-air-dot,

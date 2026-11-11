@@ -1,4 +1,13 @@
-import { useCallback, useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { SEASON } from "../config/season";
 import { ThemeModeSwitch } from "../components/layout/ThemeModeSwitch";
 import { FallaLogo } from "../components/ui/FallaLogo";
@@ -13,18 +22,36 @@ import {
   PrinterIcon,
   SearchIcon,
 } from "../components/ui/icons";
-import { formatSessionTitleDate, formatShortDate } from "../lib/dates";
+import { formatSessionTitleDate, formatShortDate, parseSessionDate, sessionDateKey } from "../lib/dates";
 import { ModalidadFilter, PreviousNote } from "./parts";
 import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
 import { PRIVACY_HASH } from "./privacy/policy";
 import { ShellDialogs } from "./ShellDialogs";
-import { addMinutes, pad2, useProgramme, useRemaining } from "./useProgramme";
+import { addMinutes, pad2, useProgramme, useRemaining, type Stage } from "./useProgramme";
 import { afterPaint, HOME_URL, useShell } from "./useShell";
 import "./VariantE.css";
 
 const RANKING_LABEL = { top: "Imprescindible", ok: "Recomendada", standar: "" } as const;
 const STAGE_LABEL = { done: "Ya actuó", next: "A continuación" } as const;
 const SEARCH_INPUT_ID = "ve-search";
+/** Nombre corto de la fase en curso («Preliminares»), para la cabecera de móvil. */
+const HOME_PHASE_SHORT = PHASES.find(isHomePhase)?.short ?? SEASON.phaseTitle;
+
+/** Días de calendario de `from` a `to` (fechas `dd/mm/yyyy`); `null` si alguna no es válida. */
+function daysBetween(from: string, to: string) {
+  const a = parseSessionDate(from);
+  const b = parseSessionDate(to);
+  if (!a || !b) return null;
+  return Math.round((Date.UTC(b.year, b.month - 1, b.day) - Date.UTC(a.year, a.month - 1, a.day)) / 86400000);
+}
+
+/** Cómo va la sesión de hoy, en una frase (la barra de segmentos dice lo mismo sin texto). */
+function progressText(stages: Stage[]) {
+  const done = stages.filter((stage) => stage === "done").length;
+  if (done === stages.length) return "Ha terminado";
+  if (done === 0 && !stages.includes("live")) return "Aún no ha empezado";
+  return `${done} de ${stages.length} ya han actuado`;
+}
 
 /** Alto de la cabecera fija (solo en móvil; en escritorio no es fija y vale 0). */
 function stickyHeaderHeight() {
@@ -32,12 +59,25 @@ function stickyHeaderHeight() {
   return header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0;
 }
 
+/**
+ * Lleva `element` a lo alto de la pantalla, por debajo de lo que vaya fijo encima
+ * (`extra`, p. ej. el buscador). Al bajar, la cabecera de móvil se esconde, así
+ * que solo se descuenta al subir.
+ */
+function scrollUnderBars(element: HTMLElement, extra = 0) {
+  const top = element.getBoundingClientRect().top + window.scrollY - extra;
+  const header = top > window.scrollY ? 0 : stickyHeaderHeight();
+  window.scrollTo({ top: top - header });
+}
+
 /** Sube el buscador justo bajo la cabecera fija (con el programa debajo) y le da el foco. */
 function goToSearch() {
   const search = document.getElementById("searchAuthor");
   const input = document.getElementById(SEARCH_INPUT_ID);
   if (!search || !input) return;
-  window.scrollTo({ top: search.getBoundingClientRect().top + window.scrollY - stickyHeaderHeight() });
+  // El buscador es fijo: se mide su sitio en la página, el de la zona de horarios
+  const zone = search.parentElement ?? search;
+  scrollUnderBars(zone);
   input.focus({ preventScroll: true });
 }
 
@@ -45,7 +85,8 @@ function goToSearch() {
 function scrollToProgramme() {
   const session = document.querySelector<HTMLElement>(".coac-ve__session");
   if (!session) return;
-  window.scrollTo({ top: session.getBoundingClientRect().top + window.scrollY - stickyHeaderHeight() });
+  // Queda bajo la cabecera y el filtro, que van fijos sobre los horarios
+  scrollUnderBars(session, filtersOffset());
   session.querySelector<HTMLElement>(".coac-ve__session-title")?.focus({ preventScroll: true });
 }
 
@@ -66,6 +107,86 @@ function useHeaderHeight() {
     return () => observer.disconnect();
   }, []);
   return rootRef;
+}
+
+/** El bloque fijo sobre los horarios: buscador, modalidades y días. */
+const getFilters = () => document.querySelector<HTMLElement>(".coac-ve__filters");
+
+/**
+ * Alto que hay que dejar libre bajo el filtro fijo. Vale su alto de ahora: si al
+ * quedarse fijo encoge (pierde el título), lo de debajo sube lo mismo, porque el
+ * filtro sigue ocupando su sitio en la página.
+ */
+const filtersOffset = () => getFilters()?.offsetHeight ?? 0;
+
+/**
+ * Marca el filtro con `data-stuck` mientras va fijo sobre los horarios (en
+ * móvil, entonces el título del buscador se oculta para dejar más sitio). Toca
+ * el DOM directamente: cambia con el scroll y no merece repintar la app.
+ */
+function useStuckFilters() {
+  useEffect(() => {
+    const filters = getFilters();
+    const zone = document.querySelector<HTMLElement>(".coac-ve__programme");
+    if (!filters || !zone) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      // Va fijo cuando la zona de horarios ya ha pasado por debajo de su sitio fijo:
+      // bajo la cabecera, o arriba del todo si la cabecera se ha escondido
+      const hidden = filters.closest("[data-header-hidden]") !== null;
+      const stuck = zone.getBoundingClientRect().top < (hidden ? 0 : stickyHeaderHeight()) - 1;
+      filters.toggleAttribute("data-stuck", stuck);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+}
+
+/** Tras elegir un día, deja su sesión justo bajo el filtro fijo, sin tener que buscarla. */
+function showChosenDay() {
+  const after = getFilters()?.nextElementSibling;
+  if (after instanceof HTMLElement) scrollUnderBars(after, filtersOffset());
+}
+
+/**
+ * En móvil, la cabecera fija se esconde al bajar y vuelve al subir (o al llegar
+ * arriba). Marca la raíz con `data-header-hidden`; el CSS la desliza.
+ */
+function useHideHeaderOnScroll(rootRef: RefObject<HTMLDivElement>) {
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    let lastY = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const header = stickyHeaderHeight();
+      if (header === 0 || y <= header) root.removeAttribute("data-header-hidden");
+      else if (y > lastY + 4) root.setAttribute("data-header-hidden", "");
+      else if (y < lastY - 4) root.removeAttribute("data-header-hidden");
+      else return;
+      lastY = y;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+    };
+  }, [rootRef]);
 }
 
 /**
@@ -98,17 +219,25 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
     };
   }, [update]);
 
-  // El día elegido (o el de hoy) queda a la vista: se mueve la tira, nunca la página.
+  const scrollable = !(edges.start && edges.end);
+
+  // Queda a la vista el día elegido, si no el de hoy, si no la próxima sesión (y
+  // acabada la fase, la última): se mueve la tira, nunca la página. Se repite al
+  // salir las flechas, que estrechan la tira.
   useEffect(() => {
     const list = listRef.current;
-    const day = list?.querySelector<HTMLElement>('[aria-pressed="true"], [data-label="Hoy"]');
-    if (!list || !day) return;
+    if (!list) return;
+    const day =
+      ['[aria-pressed="true"]', '[data-label="Hoy"]', "[data-upcoming]"]
+        .map((selector) => list.querySelector<HTMLElement>(selector))
+        .find(Boolean) ?? list.querySelector<HTMLElement>("li:last-child button");
+    if (!day) return;
     const listBox = list.getBoundingClientRect();
     const dayBox = day.getBoundingClientRect();
     if (dayBox.left >= listBox.left && dayBox.right <= listBox.right) return;
     const left = dayBox.left - listBox.left + list.scrollLeft - (listBox.width - dayBox.width) / 2;
     list.scrollTo({ left, behavior: "instant" });
-  }, [focusKey]);
+  }, [focusKey, scrollable]);
 
   // Casi una pantalla de días; la suavidad la pone el CSS (y se quita con «reducir movimiento»).
   const scrollBy = (direction: 1 | -1) => {
@@ -117,7 +246,7 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
   };
 
   return (
-    <div className="coac-ve__carousel" data-scrollable={!(edges.start && edges.end) || undefined}>
+    <div className="coac-ve__carousel" data-scrollable={scrollable || undefined}>
       <button
         type="button"
         className="coac-ve__arrow"
@@ -152,12 +281,14 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
  * con la franja horaria escrita en vertical junto a cada tarjeta.
  */
 export default function VariantE() {
-  const p = useProgramme();
+  const p = useProgramme({ allSessions: true });
   const shell = useShell(p);
   const upcoming = p.live ? null : p.schedule.upcomingSession;
   const remaining = useRemaining(upcoming?.startsAt);
   const state = p.live ? "live" : remaining ? "countdown" : "over";
   const rootRef = useHeaderHeight();
+  useHideHeaderOnScroll(rootRef);
+  useStuckFilters();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const clearTerm = () => {
@@ -171,10 +302,8 @@ export default function VariantE() {
     afterPaint(scrollToProgramme);
   };
 
-  const dayGroups = [
-    ["Próximas sesiones", p.all.filter((session) => session.status !== "past")],
-    ["Ya celebradas", p.all.filter((session) => session.status === "past")],
-  ] as const;
+  // La tira de días va en orden de fecha (las celebradas, con borde discontinuo)
+  const days = [...p.all].sort((a, b) => sessionDateKey(a.date) - sessionDateKey(b.date));
 
   return (
     <div ref={rootRef} className="coac-ve" data-view={p.mode}>
@@ -183,12 +312,16 @@ export default function VariantE() {
       <div className="coac-ve__rail coac-scrollbar">
         <header className="coac-ve__top">
           <div className="coac-ve__top-row">
-            <p className="coac-ve__eyebrow coac-ve__phase">
-              COAC {SEASON.year} · {SEASON.phaseTitle}
-            </p>
+            {/* Título y, debajo, la fase: una sola fila con los accesos, para una cabecera baja */}
             <a className="coac-ve__home" href={HOME_URL} onClick={shell.goHome}>
               <FallaLogo className="coac-ve__logo" />
-              <h1 className="coac-ve__title">¿Quién canta hoy?</h1>
+              <span className="coac-ve__brand-text">
+                <h1 className="coac-ve__title">¿Quién canta hoy?</h1>
+                <span className="coac-ve__phase">
+                  COAC {SEASON.year} · <span className="coac-ve__phase-short">{HOME_PHASE_SHORT}</span>
+                  <span className="coac-ve__phase-full">{SEASON.phaseTitle}</span>
+                </span>
+              </span>
             </a>
             {/* Accesos rápidos: solo icono en móvil (con nombre para lectores de pantalla),
                 con su texto en la columna de escritorio */}
@@ -230,7 +363,7 @@ export default function VariantE() {
           )}
         </header>
 
-        <aside className="coac-ve__side" aria-label="Estado y sesiones">
+        <aside className="coac-ve__side" aria-label="Estado">
           <section className="coac-ve__status" data-state={state} aria-label="Estado">
             <FallaLogo className="coac-ve__status-mark" />
             {p.live ? (
@@ -291,219 +424,270 @@ export default function VariantE() {
               </a>
             </p>
           </section>
-
-          <nav className="coac-ve__calendar" aria-label="Sesiones de la fase">
-            {dayGroups.map(
-              ([heading, list], index) =>
-                list.length > 0 && (
-                  <div key={heading} className="coac-ve__day-group">
-                    <p className="coac-ve__day-heading">
-                      <span className="coac-ve__eyebrow">{heading}</span>
-                      {index === 0 && p.mode === "day" && (
-                        <button type="button" className="coac-ve__text-button" onClick={p.reset}>
-                          Hoy y mañana
-                        </button>
-                      )}
-                    </p>
-                    <DayStrip focusKey={`${p.schedule.activeSessionDate}|${p.selectedDate}`}>
-                      {list.map((session) => {
-                        const [weekday, day] = formatShortDate(session.date).split(" ");
-                        const label = p.dayLabel(session);
-                        return (
-                          <li key={session.date}>
-                            <button
-                              type="button"
-                              className="coac-ve__day"
-                              data-status={session.status}
-                              data-label={label || undefined}
-                              aria-pressed={p.mode === "day" && p.selectedDate === session.date}
-                              onClick={() => {
-                                p.reset();
-                                p.setSelectedDate(session.date);
-                              }}
-                            >
-                              <span className="coac-sr-only">
-                                {label && `${label}: `}
-                                {formatSessionTitleDate(session.date)}, {session.performances.length}{" "}
-                                agrupaciones
-                              </span>
-                              <span className="coac-ve__day-tag" aria-hidden="true">
-                                {label === "Hoy" || label === "Mañana" ? label : ""}
-                              </span>
-                              <span className="coac-ve__day-num" aria-hidden="true">
-                                {day}
-                              </span>
-                              <span className="coac-ve__day-week" aria-hidden="true">
-                                {weekday}
-                              </span>
-                              <span className="coac-ve__day-dots" aria-hidden="true" />
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </DayStrip>
-                  </div>
-                ),
-            )}
-          </nav>
         </aside>
       </div>
 
       <div className="coac-ve__body">
         <main id="siteMain" className="coac-ve__main">
-          {/* Justo encima de lo que filtra; al buscar se queda fijo arriba, con los resultados debajo */}
-          <div className="coac-ve__search" id="searchAuthor" role="search">
-            {/* A la vista solo en móvil; en escritorio la barra se explica sola */}
-            <label className="coac-ve__search-label coac-ve__eyebrow" htmlFor={SEARCH_INPUT_ID}>
-              Busca tu agrupación favorita
-              <span className="coac-sr-only"> por autor, autora o nombre</span>
-            </label>
-            <div className="coac-ve__field">
-              <SearchIcon />
-              <input
-                ref={inputRef}
-                id={SEARCH_INPUT_ID}
-                type="text"
-                enterKeyHint="search"
-                autoComplete="off"
-                placeholder="Busca autor, autora o agrupación"
-                value={p.term}
-                onChange={(event) => p.setTerm(event.target.value)}
-              />
-              {p.term && (
-                <button type="button" className="coac-ve__clear" onClick={clearTerm} title="Borrar búsqueda">
-                  <CloseIcon />
-                  <span className="coac-sr-only">Borrar búsqueda</span>
-                </button>
-              )}
-            </div>
-            <div className="coac-ve__chips coac-scrollbar" role="group" aria-label="Filtrar por modalidad">
-              <ModalidadFilter value={p.modalidad} onChange={p.setModalidad} className="coac-ve__chip" />
-            </div>
-          </div>
-
-          {p.mode !== "focus" && (
-            <p className="coac-ve__context" role="status">
-              <span>
-                {p.mode === "search"
-                  ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
-                  : "Sesión elegida"}
-              </span>
-              <button type="button" className="coac-ve__reset" onClick={p.reset}>
-                Volver a hoy y mañana
-              </button>
-            </p>
-          )}
-
-          {p.sections.length > 0 && (
-            <p className="coac-ve__legend">
-              <span className="coac-ve__legend-item" data-ranking="top">
-                Imprescindible
-              </span>
-              <span className="coac-ve__legend-item" data-ranking="ok">
-                Recomendada
-              </span>
-            </p>
-          )}
-
-          <div className="coac-ve__sessions">
-            {p.sections.map(({ key, label, session, performances }) => (
-              <section
-                key={key}
-                className="coac-ve__session"
-                data-status={session.status}
-                aria-labelledby={`ve-${key}`}
-              >
-                <header className="coac-ve__session-head">
-                  {label && (
-                    <span className="coac-ve__label" data-label={label}>
-                      {label}
-                    </span>
+          {/* La zona de horarios: el filtro (buscador y días) va fijo arriba mientras se
+              recorre y se suelta al salir de ella (sticky dentro de este bloque) */}
+          <div className="coac-ve__programme">
+            {/* Justo encima de lo que filtra */}
+            <div className="coac-ve__filters">
+              <div className="coac-ve__search" id="searchAuthor" role="search">
+                {/* A la vista solo en móvil; en escritorio la barra se explica sola */}
+                <label
+                  className="coac-ve__search-label coac-ve__eyebrow coac-ve__ruled"
+                  htmlFor={SEARCH_INPUT_ID}
+                >
+                  Busca tu agrupación favorita
+                  <span className="coac-sr-only"> por autor, autora o nombre</span>
+                </label>
+                <div className="coac-ve__field">
+                  <SearchIcon />
+                  <input
+                    ref={inputRef}
+                    id={SEARCH_INPUT_ID}
+                    type="text"
+                    enterKeyHint="search"
+                    autoComplete="off"
+                    placeholder="Busca autor, autora o agrupación"
+                    value={p.term}
+                    onChange={(event) => p.setTerm(event.target.value)}
+                  />
+                  {p.term && (
+                    <button
+                      type="button"
+                      className="coac-ve__clear"
+                      onClick={clearTerm}
+                      title="Borrar búsqueda"
+                    >
+                      <CloseIcon />
+                      <span className="coac-sr-only">Borrar búsqueda</span>
+                    </button>
                   )}
-                  <h2 id={`ve-${key}`} className="coac-ve__session-title" tabIndex={-1}>
-                    {formatSessionTitleDate(session.date)}
-                  </h2>
-                  <p className="coac-ve__session-meta">
-                    {session.performances.length} agrupaciones · {session.performances[0]?.estimatedTime}–
-                    {session.estimatedEndTime} aprox.
-                  </p>
-                </header>
-                <ol className="coac-ve__slots">
-                  {performances.map((performance) => {
-                    const { group, estimatedTime } = performance;
-                    const stage = p.stageOf(session, performance);
-                    const isLive = stage === "live";
-                    const endTime = addMinutes(estimatedTime, SEASON.minutesPerGroup);
+                </div>
+                <div
+                  className="coac-ve__chips coac-scrollbar"
+                  role="group"
+                  aria-label="Filtrar por modalidad"
+                >
+                  <ModalidadFilter value={p.modalidad} onChange={p.setModalidad} className="coac-ve__chip" />
+                </div>
+              </div>
+
+              {/* Los días, parte del filtro: al elegir uno, su sesión sale justo debajo */}
+              <nav className="coac-ve__calendar" aria-label="Sesiones de la fase">
+                <DayStrip focusKey={`${p.schedule.activeSessionDate}|${p.selectedDate}`}>
+                  {days.map((session) => {
+                    const [weekday, day] = formatShortDate(session.date).split(" ");
+                    const label = p.dayLabel(session);
                     return (
-                      <li key={group.id} className="coac-ve__slot" data-stage={stage}>
-                        {/* La franja horaria, escrita en vertical como en una agenda */}
-                        <p className="coac-ve__time">
-                          <span className="coac-sr-only">Hora estimada: </span>
-                          {estimatedTime} — {endTime}
-                        </p>
-                        <article
-                          className="coac-ve__card"
-                          id={group.id}
-                          tabIndex={-1}
-                          data-ranking={group.ranking}
-                          data-stage={stage}
+                      <li key={session.date}>
+                        <button
+                          type="button"
+                          className="coac-ve__day"
+                          data-status={session.status}
+                          data-label={label || undefined}
+                          data-upcoming={session.date === p.schedule.upcomingSession?.date || undefined}
+                          aria-pressed={p.mode === "day" && p.selectedDate === session.date}
+                          onClick={() => {
+                            p.reset();
+                            p.setSelectedDate(session.date);
+                            afterPaint(showChosenDay);
+                          }}
                         >
-                          {isLive && (
-                            <p className="coac-ve__live-bar">
-                              <span className="coac-ve__on-air">
-                                <BroadcastIcon inline /> Actuando ahora
-                              </span>
-                              <span className="coac-ve__live-time">
-                                {estimatedTime}–{endTime} aprox.
-                              </span>
-                            </p>
-                          )}
-                          <p className="coac-ve__badges">
-                            {session.status === "present" && (stage === "done" || stage === "next") && (
-                              <span className="coac-ve__stage" data-stage={stage}>
-                                {STAGE_LABEL[stage]}
-                              </span>
-                            )}
-                            {/* El semáforo se ve en la franja de color; el texto, para lectores de pantalla */}
-                            {RANKING_LABEL[group.ranking] && (
-                              <span className="coac-sr-only">{RANKING_LABEL[group.ranking]}.</span>
-                            )}
-                            <span className="coac-ve__badge" data-modalidad={group.modalidad}>
-                              {group.modalidad.charAt(0) + group.modalidad.slice(1).toLowerCase()}
-                            </span>
-                            <span className="coac-ve__city">{group.ciudad}</span>
-                          </p>
-                          <h3 className="coac-ve__author">{group.autor}</h3>
-                          <p className="coac-ve__name">{group.nombre}</p>
-                          {group.previous && (
-                            // El icono es parte del enlace al vídeo (su ::after cubre toda la fila)
-                            <p
-                              className="coac-ve__previous-row"
-                              data-link={"name" in group.previous || undefined}
-                            >
-                              {"name" in group.previous && <PlayIcon inline />}
-                              <PreviousNote previous={group.previous} className="coac-ve__previous" />
-                            </p>
-                          )}
-                          {isLive && (
-                            <span
-                              className="coac-ve__progress"
-                              aria-hidden="true"
-                              style={{ "--ve-progress": p.liveProgress } as CSSProperties}
-                            />
-                          )}
-                        </article>
+                          <span className="coac-sr-only">
+                            {label && `${label}: `}
+                            {formatSessionTitleDate(session.date)}, {session.performances.length} agrupaciones
+                          </span>
+                          <span className="coac-ve__day-tag" aria-hidden="true">
+                            {label === "Hoy" || label === "Mañana" ? label : ""}
+                          </span>
+                          <span className="coac-ve__day-num" aria-hidden="true">
+                            {day}
+                          </span>
+                          <span className="coac-ve__day-week" aria-hidden="true">
+                            {weekday}
+                          </span>
+                          <span className="coac-ve__day-dots" aria-hidden="true" />
+                        </button>
                       </li>
                     );
                   })}
-                </ol>
-              </section>
-            ))}
-          </div>
+                </DayStrip>
+              </nav>
+            </div>
 
-          {p.sections.length === 0 && (
-            <p className="coac-ve__empty">No hay nada con ese nombre. Prueba con otro.</p>
-          )}
+            {p.mode !== "focus" && (
+              <p className="coac-ve__context" role="status">
+                <span>
+                  {p.mode === "search"
+                    ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
+                    : "Sesión elegida"}
+                </span>
+                <button type="button" className="coac-ve__reset" onClick={p.reset}>
+                  Ver todo el programa
+                </button>
+              </p>
+            )}
+
+            {p.mode === "focus" && p.sections.length > 0 && (
+              <p className="coac-ve__programme-label coac-ve__eyebrow coac-ve__ruled">Programa</p>
+            )}
+
+            {p.sections.length > 0 && (
+              <p className="coac-ve__legend">
+                <span className="coac-ve__legend-item" data-ranking="top">
+                  Imprescindible
+                </span>
+                <span className="coac-ve__legend-item" data-ranking="ok">
+                  Recomendada
+                </span>
+              </p>
+            )}
+
+            <div className="coac-ve__sessions">
+              {p.sections.map(({ key, label, session, performances }) => {
+                // Jerarquía: hoy en bloque pleno; la próxima en bloque suave; el resto, solo el título
+                const isNext =
+                  session.status === "future" && session.date === p.schedule.upcomingSession?.date;
+                const featured = session.status === "present" ? "today" : isNext ? "next" : undefined;
+                const start = session.performances[0]?.estimatedTime;
+                return (
+                  <section
+                    key={key}
+                    className="coac-ve__session"
+                    data-status={session.status}
+                    data-featured={featured}
+                    aria-labelledby={`ve-${key}`}
+                  >
+                    <header className="coac-ve__session-head">
+                      {featured === "next" ? (
+                        <p className="coac-ve__session-eyebrow">
+                          {label === "Mañana" ? "Mañana · Próxima sesión" : "Próxima sesión"}
+                        </p>
+                      ) : (
+                        label && (
+                          <span className="coac-ve__label" data-label={label}>
+                            {label}
+                          </span>
+                        )
+                      )}
+                      <h2 id={`ve-${key}`} className="coac-ve__session-title" tabIndex={-1}>
+                        {formatSessionTitleDate(session.date)}
+                      </h2>
+                      <p className="coac-ve__session-meta">
+                        {session.performances.length} agrupaciones · {session.performances[0]?.estimatedTime}–
+                        {session.estimatedEndTime} aprox.
+                      </p>
+                      {featured === "next" && (
+                        <p className="coac-ve__session-when">
+                          <CalendarIcon />
+                          {(() => {
+                            const days = daysBetween(p.schedule.activeSessionDate, session.date);
+                            return days && days > 1
+                              ? `Faltan ${days} días · a las ${start}`
+                              : `Empieza a las ${start}`;
+                          })()}
+                        </p>
+                      )}
+                      {session.status === "present" &&
+                        (() => {
+                          // Un segmento por agrupación de la sesión entera (también al buscar)
+                          const stages = session.performances.map((performance) =>
+                            p.stageOf(session, performance),
+                          );
+                          return (
+                            <p className="coac-ve__session-progress">
+                              <span className="coac-ve__segments" aria-hidden="true">
+                                {stages.map((stage, index) => (
+                                  <span key={index} className="coac-ve__segment" data-stage={stage} />
+                                ))}
+                              </span>
+                              <span className="coac-ve__session-progress-text">{progressText(stages)}</span>
+                            </p>
+                          );
+                        })()}
+                    </header>
+                    <ol className="coac-ve__slots">
+                      {performances.map((performance) => {
+                        const { group, estimatedTime } = performance;
+                        const stage = p.stageOf(session, performance);
+                        const isLive = stage === "live";
+                        const endTime = addMinutes(estimatedTime, SEASON.minutesPerGroup);
+                        return (
+                          <li key={group.id} className="coac-ve__slot" data-stage={stage}>
+                            {/* La franja horaria, escrita en vertical como en una agenda */}
+                            <p className="coac-ve__time">
+                              <span className="coac-sr-only">Hora estimada: </span>
+                              {estimatedTime} — {endTime}
+                            </p>
+                            <article
+                              className="coac-ve__card"
+                              id={group.id}
+                              tabIndex={-1}
+                              data-ranking={group.ranking}
+                              data-stage={stage}
+                            >
+                              {isLive && (
+                                <p className="coac-ve__live-bar">
+                                  <span className="coac-ve__on-air">
+                                    <BroadcastIcon inline /> Actuando ahora
+                                  </span>
+                                  <span className="coac-ve__live-time">
+                                    {estimatedTime}–{endTime} aprox.
+                                  </span>
+                                </p>
+                              )}
+                              <p className="coac-ve__badges">
+                                {session.status === "present" && (stage === "done" || stage === "next") && (
+                                  <span className="coac-ve__stage" data-stage={stage}>
+                                    {STAGE_LABEL[stage]}
+                                  </span>
+                                )}
+                                {/* El semáforo se ve en la franja de color; el texto, para lectores de pantalla */}
+                                {RANKING_LABEL[group.ranking] && (
+                                  <span className="coac-sr-only">{RANKING_LABEL[group.ranking]}.</span>
+                                )}
+                                <span className="coac-ve__badge" data-modalidad={group.modalidad}>
+                                  {group.modalidad.charAt(0) + group.modalidad.slice(1).toLowerCase()}
+                                </span>
+                                <span className="coac-ve__city">{group.ciudad}</span>
+                              </p>
+                              <h3 className="coac-ve__author">{group.autor}</h3>
+                              <p className="coac-ve__name">{group.nombre}</p>
+                              {group.previous && (
+                                // El icono es parte del enlace al vídeo (su ::after cubre toda la fila)
+                                <p
+                                  className="coac-ve__previous-row"
+                                  data-link={"name" in group.previous || undefined}
+                                >
+                                  {"name" in group.previous && <PlayIcon inline />}
+                                  <PreviousNote previous={group.previous} className="coac-ve__previous" />
+                                </p>
+                              )}
+                              {isLive && (
+                                <span
+                                  className="coac-ve__progress"
+                                  aria-hidden="true"
+                                  style={{ "--ve-progress": p.liveProgress } as CSSProperties}
+                                />
+                              )}
+                            </article>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  </section>
+                );
+              })}
+            </div>
+
+            {p.sections.length === 0 && (
+              <p className="coac-ve__empty">No hay nada con ese nombre. Prueba con otro.</p>
+            )}
+          </div>
 
           <section className="coac-ve__print" aria-labelledby="ve-print-title">
             <div className="coac-ve__print-text">
