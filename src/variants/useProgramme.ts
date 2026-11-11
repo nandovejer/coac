@@ -41,6 +41,9 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
   const [term, setTerm] = useState("");
   const [modalidad, setModalidad] = useState<Modalidad | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  // Con un día elegido, la búsqueda y la modalidad se quedan en ese día; con
+  // `searchAll` el usuario las abre a todas las sesiones sin perder el día
+  const [searchAll, setSearchAll] = useState(false);
 
   // Hoy, luego las próximas y, al final, las ya celebradas (ver AGENTS.md, «Estados de sesión»).
   const all = useMemo(
@@ -63,6 +66,11 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
   }, [schedule.activeSessionDate]);
 
   const searching = term.trim() !== "" || modalidad !== null;
+  useEffect(() => {
+    if (!searching) setSearchAll(false);
+  }, [searching]);
+  /** El día al que se limita lo que se ve (sesión elegida o búsqueda dentro de ella), o `null`. */
+  const scopeDate = selectedDate && !(searching && searchAll) ? selectedDate : null;
 
   const { mode, sections } = useMemo((): { mode: ProgrammeMode; sections: ProgrammeSection[] } => {
     const whole = (session: SessionView): ProgrammeSection => ({
@@ -77,6 +85,7 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
       return {
         mode: "search",
         sections: all
+          .filter((session) => scopeDate === null || session.date === scopeDate)
           .map((session) => ({
             ...whole(session),
             performances: session.performances.filter((p) => ids.has(p.group.id)),
@@ -85,7 +94,7 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
       };
     }
 
-    const selected = all.find((session) => session.date === selectedDate);
+    const selected = all.find((session) => session.date === scopeDate);
     if (selected) return { mode: "day", sections: [whole(selected)] };
 
     if (allSessions) return { mode: "focus", sections: all.map(whole) };
@@ -97,7 +106,7 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
         ? schedule.future.slice(0, 2)
         : schedule.past.slice(-1);
     return { mode: "focus", sections: focus.map(whole) };
-  }, [all, allSessions, dayLabel, modalidad, schedule, searching, selectedDate, term]);
+  }, [all, allSessions, dayLabel, modalidad, schedule, scopeDate, searching, term]);
 
   const present = schedule.present;
   const liveIndex = present ? present.performances.findIndex((performance) => performance.isLive) : -1;
@@ -144,11 +153,15 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
     setModalidad,
     selectedDate,
     setSelectedDate,
+    scopeDate,
+    searchAll,
+    setSearchAll,
     /** Vuelve al programa por defecto: sin búsqueda ni día elegido. */
     reset: () => {
       setTerm("");
       setModalidad(null);
       setSelectedDate(null);
+      setSearchAll(false);
     },
   };
 }

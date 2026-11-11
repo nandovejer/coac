@@ -437,11 +437,13 @@ export default function VariantE() {
     if (p.mode === "focus") return was === "focus" ? undefined : announce("");
     const text =
       p.mode === "search"
-        ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
-        : `Sesión elegida: ${p.selectedDate ? formatSessionTitleDate(p.selectedDate) : ""}`;
+        ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}${
+            p.scopeDate ? ` en ${formatSessionTitleDate(p.scopeDate)}` : ""
+          }`
+        : `Sesión elegida: ${p.scopeDate ? formatSessionTitleDate(p.scopeDate) : ""}`;
     const timer = setTimeout(() => announce(text), p.mode === "search" ? 500 : 0);
     return () => clearTimeout(timer);
-  }, [announce, p.mode, p.count, p.selectedDate]);
+  }, [announce, p.mode, p.count, p.scopeDate]);
 
   // Paso a directo: se pinta con un pequeño movimiento y se avisa una vez por
   // sesión. Nunca en el primer pintado ni si ya estaba en directo al cargar.
@@ -522,14 +524,24 @@ export default function VariantE() {
         ? "ve-forward"
         : "ve-back";
     withViewTransition({
+      // El día se elige sin tocar la búsqueda ni la modalidad: se quedan en ese día
       change: () => {
-        p.reset();
-        if (!chosen) p.setSelectedDate(date);
+        p.setSelectedDate(chosen ? null : date);
+        p.setSearchAll(false);
       },
       after: showChosenDay,
       types: [type],
     });
   };
+
+  // Abre la búsqueda a todas las sesiones, o la vuelve a limitar al día elegido
+  const toggleScope = () =>
+    withViewTransition({
+      change: () => p.setSearchAll(!p.searchAll),
+      prepare: markVisibleSlots,
+      after: (viaTransition) => viaTransition && markVisibleSlots(),
+      types: ["ve-filter"],
+    });
 
   // Los accesos rápidos se pintan en dos sitios (cabecera de móvil y columna de
   // escritorio) y el CSS muestra solo uno: así el orden del foco sigue al visual.
@@ -732,7 +744,7 @@ export default function VariantE() {
                   {days.map((session) => {
                     const [weekday, day] = formatShortDate(session.date).split(" ");
                     const label = p.dayLabel(session);
-                    const chosen = p.mode === "day" && p.selectedDate === session.date;
+                    const chosen = p.scopeDate === session.date;
                     return (
                       <li key={session.date}>
                         <button
@@ -772,10 +784,26 @@ export default function VariantE() {
                   {p.mode === "search"
                     ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
                     : "Sesión elegida"}
+                  {p.mode === "search" && (
+                    <span className="coac-ve__scope">
+                      {p.scopeDate
+                        ? `Solo en ${formatSessionTitleDate(p.scopeDate)}`
+                        : p.selectedDate
+                          ? "En todas las sesiones"
+                          : ""}
+                    </span>
+                  )}
                 </span>
-                <button type="button" className="coac-ve__reset" onClick={goToToday}>
-                  Ver todo el programa
-                </button>
+                <span className="coac-ve__context-actions">
+                  {p.mode === "search" && p.selectedDate && (
+                    <button type="button" className="coac-ve__scope-toggle" onClick={toggleScope}>
+                      {p.scopeDate ? "Buscar en todas las sesiones" : `Buscar solo en ${formatSessionTitleDate(p.selectedDate)}`}
+                    </button>
+                  )}
+                  <button type="button" className="coac-ve__reset" onClick={goToToday}>
+                    Ver todo el programa
+                  </button>
+                </span>
               </p>
             )}
 
@@ -938,7 +966,11 @@ export default function VariantE() {
             </div>
 
             {p.sections.length === 0 && (
-              <p className="coac-ve__empty">No hay nada con ese nombre. Prueba con otro.</p>
+              <p className="coac-ve__empty">
+                {p.scopeDate
+                  ? `No hay nada con ese nombre en ${formatSessionTitleDate(p.scopeDate)}. Prueba con otro o busca en todas las sesiones.`
+                  : "No hay nada con ese nombre. Prueba con otro."}
+              </p>
             )}
           </div>
 

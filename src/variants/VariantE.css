@@ -944,6 +944,29 @@
   font-weight: 700;
 }
 
+.coac-ve__scope {
+  display: block;
+  font-size: var(--luz-text-sm);
+  font-weight: 400;
+}
+
+.coac-ve__context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-xs);
+}
+
+/* Cambiar el alcance de la búsqueda: botón con borde, junto al de volver al programa */
+.coac-ve .coac-ve__scope-toggle {
+  min-block-size: 2.75rem;
+  padding-inline: var(--luz-space-md);
+  border: 1px solid var(--ve-second-ink);
+  border-radius: var(--ve-radius);
+  color: var(--ve-second-ink);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+}
+
 .coac-ve .coac-ve__reset {
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
@@ -1521,7 +1544,10 @@ a.coac-ve__previous:focus-visible::after {
   max-inline-size: 44rem;
   margin-inline: auto;
   padding: var(--luz-space-xl) var(--luz-space-md)
-    calc(var(--luz-space-2xl) + env(safe-area-inset-bottom, 0px) + var(--coac-privacy-notice-h, 0px));
+    calc(
+      var(--luz-space-2xl) + 3.5rem + env(safe-area-inset-bottom, 0px) +
+        var(--coac-privacy-notice-h, 0px)
+    );
   border-block-start: 1px solid var(--vc-line);
 }
 
@@ -1927,6 +1953,7 @@ html:has(.coac-ve) {
     .coac-ve__pill-button,
     .coac-ve__print-button,
     .coac-ve__reset,
+    .coac-ve__scope-toggle,
     .coac-ve__clear,
     .coac-ve__arrow,
     .coac-ve__chip,
@@ -1945,6 +1972,7 @@ html:has(.coac-ve) {
       .coac-ve__pill-button,
       .coac-ve__print-button,
       .coac-ve__reset,
+      .coac-ve__scope-toggle,
       .coac-ve__clear,
       .coac-ve__arrow,
       .coac-ve__chip,
@@ -1965,6 +1993,7 @@ html:has(.coac-ve) {
       .coac-ve__pill-button,
       .coac-ve__print-button,
       .coac-ve__reset,
+      .coac-ve__scope-toggle,
       .coac-ve__clear,
       .coac-ve__arrow,
       .coac-ve__status-brief-link
