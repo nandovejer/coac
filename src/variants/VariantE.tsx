@@ -26,6 +26,7 @@ import { formatSessionTitleDate, formatShortDate, parseSessionDate, sessionDateK
 import { ModalidadFilter, PreviousNote } from "./parts";
 import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
 import { PRIVACY_HASH } from "./privacy/policy";
+import { sessionBrief } from "./sessionBrief";
 import { ShellDialogs } from "./ShellDialogs";
 import { addMinutes, pad2, useProgramme, useRemaining, type Stage } from "./useProgramme";
 import { afterPaint, HOME_URL, useShell } from "./useShell";
@@ -91,23 +92,32 @@ function scrollToProgramme() {
 }
 
 /**
- * Publica el alto de la cabecera en `--ve-top-h` del elemento raíz, para que el
- * buscador fijo se pegue justo debajo (cambia con la tira «En directo»).
+ * Publica en el elemento raíz el alto de la cabecera (`--ve-top-h`, cambia con la
+ * tira «En directo») y el del filtro (`--ve-filters-h`): lo fijo se apila justo
+ * debajo de lo anterior.
  */
-function useHeaderHeight() {
+function useStickyHeights() {
   const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const root = rootRef.current;
     const header = root?.querySelector<HTMLElement>(".coac-ve__top");
-    if (!root || !header) return;
-    const update = () => root.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
+    const filters = root?.querySelector<HTMLElement>(".coac-ve__filters");
+    if (!root || !header || !filters) return;
+    const update = () => {
+      root.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
+      root.style.setProperty("--ve-filters-h", `${filters.offsetHeight}px`);
+    };
     update();
     const observer = new ResizeObserver(update);
     observer.observe(header);
+    observer.observe(filters);
     return () => observer.disconnect();
   }, []);
   return rootRef;
 }
+
+/** Aire entre el filtro fijo y lo que se lleva a su borde (un día elegido, la sesión de hoy). */
+const FILTERS_GAP = 16;
 
 /** El bloque fijo sobre los horarios: buscador, modalidades y días. */
 const getFilters = () => document.querySelector<HTMLElement>(".coac-ve__filters");
@@ -117,7 +127,7 @@ const getFilters = () => document.querySelector<HTMLElement>(".coac-ve__filters"
  * quedarse fijo encoge (pierde el título), lo de debajo sube lo mismo, porque el
  * filtro sigue ocupando su sitio en la página.
  */
-const filtersOffset = () => getFilters()?.offsetHeight ?? 0;
+const filtersOffset = () => (getFilters()?.offsetHeight ?? 0) + FILTERS_GAP;
 
 /**
  * Marca el filtro con `data-stuck` mientras va fijo sobre los horarios (en
@@ -286,7 +296,7 @@ export default function VariantE() {
   const upcoming = p.live ? null : p.schedule.upcomingSession;
   const remaining = useRemaining(upcoming?.startsAt);
   const state = p.live ? "live" : remaining ? "countdown" : "over";
-  const rootRef = useHeaderHeight();
+  const rootRef = useStickyHeights();
   useHideHeaderOnScroll(rootRef);
   useStuckFilters();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -301,6 +311,36 @@ export default function VariantE() {
     p.reset();
     afterPaint(scrollToProgramme);
   };
+
+  // Los accesos rápidos se pintan en dos sitios (cabecera de móvil y columna de
+  // escritorio) y el CSS muestra solo uno: así el orden del foco sigue al visual.
+  const renderActions = (place: "top" | "rail") => (
+    <nav className="coac-ve__actions" data-place={place} aria-label="Accesos rápidos">
+      <button type="button" className="coac-ve__action" onClick={goToSearch} title="Buscar">
+        <SearchIcon />
+        <span className="coac-ve__action-label">Buscar</span>
+      </button>
+      <button type="button" className="coac-ve__action" onClick={goToToday} title="Sesión de hoy">
+        <CalendarIcon />
+        <span className="coac-ve__action-label">Sesión de hoy</span>
+      </button>
+      <a
+        className="coac-ve__action"
+        href={SEASON.liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Ver el directo"
+        data-live={p.live ? "" : undefined}
+      >
+        <LiveIcon />
+        <span className="coac-ve__action-label">Ver el directo</span>
+        <span className="coac-sr-only"> (se abre en otra pestaña)</span>
+      </a>
+    </nav>
+  );
+
+  // El resumen de la columna: la sesión de hoy o, si no hay, la próxima
+  const briefSession = p.schedule.present ?? p.schedule.upcomingSession;
 
   // La tira de días va en orden de fecha (las celebradas, con borde discontinuo)
   const days = [...p.all].sort((a, b) => sessionDateKey(a.date) - sessionDateKey(b.date));
@@ -323,30 +363,9 @@ export default function VariantE() {
                 </span>
               </span>
             </a>
-            {/* Accesos rápidos: solo icono en móvil (con nombre para lectores de pantalla),
-                con su texto en la columna de escritorio */}
-            <nav className="coac-ve__actions" aria-label="Accesos rápidos">
-              <button type="button" className="coac-ve__action" onClick={goToSearch} title="Buscar">
-                <SearchIcon />
-                <span className="coac-ve__action-label">Buscar</span>
-              </button>
-              <button type="button" className="coac-ve__action" onClick={goToToday} title="Sesión de hoy">
-                <CalendarIcon />
-                <span className="coac-ve__action-label">Sesión de hoy</span>
-              </button>
-              <a
-                className="coac-ve__action"
-                href={SEASON.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Ver el directo"
-                data-live={p.live ? "" : undefined}
-              >
-                <LiveIcon />
-                <span className="coac-ve__action-label">Ver el directo</span>
-                <span className="coac-sr-only"> (se abre en otra pestaña)</span>
-              </a>
-            </nav>
+            {/* Accesos rápidos en la cabecera fija de móvil: solo icono (con nombre para
+                lectores de pantalla). En escritorio van bajo la tarjeta de estado. */}
+            {renderActions("top")}
           </div>
           {p.live && (
             <a className="coac-ve__strip" href={`#${p.live.group.id}`} onClick={shell.goToLive}>
@@ -425,6 +444,29 @@ export default function VariantE() {
             </p>
           </section>
         </aside>
+
+        {renderActions("rail")}
+
+        {/* Resumen de la sesión de hoy (o la próxima) en la columna de escritorio */}
+        {briefSession && (
+          <section className="coac-ve__brief" aria-labelledby="ve-brief-eyebrow ve-brief-title">
+            <p id="ve-brief-eyebrow" className="coac-ve__eyebrow coac-ve__brief-eyebrow">
+              {briefSession.status === "present" ? "Sesión de hoy" : "Próxima sesión"}
+            </p>
+            <h2 id="ve-brief-title" className="coac-ve__brief-title">
+              {formatSessionTitleDate(briefSession.date)}
+            </h2>
+            <p className="coac-ve__brief-text">
+              {sessionBrief(briefSession).map((part, index) =>
+                part.strong ? <strong key={index}>{part.text}</strong> : <span key={index}>{part.text}</span>,
+              )}
+            </p>
+            <button type="button" className="coac-ve__brief-link" onClick={goToToday}>
+              Ver la sesión
+              <ChevronRightIcon />
+            </button>
+          </section>
+        )}
       </div>
 
       <div className="coac-ve__body">
