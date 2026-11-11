@@ -10,6 +10,13 @@ body {
   line-height: 1.5;
 }
 
+/* Con un modal abierto (<dialog> con showModal) la página de detrás no se
+   desplaza; el hueco de la barra se mantiene para que nada salte de sitio */
+:root:has(dialog:modal) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
 /* Luz separa con margen los bloques hermanos; aquí cada componente pone los suyos */
 :where(p, h1, h2, h3, h4, h5, h6, ul, ol, dl, blockquote, pre, table, details, fieldset, address) {
   margin-block-start: 0;

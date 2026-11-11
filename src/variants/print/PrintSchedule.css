@@ -1,5 +1,5 @@
 /*
- * Modal «Imprime tu horario». Va dentro de .coac-vc, así que usa sus colores
+ * Modal «Imprime tu horario». Va dentro de .coac-vc o .coac-ve, así que usa sus colores
  * (--vc-*) y su piel. Este CSS solo se descarga al abrir el modal.
  */
 .coac-print-dialog {
@@ -12,6 +12,9 @@
   border: 0;
   background: var(--vc-bg);
   color: var(--vc-text);
+  /* El modal no se desplaza de lado ni arrastra el scroll a la página */
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 .coac-print-dialog::backdrop {
@@ -42,7 +45,7 @@
   line-height: 1.5rem;
 }
 
-.coac-vc .coac-print-dialog__close {
+:is(.coac-vc, .coac-ve) .coac-print-dialog__close {
   display: grid;
   place-items: center;
   inline-size: 2.75rem;
@@ -50,7 +53,7 @@
   border: 1px solid transparent;
 }
 
-.coac-vc .coac-print-dialog__close:hover {
+:is(.coac-vc, .coac-ve) .coac-print-dialog__close:hover {
   border-color: var(--vc-muted);
 }
 
@@ -59,6 +62,7 @@
   align-content: start;
   gap: var(--luz-space-lg);
   padding: var(--luz-space-md);
+  overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -97,7 +101,7 @@
   gap: var(--luz-space-xs);
 }
 
-.coac-vc .coac-print-filters__quick button {
+:is(.coac-vc, .coac-ve) .coac-print-filters__quick button {
   min-block-size: 2.25rem;
   padding-inline: var(--luz-space-sm);
   border: 1px solid var(--vc-line);
@@ -106,7 +110,7 @@
   font-weight: 700;
 }
 
-.coac-vc .coac-print-filters__quick button:hover {
+:is(.coac-vc, .coac-ve) .coac-print-filters__quick button:hover {
   border-color: var(--vc-muted);
 }
 
@@ -206,7 +210,7 @@
 }
 
 /* ---- Modo porra: un interruptor grande, con su explicación ---- */
-.coac-vc .coac-print-porra {
+:is(.coac-vc, .coac-ve) .coac-print-porra {
   display: flex;
   align-items: center;
   gap: var(--luz-space-md);
@@ -219,11 +223,11 @@
   text-align: start;
 }
 
-.coac-vc .coac-print-porra:hover {
+:is(.coac-vc, .coac-ve) .coac-print-porra:hover {
   border-color: var(--vc-muted);
 }
 
-.coac-vc .coac-print-porra[aria-checked="true"] {
+:is(.coac-vc, .coac-ve) .coac-print-porra[aria-checked="true"] {
   border-color: var(--vc-primary);
 }
 
@@ -291,6 +295,9 @@
 .coac-print-dialog__preview {
   min-inline-size: 0;
   padding: var(--luz-space-sm);
+  /* Si la hoja es más ancha que la pantalla (la porra), se desliza aquí dentro */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
   background: var(--vc-soft);
 }
 
@@ -327,7 +334,7 @@
 }
 
 /* En móvil: «Descargar PDF» a todo lo ancho; «Imprimir» e «Imagen» debajo, a medias */
-.coac-vc .coac-print-dialog__button {
+:is(.coac-vc, .coac-ve) .coac-print-dialog__button {
   flex: 1 1 40%;
   min-block-size: 3rem;
   padding-inline: var(--luz-space-md);
@@ -336,7 +343,7 @@
   white-space: nowrap;
 }
 
-.coac-vc .coac-print-dialog__button[data-primary] {
+:is(.coac-vc, .coac-ve) .coac-print-dialog__button[data-primary] {
   flex-basis: 100%;
   order: -1;
   border-color: var(--vc-primary);
@@ -344,7 +351,7 @@
   color: var(--vc-on-primary);
 }
 
-.coac-vc .coac-print-dialog__button:disabled {
+:is(.coac-vc, .coac-ve) .coac-print-dialog__button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
@@ -382,7 +389,7 @@
   }
 
   /* Con ratón: botones y casillas más pequeños y estrechos */
-  .coac-vc .coac-print-filters__quick button {
+  :is(.coac-vc, .coac-ve) .coac-print-filters__quick button {
     min-block-size: 1.75rem;
     padding-inline: var(--luz-space-xs);
     font-size: var(--luz-text-xs);
@@ -417,7 +424,7 @@
     font-size: var(--luz-text-sm);
   }
 
-  .coac-vc .coac-print-porra {
+  :is(.coac-vc, .coac-ve) .coac-print-porra {
     gap: var(--luz-space-sm);
     padding: var(--luz-space-xs) var(--luz-space-sm);
   }
@@ -434,8 +441,8 @@
     flex-basis: auto;
   }
 
-  .coac-vc .coac-print-dialog__button,
-  .coac-vc .coac-print-dialog__button[data-primary] {
+  :is(.coac-vc, .coac-ve) .coac-print-dialog__button,
+  :is(.coac-vc, .coac-ve) .coac-print-dialog__button[data-primary] {
     flex: none;
     order: 0;
   }

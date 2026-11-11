@@ -14,7 +14,7 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
-.coac-vc .coac-carousel__arrow {
+:is(.coac-vc, .coac-ve) .coac-carousel__arrow {
   display: none;
   place-items: center;
   inline-size: 2rem;
@@ -29,11 +29,11 @@
   display: grid;
 }
 
-.coac-vc .coac-carousel__arrow:hover:not(:disabled) {
+:is(.coac-vc, .coac-ve) .coac-carousel__arrow:hover:not(:disabled) {
   border-color: var(--vc-muted);
 }
 
-.coac-vc .coac-carousel__arrow:disabled {
+:is(.coac-vc, .coac-ve) .coac-carousel__arrow:disabled {
   cursor: default;
   opacity: 0.35;
 }

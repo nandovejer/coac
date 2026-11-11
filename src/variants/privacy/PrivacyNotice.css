@@ -2,7 +2,7 @@
  * Aviso de privacidad: una franja fina pegada abajo del todo, discreta (texto
  * pequeño, sin sombra ni color de marca). En móvil ocupa todo el ancho; en
  * escritorio, solo la columna del programa (la izquierda queda libre). Va
- * dentro de .coac-vc: usa --vc-* y la piel.
+ * dentro de .coac-vc o .coac-ve: usa --vc-* y la piel.
  */
 .coac-privacy-notice {
   position: fixed;
@@ -65,7 +65,7 @@
 }
 
 /* Botón suave, sin borde salvo al pasar el ratón (como los de la cabecera) */
-.coac-vc .coac-privacy-notice__ok {
+:is(.coac-vc, .coac-ve) .coac-privacy-notice__ok {
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
   border: 1px solid transparent;
@@ -74,7 +74,7 @@
   font-weight: 700;
 }
 
-.coac-vc .coac-privacy-notice__ok:hover {
+:is(.coac-vc, .coac-ve) .coac-privacy-notice__ok:hover {
   border-color: var(--vc-muted);
 }
 

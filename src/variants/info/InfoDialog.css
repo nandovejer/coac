@@ -1,5 +1,5 @@
 /*
- * Modal de lectura (Quiénes somos, Privacidad). Va dentro de .coac-vc (usa
+ * Modal de lectura (Quiénes somos, Privacidad). Va dentro de .coac-vc o .coac-ve (usa
  * --vc-* y la piel). A pantalla completa en móvil; en escritorio, una columna
  * de lectura centrada.
  */
@@ -50,7 +50,7 @@
   line-height: 1.5rem;
 }
 
-.coac-vc .coac-info__close {
+:is(.coac-vc, .coac-ve) .coac-info__close {
   display: grid;
   flex: none;
   place-items: center;
@@ -59,7 +59,7 @@
   border: 1px solid transparent;
 }
 
-.coac-vc .coac-info__close:hover {
+:is(.coac-vc, .coac-ve) .coac-info__close:hover {
   border-color: var(--vc-muted);
 }
 
