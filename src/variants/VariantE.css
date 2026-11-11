@@ -51,9 +51,10 @@
   /* La misma banda, translúcida y con desenfoque cuando va fija (escritorio): sobre
      una tarjeta blanca queda en #4d6bb3, 5,16:1 con el texto blanco */
   --ve-head-glass: rgb(45 81 165 / 0.85);
-  /* La cabecera destacada al quedarse fija: casi opaca, lo de debajo se ve muy
-     tenue (sobre una tarjeta blanca, 5,54:1 con el texto blanco) */
-  --ve-feature-glass: rgb(45 81 165 / 0.88);
+  /* La cabecera destacada al quedarse fija: translúcida, lo de debajo se intuye.
+     La base es un cobalto más oscuro para que, sobre una tarjeta blanca, el
+     color resultante sea el de siempre y el texto blanco quede en 5,09:1 */
+  --ve-feature-glass: rgb(26 52 122 / 0.72);
   --ve-on-head: #ffffff;
   --ve-next-head-text: var(--ve-on-feature);
   --ve-next-head-accent: var(--ve-on-feature);
@@ -90,7 +91,7 @@
   --ve-head-bg: #3e69ca;
   /* Sobre una tarjeta oscura queda en 5,65:1 con el texto blanco */
   --ve-head-glass: rgb(68 112 214 / 0.85);
-  --ve-feature-glass: rgb(53 96 196 / 0.88);
+  --ve-feature-glass: rgb(43 84 181 / 0.72);
   --ve-mark-opacity: 0.1;
   --ve-second: #c3d0f7;
   --ve-on-second: #0f1838;
@@ -2550,8 +2551,8 @@ html:active-view-transition-type(ve-theme) *::after {
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
       background: var(--ve-head-glass);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
     }
   }
 }
@@ -2574,15 +2575,27 @@ html:active-view-transition-type(ve-theme) *::after {
     @container scroll-state(stuck: top) {
       .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head::after {
         background: var(--ve-head-glass);
-        -webkit-backdrop-filter: blur(12px);
-        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
       }
     }
   }
 }
 
 /* La cabecera de la sesión destacada (hoy o la próxima), igual: al quedarse fija
-   deja ver, muy tenue y desenfocado, lo que pasa por debajo */
+   deja ver, tenue y algo desenfocado, lo que pasa por debajo. Sin scroll-state,
+   el cristal va siempre (en escritorio) */
+@media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) and
+    (not (container-type: scroll-state)) {
+    .coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
+      background: var(--ve-feature-glass);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+  }
+}
+
 @media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
   @supports (container-type: scroll-state) {
     .coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
@@ -2596,8 +2609,8 @@ html:active-view-transition-type(ve-theme) *::after {
     @container scroll-state(stuck: top) {
       .coac-ve__session[data-featured] .coac-ve__session-head::after {
         background: var(--ve-feature-glass);
-        -webkit-backdrop-filter: blur(12px);
-        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
       }
     }
   }
