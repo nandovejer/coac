@@ -1,7 +1,11 @@
 import { SEASON } from "../../config/season";
+import { FallaLogo } from "../../components/ui/FallaLogo";
 import type { PerformanceView, SessionView } from "../../domain/schedule";
 import { formatSessionTitleDate } from "../../lib/dates";
 import { actOrder, capitalize } from "./format";
+import { Confetti, MaskArt } from "./PorraArt";
+// Los colores y dibujos del cartel (--pp-*, antifaz, confeti) son los de la porra
+import "./PorraSheet.css";
 import "./PrintSheet.css";
 
 /** Una sesión del horario impreso, con solo las filas que pasan los filtros. */
@@ -22,8 +26,11 @@ const RANKING_TEXT = { top: "Imprescindible", ok: "Recomendada", standar: "" } a
  */
 export function PrintSheet({ blocks }: { blocks: PrintBlock[] }) {
   return (
-    <article className="coac-print-sheet">
+    <article className="coac-print-sheet coac-porra coac-print-sheet--poster">
       <header className="coac-print-sheet__head">
+        <Confetti />
+        <MaskArt />
+        <FallaLogo className="coac-print-sheet__falla" />
         <p className="coac-print-sheet__brand">¿Quién canta hoy? · COAC {SEASON.year}</p>
         <h2 className="coac-print-sheet__title">Mi horario · {SEASON.phaseTitle}</h2>
         <p className="coac-print-sheet__note">
@@ -87,7 +94,10 @@ export function PrintSheet({ blocks }: { blocks: PrintBlock[] }) {
         ))}
       </div>
 
-      <footer className="coac-print-sheet__foot">coac.com.es</footer>
+      <footer className="coac-print-sheet__foot">
+        <span>¡Que suene el Carnaval!</span>
+        <span>coac.com.es</span>
+      </footer>
     </article>
   );
 }

@@ -185,6 +185,116 @@
   font-size: var(--luz-text-xs);
 }
 
+/* ---- Aspecto de cartel de carnaval (el de la porra): papel crema, tinta marino,
+   días en cinta cobalto y pie oscuro. Mismos elementos y tamaños que la hoja
+   lisa; los colores y los dibujos vienen de PorraSheet.css (--pp-*) ---- */
+.coac-print-sheet.coac-print-sheet--poster {
+  --ps-head: var(--pp-ink);
+  --ps-zebra: #f3e9d0;
+
+  gap: var(--luz-space-lg);
+  overflow: hidden;
+  background: var(--pp-paper);
+  color: var(--pp-ink);
+}
+
+.coac-print-sheet--poster .coac-print-sheet__head {
+  position: relative;
+  justify-items: center;
+  border-block-end: 3px double var(--pp-ink);
+  text-align: center;
+}
+
+.coac-print-sheet--poster .coac-print-sheet__head > :is(p, h2) {
+  position: relative;
+}
+
+.coac-print-sheet--poster .coac-print-sheet__brand {
+  color: var(--pp-cobalt);
+  font-family: var(--pp-serif);
+}
+
+.coac-print-sheet--poster .coac-print-sheet__title {
+  font-family: var(--pp-serif);
+  font-weight: 900;
+}
+
+.coac-print-sheet--poster .coac-print-sheet__note {
+  color: var(--pp-violet);
+  font-family: var(--pp-serif);
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* El antifaz a la izquierda y la fachada del Falla a la derecha, a media altura;
+   en una vista previa estrecha no caben y quedan solo el confeti */
+.coac-print-sheet--poster .coac-porra__mask,
+.coac-print-sheet__falla {
+  display: none;
+}
+
+@container (min-width: 34rem) {
+  .coac-print-sheet--poster .coac-print-sheet__head {
+    padding-inline: 4rem;
+  }
+
+  .coac-print-sheet--poster .coac-porra__mask,
+  .coac-print-sheet__falla {
+    position: absolute;
+    inset-block-start: 50%;
+    display: block;
+    inline-size: 2.5rem;
+    translate: 0 -55%;
+  }
+
+  .coac-print-sheet--poster .coac-porra__mask {
+    inset-inline-start: 0.5rem;
+    block-size: auto;
+  }
+
+  .coac-print-sheet__falla {
+    inset-inline-end: 0.75rem;
+    block-size: 2.5rem;
+    color: var(--pp-cobalt);
+  }
+}
+
+/* Cada día, en una cinta de color pleno con los bordes como pincelada */
+.coac-print-sheet--poster .coac-print-sheet__day {
+  padding: 0.15em 0.7em 0.1em;
+  background: var(--pp-cobalt);
+  clip-path: polygon(0 12%, 2% 0, 40% 6%, 70% 0, 98% 4%, 100% 30%, 99% 70%, 100% 100%, 60% 94%, 25% 100%, 3% 96%, 0 80%);
+  color: var(--pp-on-color);
+  font-family: var(--pp-serif);
+}
+
+.coac-print-sheet--poster .coac-print-sheet__day span {
+  color: var(--pp-on-color);
+}
+
+.coac-print-sheet--poster .coac-print-sheet__table {
+  border-color: var(--pp-ink);
+}
+
+.coac-print-sheet--poster .coac-print-sheet__table th {
+  color: var(--pp-paper);
+}
+
+.coac-print-sheet--poster .coac-print-sheet__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--luz-space-3xs) var(--luz-space-md);
+  margin: var(--luz-space-xs) calc(var(--luz-space-lg) * -1) calc(var(--luz-space-lg) * -1);
+  padding: var(--luz-space-xs) var(--luz-space-lg);
+  border: 0;
+  background: var(--pp-ink);
+  color: var(--pp-paper);
+  font-family: var(--pp-serif);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 /* ---- En papel: tamaños en puntos, dos columnas y sin cortar sesiones ---- */
 @media print {
   /* En bloque (no en rejilla): así se respetan los saltos de página */
@@ -262,5 +372,27 @@
 
   .coac-print-sheet__foot {
     margin-block-start: 4pt;
+  }
+
+  .coac-print-sheet--poster .coac-porra__mask,
+  .coac-print-sheet__falla {
+    inline-size: 30pt;
+  }
+
+  .coac-print-sheet__falla {
+    block-size: 30pt;
+  }
+
+  .coac-print-sheet--poster .coac-print-sheet__head {
+    padding-inline: 44pt;
+  }
+
+  .coac-print-sheet.coac-print-sheet--poster {
+    background: #ffffff;
+  }
+
+  .coac-print-sheet--poster .coac-print-sheet__foot {
+    margin: 6pt 0 0;
+    padding: 3pt 8pt;
   }
 }
