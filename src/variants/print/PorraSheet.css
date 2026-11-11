@@ -46,7 +46,7 @@
   display: grid;
   justify-items: center;
   gap: 0.15rem;
-  padding: var(--luz-space-xs) 18% var(--luz-space-sm);
+  padding: 0 18% var(--luz-space-2xs);
   text-align: center;
 }
 
@@ -87,9 +87,9 @@
 /* Antifaz con plumas a la izquierda; el sello, a la derecha */
 .coac-porra__mask {
   position: absolute;
-  inset-block-start: 6%;
-  inset-inline-start: 0;
-  inline-size: 18%;
+  inset-block-start: 4%;
+  inset-inline-start: 2%;
+  inline-size: 12%;
 }
 
 .coac-porra__feather[data-tone="1"] {
@@ -128,7 +128,7 @@
   gap: 0.6em;
   color: var(--pp-cobalt);
   font-family: var(--pp-serif);
-  font-size: max(0.75rem, 3.2cqi);
+  font-size: max(0.6875rem, 2.2cqi);
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.1;
@@ -145,7 +145,7 @@
 .coac-porra .coac-porra__title {
   color: var(--pp-ink);
   font-family: var(--pp-serif);
-  font-size: max(2.25rem, 13cqi);
+  font-size: max(1.75rem, 8.5cqi);
   font-weight: 900;
   letter-spacing: 0.06em;
   line-height: 0.95;
@@ -155,7 +155,7 @@
 .coac-porra .coac-porra__question {
   color: var(--pp-violet);
   font-family: var(--pp-serif);
-  font-size: max(1.05rem, 5.6cqi);
+  font-size: max(0.95rem, 3.8cqi);
   font-style: italic;
   font-weight: 700;
   line-height: 1.1;
@@ -163,15 +163,15 @@
 
 /* Cinta con lo que hay que hacer: color pleno y las puntas recortadas */
 .coac-porra .coac-porra__ribbon {
-  margin-block-start: 0.4rem;
-  padding: 0.3em 1.6em;
+  margin-block-start: 0.25rem;
+  padding: 0.25em 1.6em;
   background: var(--pp-cobalt);
   clip-path: polygon(0 0, 100% 0, calc(100% - 0.8em) 50%, 100% 100%, 0 100%, 0.8em 50%);
   /* En una sola línea si cabe: puede salirse del hueco entre los dibujos */
   inline-size: max-content;
   max-inline-size: 76cqi;
   color: var(--pp-on-color);
-  font-size: max(0.625rem, 2.1cqi);
+  font-size: max(0.625rem, 1.7cqi);
   font-weight: 800;
   letter-spacing: 0.06em;
   line-height: 1.3;
@@ -181,9 +181,9 @@
 /* Sello redondo, algo torcido, en la esquina de arriba a la derecha */
 .coac-porra__stamp {
   position: absolute;
-  inset-block-start: 8%;
-  inset-inline-end: 1%;
-  inline-size: 16%;
+  inset-block-start: 4%;
+  inset-inline-end: 2%;
+  inline-size: 11%;
   aspect-ratio: 1;
   color: var(--pp-cobalt);
   rotate: 12deg;
@@ -499,23 +499,23 @@
 
   .coac-porra__head {
     display: grid;
-    padding: 2pt 18% 6pt;
+    padding: 0 18% 4pt;
   }
 
   .coac-porra .coac-porra__season {
-    font-size: 13pt;
+    font-size: 10pt;
   }
 
   .coac-porra .coac-porra__title {
-    font-size: 46pt;
+    font-size: 32pt;
   }
 
   .coac-porra .coac-porra__question {
-    font-size: 21pt;
+    font-size: 15pt;
   }
 
   .coac-porra .coac-porra__ribbon {
-    font-size: 8.5pt;
+    font-size: 7.5pt;
   }
 
   .coac-porra .coac-porra__fill {
