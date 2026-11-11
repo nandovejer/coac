@@ -1,6 +1,8 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { FallaLogo } from "../../components/ui/FallaLogo";
 import { CloseIcon } from "../../components/ui/icons";
+import { afterDialogExit } from "../motion";
+import "../dialog-motion.css";
 import "./InfoDialog.css";
 
 /**
@@ -25,7 +27,7 @@ export function InfoDialog({
     const dialog = dialogRef.current;
     if (!dialog) return;
     dialog.showModal();
-    const close = () => onClose();
+    const close = () => afterDialogExit(dialog, onClose);
     const backdrop = (event: MouseEvent) => {
       if (event.target === dialog) dialog.close();
     };

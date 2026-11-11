@@ -46,6 +46,12 @@
   /* Cabecera de la próxima sesión: el bloque del banner de estado, con la fachada
      (cada modo pone su color de banner en --ve-feature) */
   --ve-next-head-bg: var(--ve-feature);
+  /* Cabecera de las demás sesiones por venir: un azul algo más claro que el de la destacada */
+  --ve-head-bg: #4467bb;
+  /* La misma banda, translúcida y con desenfoque cuando va fija (escritorio): sobre
+     una tarjeta blanca queda en #4d6bb3, 5,16:1 con el texto blanco */
+  --ve-head-glass: rgb(45 81 165 / 0.85);
+  --ve-on-head: #ffffff;
   --ve-next-head-text: var(--ve-on-feature);
   --ve-next-head-accent: var(--ve-on-feature);
   --ve-next-mark: block;
@@ -78,6 +84,9 @@
   --ve-ok: #facc15;
   --ve-accent-text: #8fb0ff;
   --ve-feature: #3560c4;
+  --ve-head-bg: #3e69ca;
+  /* Sobre una tarjeta oscura queda en 5,65:1 con el texto blanco */
+  --ve-head-glass: rgb(68 112 214 / 0.85);
   --ve-mark-opacity: 0.1;
   --ve-second: #c3d0f7;
   --ve-on-second: #0f1838;
@@ -112,6 +121,9 @@
   --ve-ok: #7a4b00;
   --ve-accent-text: #00256c;
   --ve-feature: #00256c;
+  --ve-head-bg: #163b8a;
+  /* Alto contraste: sin transparencia */
+  --ve-head-glass: #163b8a;
   --ve-second: #000000;
   --ve-second-soft: #ffffff;
   --ve-second-ink: #000000;
@@ -178,10 +190,11 @@
   /* Columna que no crece con el nombre largo de la tira «En directo» */
   grid-template-columns: minmax(0, 1fr);
   gap: var(--luz-space-xs);
-  padding: var(--luz-space-xs) var(--luz-space-md);
+  /* El contenido de la cabecera sigue la columna de 44 rem del resto de la página
+     (tarjeta, programa, pie): logo y accesos quedan alineados con sus bordes */
+  padding: var(--luz-space-xs) max(var(--luz-space-md), calc((100% - 44rem) / 2 + var(--luz-space-md)));
   border-block-end: 1px solid var(--vc-line);
   background: var(--vc-bg);
-  transition: transform 0.2s ease;
 }
 
 /* Al bajar se esconde (y el buscador fijo sube a ocupar su sitio); al subir
@@ -571,7 +584,6 @@
   min-inline-size: 0;
   margin-inline: calc(var(--luz-space-md) * -1);
   padding: var(--luz-space-xs) var(--luz-space-md) 0;
-  transition: inset-block-start 0.2s ease;
 }
 
 /* Fondo y línea inferior a sangre, de lado a lado del programa (lo que sobra lo
@@ -1867,5 +1879,699 @@ a.coac-ve__previous:focus-visible::after {
   .coac-ve__on-air-dot,
   .coac-ve__action[data-live] .coac-icon__live-dot {
     animation: none;
+  }
+}
+
+/* =========================================================================
+   Movimiento (ver .claude/plans/PLAN-ANIMACIONES.md)
+   Todo desplazamiento, escala o recorte va dentro de
+   `prefers-reduced-motion: no-preference`. Con «reducir movimiento» solo quedan
+   cambios de color, borde y sombra de 160 ms. El texto nunca pasa por opacidad
+   intermedia ni por una transición de `color`.
+   ========================================================================= */
+
+/* El foco nunca cae bajo lo que va fijo (cabecera, filtro, aviso de privacidad) */
+html:has(.coac-ve) {
+  scroll-padding-block-start: calc(var(--ve-top-h, 0px) + var(--ve-filters-h, 0px) + 16px);
+  scroll-padding-block-end: var(--coac-privacy-notice-h, 0px);
+}
+
+/* El programa recibe el foco al cerrar el aviso de privacidad: sin anillo, es un destino */
+#siteMain:focus {
+  outline: none;
+}
+
+/* Los accesos, botones, chips y días responden al tacto. Borde y sombra cambian en
+   160 ms en todos los modos; el hundimiento al pulsar, solo con movimiento. El
+   fondo NO se anima: en chips, días y botones el texto cambia de color con el
+   estado, y a mitad de una transición de fondo el texto perdería contraste (la
+   prueba de contraste a mitad de animación lo detectó). */
+.coac-ve
+  :is(
+    .coac-ve__action,
+    .coac-ve__pill-button,
+    .coac-ve__print-button,
+    .coac-ve__reset,
+    .coac-ve__clear,
+    .coac-ve__arrow,
+    .coac-ve__chip,
+    .coac-ve__day,
+    .coac-ve__status-brief-link
+  ) {
+  transition:
+    border-color var(--coac-dur-quick) ease,
+    box-shadow var(--coac-dur-quick) ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve
+    :is(
+      .coac-ve__action,
+      .coac-ve__pill-button,
+      .coac-ve__print-button,
+      .coac-ve__reset,
+      .coac-ve__clear,
+      .coac-ve__arrow,
+      .coac-ve__chip,
+      .coac-ve__day,
+      .coac-ve__status-brief-link
+    ) {
+    transition:
+      border-color var(--coac-dur-quick) ease,
+      box-shadow var(--coac-dur-quick) ease,
+      scale var(--coac-dur-base) var(--coac-ease-spring),
+      translate var(--coac-dur-base) var(--coac-ease-out),
+      rotate var(--coac-dur-base) var(--coac-ease-out);
+  }
+
+  .coac-ve
+    :is(
+      .coac-ve__action,
+      .coac-ve__pill-button,
+      .coac-ve__print-button,
+      .coac-ve__reset,
+      .coac-ve__clear,
+      .coac-ve__arrow,
+      .coac-ve__status-brief-link
+    ):active:not(:disabled) {
+    scale: 0.96;
+    transition-duration: var(--coac-dur-instant);
+    transition-timing-function: var(--coac-ease-press);
+  }
+
+  .coac-ve :is(.coac-ve__chip, .coac-ve__day):active {
+    scale: 0.94;
+    transition-duration: var(--coac-dur-instant);
+    transition-timing-function: var(--coac-ease-press);
+  }
+}
+
+/* Hover solo con ratón: los accesos suben 1 px, los chevrons avanzan, la ✕ gira */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .coac-ve .coac-ve__action:hover {
+    translate: 0 -1px;
+    box-shadow: var(--ve-shadow-raised);
+  }
+
+  .coac-ve__status-brief-link:hover .coac-icon {
+    translate: var(--coac-shift-xs) 0;
+  }
+
+  .coac-ve__clear:hover .coac-icon {
+    rotate: 90deg;
+  }
+
+  .coac-ve__status-brief-link .coac-icon,
+  .coac-ve__clear .coac-icon {
+    transition:
+      translate var(--coac-dur-base) var(--coac-ease-out),
+      rotate var(--coac-dur-base) var(--coac-ease-out);
+  }
+}
+
+/* El foco que aterriza: al saltar a una agrupación (Ver el directo, ancla) el
+   anillo, ya completo desde el primer fotograma, se cierra sobre la tarjeta */
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__card[data-landed]:focus {
+    animation: coac-ve-land var(--coac-dur-gentle) var(--coac-ease-out);
+  }
+}
+
+@keyframes coac-ve-land {
+  from {
+    outline-offset: 8px;
+  }
+}
+
+/* En el título de sesión, la raya de debajo es el indicador de foco del teclado
+   (:focus-visible, así con ratón o toque no se queda a la vista): se dibuja de
+   izquierda a derecha y se queda mientras el título tiene el foco */
+.coac-ve__session-title {
+  position: relative;
+}
+
+.coac-ve__session-title:focus-visible::after {
+  position: absolute;
+  inset-block-end: -0.25rem;
+  inset-inline: 0;
+  block-size: 3px;
+  border-radius: 2px;
+  background: var(--ve-focus);
+  content: "";
+  transform-origin: left;
+}
+
+.coac-ve__session[data-featured] .coac-ve__session-title:focus-visible::after {
+  background: currentColor;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__session-title:focus-visible::after {
+    animation: coac-ve-underline var(--coac-dur-gentle) var(--coac-ease-out);
+  }
+}
+
+@keyframes coac-ve-underline {
+  from {
+    scale: 0 1;
+  }
+}
+
+/* Paso a directo: el fondo de la tarjeta de estado pasa a tinta (de cobalto a tinta,
+   ambos oscuros: el texto blanco no pierde contraste). Solo al entrar en directo. */
+.coac-ve__status[data-state="live"] {
+  transition: background-color var(--coac-dur-quick) ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__status[data-state="live"] {
+    transition: background-color var(--coac-dur-stage) var(--coac-ease-in-out);
+  }
+}
+
+/* ---- View Transitions: el telón al cambiar de lista ----
+   Solo se nombran los elementos mientras dura la transición (data-vt, lo pone
+   motion.ts): sin ella, nada tiene nombre y la página es la de siempre. El resto
+   de la página cambia en seco; el navegador no funde nada (sin fundido ni
+   `plus-lighter`: un texto a medio fundir pierde contraste). */
+::view-transition-old(*),
+::view-transition-new(*) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+.coac-ve:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"])
+  .coac-ve__sessions
+  > .coac-ve__session:first-child {
+  view-transition-name: ve-list;
+}
+
+/* El filtro, por encima de la lista que se desliza, y sin moverse */
+.coac-ve:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"], [data-vt="ve-filter"])
+  .coac-ve__filters {
+  view-transition-name: ve-filters;
+}
+
+::view-transition-group(ve-list),
+::view-transition-group(ve-filters),
+::view-transition-old(ve-list),
+::view-transition-new(ve-list),
+::view-transition-new(ve-filters) {
+  animation: none;
+}
+
+::view-transition-old(ve-filters) {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* La lista vieja sale primero y la nueva entra casi al acabar ella (se solapan
+     solo unos ms): dos textos superpuestos a medio camino se leerían mal.
+     Día posterior: la lista vieja se recoge hacia la izquierda y la nueva se abre desde ella */
+  html:active-view-transition-type(ve-forward)::view-transition-old(ve-list) {
+    animation: coac-ve-vt-out-left calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
+  }
+
+  html:active-view-transition-type(ve-forward)::view-transition-new(ve-list) {
+    animation: coac-ve-vt-in-right calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
+      calc(var(--coac-dur-gentle) * 0.3) both;
+  }
+
+  /* Día anterior: el espejo */
+  html:active-view-transition-type(ve-back)::view-transition-old(ve-list) {
+    animation: coac-ve-vt-out-right calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
+  }
+
+  html:active-view-transition-type(ve-back)::view-transition-new(ve-list) {
+    animation: coac-ve-vt-in-left calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
+      calc(var(--coac-dur-gentle) * 0.3) both;
+  }
+
+  /* «Ver todo» y «Sesión de hoy»: el telón cae en vertical */
+  html:active-view-transition-type(ve-reset)::view-transition-old(ve-list) {
+    animation: coac-ve-vt-out-down calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
+  }
+
+  html:active-view-transition-type(ve-reset)::view-transition-new(ve-list) {
+    animation: coac-ve-vt-in-down calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
+      calc(var(--coac-dur-gentle) * 0.3) both;
+  }
+}
+
+/* Los recortes llevan los dos extremos explícitos: `clip-path` no se interpola
+   entre `none` y una forma, y saltaría de golpe a mitad de la animación */
+@keyframes coac-ve-vt-out-left {
+  from {
+    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+
+  to {
+    clip-path: inset(0 0 0 100%);
+    translate: calc(var(--coac-shift-md) * -1) 0;
+  }
+}
+
+@keyframes coac-ve-vt-in-right {
+  from {
+    clip-path: inset(0 100% 0 0);
+    translate: var(--coac-shift-md) 0;
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+}
+
+@keyframes coac-ve-vt-out-right {
+  from {
+    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+
+  to {
+    clip-path: inset(0 100% 0 0);
+    translate: var(--coac-shift-md) 0;
+  }
+}
+
+@keyframes coac-ve-vt-in-left {
+  from {
+    clip-path: inset(0 0 0 100%);
+    translate: calc(var(--coac-shift-md) * -1) 0;
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+}
+
+@keyframes coac-ve-vt-out-down {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+
+  to {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes coac-ve-vt-in-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ---- Cabecera y filtro fijos ----
+   Se esconden más deprisa de lo que vuelven (curvas asimétricas, ease-in al salir y
+   ease-out al entrar). La cabecera se desliza con `transform`; el filtro, con su
+   posición fija. Al quedarse pegado, el filtro gana una sombra de despegue. */
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__top {
+    transition: transform var(--coac-dur-base) var(--coac-ease-out);
+  }
+
+  .coac-ve[data-header-hidden] .coac-ve__top:not(:focus-within) {
+    transition: transform calc(var(--coac-dur-base) * 0.75) var(--coac-ease-in);
+  }
+
+  .coac-ve__filters {
+    transition: inset-block-start var(--coac-dur-base) var(--coac-ease-out);
+  }
+
+  .coac-ve[data-header-hidden] .coac-ve__filters {
+    transition: inset-block-start calc(var(--coac-dur-base) * 0.75) var(--coac-ease-in);
+  }
+}
+
+.coac-ve__filters::before {
+  transition: box-shadow var(--coac-dur-quick) ease;
+}
+
+.coac-ve__filters[data-stuck]::before {
+  box-shadow: var(--ve-shadow);
+}
+
+[data-mode="high-contrast"] .coac-ve__filters[data-stuck]::before {
+  border-block-end-width: 2px;
+}
+
+/* ---- Luces de sala: el cambio de modo de color ----
+   El modo nuevo se abre como un círculo desde el botón y cubre al viejo, que
+   queda debajo sin animar. Nada se nombra: es toda la página. Durante la
+   transición se quitan las transiciones propias y las de Luz (los fondos de
+   <html> y <body>), para que el color nuevo esté entero en el primer fotograma. */
+html:active-view-transition-type(ve-theme),
+html:active-view-transition-type(ve-theme) *,
+html:active-view-transition-type(ve-theme) *::before,
+html:active-view-transition-type(ve-theme) *::after {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:active-view-transition-type(ve-theme)::view-transition-new(root) {
+    animation: coac-ve-vt-circle var(--coac-dur-stage) var(--coac-ease-in-out) both;
+  }
+}
+
+@keyframes coac-ve-vt-circle {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 100%));
+  }
+
+  to {
+    clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 100%));
+  }
+}
+
+/* ---- Rótulo de contexto («Sesión elegida», «N encontradas») ----
+   Dentro de la transición de lista, baja desde detrás del filtro y se va hacia
+   arriba; el grupo recorta, así que no se ve por encima del filtro. */
+.coac-ve:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"]) .coac-ve__context {
+  view-transition-name: ve-context;
+}
+
+::view-transition-group(ve-context) {
+  overflow: clip;
+  animation: none;
+}
+
+::view-transition-old(ve-context):only-child,
+::view-transition-new(ve-context):only-child {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-new(ve-context):only-child {
+    animation: coac-ve-vt-context-in var(--coac-dur-base) var(--coac-ease-out) both;
+  }
+
+  ::view-transition-old(ve-context):only-child {
+    animation: coac-ve-vt-context-out var(--coac-dur-quick) var(--coac-ease-in) both;
+  }
+}
+
+@keyframes coac-ve-vt-context-in {
+  from {
+    translate: 0 -100%;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes coac-ve-vt-context-out {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 0 -100%;
+  }
+}
+
+/* ---- Ficha fantasma de los días y las modalidades ----
+   Una ficha sin texto (aria-hidden) viaja del botón pulsado antes al de ahora; el
+   estado, como siempre, está en el botón. Detalle en useGhostMark.ts. */
+.coac-ve__carousel,
+.coac-ve__chips {
+  position: relative;
+}
+
+.coac-ve .coac-ve__day {
+  position: relative;
+  z-index: 1;
+}
+
+.coac-ve__ghost {
+  position: absolute;
+  z-index: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Día: la ficha del elegido, por debajo del texto; el botón nuevo no pinta la suya mientras viaja */
+.coac-ve__ghost[data-kind="day"] {
+  border: 1px solid var(--ve-card-edge);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  box-shadow: var(--ve-shadow-raised);
+}
+
+[data-ghosting] .coac-ve__day[aria-pressed="true"] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Modalidad: un anillo sin relleno por encima del chip */
+.coac-ve__ghost[data-kind="chip"] {
+  z-index: 2;
+  border: 2px solid var(--ve-second);
+  border-radius: var(--ve-radius);
+}
+
+[data-mode="high-contrast"] .coac-ve__ghost[data-kind="chip"] {
+  border: 3px solid var(--vc-text);
+}
+
+/* ---- Filtro de modalidad: las filas que se ven se recolocan ----
+   Cada fila marcada (data-vt-card, ver markVisibleSlots) se nombra sola
+   (match-element). Las que siguen se mueven a su sitio nuevo; las que se van se
+   encogen y las que llegan suben 8 px. Sin fundidos: el texto no pasa por opacidad. */
+.coac-ve[data-vt="ve-filter"] [data-vt-card] {
+  view-transition-name: match-element;
+  view-transition-class: ve-card;
+}
+
+::view-transition-group(*.ve-card) {
+  animation-duration: var(--coac-dur-base);
+  animation-timing-function: var(--coac-ease-in-out);
+}
+
+::view-transition-old(*.ve-card),
+::view-transition-new(*.ve-card) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(*.ve-card):only-child {
+    animation: coac-ve-card-out var(--coac-dur-quick) var(--coac-ease-in) both;
+  }
+
+  /* Las que llegan esperan a que las que se van se hayan recogido (no se superponen textos) */
+  ::view-transition-new(*.ve-card):only-child {
+    animation: coac-ve-card-in var(--coac-dur-base) var(--coac-ease-out) calc(var(--coac-dur-quick) * 0.5)
+      both;
+  }
+}
+
+@keyframes coac-ve-card-out {
+  from {
+    clip-path: inset(0 0 0 0);
+    scale: 1;
+  }
+
+  to {
+    clip-path: inset(0 0 100% 0);
+    scale: 0.96;
+  }
+}
+
+@keyframes coac-ve-card-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+    translate: 0 var(--coac-shift-sm);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+}
+
+/* ---- El turno del directo avanza por pasos ----
+   Cada 30 s (el pulso de la hora) la barra se recorta un poco más, suavizada en
+   600 ms; el resto del tiempo está quieta. No hay una animación continua. */
+.coac-ve__progress::after {
+  inline-size: 100%;
+  border-radius: 0;
+  clip-path: inset(0 calc((1 - var(--ve-progress, 0)) * 100%) 0 0 round var(--ve-radius));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__progress::after {
+    transition: clip-path 600ms linear;
+  }
+}
+
+/* ---- Tanda 3: entrada, fachada en la última hora, accesos y cabeceras pegajosas ---- */
+
+.coac-ve__countdown {
+  display: contents;
+}
+
+/* La fachada de la tarjeta de estado sube hasta un 12 % en la última hora antes de
+   la sesión (--ve-curtain, que cambia por minutos y sin transición). Con
+   «reducir movimiento» se queda fija. */
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__status .coac-ve__status-mark {
+    translate: 50% calc(12% - var(--ve-curtain, 0) * 12%);
+  }
+
+  /* Primera carga de la pestaña: la fachada sube a su sitio y los segmentos de
+     hoy se rellenan uno tras otro (como mucho 180 ms de escalonado) */
+  .coac-ve[data-intro] .coac-ve__status .coac-ve__status-mark {
+    animation: coac-ve-mark-in var(--coac-dur-stage) var(--coac-ease-out) both;
+  }
+
+  .coac-ve[data-intro] .coac-ve__segment[data-stage="done"] {
+    animation: coac-ve-segment-in var(--coac-dur-gentle) var(--coac-ease-out)
+      calc(var(--i, 0) * var(--coac-stagger)) both;
+  }
+}
+
+@keyframes coac-ve-mark-in {
+  from {
+    translate: 50% 40%;
+  }
+}
+
+@keyframes coac-ve-segment-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Escritorio: al engancharse, la cabecera de cada sesión gana una sombra
+   de despegue (si el navegador sabe de estado de scroll; si no, queda como está) */
+@supports (container-type: scroll-state) {
+  @media (min-width: 64rem) {
+    .coac-ve__session .coac-ve__session-head {
+      container-type: scroll-state;
+    }
+
+    .coac-ve__session .coac-ve__session-head::after {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      box-shadow: none;
+      content: "";
+      pointer-events: none;
+      transition: box-shadow var(--coac-dur-quick) ease;
+    }
+
+    @container scroll-state(stuck: top) {
+      .coac-ve__session .coac-ve__session-head::after {
+        box-shadow: var(--ve-shadow);
+      }
+
+      [data-mode="high-contrast"] .coac-ve__session .coac-ve__session-head::after {
+        box-shadow: inset 0 -2px 0 var(--vc-text);
+      }
+    }
+  }
+}
+
+/* ---- Escritorio: la cabecera de cada sesión se queda fija ----
+   Mientras se recorren sus tarjetas, el título de la sesión queda bajo el filtro
+   (como el de la destacada) y se va al llegar a la siguiente: así se sabe de qué
+   sesión es cada columna. Lleva el fondo de la página para que las tarjetas pasen
+   por debajo; el margen negativo compensa el relleno y el sitio no cambia. */
+@media (min-width: 64rem) {
+  .coac-ve__session:not([data-featured]) .coac-ve__session-head {
+    position: sticky;
+    inset-block-start: var(--ve-filters-h, 0px);
+    z-index: 3;
+    margin-block: calc(var(--luz-space-sm) * -1);
+    padding-block: var(--luz-space-sm);
+    background: var(--vc-bg);
+  }
+}
+
+/* Dos sesiones por fila: las dos ocupan el alto de la fila, así sus cabeceras se
+   quedan fijas hasta la fila siguiente aunque una tenga menos tarjetas */
+@media (min-width: 80rem) {
+  .coac-ve__sessions {
+    align-items: stretch;
+  }
+
+  .coac-ve__session {
+    align-content: start;
+  }
+}
+
+/* ---- Cabecera de las demás sesiones por venir ----
+   Una banda del azul de la destacada, algo más clara: se distinguen de un vistazo
+   y, en escritorio, la banda fija dice de qué sesión es cada columna. Las
+   celebradas no la llevan: van apagadas, en gris. */
+.coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border-radius: var(--ve-radius);
+  background: var(--ve-head-bg);
+  color: var(--ve-on-head);
+}
+
+.coac-ve__session[data-status="future"]:not([data-featured])
+  :is(.coac-ve__session-title, .coac-ve__session-meta) {
+  color: inherit;
+}
+
+.coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-title:focus-visible::after {
+  background: currentColor;
+}
+
+/* En escritorio la banda va fija y las tarjetas pasan por debajo: es translúcida y
+   desenfoca lo que tiene detrás (cristal esmerilado). El texto blanco sigue en AA
+   sobre lo más claro que puede pasar (una tarjeta blanca). Sólida si el navegador
+   no sabe desenfocar o si se pide «reducir transparencia». */
+@media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
+      background: var(--ve-head-glass);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+  }
+}
+
+/* Si el navegador sabe cuándo está enganchada (scroll-state), el cristal solo
+   aparece al quedarse fija; suelta, la banda es sólida. El fondo lo pinta su
+   ::after (una consulta de contenedor no puede cambiar el propio contenedor). */
+@media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
+  @supports (container-type: scroll-state) {
+    .coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
+      background: transparent;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+
+    .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head::after {
+      background: var(--ve-head-bg);
+    }
+
+    @container scroll-state(stuck: top) {
+      .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head::after {
+        background: var(--ve-head-glass);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+      }
+    }
   }
 }

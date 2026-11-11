@@ -21,18 +21,18 @@
   color: var(--vc-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
-  animation: coac-privacy-notice-in 200ms ease-out;
+}
+
+/* Sube desde abajo (con «reducir movimiento», aparece en seco) */
+@media (prefers-reduced-motion: no-preference) {
+  .coac-privacy-notice {
+    animation: coac-privacy-notice-in var(--coac-dur-gentle) var(--coac-ease-out);
+  }
 }
 
 @keyframes coac-privacy-notice-in {
   from {
     transform: translateY(100%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .coac-privacy-notice {
-    animation: none;
   }
 }
 

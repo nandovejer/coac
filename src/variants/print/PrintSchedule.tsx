@@ -9,6 +9,8 @@ import { capitalize } from "./format";
 import { buildPorra } from "./porra";
 import { PorraSheet } from "./PorraSheet";
 import { PrintSheet, type PrintBlock } from "./PrintSheet";
+import { afterDialogExit } from "../motion";
+import "../dialog-motion.css";
 import "./PrintSchedule.css";
 
 interface PrintScheduleProps {
@@ -95,7 +97,7 @@ export default function PrintSchedule({ sessions, soonDates, dayLabel, onClose }
     if (!dialog) return;
     dialog.showModal();
     document.documentElement.classList.add("coac-print-mode");
-    const close = () => onClose();
+    const close = () => afterDialogExit(dialog, onClose);
     const backdrop = (event: MouseEvent) => {
       if (event.target === dialog) dialog.close();
     };

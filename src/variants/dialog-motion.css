@@ -1,0 +1,73 @@
+/*
+ * Entrada y salida de los modales (Quiénes somos, Privacidad, Imprimir): suben
+ * como una hoja (en escritorio, 24 px y una escala de 0,98) y se van por donde
+ * vinieron. Solo el fondo del ::backdrop se funde (no tiene texto); con «reducir
+ * movimiento» es lo único que se anima. La salida necesita `overlay` y
+ * `display` animables (@supports); sin ellos, el modal se cierra en seco.
+ * Al cerrar, el .tsx pone `inert` y espera a que acaben (afterDialogExit).
+ */
+.coac-info::backdrop,
+.coac-print-dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.6);
+  transition: background-color var(--coac-dur-quick) linear;
+}
+
+@starting-style {
+  .coac-info[open]::backdrop,
+  .coac-print-dialog[open]::backdrop {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coac-info[open],
+  .coac-print-dialog[open] {
+    translate: 0 0;
+    scale: 1;
+    transition:
+      translate var(--coac-dur-gentle) var(--coac-ease-out),
+      scale var(--coac-dur-gentle) var(--coac-ease-out);
+  }
+
+  @starting-style {
+    .coac-info[open],
+    .coac-print-dialog[open] {
+      translate: 0 100%;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    @starting-style {
+      .coac-info[open],
+      .coac-print-dialog[open] {
+        translate: 0 var(--coac-shift-md);
+        scale: 0.98;
+      }
+    }
+  }
+
+  @supports (overlay: auto) {
+    .coac-info:not([open]),
+    .coac-print-dialog:not([open]) {
+      translate: 0 100%;
+      transition:
+        translate calc(var(--coac-dur-gentle) * 0.75) var(--coac-ease-in),
+        scale calc(var(--coac-dur-gentle) * 0.75) var(--coac-ease-in),
+        overlay calc(var(--coac-dur-gentle) * 0.75) allow-discrete,
+        display calc(var(--coac-dur-gentle) * 0.75) allow-discrete;
+    }
+
+    @media (min-width: 48rem) {
+      .coac-info:not([open]),
+      .coac-print-dialog:not([open]) {
+        translate: 0 var(--coac-shift-md);
+        scale: 0.98;
+      }
+    }
+
+    .coac-info:not([open])::backdrop,
+    .coac-print-dialog:not([open])::backdrop {
+      background-color: transparent;
+    }
+  }
+}

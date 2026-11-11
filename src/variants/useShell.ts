@@ -14,6 +14,12 @@ export function scrollToGroup(id: string) {
   if (!card) return;
   card.scrollIntoView({ block: "center" });
   card.focus({ preventScroll: true });
+  // Marca el aterrizaje (el CSS cierra el anillo de foco sobre la tarjeta); se
+  // quita al perder el foco o pasado un rato, nunca por `animationend`
+  card.setAttribute("data-landed", "");
+  const clear = () => card.removeAttribute("data-landed");
+  card.addEventListener("blur", clear, { once: true });
+  setTimeout(clear, 1500);
 }
 
 /** Tras un cambio de estado, espera a que React pinte antes de mover el scroll. */

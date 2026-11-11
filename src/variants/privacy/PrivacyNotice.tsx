@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { animateOnce } from "../motion";
 import { PRIVACY_HASH, PRIVACY_NOTICE_KEY, PRIVACY_VERSION } from "./policy";
 import "./PrivacyNotice.css";
 
@@ -22,11 +23,15 @@ export function PrivacyNotice({
   onOpenPrivacy: (event: MouseEvent<HTMLAnchorElement>) => void;
 }) {
   const [visible, setVisible] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
-  // Sale después del primer pintado: no retrasa ni compite con el contenido.
+  // Sale un rato después del primer pintado (600 ms): no compite con el contenido
+  // ni con el movimiento de la entrada de la página.
   useEffect(() => {
-    if (!alreadySeen()) setVisible(true);
+    if (alreadySeen()) return;
+    const timer = setTimeout(() => setVisible(true), 600);
+    return () => clearTimeout(timer);
   }, []);
 
   // Mientras se ve, el pie reserva su alto para que el aviso no tape el final.
@@ -50,7 +55,19 @@ export function PrivacyNotice({
     } catch {
       // Sin almacenamiento (modo privado estricto): se cierra solo esta vez.
     }
-    setVisible(false);
+    // El aviso desaparece con el foco dentro: pasa al programa, no a <body>
+    if (ref.current?.contains(document.activeElement)) {
+      document.getElementById("siteMain")?.focus({ preventScroll: true });
+    }
+    // Se va como vino, hacia abajo (sin movimiento, desaparece en seco); mientras
+    // sale, el botón queda desactivado
+    setLeaving(true);
+    const exit = animateOnce(
+      ref.current,
+      { transform: ["translateY(0)", "translateY(100%)"] },
+      { duration: 180, easing: "var(--coac-ease-in)", fill: "forwards" },
+    );
+    void (exit?.finished ?? Promise.resolve()).then(() => setVisible(false));
   };
 
   if (!visible) return null;
@@ -65,7 +82,7 @@ export function PrivacyNotice({
         <a className="coac-privacy-notice__more" href={PRIVACY_HASH} onClick={onOpenPrivacy}>
           Más información
         </a>
-        <button type="button" className="coac-privacy-notice__ok" onClick={dismiss}>
+        <button type="button" className="coac-privacy-notice__ok" onClick={dismiss} disabled={leaving}>
           Lo entiendo
         </button>
       </div>

@@ -34,16 +34,15 @@
   animation: coac-digit-out 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
+/* Sin opacidad: la cifra nunca pasa por un contraste intermedio; la ventana recorta */
 @keyframes coac-digit-in {
   from {
-    opacity: 0;
     transform: translateY(60%);
   }
 }
 
 @keyframes coac-digit-out {
   to {
-    opacity: 0;
     transform: translateY(-60%);
   }
 }

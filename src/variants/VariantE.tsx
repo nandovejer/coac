@@ -9,6 +9,8 @@ import {
   type RefObject,
 } from "react";
 import { SEASON } from "../config/season";
+import { Countdown } from "./Countdown";
+import { animateOnce, prefersReducedMotion, withViewTransition } from "./motion";
 import { ThemeModeSwitch } from "../components/layout/ThemeModeSwitch";
 import { FallaLogo } from "../components/ui/FallaLogo";
 import {
@@ -27,9 +29,11 @@ import { ModalidadFilter, PreviousNote } from "./parts";
 import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
 import { PRIVACY_HASH } from "./privacy/policy";
 import { sessionBrief } from "./sessionBrief";
+import { useGhostMark } from "./useGhostMark";
 import { ShellDialogs } from "./ShellDialogs";
-import { addMinutes, pad2, useProgramme, useRemaining, type Stage } from "./useProgramme";
-import { afterPaint, HOME_URL, useShell } from "./useShell";
+import { addMinutes, useProgramme, type Stage } from "./useProgramme";
+import { useReached } from "./useReached";
+import { HOME_URL, useShell } from "./useShell";
 import "./VariantE.css";
 
 const RANKING_LABEL = { top: "Imprescindible", ok: "Recomendada", standar: "" } as const;
@@ -65,10 +69,12 @@ function stickyHeaderHeight() {
  * (`extra`, p. ej. el buscador). Al bajar, la cabecera de móvil se esconde, así
  * que solo se descuenta al subir.
  */
-function scrollUnderBars(element: HTMLElement, extra = 0) {
+function scrollUnderBars(element: HTMLElement, extra = 0, instant = false) {
   const top = element.getBoundingClientRect().top + window.scrollY - extra;
   const header = top > window.scrollY ? 0 : stickyHeaderHeight();
-  window.scrollTo({ top: top - header });
+  // Luz pone `scroll-behavior: smooth` en <html>; dentro de una View Transition el
+  // salto es instantáneo (el telón lo tapa) y no un desplazamiento a cámara lenta
+  window.scrollTo({ top: top - header, behavior: instant ? "instant" : "auto" });
 }
 
 /** Sube el buscador justo bajo la cabecera fija (con el programa debajo) y le da el foco. */
@@ -83,11 +89,11 @@ function goToSearch() {
 }
 
 /** Baja al primer bloque del programa (hoy, o la próxima sesión) por debajo de la cabecera fija. */
-function scrollToProgramme() {
+function scrollToProgramme(instant = false) {
   const session = document.querySelector<HTMLElement>(".coac-ve__session");
   if (!session) return;
   // Queda bajo la cabecera y el filtro, que van fijos sobre los horarios
-  scrollUnderBars(session, filtersOffset());
+  scrollUnderBars(session, filtersOffset(), instant);
   session.querySelector<HTMLElement>(".coac-ve__session-title")?.focus({ preventScroll: true });
 }
 
@@ -103,15 +109,24 @@ function useStickyHeights() {
     const header = root?.querySelector<HTMLElement>(".coac-ve__top");
     const filters = root?.querySelector<HTMLElement>(".coac-ve__filters");
     if (!root || !header || !filters) return;
+    // También en <html>: el `scroll-padding` de la página lee estas medidas para
+    // que nada enfocado quede bajo la cabecera ni el filtro
+    const html = document.documentElement;
     const update = () => {
-      root.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
-      root.style.setProperty("--ve-filters-h", `${filters.offsetHeight}px`);
+      for (const element of [root, html]) {
+        element.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
+        element.style.setProperty("--ve-filters-h", `${filters.offsetHeight}px`);
+      }
     };
     update();
     const observer = new ResizeObserver(update);
     observer.observe(header);
     observer.observe(filters);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      html.style.removeProperty("--ve-top-h");
+      html.style.removeProperty("--ve-filters-h");
+    };
   }, []);
   return rootRef;
 }
@@ -163,9 +178,9 @@ function useStuckFilters() {
 }
 
 /** Tras elegir un día, deja su sesión justo bajo el filtro fijo, sin tener que buscarla. */
-function showChosenDay() {
+function showChosenDay(instant = false) {
   const after = getFilters()?.nextElementSibling;
-  if (after instanceof HTMLElement) scrollUnderBars(after, filtersOffset());
+  if (after instanceof HTMLElement) scrollUnderBars(after, filtersOffset(), instant);
 }
 
 /**
@@ -197,6 +212,66 @@ function useHideHeaderOnScroll(rootRef: RefObject<HTMLDivElement>) {
       window.removeEventListener("scroll", schedule);
     };
   }, [rootRef]);
+}
+
+/**
+ * Marca las filas (hora + tarjeta) que se ven bajo el filtro, como mucho 12: solo
+ * ellas viajan en la View Transition del filtro de modalidad (un nombre por fila
+ * en todo el programa serían cientos de capturas). Las que cortan con el filtro
+ * no se marcan, para que nunca pasen por encima de él.
+ */
+function markVisibleSlots() {
+  const top = getFilters()?.getBoundingClientRect().bottom ?? 0;
+  let marked = 0;
+  for (const slot of document.querySelectorAll<HTMLElement>(".coac-ve__slot")) {
+    const box = slot.getBoundingClientRect();
+    if (box.top < top - 1) continue;
+    if (box.top > window.innerHeight || marked >= 12) break;
+    slot.setAttribute("data-vt-card", "");
+    marked++;
+  }
+}
+
+interface LuzThemeModeElement extends HTMLElement {
+  choice: string;
+}
+
+/**
+ * Luces de sala: al pulsar el botón del modo de color, el modo nuevo se abre
+ * como un círculo desde el botón (View Transition). Usa la API pública de Luz
+ * (el setter `choice`, que guarda la elección y avisa a los lectores de pantalla)
+ * en vez de reenviar el clic. Sin soporte o con «reducir movimiento», no
+ * interviene y el botón de Luz funciona como siempre.
+ */
+function useThemeCurtain() {
+  useEffect(() => {
+    const host = document.querySelector<HTMLElement>(".coac-ve__footer-theme");
+    if (!host) return;
+    const onClick = (event: MouseEvent) => {
+      const button = (event.target as Element).closest<HTMLElement>(".luz-theme-mode__button");
+      const element = host.querySelector<LuzThemeModeElement>("luz-theme-mode");
+      if (!button || !element || prefersReducedMotion() || !("startViewTransition" in document)) return;
+      const values = [...element.querySelectorAll<HTMLInputElement>("input[type=radio]")]
+        .filter((radio) => !radio.disabled)
+        .map((radio) => radio.value);
+      if (values.length === 0) return;
+      // El ciclo es el de Luz: el siguiente radio del DOM, dando la vuelta
+      const next = values[(values.indexOf(element.choice) + 1) % values.length];
+      event.stopImmediatePropagation();
+      const box = button.getBoundingClientRect();
+      const html = document.documentElement;
+      html.style.setProperty("--vt-x", `${box.left + box.width / 2}px`);
+      html.style.setProperty("--vt-y", `${box.top + box.height / 2}px`);
+      withViewTransition({
+        change: () => {
+          element.choice = next;
+        },
+        types: ["ve-theme"],
+      });
+    };
+    host.addEventListener("click", onClick, true);
+    return () => host.removeEventListener("click", onClick, true);
+  }, []);
 }
 
 /**
@@ -285,6 +360,25 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
 }
 
 /**
+ * Entrada de la primera carga: solo si no hay ancla en la URL, la página está
+ * arriba, es la primera vez en esta pestaña y no se pide «reducir movimiento».
+ * Solo mueve piezas decorativas (la fachada, los segmentos de hoy): el contenido
+ * y el LCP no cambian.
+ */
+function shouldIntro() {
+  try {
+    return (
+      !window.location.hash &&
+      window.scrollY === 0 &&
+      !prefersReducedMotion() &&
+      window.sessionStorage.getItem("ve-intro") !== "1"
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Variante E · «Cartelera»: app de eventos clara y suave. Tarjetas blancas
  * sobre gris claro, una tarjeta de estado a color pleno (cobalto), los días
  * como números grandes con el elegido en una ficha elevada, y el programa
@@ -294,11 +388,28 @@ export default function VariantE() {
   const p = useProgramme({ allSessions: true });
   const shell = useShell(p);
   const upcoming = p.live ? null : p.schedule.upcomingSession;
-  const remaining = useRemaining(upcoming?.startsAt);
-  const state = p.live ? "live" : remaining ? "countdown" : "over";
+  // Entre la hora de inicio y el siguiente refresco (hasta 30 s) no hay cuenta
+  // atrás ni directo: la sesión «empieza», no «ha terminado la fase»
+  const reached = useReached(upcoming?.startsAt);
+  const state = p.live ? "live" : upcoming ? (reached ? "starting" : "countdown") : "over";
   const rootRef = useStickyHeights();
   useHideHeaderOnScroll(rootRef);
   useStuckFilters();
+  useThemeCurtain();
+  const [intro, setIntro] = useState(shouldIntro);
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem("ve-intro", "1");
+    } catch {
+      // Sin almacenamiento, la entrada se repite en cada carga: no pasa nada
+    }
+    if (!intro) return;
+    // Pasada la entrada se quita: si no, los segmentos que se vuelven a pintar la repetirían
+    const timer = setTimeout(() => setIntro(false), 1400);
+    return () => clearTimeout(timer);
+  }, [intro]);
+  useGhostMark(".coac-ve__carousel", ".coac-ve__days", ".coac-ve__day", "day");
+  useGhostMark(".coac-ve__chips", ".coac-ve__chips", ".coac-ve__chip", "chip");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const clearTerm = () => {
@@ -306,10 +417,118 @@ export default function VariantE() {
     inputRef.current?.focus();
   };
 
-  // Vuelve al programa de hoy (sin búsqueda ni día elegido) y baja hasta él.
+  // Región viva única, siempre montada: el recuento de la búsqueda, el día elegido
+  // y el aviso de que empieza el directo se dicen por aquí, una vez cada uno
+  const [announcement, setAnnouncement] = useState("");
+  const clearTimer = useRef<ReturnType<typeof setTimeout>>();
+  const announce = useCallback((text: string, clearAfter = 0) => {
+    clearTimeout(clearTimer.current);
+    setAnnouncement(text);
+    if (clearAfter) clearTimer.current = setTimeout(() => setAnnouncement(""), clearAfter);
+  }, []);
+
+  // Al escribir se espera a que pare (500 ms): un anuncio por palabra, no por tecla
+  const previousMode = useRef(p.mode);
+  useEffect(() => {
+    const was = previousMode.current;
+    previousMode.current = p.mode;
+    // Al volver a «todo el programa» se vacía; mientras tanto no se toca (el aviso
+    // de que empieza el directo también pasa por aquí)
+    if (p.mode === "focus") return was === "focus" ? undefined : announce("");
+    const text =
+      p.mode === "search"
+        ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
+        : `Sesión elegida: ${p.selectedDate ? formatSessionTitleDate(p.selectedDate) : ""}`;
+    const timer = setTimeout(() => announce(text), p.mode === "search" ? 500 : 0);
+    return () => clearTimeout(timer);
+  }, [announce, p.mode, p.count, p.selectedDate]);
+
+  // Paso a directo: se pinta con un pequeño movimiento y se avisa una vez por
+  // sesión. Nunca en el primer pintado ni si ya estaba en directo al cargar.
+  const previousState = useRef(state);
+  const announcedLive = useRef<string | null>(null);
+  useEffect(() => {
+    const was = previousState.current;
+    previousState.current = state;
+    if (state !== "live" || (was !== "countdown" && was !== "starting")) return;
+    const card = rootRef.current?.querySelector<HTMLElement>(".coac-ve__status");
+    animateOnce(
+      card?.querySelector<HTMLElement>(".coac-ve__on-air") ?? null,
+      { scale: [0.85, 1] },
+      { duration: 320, easing: "var(--coac-ease-spring)" },
+    );
+    animateOnce(
+      card?.querySelector<HTMLElement>(".coac-ve__status-title") ?? null,
+      { clipPath: ["inset(100% 0 0 0)", "inset(0)"], translate: ["0 8px", "0 0"] },
+      { duration: 320, delay: 60, easing: "var(--coac-ease-out)", fill: "backwards" },
+    );
+    for (const action of rootRef.current?.querySelectorAll<HTMLElement>(".coac-ve__action[data-live]") ??
+      []) {
+      animateOnce(action, { scale: [0.9, 1] }, { duration: 320, easing: "var(--coac-ease-spring)" });
+    }
+    const date = p.schedule.present?.date ?? null;
+    if (p.live && date && announcedLive.current !== date) {
+      announcedLive.current = date;
+      announce(`Empieza la sesión. Actúa ${p.live.group.autor}.`, 5000);
+    }
+  }, [announce, p.live, p.schedule.present, rootRef, state]);
+
+  // Relevo del directo: la agrupación que sale a escena entra con un pequeño
+  // muelle y su segmento de la barra crece. Solo cuando cambia la agrupación en
+  // directo (no al cargar, ni al volver a la pestaña tras saltarse varias).
+  const liveId = p.live?.group.id ?? null;
+  const previousLiveId = useRef(liveId);
+  useEffect(() => {
+    const was = previousLiveId.current;
+    previousLiveId.current = liveId;
+    if (!liveId || !was || was === liveId) return;
+    const root = rootRef.current;
+    animateOnce(
+      root?.querySelector<HTMLElement>(".coac-ve__card[data-stage='live']") ?? null,
+      { scale: [0.97, 1] },
+      { duration: 320, easing: "var(--coac-ease-spring)" },
+    );
+    animateOnce(
+      root?.querySelector<HTMLElement>(".coac-ve__segment[data-stage='live']") ?? null,
+      { scale: ["1 0.57", "1 1"] },
+      { duration: 320, easing: "var(--coac-ease-spring)" },
+    );
+  }, [liveId, rootRef]);
+
+  // Vuelve al programa de hoy (sin búsqueda ni día elegido) y baja hasta él. Si
+  // el programa ya es ese, solo baja: no hay nada que cambiar de sitio.
   const goToToday = () => {
-    p.reset();
-    afterPaint(scrollToProgramme);
+    if (p.mode === "focus") return scrollToProgramme();
+    withViewTransition({ change: p.reset, after: scrollToProgramme, types: ["ve-reset"] });
+  };
+
+  // Elegir una modalidad: las filas que se ven se recolocan en vez de saltar; al
+  // escribir en el buscador, en cambio, nada se anima
+  const chooseModalidad = (modalidad: typeof p.modalidad) =>
+    withViewTransition({
+      change: () => p.setModalidad(modalidad),
+      prepare: markVisibleSlots,
+      after: (viaTransition) => viaTransition && markVisibleSlots(),
+      types: ["ve-filter"],
+    });
+
+  // Elegir un día (o volver a pulsarlo para quitarlo): el telón corre hacia
+  // el lado de la fecha, y su sesión queda justo bajo el filtro
+  const chooseDay = (date: string, chosen: boolean) => {
+    const current = p.sections[0]?.session.date ?? date;
+    const type = chosen
+      ? "ve-reset"
+      : sessionDateKey(date) >= sessionDateKey(current)
+        ? "ve-forward"
+        : "ve-back";
+    withViewTransition({
+      change: () => {
+        p.reset();
+        if (!chosen) p.setSelectedDate(date);
+      },
+      after: showChosenDay,
+      types: [type],
+    });
   };
 
   // Los accesos rápidos se pintan en dos sitios (cabecera de móvil y columna de
@@ -346,7 +565,7 @@ export default function VariantE() {
   const days = [...p.all].sort((a, b) => sessionDateKey(a.date) - sessionDateKey(b.date));
 
   return (
-    <div ref={rootRef} className="coac-ve" data-view={p.mode}>
+    <div ref={rootRef} className="coac-ve" data-view={p.mode} data-intro={intro || undefined}>
       {/* En escritorio, columna izquierda fija; en móvil no pinta caja (display: contents)
           y la cabecera queda fija arriba de toda la página. */}
       <div className="coac-ve__rail coac-scrollbar">
@@ -396,28 +615,20 @@ export default function VariantE() {
                   {addMinutes(p.live.estimatedTime, SEASON.minutesPerGroup)} aprox.
                 </p>
               </>
-            ) : remaining && upcoming ? (
+            ) : upcoming ? (
               <>
                 <p className="coac-ve__eyebrow">Próxima sesión</p>
-                <p className="coac-ve__status-title">{formatSessionTitleDate(upcoming.date)}</p>
-                <div className="coac-ve__digits" aria-hidden="true">
-                  {(
-                    [
-                      [remaining.days, "días"],
-                      [remaining.hours, "horas"],
-                      [remaining.minutes, "min"],
-                      [remaining.seconds, "seg"],
-                    ] as const
-                  ).map(([value, unit]) => (
-                    <span key={unit} className="coac-ve__digit">
-                      <strong>{pad2(value)}</strong>
-                      {unit}
-                    </span>
-                  ))}
-                </div>
-                <p className="coac-sr-only">
-                  Faltan {remaining.days} días, {remaining.hours} horas y {remaining.minutes} minutos.
-                </p>
+                {state === "countdown" ? (
+                  <>
+                    <p className="coac-ve__status-title">{formatSessionTitleDate(upcoming.date)}</p>
+                    <Countdown target={upcoming.startsAt} />
+                  </>
+                ) : (
+                  <>
+                    <p className="coac-ve__status-title">Empieza la sesión</p>
+                    <p className="coac-ve__status-sub">{formatSessionTitleDate(upcoming.date)}</p>
+                  </>
+                )}
               </>
             ) : (
               <>
@@ -467,7 +678,7 @@ export default function VariantE() {
       </div>
 
       <div className="coac-ve__body">
-        <main id="siteMain" className="coac-ve__main">
+        <main id="siteMain" className="coac-ve__main" tabIndex={-1}>
           {/* La zona de horarios: el filtro (buscador y días) va fijo arriba mientras se
               recorre y se suelta al salir de ella (sticky dentro de este bloque) */}
           <div className="coac-ve__programme">
@@ -511,7 +722,7 @@ export default function VariantE() {
                   role="group"
                   aria-label="Filtrar por modalidad"
                 >
-                  <ModalidadFilter value={p.modalidad} onChange={p.setModalidad} className="coac-ve__chip" />
+                  <ModalidadFilter value={p.modalidad} onChange={chooseModalidad} className="coac-ve__chip" />
                 </div>
               </div>
 
@@ -531,12 +742,7 @@ export default function VariantE() {
                           data-label={label || undefined}
                           data-upcoming={session.date === p.schedule.upcomingSession?.date || undefined}
                           aria-pressed={chosen}
-                          onClick={() => {
-                            // Pulsar otra vez el día elegido lo quita: vuelve todo el programa
-                            p.reset();
-                            if (!chosen) p.setSelectedDate(session.date);
-                            afterPaint(showChosenDay);
-                          }}
+                          onClick={() => chooseDay(session.date, chosen)}
                         >
                           <span className="coac-sr-only">
                             {label && `${label}: `}
@@ -561,13 +767,13 @@ export default function VariantE() {
             </div>
 
             {p.mode !== "focus" && (
-              <p className="coac-ve__context" role="status">
+              <p className="coac-ve__context">
                 <span>
                   {p.mode === "search"
                     ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
                     : "Sesión elegida"}
                 </span>
-                <button type="button" className="coac-ve__reset" onClick={p.reset}>
+                <button type="button" className="coac-ve__reset" onClick={goToToday}>
                   Ver todo el programa
                 </button>
               </p>
@@ -644,7 +850,12 @@ export default function VariantE() {
                             <p className="coac-ve__session-progress">
                               <span className="coac-ve__segments" aria-hidden="true">
                                 {stages.map((stage, index) => (
-                                  <span key={index} className="coac-ve__segment" data-stage={stage} />
+                                  <span
+                                    key={index}
+                                    className="coac-ve__segment"
+                                    data-stage={stage}
+                                    style={{ "--i": Math.min(index, 6) } as CSSProperties}
+                                  />
                                 ))}
                               </span>
                               <span className="coac-ve__session-progress-text">{progressText(stages)}</span>
@@ -826,6 +1037,11 @@ export default function VariantE() {
           </div>
         </footer>
       </div>
+
+      {/* Región viva única (lector de pantalla): siempre montada y sin botones dentro */}
+      <p className="coac-sr-only coac-ve__announcer" role="status">
+        {announcement}
+      </p>
 
       <ShellDialogs shell={shell} />
     </div>
