@@ -1,23 +1,23 @@
-import React, { lazy, Suspense, type ComponentType, type LazyExoticComponent } from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./variants/VariantD";
 import "@luz-ds/core/theme-mode";
 import "./styles/index.css";
+// El HTML estático del SEO (vite-plugin-seo.ts) pinta la cabecera de SiteHeader
+// hasta que React lo sustituye: su CSS tiene que estar en el build.
+import "./components/layout/SiteHeader.css";
 
-// Prototipo de rediseño, solo en desarrollo: `vite --mode variant-d`
-// (ver src/variants/: D es la estructura de VariantC con la piel de VariantD.css). En el build de producción esto se elimina.
-const variants: Record<string, LazyExoticComponent<ComponentType>> = import.meta.env.DEV
-  ? {
-      "variant-d": lazy(() => import("./variants/VariantD")),
-    }
-  : {};
-const Variant = variants[import.meta.env.MODE];
+// La app es el prototipo D (src/variants/). La anterior queda solo en
+// desarrollo, para compararlas: `vite --mode anterior`. En el build de
+// producción esta rama se elimina.
+const PreviousApp =
+  import.meta.env.DEV && import.meta.env.MODE === "anterior" ? lazy(() => import("./App.tsx")) : null;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    {Variant ? (
+    {PreviousApp ? (
       <Suspense fallback={null}>
-        <Variant />
+        <PreviousApp />
       </Suspense>
     ) : (
       <App />

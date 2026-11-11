@@ -68,7 +68,10 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   redondeada, con color por modo (`--coac-scroll-thumb`, 3:1 como mínimo);
   `coac-scrollbar--on-header` es para el panel oscuro. Los iconos son SVG
   (`ui/icons.tsx`), no emojis.
-- La app se sirve bajo `base: "/coac-quien-canta-hoy/"` (`vite.config.ts`).
+- La app se sirve bajo `base: "/coac/"` (`vite.config.ts`), que es la URL de
+  GitHub Pages (`nandovejer.github.io/coac/`, el nombre del repo). Si se
+  renombra el repo o se pasa a un dominio propio, cambia la base y las URL de
+  `site.ts`, `robots.txt` y `site.webmanifest`.
 - No renombres los ids del DOM (`siteHeader`, `siteMain`, `searchAuthor`,
   `session-present|future|past`, las fechas y los ids de agrupación): son
   anclas del menú y del buscador.
@@ -83,8 +86,13 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
 
 ## Requisitos funcionales
 
-Los cumple el prototipo D (`vite --mode variant-d`, `src/variants/`). La app
-aún no: al llevar D a la app, se aplican también ahí.
+Los cumple el prototipo D (`src/variants/`), que es la app que se publica
+(`main.tsx` lo monta). La app anterior (`App.tsx`, `components/`) solo se ve
+en desarrollo con `vite --mode anterior`; el HTML estático del SEO aún usa su
+`SiteHeader`. Los tests de Playwright (`tests/visual/`) siguen escritos para
+la app anterior y hay que rehacerlos para D. En local, `localhost:5173/`
+redirige a la base (`/coac/`). El favicon (`public/favicon.*`, iconos) es la
+fachada de `FallaLogo` con los colores de la cabecera en modo claro.
 
 - **Estados de sesión**: siempre se distingue a simple vista la sesión de hoy,
   la de mañana, las próximas y las ya celebradas. Orden: hoy, mañana, las
