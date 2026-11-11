@@ -495,12 +495,45 @@
   outline-color: currentColor;
 }
 
-/* Buscador */
+/* Buscador: encima del programa, que es lo que filtra. Al buscar se queda fijo
+   bajo la cabecera (--ve-top-h, que pone useHeaderHeight) y los resultados
+   pasan por debajo. */
 .coac-ve__search {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--luz-space-sm);
   min-inline-size: 0;
+}
+
+.coac-ve[data-view="search"] .coac-ve__search {
+  position: sticky;
+  inset-block-start: var(--ve-top-h, 0);
+  z-index: 5;
+  /* El fondo llega a los bordes de la columna para tapar las tarjetas al pasar */
+  margin-inline: calc(var(--luz-space-md) * -1);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border-block-end: 1px solid var(--vc-line);
+  background: var(--vc-bg);
+}
+
+.coac-ve__search-label {
+  color: var(--vc-text);
+}
+
+/* Botón para borrar lo escrito, dentro del campo */
+.coac-ve .coac-ve__clear {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  margin-inline-end: calc(var(--luz-space-sm) * -1);
+  border-radius: var(--ve-radius);
+  color: var(--vc-muted);
+}
+
+.coac-ve .coac-ve__clear:hover {
+  color: var(--vc-text);
 }
 
 .coac-ve__field {
@@ -532,18 +565,26 @@
   outline: none;
 }
 
+/* El anillo de foco lo lleva el campo entero (:focus-within), no el input */
+.coac-ve .coac-ve__field input:focus-visible {
+  outline: none;
+}
+
 .coac-ve__field input::placeholder {
   color: var(--vc-muted);
   opacity: 1;
 }
 
+/* Una sola fila que se desliza: el buscador ocupa poco alto al quedarse fijo */
 .coac-ve__chips {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--luz-space-xs);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
 }
 
 .coac-ve .coac-ve__chip {
+  flex: none;
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
   border: 1px solid var(--ve-edge);
@@ -1396,6 +1437,33 @@ a.coac-ve__previous:focus-visible::after {
     padding-block-start: var(--luz-space-xl);
   }
 
+  /* En escritorio la etiqueta solo la oye el lector de pantalla */
+  .coac-ve__search-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* El buscador es la barra de filtro del programa: siempre a mano, arriba */
+  .coac-ve .coac-ve__search {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 5;
+    margin-block-start: calc(var(--luz-space-xl) * -1);
+    margin-inline: calc(var(--luz-space-2xl) * -1);
+    padding: var(--luz-space-md) var(--luz-space-2xl);
+    border-block-end: 1px solid var(--vc-line);
+    background: var(--vc-bg);
+  }
+
+  .coac-ve__chips {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
   .coac-ve__sessions {
     max-inline-size: 44rem;
   }
@@ -1403,6 +1471,15 @@ a.coac-ve__previous:focus-visible::after {
 
 /* Con ancho de sobra: hoy y mañana lado a lado; un solo día, en dos columnas */
 @media (min-width: 80rem) {
+  /* Campo y modalidades en la misma línea */
+  .coac-ve .coac-ve__search {
+    grid-template-columns: minmax(16rem, 1fr) auto;
+    align-items: center;
+  }
+
+  .coac-ve__chips {
+    flex-wrap: nowrap;
+  }
   .coac-ve__sessions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--luz-space-2xl) var(--luz-space-xl);

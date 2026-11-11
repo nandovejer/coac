@@ -7,6 +7,7 @@ import {
   CalendarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CloseIcon,
   LiveIcon,
   PlayIcon,
   PrinterIcon,
@@ -25,11 +26,18 @@ const RANKING_LABEL = { top: "Imprescindible", ok: "Recomendada", standar: "" } 
 const STAGE_LABEL = { done: "Ya actuó", next: "A continuación" } as const;
 const SEARCH_INPUT_ID = "ve-search";
 
-/** Lleva al buscador (desde la cabecera fija en móvil) y le da el foco. */
+/** Alto de la cabecera fija (solo en móvil; en escritorio no es fija y vale 0). */
+function stickyHeaderHeight() {
+  const header = document.querySelector<HTMLElement>(".coac-ve__top");
+  return header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0;
+}
+
+/** Sube el buscador justo bajo la cabecera fija (con el programa debajo) y le da el foco. */
 function goToSearch() {
+  const search = document.getElementById("searchAuthor");
   const input = document.getElementById(SEARCH_INPUT_ID);
-  if (!input) return;
-  input.scrollIntoView({ block: "center" });
+  if (!search || !input) return;
+  window.scrollTo({ top: search.getBoundingClientRect().top + window.scrollY - stickyHeaderHeight() });
   input.focus({ preventScroll: true });
 }
 
@@ -37,10 +45,27 @@ function goToSearch() {
 function scrollToProgramme() {
   const session = document.querySelector<HTMLElement>(".coac-ve__session");
   if (!session) return;
-  const header = document.querySelector<HTMLElement>(".coac-ve__top");
-  const offset = header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0;
-  window.scrollTo({ top: session.getBoundingClientRect().top + window.scrollY - offset });
+  window.scrollTo({ top: session.getBoundingClientRect().top + window.scrollY - stickyHeaderHeight() });
   session.querySelector<HTMLElement>(".coac-ve__session-title")?.focus({ preventScroll: true });
+}
+
+/**
+ * Publica el alto de la cabecera en `--ve-top-h` del elemento raíz, para que el
+ * buscador fijo se pegue justo debajo (cambia con la tira «En directo»).
+ */
+function useHeaderHeight() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = rootRef.current;
+    const header = root?.querySelector<HTMLElement>(".coac-ve__top");
+    if (!root || !header) return;
+    const update = () => root.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+  return rootRef;
 }
 
 /**
@@ -132,6 +157,13 @@ export default function VariantE() {
   const upcoming = p.live ? null : p.schedule.upcomingSession;
   const remaining = useRemaining(upcoming?.startsAt);
   const state = p.live ? "live" : remaining ? "countdown" : "over";
+  const rootRef = useHeaderHeight();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const clearTerm = () => {
+    p.setTerm("");
+    inputRef.current?.focus();
+  };
 
   // Vuelve al programa de hoy (sin búsqueda ni día elegido) y baja hasta él.
   const goToToday = () => {
@@ -145,7 +177,7 @@ export default function VariantE() {
   ] as const;
 
   return (
-    <div className="coac-ve" data-view={p.mode}>
+    <div ref={rootRef} className="coac-ve" data-view={p.mode}>
       {/* En escritorio, columna izquierda fija; en móvil no pinta caja (display: contents)
           y la cabecera queda fija arriba de toda la página. */}
       <div className="coac-ve__rail coac-scrollbar">
@@ -198,7 +230,7 @@ export default function VariantE() {
           )}
         </header>
 
-        <aside className="coac-ve__side" aria-label="Estado, buscador y sesiones">
+        <aside className="coac-ve__side" aria-label="Estado y sesiones">
           <section className="coac-ve__status" data-state={state} aria-label="Estado">
             <FallaLogo className="coac-ve__status-mark" />
             {p.live ? (
@@ -260,27 +292,6 @@ export default function VariantE() {
             </p>
           </section>
 
-          <div className="coac-ve__search" id="searchAuthor">
-            <label className="coac-sr-only" htmlFor={SEARCH_INPUT_ID}>
-              Buscar autor, autora o agrupación
-            </label>
-            <div className="coac-ve__field">
-              <SearchIcon />
-              <input
-                id={SEARCH_INPUT_ID}
-                type="text"
-                enterKeyHint="search"
-                autoComplete="off"
-                placeholder="Busca autor, autora o agrupación"
-                value={p.term}
-                onChange={(event) => p.setTerm(event.target.value)}
-              />
-            </div>
-            <div className="coac-ve__chips" role="group" aria-label="Filtrar por modalidad">
-              <ModalidadFilter value={p.modalidad} onChange={p.setModalidad} className="coac-ve__chip" />
-            </div>
-          </div>
-
           <nav className="coac-ve__calendar" aria-label="Sesiones de la fase">
             {dayGroups.map(
               ([heading, list], index) =>
@@ -340,6 +351,37 @@ export default function VariantE() {
 
       <div className="coac-ve__body">
         <main id="siteMain" className="coac-ve__main">
+          {/* Justo encima de lo que filtra; al buscar se queda fijo arriba, con los resultados debajo */}
+          <div className="coac-ve__search" id="searchAuthor" role="search">
+            {/* A la vista solo en móvil; en escritorio la barra se explica sola */}
+            <label className="coac-ve__search-label coac-ve__eyebrow" htmlFor={SEARCH_INPUT_ID}>
+              Busca tu agrupación favorita
+              <span className="coac-sr-only"> por autor, autora o nombre</span>
+            </label>
+            <div className="coac-ve__field">
+              <SearchIcon />
+              <input
+                ref={inputRef}
+                id={SEARCH_INPUT_ID}
+                type="text"
+                enterKeyHint="search"
+                autoComplete="off"
+                placeholder="Busca autor, autora o agrupación"
+                value={p.term}
+                onChange={(event) => p.setTerm(event.target.value)}
+              />
+              {p.term && (
+                <button type="button" className="coac-ve__clear" onClick={clearTerm} title="Borrar búsqueda">
+                  <CloseIcon />
+                  <span className="coac-sr-only">Borrar búsqueda</span>
+                </button>
+              )}
+            </div>
+            <div className="coac-ve__chips coac-scrollbar" role="group" aria-label="Filtrar por modalidad">
+              <ModalidadFilter value={p.modalidad} onChange={p.setModalidad} className="coac-ve__chip" />
+            </div>
+          </div>
+
           {p.mode !== "focus" && (
             <p className="coac-ve__context" role="status">
               <span>
