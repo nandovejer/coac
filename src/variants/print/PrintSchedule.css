@@ -59,6 +59,10 @@
 
 .coac-print-dialog__body {
   display: grid;
+  /* Cada fila mide lo que su contenido: si no, con el alto fijo del modal, la
+     vista previa (que se desliza de lado) se quedaba en lo que sobraba (24 px)
+     y no se podía bajar a verla */
+  grid-auto-rows: max-content;
   align-content: start;
   gap: var(--luz-space-lg);
   padding: var(--luz-space-md);
