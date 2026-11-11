@@ -1,7 +1,7 @@
 import { SEASON } from "../../config/season";
 import { InfoDialog, InfoSection } from "../info/InfoDialog";
 
-const REPO_URL = "https://github.com/nandovejer/coac-quien-canta-hoy";
+const REPO_URL = "https://github.com/nandovejer/coac";
 
 /**
  * «Quiénes somos»: qué es la web, quién la hace, de dónde salen los datos,

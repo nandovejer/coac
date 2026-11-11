@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: [["list"]],
   expect: { toHaveScreenshot: { maxDiffPixels: 0 } },
   use: {
-    baseURL: `http://localhost:${PORT}/coac-quien-canta-hoy/`,
+    baseURL: `http://localhost:${PORT}/coac/`,
     locale: "es-ES",
     timezoneId: "Europe/Madrid",
   },
@@ -27,7 +27,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `pnpm exec vite build --mode e2e --outDir dist-e2e && pnpm exec vite preview --mode e2e --outDir dist-e2e --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}/coac-quien-canta-hoy/`,
+    url: `http://localhost:${PORT}/coac/`,
     reuseExistingServer: false,
     timeout: 120_000,
   },

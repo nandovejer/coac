@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nandovejer.github.io/coac-quien-canta-hoy/sitemap.xml
+Sitemap: https://nandovejer.github.io/coac/sitemap.xml

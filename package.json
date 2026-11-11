@@ -59,12 +59,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nandovejer/coac-quien-canta-hoy.git"
+    "url": "git+https://github.com/nandovejer/coac.git"
   },
   "bugs": {
-    "url": "https://github.com/nandovejer/coac-quien-canta-hoy/issues"
+    "url": "https://github.com/nandovejer/coac/issues"
   },
-  "homepage": "https://github.com/nandovejer/coac-quien-canta-hoy#readme",
+  "homepage": "https://github.com/nandovejer/coac#readme",
   "engines": {
     "node": ">=20"
   }

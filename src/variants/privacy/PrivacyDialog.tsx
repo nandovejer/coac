@@ -1,7 +1,7 @@
 import { InfoDialog, InfoSection } from "../info/InfoDialog";
 
 const AUTHOR_URL = "https://twitter.com/nandovejer";
-const REPO_URL = "https://github.com/nandovejer/coac-quien-canta-hoy";
+const REPO_URL = "https://github.com/nandovejer/coac";
 const GITHUB_PRIVACY_URL =
   "https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement";
 const AEPD_URL = "https://www.aepd.es";
