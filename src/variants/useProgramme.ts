@@ -30,11 +30,12 @@ export const addMinutes = (time: string, minutes: number) => {
 };
 
 /**
- * Estado común de los prototipos (variantes A, B y C): el programa de hoy y
- * mañana por defecto, un día elegido en el calendario, o los resultados del
- * buscador (por autor o agrupación, con filtro de modalidad).
+ * Estado común de los prototipos: el programa de hoy y mañana por defecto (con
+ * `allSessions`, todas las sesiones: hoy, las próximas y al final las
+ * celebradas), un día elegido en el calendario, o los resultados del buscador
+ * (por autor o agrupación, con filtro de modalidad).
  */
-export function useProgramme() {
+export function useProgramme({ allSessions = false }: { allSessions?: boolean } = {}) {
   const now = useNow();
   const schedule = useMemo(() => buildSchedule(sessions, now, scheduleConfig), [now]);
   const [term, setTerm] = useState("");
@@ -87,6 +88,8 @@ export function useProgramme() {
     const selected = all.find((session) => session.date === selectedDate);
     if (selected) return { mode: "day", sections: [whole(selected)] };
 
+    if (allSessions) return { mode: "focus", sections: all.map(whole) };
+
     // Hoy y mañana; antes de empezar, las dos primeras; acabada la fase, la última.
     const focus = schedule.present
       ? [schedule.present, ...schedule.future.slice(0, 1)]
@@ -94,7 +97,7 @@ export function useProgramme() {
         ? schedule.future.slice(0, 2)
         : schedule.past.slice(-1);
     return { mode: "focus", sections: focus.map(whole) };
-  }, [all, dayLabel, modalidad, schedule, searching, selectedDate, term]);
+  }, [all, allSessions, dayLabel, modalidad, schedule, searching, selectedDate, term]);
 
   const present = schedule.present;
   const liveIndex = present ? present.performances.findIndex((performance) => performance.isLive) : -1;
@@ -141,7 +144,7 @@ export function useProgramme() {
     setModalidad,
     selectedDate,
     setSelectedDate,
-    /** Vuelve a «hoy y mañana»: sin búsqueda ni día elegido. */
+    /** Vuelve al programa por defecto: sin búsqueda ni día elegido. */
     reset: () => {
       setTerm("");
       setModalidad(null);
