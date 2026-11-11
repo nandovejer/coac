@@ -58,6 +58,16 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   móvil, que avisa de que hay más, y la base de la fachada de marca de agua de
   la tarjeta de estado, que se funde con su fondo. Los títulos usan `Heading`; los de sección son etiquetas en mayúsculas
   con una línea fina.
+- **Movimiento**: todo desplazamiento, escala o recorte va dentro de
+  `@media (prefers-reduced-motion: no-preference)`; con «reducir movimiento» solo
+  quedan cambios de borde y sombra de 160 ms y el fondo del `::backdrop`. Duraciones,
+  desplazamientos y curvas son tokens `--coac-dur-*`, `--coac-shift-*` y
+  `--coac-ease-*` (`coac-tokens.css`); nada fuera de la escala. El texto nunca pasa
+  por opacidad intermedia ni por una transición de `color` (ni de `background-color`
+  si el texto cambia de color con el estado). Solo `src/variants/motion.ts` lanza
+  View Transitions o `element.animate`. Plan y motivos:
+  [.claude/plans/PLAN-ANIMACIONES.md](.claude/plans/PLAN-ANIMACIONES.md); pruebas:
+  `pnpm run test:motion`.
 - **Semáforo del ranking**: `top` verde, `ok` amarillo, `standar` neutro (nunca
   rojo: se leería como «malo»). El color no es la única señal: `RankingPilot`
   añade un piloto con forma (círculo lleno / medio) y texto. «EN DIRECTO» es
