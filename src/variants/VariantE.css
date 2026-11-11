@@ -51,6 +51,9 @@
   /* La misma banda, translúcida y con desenfoque cuando va fija (escritorio): sobre
      una tarjeta blanca queda en #4d6bb3, 5,16:1 con el texto blanco */
   --ve-head-glass: rgb(45 81 165 / 0.85);
+  /* La cabecera destacada al quedarse fija: casi opaca, lo de debajo se ve muy
+     tenue (sobre una tarjeta blanca, 5,54:1 con el texto blanco) */
+  --ve-feature-glass: rgb(45 81 165 / 0.88);
   --ve-on-head: #ffffff;
   --ve-next-head-text: var(--ve-on-feature);
   --ve-next-head-accent: var(--ve-on-feature);
@@ -87,6 +90,7 @@
   --ve-head-bg: #3e69ca;
   /* Sobre una tarjeta oscura queda en 5,65:1 con el texto blanco */
   --ve-head-glass: rgb(68 112 214 / 0.85);
+  --ve-feature-glass: rgb(53 96 196 / 0.88);
   --ve-mark-opacity: 0.1;
   --ve-second: #c3d0f7;
   --ve-on-second: #0f1838;
@@ -124,6 +128,7 @@
   --ve-head-bg: #163b8a;
   /* Alto contraste: sin transparencia */
   --ve-head-glass: #163b8a;
+  --ve-feature-glass: #00256c;
   --ve-second: #000000;
   --ve-second-soft: #ffffff;
   --ve-second-ink: #000000;
@@ -2569,6 +2574,28 @@ html:active-view-transition-type(ve-theme) *::after {
     @container scroll-state(stuck: top) {
       .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head::after {
         background: var(--ve-head-glass);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+      }
+    }
+  }
+}
+
+/* La cabecera de la sesión destacada (hoy o la próxima), igual: al quedarse fija
+   deja ver, muy tenue y desenfocado, lo que pasa por debajo */
+@media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
+  @supports (container-type: scroll-state) {
+    .coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
+      background: transparent;
+    }
+
+    .coac-ve__session[data-featured] .coac-ve__session-head::after {
+      background: var(--ve-feature);
+    }
+
+    @container scroll-state(stuck: top) {
+      .coac-ve__session[data-featured] .coac-ve__session-head::after {
+        background: var(--ve-feature-glass);
         -webkit-backdrop-filter: blur(12px);
         backdrop-filter: blur(12px);
       }
