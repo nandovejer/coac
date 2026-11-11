@@ -53,9 +53,10 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   excepciones (lo vigilan `check:contrast`, `src/styles/coac-tokens.test.ts` y
   axe). Al añadir un color, añade su pareja de contraste al test.
 - **Sin degradados**: todo color sólido (títulos en tinta, acento de marca
-  `--coac-accent` / `--coac-on-header-accent`). El único degradado es el
-  desvanecido (`mask-image`) del índice de días en móvil, que avisa de que hay
-  más. Los títulos usan `Heading`; los de sección son etiquetas en mayúsculas
+  `--coac-accent` / `--coac-on-header-accent`). Los únicos degradados son
+  desvanecidos (`mask-image`, solo transparencia): el del índice de días en
+  móvil, que avisa de que hay más, y la base de la fachada de marca de agua de
+  la tarjeta de estado, que se funde con su fondo. Los títulos usan `Heading`; los de sección son etiquetas en mayúsculas
   con una línea fina.
 - **Semáforo del ranking**: `top` verde, `ok` amarillo, `standar` neutro (nunca
   rojo: se leería como «malo»). El color no es la única señal: `RankingPilot`
