@@ -1,0 +1,72 @@
+/*
+ * Fila de días deslizable (DayCarousel). Usa los colores de la columna de
+ * .coac-vc (--vc-*), así que sirve en los tres modos.
+ */
+.coac-carousel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--luz-space-2xs);
+}
+
+/* Las flechas solo salen cuando hay algo que desplazar */
+.coac-carousel[data-scrollable] {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.coac-vc .coac-carousel__arrow {
+  display: none;
+  place-items: center;
+  inline-size: 2rem;
+  block-size: 100%;
+  min-block-size: 2.75rem;
+  border: 1px solid var(--vc-line);
+  background: var(--vc-card);
+  color: var(--vc-text);
+}
+
+.coac-carousel[data-scrollable] .coac-carousel__arrow {
+  display: grid;
+}
+
+.coac-vc .coac-carousel__arrow:hover:not(:disabled) {
+  border-color: var(--vc-muted);
+}
+
+.coac-vc .coac-carousel__arrow:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.coac-carousel__arrow .coac-icon {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+}
+
+/* Con el dedo: cada deslizamiento encaja en un día, y no dispara el «atrás» del navegador */
+.coac-carousel__list {
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+}
+
+.coac-carousel__list > li {
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coac-carousel__list {
+    scroll-behavior: smooth;
+  }
+}
+
+/* En escritorio los días van en rejilla: sin flechas */
+@media (min-width: 64rem) {
+  .coac-carousel,
+  .coac-carousel[data-scrollable] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .coac-carousel[data-scrollable] .coac-carousel__arrow {
+    display: none;
+  }
+}

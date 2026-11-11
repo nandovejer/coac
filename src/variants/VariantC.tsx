@@ -11,6 +11,7 @@ import {
   SearchIcon,
 } from "../components/ui/icons";
 import { formatSessionTitleDate, formatShortDate } from "../lib/dates";
+import { DayCarousel } from "./DayCarousel";
 import { ModalidadFilter, PreviousNote } from "./parts";
 import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
 import { PRIVACY_HASH } from "./privacy/policy";
@@ -227,7 +228,7 @@ export default function VariantC({ skin }: { skin?: string }) {
                 list.length > 0 && (
                   <div key={heading} className="coac-vc__day-group">
                     <p className="coac-vc__heading">{heading}</p>
-                    <ol className="coac-vc__days">
+                    <DayCarousel>
                       {list.map((session) => (
                         <li key={session.date}>
                           <button
@@ -248,7 +249,7 @@ export default function VariantC({ skin }: { skin?: string }) {
                           </button>
                         </li>
                       ))}
-                    </ol>
+                    </DayCarousel>
                   </div>
                 ),
             )}
