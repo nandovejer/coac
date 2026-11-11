@@ -15,7 +15,11 @@ const PAGE_H = 297;
 export function downloadPorraPdf(porra: Porra) {
   // El texto más grande con el que todo cabe en una hoja: se prueba de mayor a menor
   let canvas = renderPorraCanvas(porra, { paper: "white", zoom: 0.9 });
-  for (let zoom = 0.87; canvas.height / canvas.width > (PAGE_H / PAGE_W) * 1.01 && zoom >= 0.5; zoom -= 0.03) {
+  for (
+    let zoom = 0.87;
+    canvas.height / canvas.width > (PAGE_H / PAGE_W) * 1.01 && zoom >= 0.5;
+    zoom -= 0.03
+  ) {
     canvas = renderPorraCanvas(porra, { paper: "white", zoom });
   }
   const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });

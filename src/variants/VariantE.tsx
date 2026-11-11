@@ -797,7 +797,9 @@ export default function VariantE() {
                 <span className="coac-ve__context-actions">
                   {p.mode === "search" && p.selectedDate && (
                     <button type="button" className="coac-ve__scope-toggle" onClick={toggleScope}>
-                      {p.scopeDate ? "Buscar en todas las sesiones" : `Buscar solo en ${formatSessionTitleDate(p.selectedDate)}`}
+                      {p.scopeDate
+                        ? "Buscar en todas las sesiones"
+                        : `Buscar solo en ${formatSessionTitleDate(p.selectedDate)}`}
                     </button>
                   )}
                   <button type="button" className="coac-ve__reset" onClick={goToToday}>

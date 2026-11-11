@@ -11,7 +11,8 @@ import { CONFETTI, ICON_SHAPES, MASK, type Shape } from "./porraShapes";
 
 function renderShape(shape: Shape, key: number) {
   if (shape.kind === "path") return <path key={key} d={shape.d} />;
-  if (shape.kind === "ellipse") return <ellipse key={key} cx={shape.cx} cy={shape.cy} rx={shape.rx} ry={shape.ry} />;
+  if (shape.kind === "ellipse")
+    return <ellipse key={key} cx={shape.cx} cy={shape.cy} rx={shape.rx} ry={shape.ry} />;
   return <circle key={key} cx={shape.cx} cy={shape.cy} r={shape.r} />;
 }
 

@@ -44,7 +44,8 @@ const MODALIDAD_COLOR: Record<Modalidad, string> = {
 };
 
 const SANS = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-const SERIF = '"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif';
+const SERIF =
+  '"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif';
 
 type Ctx = CanvasRenderingContext2D;
 
@@ -120,7 +121,9 @@ function brushBand(ctx: Ctx, x: number, y: number, w: number, h: number, color: 
     [0, 0.6],
   ];
   ctx.beginPath();
-  points.forEach(([px, py], index) => (index ? ctx.lineTo(x + px * w, y + py * h) : ctx.moveTo(x + px * w, y + py * h)));
+  points.forEach(([px, py], index) =>
+    index ? ctx.lineTo(x + px * w, y + py * h) : ctx.moveTo(x + px * w, y + py * h),
+  );
   ctx.closePath();
   ctx.fillStyle = color;
   ctx.fill();
@@ -269,7 +272,9 @@ function sectionBlock(ctx: Ctx, section: PorraSection, prizes: boolean, width: n
           for (const item of column) {
             drawBox(ctx, cx, at + ITEM_PAD + 1, BOX);
             setFont(ctx, ITEM_FONT, COLOR.ink);
-            item.lines.forEach((line, index) => ctx.fillText(line, cx + BOX + 14, at + ITEM_PAD + 22 + index * ITEM_LINE));
+            item.lines.forEach((line, index) =>
+              ctx.fillText(line, cx + BOX + 14, at + ITEM_PAD + 22 + index * ITEM_LINE),
+            );
             at += heightOf(item);
           }
         });
@@ -306,8 +311,14 @@ function sectionBlock(ctx: Ctx, section: PorraSection, prizes: boolean, width: n
         setFont(ctx, `400 17px ${SANS}`, COLOR.muted);
         let author = row.author;
         while (author.length > 1 && ctx.measureText(author).width > nameW) author = author.slice(0, -1);
-        ctx.fillText(author === row.author ? author : `${author.trimEnd()}…`, x, at + 28 + row.name.length * 26 - 4);
-        PRIZES.forEach((_, index) => drawBox(ctx, prizesX + index * PRIZE_W + (PRIZE_W - 34) / 2, at + (PRIZE_ROW - 34) / 2, 34));
+        ctx.fillText(
+          author === row.author ? author : `${author.trimEnd()}…`,
+          x,
+          at + 28 + row.name.length * 26 - 4,
+        );
+        PRIZES.forEach((_, index) =>
+          drawBox(ctx, prizesX + index * PRIZE_W + (PRIZE_W - 34) / 2, at + (PRIZE_ROW - 34) / 2, 34),
+        );
         ctx.fillStyle = COLOR.rule;
         ctx.fillRect(x, at + PRIZE_ROW - 2, width, 1.5);
         at += PRIZE_ROW;
@@ -362,7 +373,9 @@ export function renderPorraCanvas(
   const colW = (innerW - COLUMN_GAP) / 2;
   const SECTION_GAP = 36;
   // Las modalidades se reparten en dos columnas con el reparto que deja la más alta lo más baja posible
-  const heights = porra.sections.map((section) => sectionBlock(measure, section, prizes, colW).height + SECTION_GAP);
+  const heights = porra.sections.map(
+    (section) => sectionBlock(measure, section, prizes, colW).height + SECTION_GAP,
+  );
   const noteH = rememberBlock(measure, porra.remember, colW).height;
   let cut = { index: porra.sections.length, tall: Infinity };
   for (let index = 0; index <= porra.sections.length; index++) {
@@ -376,7 +389,10 @@ export function renderPorraCanvas(
   // el de medida (para saber el alto del lienzo) y otra con el definitivo
   const build = (target: Ctx): Block[][] => [
     left.map((section) => sectionBlock(target, section, prizes, colW)),
-    [...right.map((section) => sectionBlock(target, section, prizes, colW)), rememberBlock(target, porra.remember, colW)],
+    [
+      ...right.map((section) => sectionBlock(target, section, prizes, colW)),
+      rememberBlock(target, porra.remember, colW),
+    ],
   ];
   let columns = build(measure);
   const columnHeight = (blocks: Block[]) =>

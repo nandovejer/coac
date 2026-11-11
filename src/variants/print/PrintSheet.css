@@ -263,7 +263,20 @@
 .coac-print-sheet--poster .coac-print-sheet__day {
   padding: 0.15em 0.7em 0.1em;
   background: var(--pp-cobalt);
-  clip-path: polygon(0 12%, 2% 0, 40% 6%, 70% 0, 98% 4%, 100% 30%, 99% 70%, 100% 100%, 60% 94%, 25% 100%, 3% 96%, 0 80%);
+  clip-path: polygon(
+    0 12%,
+    2% 0,
+    40% 6%,
+    70% 0,
+    98% 4%,
+    100% 30%,
+    99% 70%,
+    100% 100%,
+    60% 94%,
+    25% 100%,
+    3% 96%,
+    0 80%
+  );
   color: var(--pp-on-color);
   font-family: var(--pp-serif);
 }

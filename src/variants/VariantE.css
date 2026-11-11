@@ -1545,10 +1545,7 @@ a.coac-ve__previous:focus-visible::after {
   max-inline-size: 44rem;
   margin-inline: auto;
   padding: var(--luz-space-xl) var(--luz-space-md)
-    calc(
-      var(--luz-space-2xl) + 3.5rem + env(safe-area-inset-bottom, 0px) +
-        var(--coac-privacy-notice-h, 0px)
-    );
+    calc(var(--luz-space-2xl) + 3.5rem + env(safe-area-inset-bottom, 0px) + var(--coac-privacy-notice-h, 0px));
   border-block-start: 1px solid var(--vc-line);
 }
 
