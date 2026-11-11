@@ -79,10 +79,11 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   redondeada, con color por modo (`--coac-scroll-thumb`, 3:1 como mínimo);
   `coac-scrollbar--on-header` es para el panel oscuro. Los iconos son SVG
   (`ui/icons.tsx`), no emojis.
-- La app se sirve bajo `base: "/coac/"` (`vite.config.ts`), que es la URL de
-  GitHub Pages (`nandovejer.github.io/coac/`, el nombre del repo). Si se
-  renombra el repo o se pasa a un dominio propio, cambia la base y las URL de
-  `site.ts`, `robots.txt` y `site.webmanifest`.
+- La app se sirve en la raíz de `https://coac.com.es/` (`base: "/"` en
+  `vite.config.ts`): GitHub Pages con dominio propio, publicado por el workflow
+  de Deploy (en Settings → Pages, la fuente es «GitHub Actions», no la rama
+  `gh-pages`, que es una compilación antigua). Si cambia el dominio, cambia la
+  base y las URL de `site.ts`, `robots.txt` y `site.webmanifest`.
 - No renombres los ids del DOM (`siteHeader`, `siteMain`, `searchAuthor`,
   `session-present|future|past`, las fechas y los ids de agrupación): son
   anclas del menú y del buscador.
@@ -103,8 +104,7 @@ estado (`useProgramme`, `useShell`, `ShellDialogs`, `print/`, `privacy/`); D
 solo se ve en desarrollo con `vite --mode variant-d`, y la app anterior
 (`App.tsx`, `components/`) con `vite --mode anterior`; el HTML estático del SEO
 aún usa su `SiteHeader`. Los tests de Playwright (`tests/visual/`) siguen
-escritos para la app anterior y hay que rehacerlos para E. En local, `localhost:5173/`
-redirige a la base (`/coac/`). El favicon (`public/favicon.*`, iconos) es la
+escritos para la app anterior y hay que rehacerlos para E. En local, la app está en `localhost:5173/`. El favicon (`public/favicon.*`, iconos) es la
 fachada de `FallaLogo` con los colores de la cabecera en modo claro.
 
 - **Estados de sesión**: siempre se distingue a simple vista la sesión de hoy,

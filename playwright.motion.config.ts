@@ -10,7 +10,7 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [["list"]],
   use: {
-    baseURL: `http://localhost:${PORT}/coac/`,
+    baseURL: `http://localhost:${PORT}/`,
     locale: "es-ES",
     timezoneId: "Europe/Madrid",
   },
@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `pnpm exec vite build --mode e2e --outDir dist-e2e-motion && pnpm exec vite preview --mode e2e --outDir dist-e2e-motion --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}/coac/`,
+    url: `http://localhost:${PORT}/`,
     reuseExistingServer: false,
     timeout: 120_000,
   },

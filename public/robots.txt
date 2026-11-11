@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nandovejer.github.io/coac/sitemap.xml
+Sitemap: https://coac.com.es/sitemap.xml

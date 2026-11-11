@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: [["list"]],
   expect: { toHaveScreenshot: { maxDiffPixels: 0 } },
   use: {
-    baseURL: `http://localhost:${PORT}/coac/`,
+    baseURL: `http://localhost:${PORT}/`,
     locale: "es-ES",
     timezoneId: "Europe/Madrid",
   },
@@ -27,7 +27,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `pnpm exec vite build --mode e2e --outDir dist-e2e && pnpm exec vite preview --mode e2e --outDir dist-e2e --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}/coac/`,
+    url: `http://localhost:${PORT}/`,
     reuseExistingServer: false,
     timeout: 120_000,
   },

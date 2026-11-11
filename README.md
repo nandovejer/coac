@@ -1,6 +1,6 @@
 <div align="center">
 
-<a href="https://nandovejer.github.io/coac/">
+<a href="https://coac.com.es/">
   <img src="public/og-image.png" alt="¿Quién canta hoy en el COAC? Horario de sesiones, agrupaciones y directo." width="100%">
 </a>
 
@@ -15,7 +15,7 @@
 [Cómo funciona](#cómo-funciona) ·
 [Desarrollo](#desarrollo) ·
 [Nueva fase](#actualizar-a-una-nueva-fase-3-pasos) ·
-[Web](https://nandovejer.github.io/coac/)
+[Web](https://coac.com.es/)
 
 </div>
 

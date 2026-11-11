@@ -364,7 +364,7 @@ test.describe("tanda 2", () => {
     const second = await (
       await browser.newContext({
         viewport: page.viewportSize() ?? undefined,
-        baseURL: "http://localhost:4174/coac/",
+        baseURL: "http://localhost:4174/",
       })
     ).newPage();
     const withoutVt = await cycle(second, true);
