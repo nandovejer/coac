@@ -1,0 +1,1431 @@
+/*
+ * Variante E · «Cartelera». App de eventos clara y suave: gris muy claro,
+ * tarjetas blancas con sombra difusa, una tarjeta de estado a color pleno
+ * (cobalto de la marca), días como números grandes con el elegido en una ficha
+ * elevada y la franja horaria en vertical junto a cada tarjeta. Esquinas casi
+ * rectas (3px como mucho). El azul es el acento; el rojo, solo «En directo».
+ */
+.coac-ve {
+  /* Contrato de los modales (ShellDialogs) */
+  --vc-bg: #eff0f5;
+  --vc-card: #ffffff;
+  --vc-text: #1b1c3b;
+  --vc-muted: #5a5c75;
+  --vc-line: #dcdee8;
+  --vc-primary: #2d51a5;
+  --vc-on-primary: #ffffff;
+  --vc-soft: #e1e8f7;
+  /* Propios */
+  --ve-edge: #7b7d94;
+  /* Borde de tarjeta apenas distinto del fondo: la tarjeta se distingue por relleno y sombra */
+  --ve-card-edge: #e6e7ee;
+  /* Semáforo: 3:1 como mínimo contra la tarjeta */
+  --ve-top: #15803d;
+  --ve-ok: #a87400;
+  --ve-accent-text: #2d51a5;
+  --ve-feature: #2d51a5;
+  --ve-on-feature: #ffffff;
+  /* Segundo acento: el marino de la fachada */
+  --ve-second: #192c60;
+  --ve-on-second: #ffffff;
+  --ve-second-soft: #dfe4f2;
+  --ve-second-ink: #192c60;
+  --ve-ink: #24242d;
+  --ve-on-ink: #ffffff;
+  --ve-on-ink-muted: #c9cad6;
+  --ve-pill-bg: #ffffff;
+  --ve-pill-text: #1b1c3b;
+  --ve-done-bg: #e6e7ee;
+  --ve-live-edge: #b91c1c;
+  --ve-on-air-edge: transparent;
+  --ve-focus: #2d51a5;
+  --ve-shadow: 0 1px 2px rgb(27 28 59 / 0.06), 0 10px 22px -14px rgb(27 28 59 / 0.22);
+  --ve-shadow-raised: 0 1px 2px rgb(27 28 59 / 0.08), 0 12px 22px -10px rgb(27 28 59 / 0.32);
+  --ve-shadow-feature: 0 14px 26px -16px rgb(45 81 165 / 0.7);
+  --ve-radius: 3px;
+  --ve-font:
+    "Avenir Next", Avenir, "Century Gothic", "URW Gothic", "Nunito Sans", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+  background: var(--vc-bg);
+  color: var(--vc-text);
+  font-family: var(--ve-font);
+}
+
+[data-mode="dark"] .coac-ve {
+  --vc-bg: #111118;
+  --vc-card: #1c1c27;
+  --vc-text: #f2f2f8;
+  --vc-muted: #aeb0c6;
+  --vc-line: #2f3040;
+  --vc-primary: #8fb0ff;
+  --vc-on-primary: #0b1433;
+  --vc-soft: #18244a;
+  --ve-edge: #73758f;
+  --ve-card-edge: #252532;
+  --ve-top: #4ade80;
+  --ve-ok: #facc15;
+  --ve-accent-text: #8fb0ff;
+  --ve-feature: #3560c4;
+  --ve-second: #c3d0f7;
+  --ve-on-second: #0f1838;
+  --ve-second-soft: #1d2748;
+  --ve-second-ink: #cdd8fa;
+  --ve-ink: #2b2b3a;
+  --ve-done-bg: #181821;
+  --ve-live-edge: #f87171;
+  --ve-focus: #8fb0ff;
+  --ve-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+  --ve-shadow-raised: 0 0 0 1px #73758f, 0 12px 24px -10px rgb(0 0 0 / 0.8);
+  --ve-shadow-feature: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+[data-mode="high-contrast"] .coac-ve {
+  --vc-bg: #ffffff;
+  --vc-card: #ffffff;
+  --vc-text: #000000;
+  --vc-muted: #33334a;
+  --vc-line: #000000;
+  --vc-primary: #00256c;
+  --vc-on-primary: #ffffff;
+  --vc-soft: #dfe8ff;
+  --ve-edge: #000000;
+  --ve-card-edge: #000000;
+  --ve-top: #006b2b;
+  --ve-ok: #7a4b00;
+  --ve-accent-text: #00256c;
+  --ve-feature: #00256c;
+  --ve-second: #000000;
+  --ve-second-soft: #ffffff;
+  --ve-second-ink: #000000;
+  --ve-ink: #000000;
+  --ve-on-ink-muted: #ffffff;
+  --ve-pill-text: #000000;
+  --ve-done-bg: #ffffff;
+  --ve-live-edge: #a80000;
+  --ve-on-air-edge: #ffffff;
+  --ve-focus: #000000;
+  --ve-shadow: none;
+  --ve-shadow-raised: 0 0 0 3px #000000;
+  --ve-shadow-feature: none;
+}
+
+/* Sin especificidad de clase: cualquier regla propia (y las de los modales) gana */
+:where(.coac-ve) button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.coac-ve__rail :where(h1, h2, h3, p, ol),
+.coac-ve__body :where(h1, h2, h3, p, ol) {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+.coac-ve :focus-visible {
+  outline: 3px solid var(--ve-focus);
+  outline-offset: 2px;
+}
+
+/* Sobretítulo: pequeño, en mayúsculas muy espaciadas */
+.coac-ve__eyebrow {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+/* ---- Cabecera (fija en móvil) ---- */
+
+/* En móvil no pinta caja: la cabecera se pega arriba de toda la página */
+.coac-ve__rail {
+  display: contents;
+}
+
+.coac-ve__top {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 10;
+  display: grid;
+  gap: var(--luz-space-xs);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border-block-end: 1px solid var(--vc-line);
+  background: var(--vc-bg);
+}
+
+/* Arriba, el sobretítulo a todo el ancho; debajo, la marca y los accesos */
+.coac-ve__top-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--luz-space-3xs) var(--luz-space-xs);
+  align-items: center;
+}
+
+.coac-ve__phase {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  font-size: var(--coac-text-2xs);
+  letter-spacing: 0.14em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Logo y título: vuelven a la portada (la fase en curso) */
+.coac-ve__home {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-inline-size: 0;
+  min-block-size: 2.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.coac-ve__logo {
+  flex: none;
+  inline-size: 2rem;
+  block-size: 2rem;
+  color: var(--ve-accent-text);
+}
+
+/* Si aun así no cabe, se recorta con puntos: nunca queda bajo los accesos */
+.coac-ve__title {
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--vc-text);
+  /* Crece con la pantalla para caber entero junto a los tres accesos */
+  font-size: clamp(1rem, 4.4vw, var(--luz-text-lg));
+  font-weight: 700;
+  line-height: 1.5rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* En pantallas muy estrechas se aprietan el logo y los huecos */
+@media (max-width: 23.99rem) {
+  .coac-ve__top-row {
+    column-gap: var(--luz-space-2xs);
+  }
+
+  .coac-ve__home {
+    gap: var(--luz-space-2xs);
+  }
+
+  .coac-ve__logo {
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+  }
+}
+
+/* Accesos rápidos: buscar, sesión de hoy y directo */
+.coac-ve__actions {
+  display: flex;
+  gap: var(--luz-space-2xs);
+}
+
+.coac-ve .coac-ve__action {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--ve-edge);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  color: var(--vc-text);
+  text-decoration: none;
+}
+
+.coac-ve__action .coac-icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+/* En móvil el nombre solo lo lee el lector de pantalla */
+.coac-ve__action-label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Con una agrupación actuando, el acceso al directo va en rojo de emisión y late su punto */
+.coac-ve .coac-ve__action[data-live] {
+  border-color: var(--ve-on-air-edge);
+  background: var(--coac-live-bg);
+  color: var(--coac-live-text);
+}
+
+.coac-ve__action[data-live] .coac-icon__live-dot {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: coac-ve-dot 1.6s ease-in-out infinite;
+}
+
+.coac-ve__session-title:focus {
+  outline: none;
+}
+
+/* ---- «En directo»: siempre rojo de emisión, en pastilla con icono ---- */
+
+.coac-ve__on-air {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--luz-space-2xs);
+  justify-self: start;
+  padding: var(--luz-space-3xs) var(--luz-space-sm);
+  border: 1px solid var(--ve-on-air-edge);
+  border-radius: var(--ve-radius);
+  background: var(--coac-live-bg);
+  color: var(--coac-live-text);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Lo único que se mueve: late el punto, el texto no cambia */
+.coac-ve__on-air-dot {
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-radius: 50%;
+  background: var(--coac-live-text);
+  animation: coac-ve-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes coac-ve-dot {
+  50% {
+    transform: scale(0.6);
+  }
+}
+
+/* Tira bajo la cabecera fija (solo móvil): lleva a quien está actuando */
+.coac-ve__strip {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 2.75rem;
+  padding: var(--luz-space-2xs) var(--luz-space-sm) var(--luz-space-2xs) var(--luz-space-2xs);
+  border: 2px solid var(--ve-live-edge);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  color: var(--vc-text);
+  font-size: var(--luz-text-sm);
+  text-decoration: none;
+}
+
+.coac-ve__strip-name {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coac-ve__strip-go {
+  display: flex;
+  flex: none;
+  align-items: center;
+  font-weight: 600;
+}
+
+.coac-ve__strip-go .coac-icon {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+/* ---- Columna: estado, buscador y días ---- */
+
+.coac-ve__side {
+  display: grid;
+  gap: var(--luz-space-lg);
+  align-content: start;
+  inline-size: 100%;
+  max-inline-size: 44rem;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+  margin-inline: auto;
+  padding: var(--luz-space-md) var(--luz-space-md) 0;
+}
+
+/* Tarjeta de estado a color pleno: cuenta atrás */
+.coac-ve__status {
+  position: relative;
+  display: grid;
+  gap: var(--luz-space-xs);
+  padding: var(--luz-space-lg);
+  overflow: hidden;
+  border: 1px solid var(--ve-card-edge);
+  border-radius: var(--ve-radius);
+  background: var(--ve-feature);
+  box-shadow: var(--ve-shadow-feature);
+  color: var(--ve-on-feature);
+}
+
+/* Con alguien actuando, la tarjeta es la oscura: el rojo solo es la pastilla */
+.coac-ve__status[data-state="live"] {
+  background: var(--ve-ink);
+  box-shadow: var(--ve-shadow);
+  color: var(--ve-on-ink);
+}
+
+.coac-ve__status[data-state="over"] {
+  background: var(--vc-card);
+  box-shadow: var(--ve-shadow);
+  color: var(--vc-text);
+}
+
+.coac-ve__status > * {
+  position: relative;
+}
+
+.coac-ve__status .coac-ve__eyebrow {
+  color: inherit;
+}
+
+/* La fachada del Falla, de marca de agua */
+.coac-ve__status .coac-ve__status-mark {
+  position: absolute;
+  inset-block-end: -2.5rem;
+  inset-inline-end: -2rem;
+  inline-size: 12rem;
+  block-size: 12rem;
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.coac-ve__status-title {
+  font-size: var(--luz-text-xl);
+  font-weight: 700;
+  line-height: 1.75rem;
+  text-wrap: balance;
+}
+
+.coac-ve__status-sub {
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-ve__status[data-state="live"] .coac-ve__status-sub {
+  color: var(--ve-on-ink-muted);
+}
+
+.coac-ve__digits {
+  display: flex;
+  gap: var(--luz-space-md);
+  margin-block-start: var(--luz-space-2xs);
+}
+
+.coac-ve__digit {
+  display: grid;
+  font-size: var(--coac-text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+.coac-ve__digit strong {
+  font-size: var(--coac-text-3xl);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--coac-leading-3xl);
+}
+
+.coac-ve__status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-xs);
+  margin-block-start: var(--luz-space-sm);
+}
+
+/* Botón blanco sobre la tarjeta de color, como «Going» en la captura */
+.coac-ve__pill-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 2.75rem;
+  padding-inline: var(--luz-space-md);
+  border: 2px solid var(--ve-pill-bg);
+  border-radius: var(--ve-radius);
+  background: var(--ve-pill-bg);
+  color: var(--ve-pill-text);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.coac-ve__pill-button[data-quiet] {
+  background: transparent;
+  color: inherit;
+}
+
+.coac-ve__status[data-state="over"] .coac-ve__pill-button {
+  border-color: var(--vc-primary);
+  background: var(--vc-primary);
+  color: var(--vc-on-primary);
+}
+
+.coac-ve__pill-button .coac-icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+.coac-ve__status :focus-visible {
+  outline-color: currentColor;
+}
+
+/* Buscador */
+.coac-ve__search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-sm);
+  min-inline-size: 0;
+}
+
+.coac-ve__field {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  padding-inline: var(--luz-space-md);
+  border: 1px solid var(--ve-edge);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  box-shadow: var(--ve-shadow);
+  color: var(--vc-muted);
+}
+
+.coac-ve__field:focus-within {
+  border-color: var(--ve-focus);
+  outline: 2px solid var(--ve-focus);
+}
+
+.coac-ve__field input {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 3.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--vc-text);
+  font: inherit;
+  outline: none;
+}
+
+.coac-ve__field input::placeholder {
+  color: var(--vc-muted);
+  opacity: 1;
+}
+
+.coac-ve__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-xs);
+}
+
+.coac-ve .coac-ve__chip {
+  min-block-size: 2.75rem;
+  padding-inline: var(--luz-space-md);
+  border: 1px solid var(--ve-edge);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  color: var(--vc-text);
+  font-size: var(--luz-text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.coac-ve .coac-ve__chip[aria-pressed="true"] {
+  border-color: var(--ve-second);
+  background: var(--ve-second);
+  color: var(--ve-on-second);
+}
+
+/* ---- Días: número grande, día de la semana debajo ---- */
+
+.coac-ve__calendar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-md);
+  min-inline-size: 0;
+}
+
+.coac-ve__day-group {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-2xs);
+  min-inline-size: 0;
+}
+
+.coac-ve__day-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--luz-space-sm);
+  min-block-size: 1.75rem;
+}
+
+.coac-ve .coac-ve__text-button {
+  min-block-size: 1.75rem;
+  color: var(--ve-second-ink);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Una sola fila deslizable con una flecha a cada lado */
+.coac-ve__carousel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-2xs);
+  align-items: center;
+}
+
+.coac-ve__carousel[data-scrollable] {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.coac-ve .coac-ve__arrow {
+  display: none;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--ve-edge);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  color: var(--vc-text);
+}
+
+.coac-ve__carousel[data-scrollable] .coac-ve__arrow {
+  display: grid;
+}
+
+/* En un extremo: apagada, con borde discontinuo */
+.coac-ve .coac-ve__arrow:disabled {
+  border-style: dashed;
+  background: transparent;
+  color: var(--vc-muted);
+  cursor: default;
+}
+
+.coac-ve__arrow .coac-icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+/* El relleno deja sitio a la sombra del día elegido */
+.coac-ve__days {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--luz-space-2xs);
+  padding: var(--luz-space-xs) var(--luz-space-3xs) var(--luz-space-sm);
+  overflow-x: auto;
+  list-style: none;
+  scroll-behavior: smooth;
+  scroll-padding-inline: var(--luz-space-3xs);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.coac-ve__days::-webkit-scrollbar {
+  display: none;
+}
+
+.coac-ve__days li {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+.coac-ve .coac-ve__day {
+  /* Contiene el texto oculto: fuera de la tira ensancharía la página */
+  position: relative;
+  display: grid;
+  grid-template-rows: 1rem auto auto 0.375rem;
+  gap: var(--luz-space-2xs);
+  justify-items: center;
+  inline-size: 3.5rem;
+  padding: var(--luz-space-sm) 0;
+  border: 1px solid transparent;
+  border-radius: var(--ve-radius);
+  color: var(--vc-text);
+}
+
+.coac-ve__day-tag {
+  color: var(--ve-accent-text);
+  font-size: var(--coac-text-2xs);
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.coac-ve__day-num {
+  font-size: var(--coac-text-2xl);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.75rem;
+}
+
+.coac-ve__day-week {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-ve__day[data-label="Hoy"] .coac-ve__day-num {
+  font-weight: 700;
+}
+
+/* Celebradas: apagadas y con borde discontinuo */
+.coac-ve .coac-ve__day[data-status="past"] {
+  border: 1px dashed var(--ve-edge);
+  color: var(--vc-muted);
+}
+
+/* El día elegido: ficha blanca elevada con sus dos puntitos */
+.coac-ve .coac-ve__day[aria-pressed="true"] {
+  border: 1px solid var(--ve-card-edge);
+  background: var(--vc-card);
+  box-shadow: var(--ve-shadow-raised);
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+.coac-ve__day-dots {
+  display: flex;
+  gap: var(--luz-space-2xs);
+  visibility: hidden;
+}
+
+.coac-ve__day-dots::before,
+.coac-ve__day-dots::after {
+  inline-size: 0.375rem;
+  block-size: 0.375rem;
+  border-radius: 50%;
+  background: var(--vc-primary);
+  content: "";
+}
+
+.coac-ve__day-dots::after {
+  background: var(--ve-second);
+}
+
+.coac-ve__day[aria-pressed="true"] .coac-ve__day-dots {
+  visibility: visible;
+}
+
+/* ---- Programa ---- */
+
+.coac-ve__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.coac-ve__main {
+  display: grid;
+  flex: 1;
+  gap: var(--luz-space-lg);
+  align-content: start;
+  inline-size: 100%;
+  max-inline-size: 44rem;
+  margin-inline: auto;
+  padding: var(--luz-space-lg) var(--luz-space-md) var(--luz-space-2xl);
+}
+
+.coac-ve__context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--luz-space-xs) var(--luz-space-md);
+  padding: var(--luz-space-sm) var(--luz-space-sm) var(--luz-space-sm) var(--luz-space-md);
+  border: 1px solid var(--ve-card-edge);
+  border-radius: var(--ve-radius);
+  background: var(--ve-second-soft);
+  color: var(--ve-second-ink);
+  font-weight: 700;
+}
+
+.coac-ve .coac-ve__reset {
+  min-block-size: 2.75rem;
+  padding-inline: var(--luz-space-md);
+  border-radius: var(--ve-radius);
+  background: var(--ve-second);
+  color: var(--ve-on-second);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+}
+
+/* Leyenda del semáforo: la misma marca que llevan las tarjetas */
+.coac-ve__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-2xs) var(--luz-space-md);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-ve__legend-item {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--luz-space-xs);
+}
+
+.coac-ve__legend-item::before {
+  inline-size: 0.5rem;
+  block-size: 1.25rem;
+  background: var(--ve-top);
+  content: "";
+}
+
+.coac-ve__legend-item[data-ranking="ok"]::before {
+  inline-size: 0.3125rem;
+  background: var(--ve-ok);
+}
+
+.coac-ve__sessions {
+  display: grid;
+  gap: var(--luz-space-2xl);
+  align-items: start;
+}
+
+.coac-ve__sessions:empty {
+  display: none;
+}
+
+.coac-ve__session {
+  display: grid;
+  gap: var(--luz-space-md);
+  min-inline-size: 0;
+}
+
+.coac-ve__session-head {
+  display: grid;
+  gap: var(--luz-space-2xs);
+  justify-items: start;
+}
+
+.coac-ve__label {
+  padding: var(--luz-space-3xs) var(--luz-space-sm);
+  border: 1px solid var(--vc-primary);
+  border-radius: var(--ve-radius);
+  background: var(--vc-primary);
+  color: var(--vc-on-primary);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+}
+
+.coac-ve__label[data-label="Mañana"] {
+  border-color: var(--ve-second-ink);
+  background: var(--ve-second-soft);
+  color: var(--ve-second-ink);
+}
+
+.coac-ve__label[data-label="Celebrada"] {
+  border: 1px dashed var(--ve-edge);
+  background: transparent;
+  color: var(--vc-muted);
+}
+
+.coac-ve__session-title {
+  font-size: var(--coac-text-2xl);
+  font-weight: 700;
+  line-height: var(--coac-leading-2xl);
+}
+
+.coac-ve__session[data-status="past"] .coac-ve__session-title {
+  color: var(--vc-muted);
+}
+
+.coac-ve__session-meta {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-ve__slots {
+  display: grid;
+  gap: var(--luz-space-sm);
+  list-style: none;
+}
+
+/* Franja horaria en vertical a la izquierda, tarjeta a la derecha */
+.coac-ve__slot {
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: var(--luz-space-xs);
+  align-items: center;
+}
+
+.coac-ve__time {
+  justify-self: center;
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  line-height: 1.25rem;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.coac-ve__slot[data-stage="live"] .coac-ve__time {
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+.coac-ve__card {
+  position: relative;
+  display: grid;
+  /* Columna que no crece con textos de una línea (el año anterior se corta con «…») */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-2xs);
+  align-content: center;
+  min-block-size: 8rem;
+  padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-md) var(--luz-space-lg);
+  border: 1px solid var(--ve-card-edge);
+  border-radius: var(--ve-radius);
+  overflow: clip;
+  background: var(--vc-card);
+  box-shadow: var(--ve-shadow);
+}
+
+.coac-ve__card:focus {
+  outline: 3px solid var(--ve-focus);
+  outline-offset: 2px;
+}
+
+/* Semáforo: solo una franja de color pegada al borde, de arriba abajo
+   (ancha = imprescindible, estrecha = recomendada); la tarjeta la recorta */
+.coac-ve__card[data-ranking="top"]::before,
+.coac-ve__card[data-ranking="ok"]::before {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 0.5rem;
+  background: var(--ve-top);
+  content: "";
+}
+
+.coac-ve__card[data-ranking="ok"]::before {
+  inline-size: 0.3125rem;
+  background: var(--ve-ok);
+}
+
+.coac-ve__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-2xs) var(--luz-space-xs);
+  font-size: var(--luz-text-xs);
+  line-height: 1.25rem;
+}
+
+.coac-ve__badge,
+.coac-ve__stage {
+  padding: 0 var(--luz-space-xs);
+  border: 1px solid var(--coac-badge-edge);
+  border-radius: var(--ve-radius);
+  font-weight: 700;
+}
+
+.coac-ve__badge[data-modalidad="CORO"] {
+  background: var(--coac-modalidad-coro-bg);
+  color: var(--coac-modalidad-coro-text);
+}
+
+.coac-ve__badge[data-modalidad="COMPARSA"] {
+  background: var(--coac-modalidad-comparsa-bg);
+  color: var(--coac-modalidad-comparsa-text);
+}
+
+.coac-ve__badge[data-modalidad="CHIRIGOTA"] {
+  background: var(--coac-modalidad-chirigota-bg);
+  color: var(--coac-modalidad-chirigota-text);
+}
+
+.coac-ve__badge[data-modalidad="CUARTETO"] {
+  background: var(--coac-modalidad-cuarteto-bg);
+  color: var(--coac-modalidad-cuarteto-text);
+}
+
+.coac-ve__stage[data-stage="next"] {
+  border-color: var(--ve-second-ink);
+  background: var(--ve-second-soft);
+  color: var(--ve-second-ink);
+}
+
+.coac-ve__stage[data-stage="done"] {
+  border-color: var(--ve-edge);
+  color: var(--vc-muted);
+}
+
+.coac-ve__city {
+  color: var(--vc-muted);
+}
+
+.coac-ve__author {
+  font-size: var(--luz-text-base);
+  font-weight: 700;
+  line-height: 1.375rem;
+}
+
+.coac-ve__name {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+/* El año anterior: abajo a la derecha, pequeño y en mayúsculas; con vídeo, icono y
+   texto son un solo enlace (su ::after cubre la fila, de 44px de alto) */
+.coac-ve__previous-row {
+  position: relative;
+  display: flex;
+  gap: var(--luz-space-2xs);
+  align-items: center;
+  justify-self: end;
+  min-inline-size: 0;
+  max-inline-size: calc(100% - var(--luz-space-md));
+  /* Que no llegue al borde de la tarjeta: queda aire tras los puntos suspensivos */
+  margin-inline-end: var(--luz-space-md);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.125rem;
+  text-align: end;
+  text-transform: uppercase;
+}
+
+.coac-ve__previous-row[data-link] {
+  min-block-size: 2.75rem;
+  color: var(--ve-accent-text);
+}
+
+.coac-ve__previous-row .coac-icon {
+  flex: none;
+}
+
+/* Siempre en una línea: si no cabe, se corta con puntos suspensivos */
+.coac-ve__previous {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.coac-ve__previous {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+a.coac-ve__previous::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+a.coac-ve__previous:focus-visible {
+  outline: none;
+}
+
+a.coac-ve__previous:focus-visible::after {
+  border-radius: var(--ve-radius);
+  outline: 3px solid var(--ve-focus);
+  outline-offset: 2px;
+}
+
+/* Ya actuó: en gris */
+.coac-ve__card[data-stage="done"] {
+  background: var(--ve-done-bg);
+  box-shadow: none;
+}
+
+.coac-ve__card[data-stage="done"] .coac-ve__author,
+.coac-ve__card[data-stage="done"] .coac-ve__previous-row {
+  color: var(--vc-muted);
+}
+
+/* Sesiones celebradas: apagadas, borde discontinuo y sin semáforo */
+.coac-ve__session[data-status="past"] .coac-ve__card {
+  border: 1px dashed var(--ve-edge);
+  background: transparent;
+}
+
+.coac-ve__session[data-status="past"] .coac-ve__card::before {
+  content: none;
+}
+
+/* Actuando ahora: marco rojo, pastilla con la franja y progreso del turno */
+.coac-ve__card[data-stage="live"] {
+  gap: var(--luz-space-xs);
+  border: 2px solid var(--ve-live-edge);
+}
+
+.coac-ve__live-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-2xs) var(--luz-space-xs);
+}
+
+.coac-ve__live-time {
+  font-size: var(--luz-text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.coac-ve__progress {
+  display: block;
+  block-size: 0.375rem;
+  overflow: hidden;
+  border-radius: var(--ve-radius);
+  background: var(--vc-line);
+}
+
+.coac-ve__progress::after {
+  display: block;
+  inline-size: calc(var(--ve-progress, 0) * 100%);
+  block-size: 100%;
+  border-radius: var(--ve-radius);
+  background: var(--ve-live-edge);
+  content: "";
+}
+
+.coac-ve__empty {
+  padding: var(--luz-space-xl) var(--luz-space-md);
+  border: 1px dashed var(--ve-edge);
+  border-radius: var(--ve-radius);
+  color: var(--vc-muted);
+  text-align: center;
+}
+
+/* Tarjeta oscura de contraste */
+.coac-ve__print {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--luz-space-md);
+  padding: var(--luz-space-lg);
+  border-radius: var(--ve-radius);
+  background: var(--ve-ink);
+  box-shadow: var(--ve-shadow);
+  color: var(--ve-on-ink);
+}
+
+.coac-ve__print-text {
+  display: grid;
+  flex: 1 1 16rem;
+  gap: var(--luz-space-2xs);
+}
+
+.coac-ve__print .coac-ve__eyebrow,
+.coac-ve__print-desc {
+  color: var(--ve-on-ink-muted);
+}
+
+.coac-ve__print-title {
+  font-size: var(--luz-text-xl);
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.coac-ve__print-desc {
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-ve .coac-ve__print-button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--luz-space-xs);
+  min-block-size: 3rem;
+  padding-inline: var(--luz-space-md) var(--luz-space-lg);
+  border-radius: var(--ve-radius);
+  background: var(--ve-pill-bg);
+  color: var(--ve-pill-text);
+  font-weight: 700;
+}
+
+.coac-ve__print :focus-visible {
+  outline-color: var(--ve-on-ink);
+}
+
+.coac-ve__print-button .coac-icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+/* ---- Pie ---- */
+
+.coac-ve__footer {
+  display: grid;
+  gap: var(--luz-space-lg);
+  inline-size: 100%;
+  max-inline-size: 44rem;
+  margin-inline: auto;
+  padding: var(--luz-space-xl) var(--luz-space-md)
+    calc(var(--luz-space-2xl) + env(safe-area-inset-bottom, 0px) + var(--coac-privacy-notice-h, 0px));
+  border-block-start: 1px solid var(--vc-line);
+}
+
+.coac-ve__phases {
+  display: grid;
+  gap: var(--luz-space-sm);
+}
+
+.coac-ve__phase-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--luz-space-xs);
+  list-style: none;
+}
+
+.coac-ve__phase-item {
+  display: grid;
+  gap: var(--luz-space-3xs);
+  block-size: 100%;
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  border: 1px dashed var(--ve-edge);
+  border-radius: var(--ve-radius);
+  color: var(--vc-muted);
+  text-decoration: none;
+}
+
+/* La fase de la portada: la única que se puede abrir */
+.coac-ve__phase-item[data-home] {
+  border: 2px solid var(--vc-primary);
+  background: var(--vc-card);
+  box-shadow: var(--ve-shadow);
+  color: var(--vc-text);
+}
+
+.coac-ve__phase-state {
+  font-size: var(--coac-text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+.coac-ve__phase-item[data-home] .coac-ve__phase-state {
+  color: var(--ve-accent-text);
+}
+
+.coac-ve__phase-name {
+  font-weight: 700;
+  line-height: 1.375rem;
+}
+
+.coac-ve__phase-dates {
+  font-size: var(--luz-text-sm);
+  line-height: 1.25rem;
+}
+
+.coac-ve__footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-xs) var(--luz-space-lg);
+}
+
+.coac-ve__footer-theme {
+  position: relative;
+  display: flex;
+}
+
+.coac-ve__footer-pages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--luz-space-2xs) var(--luz-space-lg);
+}
+
+.coac-ve .coac-ve__footer-page {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: var(--vc-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.coac-ve__footer-text {
+  display: grid;
+  gap: var(--luz-space-xs);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.375rem;
+}
+
+.coac-ve__footer-link {
+  color: var(--vc-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (min-width: 40rem) {
+  .coac-ve__phase-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---- Escritorio: columna fija a la izquierda y el programa al lado ---- */
+
+@media (min-width: 64rem) {
+  .coac-ve {
+    display: grid;
+    grid-template-columns: 26rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .coac-ve__rail {
+    position: sticky;
+    inset-block-start: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--luz-space-lg);
+    block-size: 100dvh;
+    padding: var(--luz-space-xl) var(--luz-space-lg);
+    overflow-y: auto;
+    border-inline-end: 1px solid var(--vc-line);
+  }
+
+  .coac-ve__top {
+    position: static;
+    padding: 0;
+    border: 0;
+  }
+
+  .coac-ve__strip {
+    display: none;
+  }
+
+  .coac-ve__top-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--luz-space-xs);
+  }
+
+  .coac-ve__home {
+    gap: var(--luz-space-sm);
+  }
+
+  .coac-ve__logo {
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+  }
+
+  .coac-ve__title {
+    overflow: visible;
+    font-size: var(--coac-text-2xl);
+    line-height: var(--coac-leading-2xl);
+  }
+
+  /* Con sitio, los accesos son tres fichas con su nombre a la vista */
+  .coac-ve__actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--luz-space-xs);
+    margin-block-start: var(--luz-space-xs);
+  }
+
+  .coac-ve .coac-ve__action {
+    gap: var(--luz-space-2xs);
+    inline-size: auto;
+    block-size: auto;
+    padding: var(--luz-space-sm) var(--luz-space-2xs);
+    box-shadow: var(--ve-shadow);
+    font-size: var(--luz-text-xs);
+    font-weight: 600;
+    line-height: 1rem;
+    text-align: center;
+  }
+
+  .coac-ve__action-label {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .coac-ve__side {
+    max-inline-size: none;
+    padding: 0;
+  }
+
+  .coac-ve__body {
+    min-block-size: 100dvh;
+  }
+
+  .coac-ve__main,
+  .coac-ve__footer {
+    max-inline-size: 68rem;
+    margin-inline: 0;
+    padding-inline: var(--luz-space-2xl);
+  }
+
+  .coac-ve__main {
+    padding-block-start: var(--luz-space-xl);
+  }
+
+  .coac-ve__sessions {
+    max-inline-size: 44rem;
+  }
+}
+
+/* Con ancho de sobra: hoy y mañana lado a lado; un solo día, en dos columnas */
+@media (min-width: 80rem) {
+  .coac-ve__sessions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--luz-space-2xl) var(--luz-space-xl);
+    max-inline-size: none;
+  }
+
+  .coac-ve[data-view="day"] .coac-ve__sessions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .coac-ve[data-view="day"] .coac-ve__slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--luz-space-sm) var(--luz-space-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coac-ve__days {
+    scroll-behavior: auto;
+  }
+
+  .coac-ve__on-air-dot,
+  .coac-ve__action[data-live] .coac-icon__live-dot {
+    animation: none;
+  }
+}
