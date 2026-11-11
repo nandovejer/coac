@@ -193,9 +193,9 @@ export default function VariantC({ skin }: { skin?: string }) {
                   {(
                     [
                       [remaining.days, "días"],
-                      [remaining.hours, "h"],
-                      [remaining.minutes, "min"],
-                      [remaining.seconds, "s"],
+                      [remaining.hours, "horas"],
+                      [remaining.minutes, "minutos"],
+                      [remaining.seconds, "segundos"],
                     ] as const
                   ).map(([value, unit]) => (
                     <span key={unit} className="coac-vc__tile">

@@ -329,8 +329,11 @@
   border-radius: 0.875rem;
   background: var(--vc-card);
   color: var(--vc-muted);
-  font-size: var(--luz-text-xs);
+  /* La unidad, en pequeño y en mayúsculas («SEGUNDOS» tiene que caber) */
+  font-size: var(--coac-text-2xs);
+  letter-spacing: 0.04em;
   line-height: 1rem;
+  text-transform: uppercase;
 }
 
 .coac-vc__tile strong {

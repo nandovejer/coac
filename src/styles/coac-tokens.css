@@ -11,6 +11,8 @@
 
 /* Medidas que no cambian con el modo */
 :root {
+  /* Más pequeño que --luz-text-xs: unidades de la cuenta atrás */
+  --coac-text-2xs: 0.625rem;
   --coac-text-2xl: 1.5rem;
   --coac-leading-2xl: 2rem;
   --coac-text-3xl: 1.875rem;
