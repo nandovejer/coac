@@ -21,6 +21,12 @@ export interface PorraSection {
 export interface Porra {
   kind: PorraKind;
   title: string;
+  /** La pregunta sola, para el titular de la hoja («¿Quién pasa a cuartos?»). */
+  question: string;
+  /** Lo que hay que hacer, corto, para la cinta de la cabecera. */
+  ribbon: string;
+  /** Recordatorio corto del pie de la hoja. */
+  remember: string;
   /** Qué hay que hacer en la hoja. */
   howTo: string;
   sections: PorraSection[];
@@ -62,9 +68,17 @@ export function buildPorra(sessions: SessionView[], modalidades: ReadonlySet<Mod
     .filter((section) => section.groups.length > 0);
 
   const next = phase && phase.id !== "final" ? NEXT_PHASE[phase.id] : "la siguiente fase";
+  const question = kind === "prizes" ? "¿Quién gana?" : `¿Quién pasa a ${next}?`;
   return {
     kind,
-    title: `Porra · ${kind === "prizes" ? "¿Quién gana?" : `¿Quién pasa a ${next}?`}`,
+    title: `Porra · ${question}`,
+    question,
+    ribbon:
+      kind === "prizes" ? "Marca el premio de cada agrupación" : "Marca las agrupaciones que creas que pasan",
+    remember:
+      kind === "prizes"
+        ? "Un premio por agrupación y cada premio una sola vez en cada modalidad. ¡Suerte y que gane la mejor!"
+        : `Marca solo las agrupaciones que creas que pasan a ${next}. ¡Suerte y que gane la mejor!`,
     howTo:
       kind === "prizes"
         ? "En cada modalidad, marca qué premio crees que se lleva cada agrupación, del 1.º al 4.º."

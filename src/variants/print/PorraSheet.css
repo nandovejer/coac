@@ -1,31 +1,384 @@
 /*
- * Hoja de la porra. Se apoya en la del horario (.coac-print-sheet: papel,
- * tinta, cabecera y pie) y añade las casillas, las columnas y la tabla de premios.
+ * Hoja de la porra: un cartel de carnaval. Papel crema y tinta marino, la
+ * fachada del Falla y el cobalto de la web; cada modalidad con su color (azul,
+ * violeta, rosa y gris pizarra, como en la app: nada de verdes ni amarillos, que
+ * son del semáforo). Los colores son los del papel, iguales en cualquier modo de
+ * color, y todos los textos sobre color cumplen AA. Se apoya en
+ * .coac-print-sheet (vista previa, márgenes de impresión) y se adapta a su
+ * propio ancho (container queries): la vista previa en un móvil es estrecha.
  */
-/* Huecos para escribir a mano */
-.coac-porra__fill {
+.coac-porra {
+  --pp-paper: #fbf5e8;
+  --pp-ink: #1c2a56;
+  --pp-muted: #4a5272;
+  --pp-rule: #b9ad92;
+  --pp-cobalt: #2d51a5;
+  --pp-violet: #6b2a8f;
+  --pp-on-color: #ffffff;
+  --pp-box: #ffffff;
+  --pp-coro: #1f4aa8;
+  --pp-comparsa: #5b2a9e;
+  --pp-chirigota: #a01d5c;
+  --pp-cuarteto: #4a5568;
+  --pp-confetti-1: #2d51a5;
+  --pp-confetti-2: #8a3ab9;
+  --pp-confetti-3: #d0458a;
+  --pp-confetti-4: #3aa0c8;
+  --pp-serif:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --ps-ink: var(--pp-ink);
+  --ps-muted: var(--pp-muted);
+  --ps-line: var(--pp-rule);
+
+  position: relative;
+  gap: var(--luz-space-md);
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--pp-paper);
+  color: var(--pp-ink);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+/* ---- Cabecera: el cartel ---- */
+.coac-porra__head {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  padding: var(--luz-space-xs) 18% var(--luz-space-sm);
+  text-align: center;
+}
+
+/* Los textos del cartel, siempre por encima del confeti */
+.coac-porra__head > :is(p, h2) {
+  position: relative;
+}
+
+.coac-porra__confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.coac-porra__confetti span {
+  position: absolute;
+  inline-size: 0.6rem;
+  block-size: 0.22rem;
+  border-radius: 1px;
+}
+
+.coac-porra__confetti [data-tone="1"] {
+  background: var(--pp-confetti-1);
+}
+
+.coac-porra__confetti [data-tone="2"] {
+  background: var(--pp-confetti-2);
+}
+
+.coac-porra__confetti [data-tone="3"] {
+  background: var(--pp-confetti-3);
+}
+
+.coac-porra__confetti [data-tone="4"] {
+  background: var(--pp-confetti-4);
+}
+
+/* Antifaz con plumas a la izquierda; el sello, a la derecha */
+.coac-porra__mask {
+  position: absolute;
+  inset-block-start: 6%;
+  inset-inline-start: 0;
+  inline-size: 18%;
+}
+
+.coac-porra__feather[data-tone="1"] {
+  fill: var(--pp-confetti-4);
+}
+
+.coac-porra__feather[data-tone="2"] {
+  fill: var(--pp-violet);
+}
+
+.coac-porra__feather[data-tone="3"] {
+  fill: var(--pp-confetti-3);
+}
+
+.coac-porra__mask-face {
+  fill: var(--pp-violet);
+  stroke: var(--pp-ink);
+  stroke-width: 2.5;
+}
+
+.coac-porra__mask-eye {
+  fill: var(--pp-paper);
+  stroke: var(--pp-ink);
+  stroke-width: 2;
+}
+
+.coac-porra__mask-gem {
+  fill: var(--pp-confetti-4);
+  stroke: var(--pp-ink);
+  stroke-width: 1.5;
+}
+
+.coac-porra .coac-porra__season {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--pp-cobalt);
+  font-family: var(--pp-serif);
+  font-size: max(0.75rem, 3.2cqi);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+}
+
+/* Rayitas a los lados, como en un cartel */
+.coac-porra__season::before,
+.coac-porra__season::after {
+  inline-size: 2.2em;
+  border-block-start: 2px solid currentColor;
+  content: "";
+}
+
+.coac-porra .coac-porra__title {
+  color: var(--pp-ink);
+  font-family: var(--pp-serif);
+  font-size: max(2.25rem, 13cqi);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.coac-porra .coac-porra__question {
+  color: var(--pp-violet);
+  font-family: var(--pp-serif);
+  font-size: max(1.05rem, 5.6cqi);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* Cinta con lo que hay que hacer: color pleno y las puntas recortadas */
+.coac-porra .coac-porra__ribbon {
+  margin-block-start: 0.4rem;
+  padding: 0.3em 1.6em;
+  background: var(--pp-cobalt);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.8em) 50%, 100% 100%, 0 100%, 0.8em 50%);
+  /* En una sola línea si cabe: puede salirse del hueco entre los dibujos */
+  inline-size: max-content;
+  max-inline-size: 76cqi;
+  color: var(--pp-on-color);
+  font-size: max(0.625rem, 2.1cqi);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* Sello redondo, algo torcido, en la esquina de arriba a la derecha */
+.coac-porra__stamp {
+  position: absolute;
+  inset-block-start: 8%;
+  inset-inline-end: 1%;
+  inline-size: 16%;
+  aspect-ratio: 1;
+  color: var(--pp-cobalt);
+  rotate: 12deg;
+}
+
+.coac-porra__stamp-ring {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.coac-porra__stamp circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.coac-porra__stamp text {
+  fill: currentColor;
+  font-family: var(--luz-font-sans);
+  font-size: 9.5px;
+  font-weight: 800;
+}
+
+/* La fachada del Falla en el centro del sello */
+.coac-porra__stamp-falla {
+  position: absolute;
+  inset-block-start: 31%;
+  inset-inline-start: 31%;
+  inline-size: 38%;
+  block-size: 38%;
+  color: currentColor;
+}
+
+/* En una vista previa estrecha, los dibujos se apartan del titular */
+@container (max-width: 30rem) {
+  .coac-porra__head {
+    padding-inline: 0;
+    padding-block-start: var(--luz-space-xl);
+  }
+
+  .coac-porra__mask {
+    inset-block-start: 0;
+    inline-size: 16%;
+  }
+
+  .coac-porra__stamp {
+    inset-block-start: 0;
+    inline-size: 15%;
+  }
+}
+
+/* ---- Nombre y aciertos, a boli ---- */
+.coac-porra .coac-porra__fill {
   display: flex;
   flex-wrap: wrap;
   gap: var(--luz-space-xs) var(--luz-space-xl);
-  margin-block-start: var(--luz-space-xs);
-  font-size: var(--luz-text-xs);
-  font-weight: 700;
+  font-size: var(--luz-text-sm);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .coac-porra__fill > span {
-  display: inline-flex;
+  display: flex;
+  flex: 1 1 12rem;
   align-items: flex-end;
   gap: var(--luz-space-xs);
 }
 
-.coac-porra__line {
-  display: inline-block;
-  inline-size: 3rem;
-  border-block-end: 1px solid var(--ps-ink);
+.coac-porra__fill > span:last-child {
+  flex-grow: 0.6;
 }
 
-.coac-porra__line--long {
-  inline-size: 12rem;
+.coac-porra__line {
+  flex: 1;
+  min-inline-size: 4rem;
+  border-block-end: 2px dotted var(--pp-ink);
+}
+
+/* ---- Las modalidades, en dos columnas ---- */
+.coac-porra__board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--luz-space-md);
+}
+
+.coac-porra__column {
+  display: grid;
+  align-content: start;
+  gap: var(--luz-space-md);
+}
+
+@container (min-width: 36rem) {
+  .coac-porra__board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--luz-space-lg);
+  }
+
+  .coac-porra__column + .coac-porra__column {
+    padding-inline-start: var(--luz-space-lg);
+    border-inline-start: 1px solid var(--pp-rule);
+  }
+}
+
+.coac-porra__section {
+  --pp-modalidad: var(--pp-coro);
+
+  display: grid;
+  gap: var(--luz-space-xs);
+}
+
+.coac-porra__section[data-modalidad="COMPARSA"] {
+  --pp-modalidad: var(--pp-comparsa);
+}
+
+.coac-porra__section[data-modalidad="CHIRIGOTA"] {
+  --pp-modalidad: var(--pp-chirigota);
+}
+
+.coac-porra__section[data-modalidad="CUARTETO"] {
+  --pp-modalidad: var(--pp-cuarteto);
+}
+
+.coac-porra .coac-porra__modalidad {
+  display: flex;
+  align-items: center;
+  gap: var(--luz-space-xs);
+}
+
+.coac-porra__icon {
+  flex: none;
+  inline-size: 1.9rem;
+  block-size: 1.9rem;
+  fill: none;
+  stroke: var(--pp-modalidad);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+/* Banda de color pleno con los bordes irregulares, como una pincelada */
+.coac-porra__banner {
+  flex: 1;
+  padding: 0.18em 0.8em 0.12em;
+  background: var(--pp-modalidad);
+  clip-path: polygon(
+    0 10%,
+    2% 0,
+    40% 6%,
+    70% 0,
+    98% 4%,
+    100% 30%,
+    99% 70%,
+    100% 100%,
+    60% 94%,
+    25% 100%,
+    1% 95%,
+    0 60%
+  );
+  color: var(--pp-on-color);
+  font-family: var(--pp-serif);
+  font-size: var(--luz-text-lg);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.coac-porra__banner span {
+  font-weight: 400;
+}
+
+.coac-porra__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@container (min-width: 26rem) {
+  .coac-porra__list {
+    column-count: 2;
+    column-gap: var(--luz-space-md);
+  }
+}
+
+.coac-porra__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--luz-space-xs);
+  padding-block: 0.16rem;
+  font-size: var(--luz-text-xs);
+  line-height: 1.25;
+  break-inside: avoid;
 }
 
 /* Casilla para marcar con boli */
@@ -35,59 +388,50 @@
   box-sizing: border-box;
   inline-size: 0.85rem;
   block-size: 0.85rem;
-  border: 1px solid var(--ps-ink);
-  background: #ffffff;
+  margin-block-start: 0.02rem;
+  border: 1.4px solid var(--pp-ink);
+  border-radius: 2px;
+  background: var(--pp-box);
 }
 
-.coac-print-sheet .coac-porra__modalidad {
-  margin-block-end: var(--luz-space-2xs);
-  padding-block-end: var(--luz-space-3xs);
-  border-block-end: 1px solid var(--ps-ink);
+/* ---- Recuerda ---- */
+.coac-porra__remember {
+  display: grid;
+  gap: 0.15rem;
+  justify-self: center;
+  max-inline-size: 22rem;
+  margin-block-start: var(--luz-space-xs);
+  padding: var(--luz-space-xs) var(--luz-space-md);
+  border: 1.5px solid var(--pp-violet);
+  border-radius: 0.6rem;
+  font-size: var(--luz-text-xs);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.coac-porra .coac-porra__remember-title {
+  color: var(--pp-violet);
+  font-family: var(--pp-serif);
   font-size: var(--luz-text-sm);
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.coac-porra__modalidad span {
-  color: var(--ps-muted);
-  font-weight: 400;
-}
-
-/* ---- ¿Quién pasa? Tres columnas (dos en pantallas estrechas) ---- */
-.coac-porra__columns {
-  column-count: 2;
-  column-gap: var(--luz-space-lg);
-}
-
-@media (min-width: 40rem) {
-  .coac-porra__columns {
-    column-count: 3;
-  }
-}
-
-.coac-porra__section {
-  margin-block-end: var(--luz-space-md);
-}
-
-.coac-porra__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.coac-porra__item {
+/* ---- Pie: franja marino a sangre ---- */
+.coac-porra__foot {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: var(--luz-space-xs);
-  padding-block: 0.2rem;
-  font-size: var(--luz-text-xs);
-  line-height: 1.25;
-  break-inside: avoid;
-}
-
-.coac-porra__item .coac-porra__box {
-  margin-block-start: 0.05rem;
+  margin: var(--luz-space-xs) calc(var(--luz-space-lg) * -1) calc(var(--luz-space-lg) * -1);
+  padding: var(--luz-space-xs) var(--luz-space-lg);
+  background: var(--pp-ink);
+  color: var(--pp-paper);
+  font-family: var(--pp-serif);
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 /* ---- Final: tabla de premios por modalidad ---- */
@@ -103,9 +447,9 @@
 
 .coac-porra__prizes th {
   padding: var(--luz-space-3xs) var(--luz-space-xs);
-  border-block-end: 1px solid var(--ps-ink);
+  border-block-end: 1.5px solid var(--pp-ink);
   background: none;
-  color: var(--ps-muted);
+  color: var(--pp-muted);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   text-align: center;
@@ -118,9 +462,9 @@
 
 .coac-porra__prizes td {
   padding: var(--luz-space-xs);
-  border-block-end: 1px solid var(--ps-line);
+  border-block-end: 1px solid var(--pp-rule);
   background: none;
-  color: var(--ps-ink);
+  color: var(--pp-ink);
   text-align: center;
   vertical-align: middle;
 }
@@ -132,7 +476,7 @@
 
 .coac-porra__prizes th:not(:first-child),
 .coac-porra__prizes td:not(:first-child) {
-  inline-size: 3rem;
+  inline-size: 2.6rem;
 }
 
 .coac-porra__prizes .coac-porra__box {
@@ -146,42 +490,96 @@
   font-weight: 700;
 }
 
-/* ---- En papel: todo en un A4 ---- */
+/* ---- En papel: un A4, tamaños en puntos. El fondo crema no se imprime (gasta
+   tinta en toda la hoja); las bandas, la cinta y el pie sí van en color. ---- */
 @media print {
-  .coac-porra__head {
-    margin-block-end: 10pt;
+  .coac-porra {
+    background: #ffffff;
   }
 
-  .coac-porra__fill {
-    margin-block-start: 6pt;
+  .coac-porra__head {
+    display: grid;
+    padding: 2pt 18% 6pt;
+  }
+
+  .coac-porra .coac-porra__season {
+    font-size: 13pt;
+  }
+
+  .coac-porra .coac-porra__title {
+    font-size: 46pt;
+  }
+
+  .coac-porra .coac-porra__question {
+    font-size: 21pt;
+  }
+
+  .coac-porra .coac-porra__ribbon {
+    font-size: 8.5pt;
+  }
+
+  .coac-porra .coac-porra__fill {
+    margin-block: 6pt 8pt;
     font-size: 9pt;
   }
 
-  .coac-porra__columns {
-    column-count: 3;
-    column-gap: 14pt;
+  .coac-porra__board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12pt;
+  }
+
+  .coac-porra__column {
+    gap: 8pt;
+  }
+
+  .coac-porra__column + .coac-porra__column {
+    padding-inline-start: 12pt;
+    border-inline-start: 0.6pt solid var(--pp-rule);
   }
 
   .coac-porra__section {
-    margin-block-end: 8pt;
+    gap: 3pt;
   }
 
-  .coac-porra__modalidad {
-    margin-block-end: 3pt;
-    font-size: 9pt;
-    break-after: avoid;
+  .coac-porra__icon {
+    inline-size: 16pt;
+    block-size: 16pt;
+  }
+
+  .coac-porra__banner {
+    font-size: 11pt;
+  }
+
+  .coac-porra__list {
+    column-count: 2;
+    column-gap: 8pt;
   }
 
   .coac-porra__item {
-    gap: 4pt;
-    padding-block: 1.6pt;
+    gap: 3.5pt;
+    padding-block: 1.3pt;
     font-size: 7.5pt;
   }
 
   .coac-porra__box {
-    inline-size: 8pt;
-    block-size: 8pt;
+    inline-size: 7.5pt;
+    block-size: 7.5pt;
     border-width: 0.8pt;
+  }
+
+  .coac-porra__remember {
+    font-size: 7.5pt;
+  }
+
+  .coac-porra .coac-porra__remember-title {
+    font-size: 9pt;
+  }
+
+  .coac-porra__foot {
+    margin: 8pt 0 0;
+    padding: 4pt 8pt;
+    font-size: 8pt;
   }
 
   .coac-porra__prizes,
@@ -197,9 +595,5 @@
   .coac-porra__prizes .coac-porra__box {
     inline-size: 11pt;
     block-size: 11pt;
-  }
-
-  .coac-porra[data-kind="prizes"] .coac-porra__section {
-    margin-block-end: 8pt;
   }
 }
