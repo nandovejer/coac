@@ -87,9 +87,14 @@
   --ve-done-bg: #181821;
   --ve-live-edge: #f87171;
   --ve-focus: #8fb0ff;
-  --ve-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
-  --ve-shadow-raised: 0 0 0 1px #73758f, 0 12px 24px -10px rgb(0 0 0 / 0.8);
-  --ve-shadow-feature: 0 1px 2px rgb(0 0 0 / 0.5);
+  /* Sobre un fondo casi negro una sombra suave no se ve: es más amplia y
+     opaca, y una línea fina clara arriba hace de luz sobre el canto */
+  --ve-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 2px rgb(0 0 0 / 0.6), 0 12px 24px -12px rgb(0 0 0 / 0.7);
+  --ve-shadow-raised:
+    inset 0 1px 0 rgb(255 255 255 / 0.1), 0 0 0 1px #73758f, 0 12px 24px -10px rgb(0 0 0 / 0.8);
+  --ve-shadow-feature:
+    inset 0 1px 0 rgb(255 255 255 / 0.22), 0 1px 2px rgb(0 0 0 / 0.6), 0 16px 28px -14px rgb(0 0 0 / 0.85);
 }
 
 [data-mode="high-contrast"] .coac-ve {
@@ -1738,6 +1743,48 @@ a.coac-ve__previous:focus-visible::after {
 
   .coac-ve__main {
     padding-block-start: var(--luz-space-xl);
+  }
+
+  /* Pie: las fases a todo lo ancho; debajo, dos columnas: los textos en tres
+     cuartos y, a la derecha, el modo de color y los enlaces, uno bajo otro */
+  .coac-ve__footer {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-areas:
+      "phases phases"
+      "text aside";
+    column-gap: var(--luz-space-2xl);
+    align-items: start;
+  }
+
+  .coac-ve__phases {
+    grid-area: phases;
+    container-type: inline-size;
+  }
+
+  /* Las cuatro fases en fila si caben; si no, de dos en dos (nunca 3 + 1) */
+  .coac-ve__phase-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @container (min-width: 39rem) {
+    .coac-ve__phase-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .coac-ve__footer-text {
+    grid-area: text;
+  }
+
+  .coac-ve__footer-row {
+    grid-area: aside;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coac-ve__footer-pages {
+    flex-direction: column;
+    gap: 0;
   }
 
   /* En escritorio la etiqueta solo la oye el lector de pantalla */
