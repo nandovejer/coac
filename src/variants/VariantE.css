@@ -43,6 +43,14 @@
   --ve-shadow-raised: 0 1px 2px rgb(27 28 59 / 0.08), 0 12px 22px -10px rgb(27 28 59 / 0.32);
   --ve-shadow-feature: 0 14px 26px -16px rgb(45 81 165 / 0.7);
   --ve-radius: 3px;
+  /* Cabecera de la próxima sesión: el bloque del banner de estado, con la fachada
+     (cada modo pone su color de banner en --ve-feature) */
+  --ve-next-head-bg: var(--ve-feature);
+  --ve-next-head-text: var(--ve-on-feature);
+  --ve-next-head-accent: var(--ve-on-feature);
+  --ve-next-mark: block;
+  /* Opacidad de la fachada de marca de agua: el texto encima sigue en AA */
+  --ve-mark-opacity: 0.14;
   --ve-font:
     "Avenir Next", Avenir, "Century Gothic", "URW Gothic", "Nunito Sans", ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", sans-serif;
@@ -70,6 +78,7 @@
   --ve-ok: #facc15;
   --ve-accent-text: #8fb0ff;
   --ve-feature: #3560c4;
+  --ve-mark-opacity: 0.1;
   --ve-second: #c3d0f7;
   --ve-on-second: #0f1838;
   --ve-second-soft: #1d2748;
@@ -437,14 +446,19 @@
   color: inherit;
 }
 
-/* La fachada del Falla, de marca de agua */
+/* La fachada del Falla, de marca de agua: tan alta como la tarjeta, cortada
+   por el borde derecho (se ve la mitad) y algo bajada; la base se desvanece
+   (mask-image, solo transparencia) y se funde con el fondo de la tarjeta */
 .coac-ve__status .coac-ve__status-mark {
   position: absolute;
-  inset-block-end: -2.5rem;
-  inset-inline-end: -2rem;
-  inline-size: 12rem;
-  block-size: 12rem;
-  opacity: 0.14;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: auto;
+  block-size: 100%;
+  aspect-ratio: 1;
+  translate: 50% 12%;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 84%);
+  opacity: var(--ve-mark-opacity);
   pointer-events: none;
 }
 
@@ -834,10 +848,41 @@
   visibility: visible;
 }
 
-/* ---- Resumen de la sesión (solo en la columna de escritorio) ---- */
+/* ---- Resumen de la sesión, dentro de la tarjeta de estado ---- */
 
-.coac-ve__brief {
-  display: none;
+.coac-ve__status-brief {
+  display: grid;
+  gap: var(--luz-space-2xs);
+  margin-block-start: var(--luz-space-sm);
+  padding-block-start: var(--luz-space-md);
+  border-block-start: 1px solid currentColor;
+}
+
+.coac-ve__status-brief-text {
+  font-size: var(--luz-text-sm);
+  line-height: 1.375rem;
+  text-wrap: pretty;
+}
+
+.coac-ve__status-brief-text strong {
+  font-weight: 700;
+}
+
+.coac-ve .coac-ve__status-brief-link {
+  display: inline-flex;
+  gap: var(--luz-space-2xs);
+  align-items: center;
+  justify-self: start;
+  min-block-size: 2.75rem;
+  font-size: var(--luz-text-sm);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.coac-ve__status-brief-link .coac-icon {
+  inline-size: 1rem;
+  block-size: 1rem;
 }
 
 /* ---- Programa ---- */
@@ -1009,11 +1054,54 @@
   color: var(--ve-on-feature);
 }
 
-/* La próxima sesión: rótulo propio y cuándo empieza, sobre el panel azul claro */
+/* La próxima sesión: rótulo propio y cuándo empieza, en el bloque del color del
+   banner de estado y con la fachada del Falla a la derecha */
 .coac-ve__session[data-featured="next"] .coac-ve__session-head {
+  position: relative;
   gap: var(--luz-space-xs);
   justify-items: stretch;
-  padding-inline: var(--luz-space-xs);
+  overflow: hidden;
+  padding: var(--luz-space-md) var(--luz-space-lg) var(--luz-space-lg);
+  border-radius: var(--ve-radius);
+  background: var(--ve-next-head-bg);
+  color: var(--ve-next-head-text);
+}
+
+.coac-ve__session[data-featured="next"] .coac-ve__session-head > :not(.coac-ve__session-mark) {
+  position: relative;
+}
+
+.coac-ve__session[data-featured="next"]
+  :is(.coac-ve__session-title, .coac-ve__session-meta, .coac-ve__session-when) {
+  color: inherit;
+}
+
+.coac-ve__session[data-featured="next"] .coac-ve__session-eyebrow {
+  color: var(--ve-next-head-accent);
+}
+
+.coac-ve__session[data-featured="next"] .coac-ve__session-title:focus-visible {
+  outline-color: currentColor;
+}
+
+/* La cabecera de la sesión destacada (hoy o la próxima) es la banda de arriba
+   del panel: llega a sus bordes, sin margen arriba ni a los lados */
+.coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
+  margin: calc(var(--luz-space-xl) * -1) calc(var(--luz-space-lg) * -1) 0;
+  border-radius: var(--ve-radius) var(--ve-radius) 0 0;
+  box-shadow: none;
+}
+
+/* La fachada del Falla, de marca de agua, como en el banner de estado */
+.coac-ve .coac-ve__session-mark {
+  position: absolute;
+  inset-block-end: -2.5rem;
+  inset-inline-end: -1.5rem;
+  display: var(--ve-next-mark);
+  inline-size: 11rem;
+  block-size: 11rem;
+  opacity: var(--ve-mark-opacity);
+  pointer-events: none;
 }
 
 /* La sesión destacada (hoy o la próxima) es un panel azul claro que envuelve su
@@ -1538,71 +1626,12 @@ a.coac-ve__previous:focus-visible::after {
     border-inline-end: 1px solid var(--vc-line);
   }
 
-  /* Resumen de la sesión de hoy (o la próxima), en el azul claro de su panel */
-  .coac-ve__brief {
-    display: grid;
-    gap: var(--luz-space-xs);
-    padding: var(--luz-space-md) var(--luz-space-lg) var(--luz-space-sm);
-    border: 1px solid var(--ve-card-edge);
-    border-radius: var(--ve-radius);
-    background: var(--ve-second-soft);
-    color: var(--ve-second-ink);
-  }
-
-  .coac-ve__brief-eyebrow {
-    color: var(--ve-accent-text);
-    font-weight: 700;
-  }
-
-  .coac-ve__brief-title {
-    color: var(--vc-text);
-    font-size: var(--luz-text-lg);
-    font-weight: 700;
-    line-height: 1.5rem;
-  }
-
-  .coac-ve__brief-text {
-    font-size: var(--luz-text-sm);
-    line-height: 1.375rem;
-    text-wrap: pretty;
-  }
-
-  .coac-ve__brief-text strong {
-    color: var(--vc-text);
-    font-weight: 700;
-  }
-
-  .coac-ve .coac-ve__brief-link {
-    display: inline-flex;
-    gap: var(--luz-space-2xs);
-    align-items: center;
-    justify-self: start;
-    min-block-size: 2.75rem;
-    color: var(--ve-accent-text);
-    font-size: var(--luz-text-sm);
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .coac-ve__brief-link .coac-icon {
-    inline-size: 1rem;
-    block-size: 1rem;
-  }
-
   /* La cabecera de la sesión destacada se queda fija bajo el filtro mientras se
      recorren sus tarjetas, y se va con ella al llegar a las siguientes sesiones */
   .coac-ve__session[data-featured] .coac-ve__session-head {
     position: sticky;
     inset-block-start: var(--ve-filters-h, 0px);
     z-index: 4;
-  }
-
-  /* La de la próxima, con el fondo del panel de lado a lado para tapar lo que pasa */
-  .coac-ve__session[data-featured="next"] .coac-ve__session-head {
-    margin-inline: calc(var(--luz-space-lg) * -1);
-    padding: var(--luz-space-sm) calc(var(--luz-space-lg) + var(--luz-space-xs));
-    background: var(--ve-second-soft);
   }
 
   /* El aviso de privacidad, a todo el ancho de la pantalla (también bajo la columna) */

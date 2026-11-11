@@ -442,31 +442,28 @@ export default function VariantE() {
                 <span className="coac-sr-only"> (se abre en otra pestaña)</span>
               </a>
             </p>
+            {/* Qué no perderse de la sesión de hoy (o la próxima) */}
+            {briefSession && (
+              <div className="coac-ve__status-brief">
+                <p className="coac-ve__status-brief-text">
+                  {sessionBrief(briefSession).map((part, index) =>
+                    part.strong ? (
+                      <strong key={index}>{part.text}</strong>
+                    ) : (
+                      <span key={index}>{part.text}</span>
+                    ),
+                  )}
+                </p>
+                <button type="button" className="coac-ve__status-brief-link" onClick={goToToday}>
+                  Ver la sesión
+                  <ChevronRightIcon />
+                </button>
+              </div>
+            )}
           </section>
         </aside>
 
         {renderActions("rail")}
-
-        {/* Resumen de la sesión de hoy (o la próxima) en la columna de escritorio */}
-        {briefSession && (
-          <section className="coac-ve__brief" aria-labelledby="ve-brief-eyebrow ve-brief-title">
-            <p id="ve-brief-eyebrow" className="coac-ve__eyebrow coac-ve__brief-eyebrow">
-              {briefSession.status === "present" ? "Sesión de hoy" : "Próxima sesión"}
-            </p>
-            <h2 id="ve-brief-title" className="coac-ve__brief-title">
-              {formatSessionTitleDate(briefSession.date)}
-            </h2>
-            <p className="coac-ve__brief-text">
-              {sessionBrief(briefSession).map((part, index) =>
-                part.strong ? <strong key={index}>{part.text}</strong> : <span key={index}>{part.text}</span>,
-              )}
-            </p>
-            <button type="button" className="coac-ve__brief-link" onClick={goToToday}>
-              Ver la sesión
-              <ChevronRightIcon />
-            </button>
-          </section>
-        )}
       </div>
 
       <div className="coac-ve__body">
@@ -524,6 +521,7 @@ export default function VariantE() {
                   {days.map((session) => {
                     const [weekday, day] = formatShortDate(session.date).split(" ");
                     const label = p.dayLabel(session);
+                    const chosen = p.mode === "day" && p.selectedDate === session.date;
                     return (
                       <li key={session.date}>
                         <button
@@ -532,10 +530,11 @@ export default function VariantE() {
                           data-status={session.status}
                           data-label={label || undefined}
                           data-upcoming={session.date === p.schedule.upcomingSession?.date || undefined}
-                          aria-pressed={p.mode === "day" && p.selectedDate === session.date}
+                          aria-pressed={chosen}
                           onClick={() => {
+                            // Pulsar otra vez el día elegido lo quita: vuelve todo el programa
                             p.reset();
-                            p.setSelectedDate(session.date);
+                            if (!chosen) p.setSelectedDate(session.date);
                             afterPaint(showChosenDay);
                           }}
                         >
@@ -605,6 +604,7 @@ export default function VariantE() {
                     aria-labelledby={`ve-${key}`}
                   >
                     <header className="coac-ve__session-head">
+                      {featured === "next" && <FallaLogo className="coac-ve__session-mark" />}
                       {featured === "next" ? (
                         <p className="coac-ve__session-eyebrow">
                           {label === "Mañana" ? "Mañana · Próxima sesión" : "Próxima sesión"}
