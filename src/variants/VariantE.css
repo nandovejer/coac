@@ -1340,13 +1340,14 @@
   color: var(--vc-muted);
 }
 
-.coac-ve__author {
+/* El nombre de la agrupación manda; los autores, debajo y más discretos */
+.coac-ve__name {
   font-size: var(--luz-text-base);
   font-weight: 700;
   line-height: 1.375rem;
 }
 
-.coac-ve__name {
+.coac-ve__author {
   color: var(--vc-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
@@ -1418,7 +1419,7 @@ a.coac-ve__previous:focus-visible::after {
   box-shadow: none;
 }
 
-.coac-ve__card[data-stage="done"] .coac-ve__author,
+.coac-ve__card[data-stage="done"] .coac-ve__name,
 .coac-ve__card[data-stage="done"] .coac-ve__previous-row {
   color: var(--vc-muted);
 }
@@ -1825,8 +1826,10 @@ a.coac-ve__previous:focus-visible::after {
     }
   }
 
+  /* La primera línea queda a la altura del primer enlace (que mide 2,75 rem) */
   .coac-ve__footer-text {
     grid-area: text;
+    padding-block-start: calc((2.75rem - 1.375rem) / 2);
   }
 
   .coac-ve__footer-row {

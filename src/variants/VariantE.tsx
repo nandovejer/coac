@@ -936,8 +936,8 @@ export default function VariantE() {
                                 </span>
                                 <span className="coac-ve__city">{group.ciudad}</span>
                               </p>
-                              <h3 className="coac-ve__author">{group.autor}</h3>
-                              <p className="coac-ve__name">{group.nombre}</p>
+                              <h3 className="coac-ve__name">{group.nombre}</h3>
+                              <p className="coac-ve__author">{group.autor}</p>
                               {group.previous && (
                                 // El icono es parte del enlace al vídeo (su ::after cubre toda la fila)
                                 <p
