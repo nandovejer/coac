@@ -1585,9 +1585,18 @@ a.coac-ve__previous:focus-visible::after {
   gap: var(--luz-space-xs) var(--luz-space-lg);
 }
 
+/* El botón redondo del modo de color flota abajo a la derecha, siempre a mano;
+   sube si está el aviso de privacidad para no taparlo */
 .coac-ve__footer-theme {
-  position: relative;
+  position: fixed;
+  z-index: 20;
+  inset-inline-end: max(var(--luz-space-md), env(safe-area-inset-right, 0px));
+  inset-block-end: calc(
+    var(--luz-space-md) + var(--coac-privacy-notice-h, 0px) + env(safe-area-inset-bottom, 0px)
+  );
   display: flex;
+  border-radius: 50%;
+  box-shadow: var(--ve-shadow-raised);
 }
 
 .coac-ve__footer-pages {
