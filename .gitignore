@@ -31,6 +31,7 @@ yarn.lock
 
 # Tests visuales (Playwright)
 dist-e2e
+dist-e2e-motion
 test-results/
 playwright-report/
 
@@ -40,4 +41,3 @@ playwright-report/
 # Referencia "antes" de la migración a Luz y comparativas generadas
 tests/visual/before
 tests/visual/compare
-.github/skills/
