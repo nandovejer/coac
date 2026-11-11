@@ -1,29 +1,10 @@
 import { SEASON } from "../../config/season";
 import { Confetti, MaskArt, ModalidadIcon, Stamp } from "./PorraArt";
-import { PRIZES, type Porra, type PorraSection } from "./porra";
+import { PRIZES, splitColumns, type Porra, type PorraSection } from "./porra";
 import "./PorraSheet.css";
 
 /** Casilla vacía para marcar a boli. */
 const Box = () => <span className="coac-porra__box" aria-hidden="true" />;
-
-/**
- * Reparte las modalidades en dos columnas, en orden, con el alto lo más
- * parecido posible (cada lista va a su vez en dos subcolumnas). La derecha
- * lleva además el recuadro «Recuerda».
- */
-function splitColumns(sections: PorraSection[], prizes: boolean) {
-  const weight = (section: PorraSection) =>
-    4 + (prizes ? section.groups.length * 1.6 : Math.ceil(section.groups.length / 2));
-  const total = sections.reduce((sum, section) => sum + weight(section), 0) + 5;
-  let best = { index: sections.length, diff: Infinity };
-  let left = 0;
-  for (let index = 0; index <= sections.length; index++) {
-    const diff = Math.abs(left - (total - left));
-    if (diff < best.diff) best = { index, diff };
-    if (index < sections.length) left += weight(sections[index]);
-  }
-  return [sections.slice(0, best.index), sections.slice(best.index)];
-}
 
 function Section({ section, prizes }: { section: PorraSection; prizes: boolean }) {
   return (
