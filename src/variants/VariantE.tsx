@@ -1219,29 +1219,28 @@ export default function VariantE({
               </a>
             </p>
           </div>
-          <div className="coac-ve__footer-text">
-            <p>
-              Hecho con{" "}
-              <a className="coac-ve__footer-link" href="https://github.com/nandovejer/luz">
-                Luz
-              </a>{" "}
-              por{" "}
-              <a className="coac-ve__footer-link" href="https://twitter.com/nandovejer">
-                Nando Muñoz
-              </a>
-              . Código abierto bajo{" "}
-              <a className="coac-ve__footer-link" href="https://es.wikipedia.org/wiki/MIT_License">
-                licencia MIT
-              </a>
-              .
-            </p>
-          </div>
           <p className="coac-ve__footer-disclaimer">
             <strong>Web no oficial</strong>, hecha por un aficionado. No tiene relación con el Ayuntamiento de
             Cádiz ni con la organización del COAC. El listado y el orden de actuación proceden de la
             información pública del Ayuntamiento; las horas son estimadas y las recomendaciones, personales.{" "}
             <a className="coac-ve__footer-link" href="/THIRD-PARTY-LICENSES.txt">
               Licencias de terceros
+            </a>
+            .
+          </p>
+          {/* Créditos: lo último del pie, sin pasar por debajo del botón del modo de color */}
+          <p className="coac-ve__footer-credits">
+            Hecho con{" "}
+            <a className="coac-ve__footer-link" href="https://github.com/nandovejer/luz">
+              Luz
+            </a>{" "}
+            por{" "}
+            <a className="coac-ve__footer-link" href="https://twitter.com/nandovejer">
+              Nando Muñoz
+            </a>
+            . Código abierto bajo{" "}
+            <a className="coac-ve__footer-link" href="https://es.wikipedia.org/wiki/MIT_License">
+              licencia MIT
             </a>
             .
           </p>

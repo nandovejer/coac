@@ -1725,15 +1725,6 @@ a.coac-ve__previous:focus-visible::after {
   line-height: 1.375rem;
 }
 
-/* Notas y créditos: secundarios, en gris */
-.coac-ve__footer-text {
-  display: grid;
-  gap: var(--luz-space-2xs);
-  color: var(--vc-muted);
-  font-size: var(--luz-text-sm);
-  line-height: 1.375rem;
-}
-
 .coac-ve__footer-link {
   color: var(--vc-text);
   text-decoration: underline;
@@ -1756,8 +1747,20 @@ a.coac-ve__previous:focus-visible::after {
   font-weight: 700;
 }
 
-/* Tableta: la promesa a todo lo ancho; debajo, notas a la izquierda y enlaces a
-   la derecha */
+/* Créditos: la última línea del pie, en gris, separada del aviso legal y un punto
+   más grande que él. El hueco de la derecha es el del botón redondo del modo de
+   color (2,75 rem, fijo abajo a la derecha): el texto nunca pasa por debajo de él */
+.coac-ve__footer-credits {
+  margin-block-start: var(--luz-space-sm);
+  padding-inline-end: calc(2.75rem + var(--luz-space-sm));
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  line-height: 1.375rem;
+  text-wrap: pretty;
+}
+
+/* Tableta y escritorio: la promesa y, a su derecha, los dos enlaces apilados;
+   debajo, el aviso legal y los créditos a todo lo ancho */
 @media (min-width: 40rem) {
   .coac-ve__phase-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1767,11 +1770,10 @@ a.coac-ve__previous:focus-visible::after {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
       "phases phases"
-      "promise promise"
-      "text aside"
-      "legal legal";
+      "promise aside"
+      "legal legal"
+      "credits credits";
     column-gap: var(--luz-space-xl);
-    align-items: start;
   }
 
   .coac-ve__phases {
@@ -1780,7 +1782,7 @@ a.coac-ve__previous:focus-visible::after {
 
   .coac-ve__footer-promise {
     grid-area: promise;
-    padding: var(--luz-space-lg) var(--luz-space-xl);
+    padding: var(--luz-space-lg);
   }
 
   .coac-ve__footer-promise-lead {
@@ -1788,13 +1790,13 @@ a.coac-ve__previous:focus-visible::after {
     line-height: 1.875rem;
   }
 
-  .coac-ve__footer-text {
-    grid-area: text;
-  }
-
   .coac-ve__footer-row {
     grid-area: aside;
-    justify-self: end;
+    align-self: center;
+  }
+
+  .coac-ve__footer-credits {
+    grid-area: credits;
   }
 
   /* Los dos enlaces, uno encima de otro y alineados a la derecha */
@@ -1806,29 +1808,6 @@ a.coac-ve__previous:focus-visible::after {
 
   .coac-ve__footer-disclaimer {
     grid-area: legal;
-  }
-}
-
-/* Pantallas anchas: tres columnas (la promesa, las notas y los enlaces), con las
-   notas y los enlaces centrados en el alto de la tarjeta. Por debajo de 90rem, con
-   la columna fija a la izquierda, no caben sin partir el titular. */
-@media (min-width: 90rem) {
-  .coac-ve__footer {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
-    grid-template-areas:
-      "phases phases phases"
-      "promise text aside"
-      "legal legal legal";
-    column-gap: var(--luz-space-2xl);
-  }
-
-  .coac-ve__footer-promise {
-    padding: var(--luz-space-lg);
-  }
-
-  .coac-ve__footer-text,
-  .coac-ve__footer-row {
-    align-self: center;
   }
 }
 
