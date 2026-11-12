@@ -1,0 +1,54 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: Poppins, sans-serif; }
+    #wall-ground { position: absolute; inset: 0; background: #192c60; transform-origin: 50% 100%; }
+    #wall-rows { position: absolute; inset: 0; }
+    .wall-row { position: absolute; left: -900px; margin: 0; white-space: nowrap; color: #4467bb; font-weight: 700; font-size: 92px; line-height: 1; }
+    #wall-plate { position: absolute; left: 80px; top: 700px; width: 920px; height: 300px; border-radius: 28px; background: #f3ece2; }
+    .wall-line { position: absolute; left: 80px; top: 700px; width: 920px; height: 300px; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #192c60; font-weight: 800; font-size: 96px; line-height: 1.08; letter-spacing: -0.02em; }
+    #wall-line-3 { font-size: 78px; }
+    #wall-line-3 b { color: #2d51a5; font-weight: 800; }
+  </style>
+  <div id="root" data-composition-id="wall" data-width="1080" data-height="1920">
+    <div id="wall-ground"></div>
+    <div id="wall-rows" data-layout-allow-overflow data-layout-ignore>
+      <p class="wall-row" data-layout-ignore>Un coro increíble · Aquí vive un comparsista · Los carajotes · La primavera · La chirigota del Lobby · Al alba · Un coro increíble · Aquí vive un comparsista · Los carajotes · La primavera · La chirigota del Lobby · Al alba</p>
+      <p class="wall-row" data-layout-ignore>Las antiguas · Coser y cantar · El visado · ¡Que viene, que viene! · Los Pititis · Los hijos del pueblo · Las antiguas · Coser y cantar · El visado · ¡Que viene, que viene! · Los Pititis · Los hijos del pueblo</p>
+      <p class="wall-row" data-layout-ignore>Entre mareas · La razón de volver · La calle · Lo perdido · Estamos en el chasis · No tocar · Entre mareas · La razón de volver · La calle · Lo perdido · Estamos en el chasis · No tocar</p>
+      <p class="wall-row" data-layout-ignore>No salimos · Una chirigota sin filtro · El marío de turmana · El guirigay · Los 11 mil sioux · La auténtica carnevale · No salimos · Una chirigota sin filtro · El marío de turmana · El guirigay · Los 11 mil sioux · La auténtica carnevale</p>
+      <p class="wall-row" data-layout-ignore>Pa haberlos matao · Los enganxaos · Adetrás Andalucía · Pppfffff…!!! · Los del pío pío · Los malage · Pa haberlos matao · Los enganxaos · Adetrás Andalucía · Pppfffff…!!! · Los del pío pío · Los malage</p>
+      <p class="wall-row" data-layout-ignore>El incendiario de Cádiz · Los inmunes · Cádiz in love · Calienta que sales · La fábrica · La rue del percebe · El incendiario de Cádiz · Los inmunes · Cádiz in love · Calienta que sales · La fábrica · La rue del percebe</p>
+      <p class="wall-row" data-layout-ignore>Los carapremios · Los de la plaza Pinto · TR14J3 · El batiburrillo · El llavero · El cántaro y la fuente · Los carapremios · Los de la plaza Pinto · TR14J3 · El batiburrillo · El llavero · El cántaro y la fuente</p>
+      <p class="wall-row" data-layout-ignore>Los herederos · La gaditana · Los pecadores · Martilleando · La mascarada · La Pepa · Los herederos · La gaditana · Los pecadores · Martilleando · La mascarada · La Pepa</p>
+    </div>
+    <div id="wall-plate"></div>
+    <p class="wall-line" id="wall-line-1">14 noches</p>
+    <p class="wall-line" id="wall-line-2"><span><span id="wall-count">120</span> agrupaciones</span></p>
+    <p class="wall-line" id="wall-line-3"><span>¿Y la tuya,</span><b>a qué hora canta?</b></p>
+  </div>
+  <script>
+    (() => {
+      const tl = gsap.timeline({ paused: true });
+      const rows = gsap.utils.toArray(".wall-row");
+      rows.forEach((row, i) => {
+        gsap.set(row, { top: 150 + i * 215 });
+        // Velocidad constante: es una lista que no se acaba.
+        tl.fromTo(row, { x: i % 2 ? -520 : 0 }, { x: i % 2 ? 0 : -520 - i * 30, duration: 4.4, ease: "none" }, 0);
+      });
+      tl.fromTo("#wall-ground", { scaleY: 0 }, { scaleY: 1, duration: 0.35, ease: "power3.inOut" }, 0);
+      tl.fromTo("#wall-rows", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, 0.15);
+      tl.fromTo("#wall-plate", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "expo.out" }, 0.25);
+      const swap = (id, at, out) => {
+        tl.fromTo(id, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.16, ease: "power4.out" }, at);
+        if (out) tl.to(id, { opacity: 0, filter: "blur(8px)", duration: 0.13, ease: "power2.in" }, out);
+      };
+      swap("#wall-line-1", 0.4, 1.4);
+      swap("#wall-line-2", 1.5, 2.9);
+      const counter = { value: 0 };
+      const count = document.querySelector("#wall-count");
+      tl.fromTo(counter, { value: 0 }, { value: 120, duration: 0.45, ease: "power2.out", onUpdate: () => (count.textContent = String(Math.round(counter.value))) }, 1.5);
+      swap("#wall-line-3", 3.0);
+      window.__timelines["wall"] = tl;
+    })();
+  </script>
+</template>

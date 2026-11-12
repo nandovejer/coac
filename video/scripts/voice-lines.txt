@@ -1,0 +1,7 @@
+v1|¿Quién canta ahora en el Falla?
+w1|Catorce noches.
+w2|Ciento veinte agrupaciones.
+w3|¿Y la tuya, a qué hora canta?
+a2|Busca a tu autor, o a tu agrupación.
+c1|Gratis, sin publicidad y de código abierto.
+v9|¿Quién canta hoy en el Coac?

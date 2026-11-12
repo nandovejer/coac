@@ -1,0 +1,70 @@
+{
+  "fps": 30,
+  "seconds": 15.5,
+  "marks": {
+    "top": 0,
+    "scroll": 3,
+    "programme": 4.6,
+    "dark": 7,
+    "contrast": 8,
+    "light": 9,
+    "focus": 9.5,
+    "key1": 10,
+    "key2": 10.2,
+    "key3": 10.4,
+    "key4": 10.6,
+    "toResult": 11.5,
+    "result": 12.5
+  },
+  "boxes": {
+    "liveCard": {
+      "x": 16,
+      "y": 129,
+      "width": 328,
+      "height": 543
+    },
+    "nowCard": {
+      "x": 41,
+      "y": 196,
+      "width": 278,
+      "height": 261
+    },
+    "nowTime": {
+      "x": 41,
+      "y": 279.078125,
+      "width": 20,
+      "height": 94.828125
+    },
+    "modeButton": {
+      "x": 300,
+      "y": 580,
+      "width": 44,
+      "height": 44
+    },
+    "search": {
+      "x": 65,
+      "y": 422,
+      "width": 262,
+      "height": 44
+    },
+    "result": {
+      "x": 41,
+      "y": 196,
+      "width": 278,
+      "height": 178
+    },
+    "resultTime": {
+      "x": 41,
+      "y": 237.953125,
+      "width": 20,
+      "height": 94.09375
+    },
+    "searchPinned": {
+      "x": 65,
+      "y": 9,
+      "width": 222,
+      "height": 44
+    },
+    "resultText": "Hora estimada:\n21:30 — 22:15\n\nA continuación\nImprescindible.\nComparsa\nCádiz\n\nLas cloacas\n\nJonatan Pérez 'Jona'\n\nEN 2026: EL MANICOMIO\n(VÍDEO EN YOUTUBE)"
+  }
+}

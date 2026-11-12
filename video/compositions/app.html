@@ -1,0 +1,44 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: Poppins, sans-serif; }
+    #app-ground { position: absolute; inset: 0; background: #2d51a5; }
+    #app-cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 390px; }
+    #app-card { position: absolute; left: 80px; top: 390px; width: 920px; height: 1636px; overflow: hidden; border-radius: 28px; background: #eff0f5; box-shadow: 0 30px 60px -20px rgb(10 16 40 / 0.55); }
+    .app-video { position: absolute; left: 0; top: 0; width: 920px; height: 1636px; object-fit: cover; }
+    #app-veil { position: absolute; inset: 0; background: #f3ece2; }
+    #app-band { position: absolute; left: 0; top: 0; width: 1080px; height: 372px; background: #2d51a5; }
+    .app-title { position: absolute; left: 80px; top: 176px; width: 920px; margin: 0; color: #f3ece2; font-weight: 700; font-size: 70px; line-height: 1.1; letter-spacing: -0.02em; }
+    .app-title b { display: block; font-weight: 800; color: #e3ab93; }
+  </style>
+  <div id="root" data-composition-id="app" data-width="1080" data-height="1920">
+    <div id="app-ground"></div>
+    <div id="app-cam" data-layout-allow-overflow>
+      <div id="app-card">
+        <video id="app-type" class="clip app-video" src="assets/app-take.mp4" data-start="0" data-media-start="9.5" data-duration="1.2" data-track-index="1" muted playsinline></video>
+        <video id="app-search" class="clip app-video" src="assets/app-take.mp4" data-start="1.2" data-media-start="10.7" data-duration="2.1" data-playback-rate="2" data-track-index="1" muted playsinline></video>
+        <div id="app-veil"></div>
+      </div>
+    </div>
+    <div id="app-band"></div>
+    <h2 class="app-title" id="app-t5">Busca a tu autor <b>o a tu agrupación</b></h2>
+  </div>
+  <script>
+    (() => {
+      // La grabación entra a velocidad normal mientras se escribe «Jona» (0–1,2 s,
+      // grabación 9,5–10,7) y al doble después (1,2–3,3 s, grabación 10,7–14,9).
+      const tl = gsap.timeline({ paused: true });
+      // 0 · La placa crema del muro se abre y es la app, ya en el buscador.
+      tl.fromTo(["#app-ground", "#app-band"], { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" }, 0);
+      tl.fromTo("#app-card", { clipPath: "inset(310px 0px 1026px 0px round 28px)" }, { clipPath: "inset(0px 0px 0px 0px round 28px)", duration: 0.35, ease: "power3.inOut" }, 0);
+      tl.fromTo("#app-veil", { opacity: 1 }, { opacity: 0, duration: 0.18, ease: "power2.out" }, 0.12);
+      tl.fromTo("#app-t5", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 0.22);
+      // La cámara sube hasta el buscador antes de que se escriba (0,5–1,1 s)…
+      tl.fromTo("#app-cam", { scale: 1, y: 0 }, { scale: 1, y: -420, duration: 0.35, ease: "power3.inOut" }, 0.12);
+      // …y vuelve mientras la app baja al resultado (1,6–2,1 s).
+      tl.to("#app-cam", { scale: 1, y: 0, duration: 0.5, ease: "power2.inOut" }, 1.5);
+      tl.to("#app-cam", { scale: 1.14, y: -60, duration: 0.6, ease: "power2.inOut" }, 2.15);
+      tl.set({}, {}, 3.3);
+      window.__timelines["app"] = tl;
+    })();
+  </script>
+</template>

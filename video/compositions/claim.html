@@ -1,0 +1,28 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #192c60; font-family: Poppins, sans-serif; }
+    .claim-line { position: absolute; left: 76px; margin: 0; color: #f3ece2; font-weight: 800; font-size: 96px; line-height: 1; letter-spacing: -0.03em; white-space: nowrap; transform-origin: 0 50%; }
+    #claim-1 { top: 420px; }
+    #claim-2 { top: 570px; }
+    #claim-3 { top: 720px; }
+    #claim-4 { top: 870px; font-size: 84px; color: #e3ab93; }
+  </style>
+  <div id="root" data-composition-id="claim" data-width="1080" data-height="1920">
+    <p class="claim-line" id="claim-1">Gratis.</p>
+    <p class="claim-line" id="claim-2">Sin publicidad.</p>
+    <p class="claim-line" id="claim-3">Sin cookies.</p>
+    <p class="claim-line" id="claim-4">100 % código abierto.</p>
+  </div>
+  <script>
+    (() => {
+      // Va al doble de rápido: se escribe a velocidad normal y se reproduce con timeScale(2).
+      const tl = gsap.timeline();
+      [["#claim-1", 0.15], ["#claim-2", 0.6], ["#claim-3", 1.05], ["#claim-4", 1.5]].forEach(([id, at]) => {
+        tl.fromTo(id, { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.18, ease: "power4.out" }, at);
+      });
+      const root = gsap.timeline({ paused: true });
+      root.add(tl.timeScale(2), 0);
+      window.__timelines["claim"] = root;
+    })();
+  </script>
+</template>

@@ -1,0 +1,34 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #2d51a5; font-family: Poppins, sans-serif; }
+    #hook-facade { position: absolute; left: -210px; top: 760px; width: 1500px; height: 1500px; }
+    .hook-wall { fill: #4467bb; }
+    .hook-hole { fill: #2d51a5; }
+    .hook-light { fill: #e3ab93; }
+    #hook-lines { position: absolute; left: 72px; top: 250px; color: #f3ece2; font-weight: 800; font-size: 150px; line-height: 1.06; letter-spacing: -0.03em; }
+    .hook-word { display: block; transform-origin: 0 60%; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div data-layout-allow-overflow data-layout-ignore><svg id="hook-facade" viewBox="3 4.25 42 42" aria-hidden="true"><path class="hook-wall" d="M3 45V17h2v-4h1.5v-2h1v2H9v4h3V11h1.5V7h1V5.5h1V7h1v4h15V7h1V5.5h1V7h1v4H36v6h3v-4h1.5v-2h1v2H43v4h2v28Z" /><path class="hook-hole" d="M17.5 13.5h13v3h-13Z" /><path class="hook-hole" d="M16 32v-7a2.5 2.5 0 1 1 4 0v7Z" /><path class="hook-hole" d="M22 32v-7a2.5 2.5 0 1 1 4 0v7Z" /><path class="hook-hole" d="M28 32v-7a2.5 2.5 0 1 1 4 0v7Z" /><path class="hook-hole" d="M6.5 30v-5a1.5 1.5 0 1 1 3 0v5Z" /><path class="hook-hole" d="M38.5 30v-5a1.5 1.5 0 1 1 3 0v5Z" /><path class="hook-hole" d="M13.5 34.5h21v1h-21Z" /><path class="hook-hole" d="M16 45v-6a2 2 0 0 1 4 0v6Z" /><path class="hook-hole" d="M22 45v-6a2 2 0 0 1 4 0v6Z" /><path class="hook-hole" d="M28 45v-6a2 2 0 0 1 4 0v6Z" /><path class="hook-light" d="M17.5 13.5h13v3h-13Z" /><path class="hook-light" d="M16 32v-7a2.5 2.5 0 1 1 4 0v7Z" /><path class="hook-light" d="M22 32v-7a2.5 2.5 0 1 1 4 0v7Z" /><path class="hook-light" d="M28 32v-7a2.5 2.5 0 1 1 4 0v7Z" /><path class="hook-light" d="M6.5 30v-5a1.5 1.5 0 1 1 3 0v5Z" /><path class="hook-light" d="M38.5 30v-5a1.5 1.5 0 1 1 3 0v5Z" /><path class="hook-light" d="M13.5 34.5h21v1h-21Z" /><path class="hook-light" d="M16 45v-6a2 2 0 0 1 4 0v6Z" /><path class="hook-light" d="M22 45v-6a2 2 0 0 1 4 0v6Z" /><path class="hook-light" d="M28 45v-6a2 2 0 0 1 4 0v6Z" /></svg></div>
+    <h1 id="hook-lines">
+      <span class="hook-word">¿Quién</span>
+      <span class="hook-word">canta</span>
+      <span class="hook-word" id="hook-now">ahora</span>
+      <span class="hook-word">en el Falla?</span>
+    </h1>
+  </div>
+  <script>
+    (() => {
+      const tl = gsap.timeline({ paused: true });
+      // El fotograma 0 ya es el cartel: las palabras solo se asientan.
+      tl.fromTo(".hook-word", { scale: 1.14 }, { scale: 1, duration: 0.6, ease: "expo.out", stagger: 0.07 }, 0);
+      tl.fromTo("#hook-facade", { y: 90 }, { y: 0, duration: 1.6, ease: "power4.out" }, 0);
+      tl.set("#hook-now", { color: "#e3ab93" }, 0.5);
+      tl.fromTo("#hook-now", { scale: 1.18 }, { scale: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 0.5);
+      // Segundo bombo: se encienden las luces del teatro.
+      tl.fromTo(".hook-light", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power2.out", stagger: 0.06 }, 1.0);
+      tl.to("#hook-lines", { y: -40, duration: 0.4, ease: "power3.in" }, 2.0);
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>
