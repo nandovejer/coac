@@ -1222,7 +1222,14 @@ export default function VariantE({
               .
             </p>
             <p>
-              <strong>Gratis y sin publicidad, siempre: esta web no gana dinero con nada.</strong>
+              <strong>
+                Gratis y sin publicidad. No gana dinero con nada, porque está hecha por y para los
+                aficionados, y es 100&nbsp;%{" "}
+                <a className="coac-ve__footer-link" href="https://github.com/nandovejer/coac">
+                  open source
+                </a>
+                .
+              </strong>
             </p>
           </div>
           <p className="coac-ve__footer-disclaimer">
