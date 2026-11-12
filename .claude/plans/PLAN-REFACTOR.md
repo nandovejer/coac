@@ -4,6 +4,16 @@ Estado: **pendiente de ejecutar** (redactado el 12/11/2026 sobre `aba9bc7`, que 
 lo publicado en coac.com.es). Se ejecuta por fases y solo cuando el usuario lo diga.
 Nada va a `main` sin orden expresa.
 
+**Punto de partida**: la punta de `proto/optimize` el día que empiece R0, no
+`aba9bc7`. Todo lo que entre antes en la rama se refactoriza igual que lo demás y
+queda cubierto por las capturas y la huella de R0.
+
+### Cambios que entraron después de redactar el plan
+
+| Commit | Qué | Cómo entra en el refactor |
+|---|---|---|
+| `fd31834` (sesión coac-15) | «Quiénes somos»: sección «Gratis y sin publicidad, siempre» (`src/variants/about/AboutDialog.tsx`); pie de E: `<p>` final en `.coac-ve__footer-text` con «Gratis y sin publicidad, siempre: esta web no gana dinero con nada.» (`VariantE.tsx`) | R0: capturas del pie (móvil y escritorio, tres modos) y del modal «Quiénes somos» entero, con la sección nueva; la huella del HTML incluye el texto del pie. R2: `AboutDialog.tsx` pasa a `src/dialogs/about/` con `git mv`. R3: si se extrae el pie, el `<p>` va con él. R4: su clase pasa a `coac-app__footer-text`. Prueba manual: los dos textos siguen ahí al acabar cada fase. |
+
 ## Objetivo
 
 La web ya no es un prototipo: `VariantE` es la app publicada. Hay que quitar lo que
@@ -60,7 +70,7 @@ pnpm run test:motion
 
 Además, una **huella del HTML** (script temporal en el scratchpad, no en el repo)
 que saca de `dist/index.html` los ids, el texto visible, las etiquetas `<meta>`, el
-JSON-LD y el número de elementos. Se guarda la de `aba9bc7` y tiene que salir
+JSON-LD y el número de elementos. Se guarda la del punto de partida y tiene que salir
 idéntica en todas las fases. En R4 la comparación es más estricta: el HTML entero
 tiene que ser igual byte a byte, cambiando solo el prefijo viejo por el nuevo.
 También se compara el peso de los JS y del `index.html` (no puede subir).
@@ -70,7 +80,8 @@ estados de sesión (hoy, mañana, próximas, celebradas), «Actuando ahora», «
 continuación» y la tira «En directo» (con `COAC_PRERENDER_DATE` y el reloj de
 los tests), buscador (texto, modalidades y alcance), carrusel de días y flechas,
 cuenta atrás, modales (imprimir horario, porra en imagen y PDF, privacidad en
-`#privacidad` con «Atrás», «Quiénes somos», info), tres modos de color,
+`#privacidad` con «Atrás», «Quiénes somos» con «Gratis y sin publicidad,
+siempre», info), el pie con sus créditos y la frase de «sin publicidad», tres modos de color,
 cabecera que se esconde en móvil, filtro fijo en escritorio, anclas de fecha y de
 agrupación, sin destello al cargar (filmstrip), meta de compartir, JSON-LD y `sitemap.xml`.
 
@@ -81,7 +92,7 @@ Cada fase es un commit (o varios del mismo tipo) en `proto/optimize`, con push.
 ### R0 · Red de seguridad (sin tocar la app)
 
 - Etiquetas que se suben a origin (no tocan `main`):
-  - `archivo/pre-refactor` → `aba9bc7`: el estado completo de hoy, con la app
+  - `archivo/pre-refactor` → punto de partida: el estado completo antes de tocar nada, con la app
     anterior, C, D y los planes. Para recuperar cualquier cosa:
     `git checkout archivo/pre-refactor -- <ruta>`.
   - `archivo/proto-coac` → `9c8b083`, el intento anterior.
@@ -89,11 +100,13 @@ Cada fase es un commit (o varios del mismo tipo) en `proto/optimize`, con push.
 - Rehacer `tests/visual/` para E con los mismos datos fijos (`tests/fixtures/`) y
   el mismo reloj simulado: antes de la primera sesión, sesión de hoy en directo,
   madrugada con la sesión de ayer, fase terminada, búsqueda con resultados, un
-  día elegido, modales (imprimir, privacidad, quiénes somos), en móvil y
+  día elegido, pie, modales (imprimir, privacidad, quiénes somos entero), en móvil y
   escritorio y en los tres modos, más axe. Las capturas se generan **con el código
   de hoy**: son la referencia que todas las fases siguientes deben igualar.
   Se borran las 22 capturas de la app anterior.
-- Guardar la huella del HTML de `aba9bc7`.
+- Guardar la huella del HTML del punto de partida.
+- Antes de empezar, `git status` limpio y `git log origin/proto/optimize..` vacío:
+  si otra sesión ha dejado commits o cambios en la rama, se parte de ellos.
 
 ### R1 · Borrar lo muerto
 
