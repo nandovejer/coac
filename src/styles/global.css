@@ -22,6 +22,13 @@ body {
   margin-block-start: 0;
 }
 
+/* Luz da a <time> otro tamaño y color (el de un texto secundario): aquí se lee
+   como el texto que lo rodea */
+time {
+  color: inherit;
+  font-size: inherit;
+}
+
 /* Los enlaces heredan color y no se subrayan, salvo que el componente lo pida */
 a {
   color: inherit;

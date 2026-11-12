@@ -58,7 +58,7 @@ export function Countdown({ target }: { target: Date }) {
   }, [minutes]);
   if (!remaining) return null;
   return (
-    <div ref={anchor} className="coac-ve__countdown">
+    <div ref={anchor} className="coac-ve__countdown" data-nosnippet>
       <div className="coac-ve__digits" aria-hidden="true">
         <span className="coac-ve__digit">
           <Roll value={remaining.days} />

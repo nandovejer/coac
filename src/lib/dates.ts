@@ -140,6 +140,12 @@ export function formatZonedIso(instant: Date, timeZone: string): string {
   );
 }
 
+/** `dd/mm/yyyy` → `yyyy-mm-dd` (el `datetime` de un `<time>`); el texto original si no es válida. */
+export function sessionIsoDate(value: string): string {
+  const date = parseSessionDate(value);
+  return date ? `${date.year}-${pad(date.month)}-${pad(date.day)}` : value;
+}
+
 /** `dd/mm/yyyy` → "jueves, 23 de enero de 2025". */
 export function formatLongDate(value: string): string {
   const date = parseSessionDate(value);

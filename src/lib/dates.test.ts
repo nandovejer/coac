@@ -9,6 +9,7 @@ import {
   formatSessionDate,
   getZonedParts,
   parseSessionDate,
+  sessionIsoDate,
   sortSessionDates,
   zonedTimeToInstant,
 } from "./dates";
@@ -129,5 +130,15 @@ describe("formatZonedIso", () => {
       "2027-01-08T20:00:00+01:00",
     );
     expect(formatZonedIso(new Date("2027-01-08T19:00:00Z"), "UTC")).toBe("2027-01-08T19:00:00+00:00");
+  });
+});
+
+describe("sessionIsoDate", () => {
+  it("pasa dd/mm/yyyy a yyyy-mm-dd", () => {
+    expect(sessionIsoDate("08/01/2027")).toBe("2027-01-08");
+  });
+
+  it("deja igual lo que no es una fecha", () => {
+    expect(sessionIsoDate("mañana")).toBe("mañana");
   });
 });

@@ -219,6 +219,9 @@
 
 /* Título y fase forman un bloque del alto del logo, centrado con él y con los accesos */
 .coac-ve__brand-text {
+  /* Es el <h1>: sin el tamaño, el peso ni el reparto de líneas de un título */
+  font: inherit;
+  text-wrap: wrap;
   display: grid;
   gap: var(--luz-space-3xs);
   align-content: center;

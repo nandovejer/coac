@@ -25,7 +25,13 @@ import {
   PrinterIcon,
   SearchIcon,
 } from "../components/ui/icons";
-import { formatSessionTitleDate, formatShortDate, parseSessionDate, sessionDateKey } from "../lib/dates";
+import {
+  formatSessionTitleDate,
+  formatShortDate,
+  parseSessionDate,
+  sessionDateKey,
+  sessionIsoDate,
+} from "../lib/dates";
 import { ModalidadFilter, PreviousNote } from "./parts";
 import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
 import { PRIVACY_HASH } from "./privacy/policy";
@@ -611,18 +617,18 @@ export default function VariantE() {
       {/* En escritorio, columna izquierda fija; en móvil no pinta caja (display: contents)
           y la cabecera queda fija arriba de toda la página. */}
       <div className="coac-ve__rail coac-scrollbar">
-        <header className="coac-ve__top">
+        <header id="siteHeader" className="coac-ve__top">
           <div className="coac-ve__top-row">
             {/* Título y, debajo, la fase: una sola fila con los accesos, para una cabecera baja */}
             <a className="coac-ve__home" href={HOME_URL} onClick={shell.goHome}>
               <FallaLogo className="coac-ve__logo" />
-              <span className="coac-ve__brand-text">
-                <h1 className="coac-ve__title">¿Quién canta hoy?</h1>
+              <h1 className="coac-ve__brand-text">
+                <span className="coac-ve__title">¿Quién canta hoy?</span>
                 <span className="coac-ve__phase">
-                  COAC {SEASON.year} · <span className="coac-ve__phase-short">{HOME_PHASE_SHORT}</span>
+                  COAC {SEASON.year} · <span className="coac-ve__phase-short">{HOME_PHASE_SHORT}</span>{" "}
                   <span className="coac-ve__phase-full">{SEASON.phaseTitle}</span>
                 </span>
-              </span>
+              </h1>
             </a>
             {/* Accesos rápidos en la cabecera fija de móvil: solo icono (con nombre para
                 lectores de pantalla). En escritorio van bajo la tarjeta de estado. */}
@@ -648,34 +654,48 @@ export default function VariantE() {
             <FallaLogo className="coac-ve__status-mark" />
             {p.live ? (
               <>
-                <p className="coac-ve__on-air">
+                <p className="coac-ve__on-air" data-nosnippet>
                   <BroadcastIcon inline /> En directo
                 </p>
-                <p className="coac-ve__status-title">{p.live.group.autor}</p>
-                <p className="coac-ve__status-sub">
+                <p className="coac-ve__status-title" data-nosnippet>
+                  {p.live.group.autor}
+                </p>
+                <p className="coac-ve__status-sub" data-nosnippet>
                   {p.live.group.nombre} · {p.live.estimatedTime}–
                   {addMinutes(p.live.estimatedTime, SEASON.minutesPerGroup)} aprox.
                 </p>
               </>
             ) : upcoming ? (
               <>
-                <p className="coac-ve__eyebrow">Próxima sesión</p>
+                <p className="coac-ve__eyebrow" data-nosnippet>
+                  Próxima sesión
+                </p>
                 {state === "countdown" ? (
                   <>
-                    <p className="coac-ve__status-title">{formatSessionTitleDate(upcoming.date)}</p>
+                    <p className="coac-ve__status-title" data-nosnippet>
+                      {formatSessionTitleDate(upcoming.date)}
+                    </p>
                     <Countdown target={upcoming.startsAt} />
                   </>
                 ) : (
                   <>
-                    <p className="coac-ve__status-title">Empieza la sesión</p>
-                    <p className="coac-ve__status-sub">{formatSessionTitleDate(upcoming.date)}</p>
+                    <p className="coac-ve__status-title" data-nosnippet>
+                      Empieza la sesión
+                    </p>
+                    <p className="coac-ve__status-sub" data-nosnippet>
+                      {formatSessionTitleDate(upcoming.date)}
+                    </p>
                   </>
                 )}
               </>
             ) : (
               <>
-                <p className="coac-ve__eyebrow">COAC {SEASON.year}</p>
-                <p className="coac-ve__status-title">La fase ha terminado</p>
+                <p className="coac-ve__eyebrow" data-nosnippet>
+                  COAC {SEASON.year}
+                </p>
+                <p className="coac-ve__status-title" data-nosnippet>
+                  La fase ha terminado
+                </p>
               </>
             )}
             <p className="coac-ve__status-actions">
@@ -872,6 +892,7 @@ export default function VariantE() {
                     className="coac-ve__session"
                     data-status={session.status}
                     data-featured={featured}
+                    id={session.date}
                     aria-labelledby={`ve-${key}`}
                   >
                     <header className="coac-ve__session-head">
@@ -888,7 +909,9 @@ export default function VariantE() {
                         )
                       )}
                       <h2 id={`ve-${key}`} className="coac-ve__session-title" tabIndex={-1}>
-                        {formatSessionTitleDate(session.date)}
+                        <time dateTime={sessionIsoDate(session.date)}>
+                          {formatSessionTitleDate(session.date)}
+                        </time>
                       </h2>
                       <p className="coac-ve__session-meta">
                         {session.performances.length} agrupaciones · {session.performances[0]?.estimatedTime}–
