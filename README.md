@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://coac.com.es/">
-  <img src="public/og-image.png" alt="¿Quién canta hoy en el COAC? Horario de sesiones, agrupaciones y directo." width="100%">
+  <img src="public/og-image.jpg" alt="Cartel «Horario del COAC»: quién canta hoy, horarios estimados, agrupaciones y sesiones. Web no oficial." width="100%">
 </a>
 
 [![CI](https://github.com/nandovejer/coac/actions/workflows/ci.yml/badge.svg)](https://github.com/nandovejer/coac/actions/workflows/ci.yml)

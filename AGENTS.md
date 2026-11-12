@@ -206,7 +206,7 @@ agrupaciones **en orden de actuación**.
   es la página de error, estática y sin bundle.
 - `tests/` — Playwright (capturas y comportamiento con reloj simulado) contra
   un build en modo `e2e` que sustituye el JSON por `tests/fixtures/`.
-- `public/` — favicon, iconos, `og-image.png`, `robots.txt`, manifest.
+- `public/` — favicon, iconos, `og-image.jpg` (1200 × 630, < 300 kB por WhatsApp), `robots.txt`, manifest.
 
 ## Decisiones vigentes
 

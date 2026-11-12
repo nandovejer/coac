@@ -1,7 +1,7 @@
 // Comprueba el HTML prerenderizado de dist/index.html (ver vite-plugin-seo.ts):
 // que la página se lee completa sin JavaScript y que no lleva nada que cambie por
 // horas. Se ejecuta tras el build: `pnpm run check:prerender`.
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 
 // Por defecto dist/index.html; otra carpeta de salida se pasa como argumento.
 const html = readFileSync(process.argv[2] ?? new URL("../dist/index.html", import.meta.url), "utf8");
@@ -90,6 +90,12 @@ check(
 check(meta("name", "twitter:title").length <= 70, "twitter:title pasa de 70 caracteres");
 check(meta("name", "twitter:description").length <= 200, "twitter:description pasa de 200 caracteres");
 check(meta("property", "og:image:alt").length <= 420, "og:image:alt pasa de 420 caracteres");
+const ogFile = new URL(`../dist/${meta("property", "og:image").split("/").pop()}`, import.meta.url);
+check(existsSync(ogFile), "la imagen de og:image no está en dist/");
+check(
+  !existsSync(ogFile) || statSync(ogFile).size < 300 * 1024,
+  "og:image pesa 300 kB o más (WhatsApp no la enseña)",
+);
 check(
   ldStart > rootEnd && html.indexOf('"@type":"Event"', ldStart) > 0,
   "el JSON-LD tiene que ir al final del body",

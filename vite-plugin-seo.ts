@@ -237,13 +237,16 @@ function pageDescription(): string {
 const UNOFFICIAL_NOTICE =
   "Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la organización del COAC.";
 
+// Imagen para compartir: JPEG de 1200 × 630 (1,91:1, lo que recortan Facebook y X)
+// y menos de 300 kB, que WhatsApp no siempre enseña imágenes más pesadas.
+const OG_IMAGE = `${SITE.url}og-image.jpg`;
 const OG_IMAGE_ALT =
-  "Dos máscaras de teatro sobre fondo azul oscuro y el título «¿Quién canta hoy en el COAC?», con el lema «Horario de sesiones · agrupaciones · directo».";
+  "Cartel «Horario del COAC», Carnaval de Cádiz, con el aviso «Esta no es la web oficial del COAC» y los apartados quién canta hoy, horarios estimados, todas las agrupaciones y todas las sesiones. coac.com.es.";
 
 function buildHeadTags(): string {
   const title = escapeHtml(pageTitle());
   const description = escapeHtml(pageDescription());
-  const ogImage = `${SITE.url}og-image.png`;
+  const ogImage = OG_IMAGE;
   const imageAlt = escapeHtml(OG_IMAGE_ALT);
 
   return [
@@ -259,7 +262,7 @@ function buildHeadTags(): string {
     `<meta property="og:url" content="${SITE.url}" />`,
     `<meta property="og:image" content="${ogImage}" />`,
     `<meta property="og:image:secure_url" content="${ogImage}" />`,
-    `<meta property="og:image:type" content="image/png" />`,
+    `<meta property="og:image:type" content="image/jpeg" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="${imageAlt}" />`,
@@ -276,7 +279,7 @@ function buildJsonLd(): string {
   const data = sessions;
   const dates = sortSessionDates(Object.keys(data));
   const phaseShort = PHASES.find(isHomePhase)?.short ?? SEASON.phaseTitle;
-  const ogImage = `${SITE.url}og-image.png`;
+  const ogImage = OG_IMAGE;
 
   const events = dates.map((date) => {
     const groups = data[date];
