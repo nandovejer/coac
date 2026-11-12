@@ -41,8 +41,7 @@
 
 /* -------------------------------------------------------------------------
    MOVIMIENTO
-   Escala única de duraciones, desplazamientos y curvas (ver
-   .claude/plans/PLAN-ANIMACIONES.md). Todo movimiento se declara dentro de
+   Escala única de duraciones, desplazamientos y curvas. Todo movimiento se declara dentro de
    `@media (prefers-reduced-motion: no-preference)`: estos tokens a 0 con
    «reducir movimiento» son solo una segunda red. Lo que dispara un toque dura
    como mucho --coac-dur-gentle y se desplaza como mucho --coac-shift-md.

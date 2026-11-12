@@ -1,0 +1,405 @@
+/*
+ * Prototipo «Tablero»: piel sobre el marcado de «Agenda» (AgendaPrototype). Solo cambia
+ * tokens y formas; la estructura (línea de tiempo, tarjetas, fichas) es la de «Agenda».
+ */
+.coac-agenda[data-skin="board"] {
+  --board-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --board-head: #10131a;
+  --board-head-text: #f4f5f8;
+  --board-head-muted: #c5cad6;
+
+  --app-bg: #eef0f4;
+  --app-card: #ffffff;
+  --app-text: #10131a;
+  --app-muted: #4a5364;
+  --app-line: #d5d9e2;
+  /* Azul: cobalto sobre claro; sobre lo oscuro, uno más claro (--board-blue-on-dark) */
+  --board-blue-on-dark: #7aa2ff;
+  --app-primary: #2d51a5;
+  --app-on-primary: #ffffff;
+  --app-soft: #dfe3ea;
+  --app-shadow: none;
+  --app-radius: 0;
+  --app-top-bg: var(--app-card);
+  --app-ok-bg: var(--app-card);
+  --app-top-edge: #22c55e;
+  --app-ok-edge: #facc15;
+  --app-coro-bg: transparent;
+  --app-comparsa-bg: transparent;
+  --app-chirigota-bg: transparent;
+  --app-cuarteto-bg: transparent;
+  --app-coro-text: #1e40af;
+  --app-comparsa-text: #5b21b6;
+  --app-chirigota-text: #9d174d;
+  --app-cuarteto-text: #334155;
+  --app-font: var(--luz-font-sans);
+}
+
+[data-mode="dark"] .coac-agenda[data-skin="board"] {
+  --app-primary: var(--board-blue-on-dark);
+  --app-on-primary: #0b0d12;
+  --board-head: #1d2330;
+  --board-head-text: #e8eaf0;
+
+  --app-bg: #0f1218;
+  --app-card: #151922;
+  --app-text: #e8eaf0;
+  --app-muted: #9aa3b5;
+  --app-line: #262c3b;
+  --app-soft: #1d2330;
+  --app-coro-text: #93c5fd;
+  --app-comparsa-text: #c4b5fd;
+  --app-chirigota-text: #f9a8d4;
+  --app-cuarteto-text: #cbd5e1;
+}
+
+/* Todo recto: fuera los redondeos de C */
+.coac-agenda[data-skin="board"] *,
+.coac-agenda[data-skin="board"] *::before {
+  border-radius: 0;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__main :focus-visible {
+  outline-color: var(--app-text);
+}
+
+/* ---- Columna izquierda, cabecera fija y pie en móvil: siempre oscuros, con azul claro ---- */
+.coac-agenda[data-skin="board"] .coac-agenda__rail,
+.coac-agenda[data-skin="board"] .coac-agenda__footer {
+  --app-primary: var(--board-blue-on-dark);
+  --app-on-primary: #0b0d12;
+  --app-bg: #0b0d12;
+  --app-card: #141821;
+  --app-text: #e8eaf0;
+  --app-muted: #9aa3b5;
+  --app-line: #262c3b;
+  --app-soft: #141821;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__rail {
+  border-inline-end: 0;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__brand,
+.coac-agenda[data-skin="board"] .coac-agenda__side {
+  color: var(--app-text);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__logo,
+.coac-agenda[data-skin="board"] .coac-agenda__phase,
+.coac-agenda[data-skin="board"] .coac-agenda__now-label,
+.coac-agenda[data-skin="board"] .coac-agenda__heading,
+.coac-agenda[data-skin="board"] .coac-agenda__chip,
+.coac-agenda[data-skin="board"] .coac-agenda__cta,
+.coac-agenda[data-skin="board"] .coac-agenda__day-name,
+.coac-agenda[data-skin="board"] .coac-agenda__day-count,
+.coac-agenda[data-skin="board"] .coac-agenda__tile,
+.coac-agenda[data-skin="board"] .coac-agenda__time,
+.coac-agenda[data-skin="board"] .coac-agenda__badges,
+.coac-agenda[data-skin="board"] .coac-agenda__context,
+.coac-agenda[data-skin="board"] .coac-agenda__legend,
+.coac-agenda[data-skin="board"] .coac-agenda__footer {
+  font-family: var(--board-mono);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__phase,
+.coac-agenda[data-skin="board"] .coac-agenda__now-label,
+.coac-agenda[data-skin="board"] .coac-agenda__heading,
+.coac-agenda[data-skin="board"] .coac-agenda__chip,
+.coac-agenda[data-skin="board"] .coac-agenda__cta,
+.coac-agenda[data-skin="board"] .coac-agenda__day-name,
+.coac-agenda[data-skin="board"] .coac-agenda__day-count,
+.coac-agenda[data-skin="board"] .coac-agenda__tile,
+.coac-agenda[data-skin="board"] .coac-agenda__badges,
+.coac-agenda[data-skin="board"] .coac-agenda__context,
+.coac-agenda[data-skin="board"] .coac-agenda__reset,
+.coac-agenda[data-skin="board"] .coac-agenda__legend {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__phase,
+.coac-agenda[data-skin="board"] .coac-agenda__now-label,
+.coac-agenda[data-skin="board"] .coac-agenda__heading {
+  font-size: var(--luz-text-xs);
+  font-weight: 400;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__field,
+.coac-agenda[data-skin="board"] .coac-agenda__chip,
+.coac-agenda[data-skin="board"] .coac-agenda__day {
+  border-width: 1px;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__field {
+  border-color: var(--app-muted);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__field:focus-within {
+  border-color: var(--app-primary);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__chip {
+  font-size: var(--luz-text-xs);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__now {
+  border: 1px solid var(--app-line);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__tile {
+  background: var(--app-bg);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__tile strong {
+  color: var(--app-primary);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__day {
+  border-color: var(--app-line);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__day[data-status="present"] {
+  border-color: var(--app-primary);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__day[data-status="present"] .coac-agenda__day-name {
+  color: var(--app-primary);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__day[aria-pressed="true"] .coac-agenda__day-name {
+  color: inherit;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__day-count {
+  font-size: 0.6875rem;
+}
+
+/* ---- Programa: cabecera de tablero, tarjetas con piloto ---- */
+.coac-agenda[data-skin="board"] .coac-agenda__session-head {
+  --app-primary: var(--board-blue-on-dark);
+  --app-on-primary: #0b0d12;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--luz-space-2xs) var(--luz-space-sm);
+  padding: var(--luz-space-sm) var(--luz-space-md);
+  background: var(--board-head);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__session-title {
+  color: var(--board-head-text);
+  font-family: var(--board-mono);
+  font-size: var(--luz-text-lg);
+  letter-spacing: 0.04em;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__session-meta {
+  flex-basis: 100%;
+  color: var(--board-head-muted);
+  font-family: var(--board-mono);
+  font-size: var(--luz-text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__slot {
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__slot::before {
+  inset-inline-start: calc(4.25rem - 1px);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__time {
+  font-size: var(--luz-text-base);
+}
+
+/* Piloto de color al borde, sin teñir la tarjeta */
+.coac-agenda[data-skin="board"] .coac-agenda__card {
+  border: 1px solid var(--app-line);
+  border-inline-start: 6px solid var(--app-line);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__card[data-ranking="top"] {
+  border-inline-start-color: var(--app-top-edge);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__card[data-ranking="ok"] {
+  border-inline-start-color: var(--app-ok-edge);
+}
+
+/* En directo: marco rojo de 2px; el borde izquierdo sigue siendo el del semáforo */
+.coac-agenda[data-skin="board"] .coac-agenda__slot[data-stage="live"] .coac-agenda__card {
+  border-width: 2px 2px 2px 6px;
+  border-block-color: var(--app-live);
+  border-inline-end-color: var(--app-live);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__live-strip,
+.coac-agenda[data-skin="board"] .coac-agenda__live-bar,
+.coac-agenda[data-skin="board"] .coac-agenda__stage,
+.coac-agenda[data-skin="board"] .coac-agenda__now-link {
+  font-family: var(--board-mono);
+  letter-spacing: 0.06em;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__live-strip-label,
+.coac-agenda[data-skin="board"] .coac-agenda__stage,
+.coac-agenda[data-skin="board"] .coac-agenda__live-bar {
+  font-weight: 400;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__live-strip-go,
+.coac-agenda[data-skin="board"] .coac-agenda__now-link {
+  text-transform: uppercase;
+}
+
+/* Todo es recto en el tablero, salvo el punto que late */
+.coac-agenda[data-skin="board"] .coac-agenda__live-dot {
+  border-radius: 50%;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__badge[data-modalidad] {
+  border: 1px solid currentColor;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__reset {
+  border: 1px solid var(--app-muted);
+  background: none;
+  font-family: var(--board-mono);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__footer {
+  border-block-start: 0;
+  background: var(--app-bg);
+  font-size: var(--luz-text-xs);
+  line-height: 1.25rem;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__footer :focus-visible {
+  outline-color: var(--app-primary);
+}
+
+@media (min-width: 64rem) {
+  /* En escritorio el pie va bajo el programa, con sus colores */
+  .coac-agenda[data-skin="board"] .coac-agenda__footer {
+    --app-bg: inherit;
+    --app-card: inherit;
+    --app-text: inherit;
+    --app-muted: inherit;
+    --app-line: inherit;
+    --app-soft: inherit;
+    --app-primary: inherit;
+    --app-on-primary: inherit;
+
+    border-block-start: 1px solid var(--app-line);
+    background: none;
+  }
+
+  .coac-agenda[data-skin="board"] .coac-agenda__footer :focus-visible {
+    outline-color: var(--app-text);
+  }
+
+  .coac-agenda[data-skin="board"] .coac-agenda__slot {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .coac-agenda[data-skin="board"] .coac-agenda__slot::before {
+    inset-inline-start: calc(5.5rem - 1px);
+  }
+
+  .coac-agenda[data-skin="board"] .coac-agenda__time {
+    font-size: var(--luz-text-xl);
+  }
+}
+
+/* ---- Estados de sesión en el tablero ---- */
+.coac-agenda[data-skin="board"] .coac-agenda__day[data-status="past"] {
+  border-width: 1px;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__day[data-status="present"] .coac-agenda__day-count {
+  color: var(--app-primary);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__pill {
+  border-radius: 0;
+  font-family: var(--board-mono);
+  font-weight: 400;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__pill[data-label="Mañana"] {
+  border: 1px solid var(--app-primary);
+  color: var(--board-head-text);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__pill[data-label="Celebrada"] {
+  border: 1px solid var(--app-muted);
+  background: transparent;
+  color: var(--app-muted);
+}
+
+/* La cabecera de una sesión celebrada deja de ser negra: pasa a gris claro */
+.coac-agenda[data-skin="board"] .coac-agenda__session[data-status="past"] .coac-agenda__session-head {
+  background: var(--app-soft);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__session[data-status="past"] .coac-agenda__session-title,
+.coac-agenda[data-skin="board"] .coac-agenda__session[data-status="past"] .coac-agenda__session-meta {
+  color: var(--app-muted);
+}
+
+/* ---- Pie: fases y botón del modo de color ---- */
+.coac-agenda[data-skin="board"] .coac-agenda__footer-heading,
+.coac-agenda[data-skin="board"] .coac-agenda__phase-name,
+.coac-agenda[data-skin="board"] .coac-agenda__phase-state {
+  font-family: var(--board-mono);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__footer-heading {
+  color: var(--app-muted);
+  font-size: var(--luz-text-xs);
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__phase-item[data-home] .coac-agenda__phase-name {
+  font-weight: 700;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__phase-item[data-home] {
+  background: var(--app-card);
+}
+
+/* El botón de Luz toma los colores del pie, que en móvil es oscuro */
+.coac-agenda[data-skin="board"] .coac-agenda__footer .luz-theme-mode__button {
+  border-color: var(--app-muted);
+  background: var(--app-card);
+  color: var(--app-text);
+}
+
+/* ---- Imprime tu horario ---- */
+.coac-agenda[data-skin="board"] .coac-agenda__print-title,
+.coac-agenda[data-skin="board"] .coac-agenda__print-button,
+.coac-agenda[data-skin="board"] .coac-print-dialog__title,
+.coac-agenda[data-skin="board"] .coac-print-dialog__button,
+.coac-agenda[data-skin="board"] .coac-print-filters__quick button {
+  font-family: var(--board-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.coac-agenda[data-skin="board"] .coac-agenda__print-button,
+.coac-agenda[data-skin="board"] .coac-print-dialog__button {
+  font-weight: 400;
+}
+
+/* Interruptor del «Modo porra»: recto como todo el tablero */
+.coac-agenda[data-skin="board"] .coac-print-porra__switch::after {
+  border-radius: 0;
+}

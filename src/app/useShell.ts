@@ -27,7 +27,7 @@ export const afterPaint = (callback: () => void) =>
   requestAnimationFrame(() => requestAnimationFrame(callback));
 
 /**
- * Lo que necesita el rediseño E y no depende del aspecto: volver a la
+ * Lo que necesita la app y no depende del aspecto: volver a la
  * portada, ir a la agrupación en directo y abrir los modales de imprimir,
  * «Quiénes somos» y privacidad. Los modales los pinta `<ShellDialogs>`.
  */

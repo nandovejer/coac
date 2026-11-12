@@ -2,7 +2,7 @@
  * Aviso de privacidad: una franja fina pegada abajo del todo, discreta (texto
  * pequeño, sin sombra ni color de marca). En móvil ocupa todo el ancho; en
  * escritorio, solo la columna del programa (la izquierda queda libre). Va
- * dentro de .coac-vc o .coac-ve: usa --vc-* y la piel.
+ * dentro de .coac-agenda o .coac-programme: usa --app-* y la piel.
  */
 .coac-privacy-notice {
   position: fixed;
@@ -16,9 +16,9 @@
   gap: var(--luz-space-2xs) var(--luz-space-md);
   padding: var(--luz-space-xs) var(--luz-space-md);
   padding-block-end: calc(var(--luz-space-xs) + env(safe-area-inset-bottom, 0px));
-  border-block-start: 1px solid var(--vc-line);
-  background: var(--vc-card);
-  color: var(--vc-muted);
+  border-block-start: 1px solid var(--app-line);
+  background: var(--app-card);
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
@@ -39,12 +39,12 @@
 .coac-privacy-notice__text {
   flex: 1 1 18rem;
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   text-wrap: pretty;
 }
 
 .coac-privacy-notice__text strong {
-  color: var(--vc-text);
+  color: var(--app-text);
 }
 
 .coac-privacy-notice__actions {
@@ -59,23 +59,23 @@
   display: inline-flex;
   align-items: center;
   min-block-size: 2.75rem;
-  color: var(--vc-text);
+  color: var(--app-text);
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
 
 /* Botón suave, sin borde salvo al pasar el ratón (como los de la cabecera) */
-:is(.coac-vc, .coac-ve) .coac-privacy-notice__ok {
+:is(.coac-agenda, .coac-programme) .coac-privacy-notice__ok {
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
   border: 1px solid transparent;
-  background: var(--vc-soft);
-  color: var(--vc-text);
+  background: var(--app-soft);
+  color: var(--app-text);
   font-weight: 700;
 }
 
-:is(.coac-vc, .coac-ve) .coac-privacy-notice__ok:hover {
-  border-color: var(--vc-muted);
+:is(.coac-agenda, .coac-programme) .coac-privacy-notice__ok:hover {
+  border-color: var(--app-muted);
 }
 
 @media (min-width: 64rem) {

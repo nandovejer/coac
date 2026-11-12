@@ -34,7 +34,7 @@ import { ShellDialogs } from "./ShellDialogs";
 import { addMinutes, useProgramme, type Stage } from "./useProgramme";
 import { useReached } from "./useReached";
 import { HOME_URL, useShell } from "./useShell";
-import "./VariantE.css";
+import "./ProgrammeApp.css";
 
 const RANKING_LABEL = { top: "Imprescindible", ok: "Recomendada", standar: "" } as const;
 const STAGE_LABEL = { done: "Ya actuó", next: "A continuación" } as const;
@@ -60,7 +60,7 @@ function progressText(stages: Stage[]) {
 
 /** Alto de la cabecera fija (solo en móvil; en escritorio no es fija y vale 0). */
 function stickyHeaderHeight() {
-  const header = document.querySelector<HTMLElement>(".coac-ve__top");
+  const header = document.querySelector<HTMLElement>(".coac-programme__top");
   return header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0;
 }
 
@@ -90,32 +90,32 @@ function goToSearch() {
 
 /** Baja al primer bloque del programa (hoy, o la próxima sesión) por debajo de la cabecera fija. */
 function scrollToProgramme(instant = false) {
-  const session = document.querySelector<HTMLElement>(".coac-ve__session");
+  const session = document.querySelector<HTMLElement>(".coac-programme__session");
   if (!session) return;
   // Queda bajo la cabecera y el filtro, que van fijos sobre los horarios
   scrollUnderBars(session, filtersOffset(), instant);
-  session.querySelector<HTMLElement>(".coac-ve__session-title")?.focus({ preventScroll: true });
+  session.querySelector<HTMLElement>(".coac-programme__session-title")?.focus({ preventScroll: true });
 }
 
 /**
- * Publica en el elemento raíz el alto de la cabecera (`--ve-top-h`, cambia con la
- * tira «En directo») y el del filtro (`--ve-filters-h`): lo fijo se apila justo
+ * Publica en el elemento raíz el alto de la cabecera (`--programme-top-h`, cambia con la
+ * tira «En directo») y el del filtro (`--programme-filters-h`): lo fijo se apila justo
  * debajo de lo anterior.
  */
 function useStickyHeights() {
   const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const root = rootRef.current;
-    const header = root?.querySelector<HTMLElement>(".coac-ve__top");
-    const filters = root?.querySelector<HTMLElement>(".coac-ve__filters");
+    const header = root?.querySelector<HTMLElement>(".coac-programme__top");
+    const filters = root?.querySelector<HTMLElement>(".coac-programme__filters");
     if (!root || !header || !filters) return;
     // También en <html>: el `scroll-padding` de la página lee estas medidas para
     // que nada enfocado quede bajo la cabecera ni el filtro
     const html = document.documentElement;
     const update = () => {
       for (const element of [root, html]) {
-        element.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
-        element.style.setProperty("--ve-filters-h", `${filters.offsetHeight}px`);
+        element.style.setProperty("--programme-top-h", `${stickyHeaderHeight()}px`);
+        element.style.setProperty("--programme-filters-h", `${filters.offsetHeight}px`);
       }
     };
     update();
@@ -124,8 +124,8 @@ function useStickyHeights() {
     observer.observe(filters);
     return () => {
       observer.disconnect();
-      html.style.removeProperty("--ve-top-h");
-      html.style.removeProperty("--ve-filters-h");
+      html.style.removeProperty("--programme-top-h");
+      html.style.removeProperty("--programme-filters-h");
     };
   }, []);
   return rootRef;
@@ -135,7 +135,7 @@ function useStickyHeights() {
 const FILTERS_GAP = 16;
 
 /** El bloque fijo sobre los horarios: buscador, modalidades y días. */
-const getFilters = () => document.querySelector<HTMLElement>(".coac-ve__filters");
+const getFilters = () => document.querySelector<HTMLElement>(".coac-programme__filters");
 
 /**
  * Alto que hay que dejar libre bajo el filtro fijo. Vale su alto de ahora: si al
@@ -152,7 +152,7 @@ const filtersOffset = () => (getFilters()?.offsetHeight ?? 0) + FILTERS_GAP;
 function useStuckFilters() {
   useEffect(() => {
     const filters = getFilters();
-    const zone = document.querySelector<HTMLElement>(".coac-ve__programme");
+    const zone = document.querySelector<HTMLElement>(".coac-programme__programme");
     if (!filters || !zone) return;
     let frame = 0;
     const update = () => {
@@ -223,7 +223,7 @@ function useHideHeaderOnScroll(rootRef: RefObject<HTMLDivElement>) {
 function markVisibleSlots() {
   const top = getFilters()?.getBoundingClientRect().bottom ?? 0;
   let marked = 0;
-  for (const slot of document.querySelectorAll<HTMLElement>(".coac-ve__slot")) {
+  for (const slot of document.querySelectorAll<HTMLElement>(".coac-programme__slot")) {
     const box = slot.getBoundingClientRect();
     if (box.top < top - 1) continue;
     if (box.top > window.innerHeight || marked >= 12) break;
@@ -245,7 +245,7 @@ interface LuzThemeModeElement extends HTMLElement {
  */
 function useThemeCurtain() {
   useEffect(() => {
-    const host = document.querySelector<HTMLElement>(".coac-ve__footer-theme");
+    const host = document.querySelector<HTMLElement>(".coac-programme__footer-theme");
     if (!host) return;
     const onClick = (event: MouseEvent) => {
       const button = (event.target as Element).closest<HTMLElement>(".luz-theme-mode__button");
@@ -331,10 +331,10 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
   };
 
   return (
-    <div className="coac-ve__carousel" data-scrollable={scrollable || undefined}>
+    <div className="coac-programme__carousel" data-scrollable={scrollable || undefined}>
       <button
         type="button"
-        className="coac-ve__arrow"
+        className="coac-programme__arrow"
         aria-controls={listId}
         disabled={edges.start}
         onClick={() => scrollBy(-1)}
@@ -342,12 +342,12 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
         <ChevronLeftIcon />
         <span className="coac-sr-only">Días anteriores</span>
       </button>
-      <ol id={listId} ref={listRef} className="coac-ve__days">
+      <ol id={listId} ref={listRef} className="coac-programme__days">
         {children}
       </ol>
       <button
         type="button"
-        className="coac-ve__arrow"
+        className="coac-programme__arrow"
         aria-controls={listId}
         disabled={edges.end}
         onClick={() => scrollBy(1)}
@@ -379,12 +379,12 @@ function shouldIntro() {
 }
 
 /**
- * Variante E · «Cartelera»: app de eventos clara y suave. Tarjetas blancas
+ * App publicada: «Cartelera», app de eventos clara y suave. Tarjetas blancas
  * sobre gris claro, una tarjeta de estado a color pleno (cobalto), los días
  * como números grandes con el elegido en una ficha elevada, y el programa
  * con la franja horaria escrita en vertical junto a cada tarjeta.
  */
-export default function VariantE() {
+export default function ProgrammeApp() {
   const p = useProgramme({ allSessions: true });
   const shell = useShell(p);
   const upcoming = p.live ? null : p.schedule.upcomingSession;
@@ -408,8 +408,8 @@ export default function VariantE() {
     const timer = setTimeout(() => setIntro(false), 1400);
     return () => clearTimeout(timer);
   }, [intro]);
-  useGhostMark(".coac-ve__carousel", ".coac-ve__days", ".coac-ve__day", "day");
-  useGhostMark(".coac-ve__chips", ".coac-ve__chips", ".coac-ve__chip", "chip");
+  useGhostMark(".coac-programme__carousel", ".coac-programme__days", ".coac-programme__day", "day");
+  useGhostMark(".coac-programme__chips", ".coac-programme__chips", ".coac-programme__chip", "chip");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const clearTerm = () => {
@@ -453,19 +453,20 @@ export default function VariantE() {
     const was = previousState.current;
     previousState.current = state;
     if (state !== "live" || (was !== "countdown" && was !== "starting")) return;
-    const card = rootRef.current?.querySelector<HTMLElement>(".coac-ve__status");
+    const card = rootRef.current?.querySelector<HTMLElement>(".coac-programme__status");
     animateOnce(
-      card?.querySelector<HTMLElement>(".coac-ve__on-air") ?? null,
+      card?.querySelector<HTMLElement>(".coac-programme__on-air") ?? null,
       { scale: [0.85, 1] },
       { duration: 320, easing: "var(--coac-ease-spring)" },
     );
     animateOnce(
-      card?.querySelector<HTMLElement>(".coac-ve__status-title") ?? null,
+      card?.querySelector<HTMLElement>(".coac-programme__status-title") ?? null,
       { clipPath: ["inset(100% 0 0 0)", "inset(0)"], translate: ["0 8px", "0 0"] },
       { duration: 320, delay: 60, easing: "var(--coac-ease-out)", fill: "backwards" },
     );
-    for (const action of rootRef.current?.querySelectorAll<HTMLElement>(".coac-ve__action[data-live]") ??
-      []) {
+    for (const action of rootRef.current?.querySelectorAll<HTMLElement>(
+      ".coac-programme__action[data-live]",
+    ) ?? []) {
       animateOnce(action, { scale: [0.9, 1] }, { duration: 320, easing: "var(--coac-ease-spring)" });
     }
     const date = p.schedule.present?.date ?? null;
@@ -486,12 +487,12 @@ export default function VariantE() {
     if (!liveId || !was || was === liveId) return;
     const root = rootRef.current;
     animateOnce(
-      root?.querySelector<HTMLElement>(".coac-ve__card[data-stage='live']") ?? null,
+      root?.querySelector<HTMLElement>(".coac-programme__card[data-stage='live']") ?? null,
       { scale: [0.97, 1] },
       { duration: 320, easing: "var(--coac-ease-spring)" },
     );
     animateOnce(
-      root?.querySelector<HTMLElement>(".coac-ve__segment[data-stage='live']") ?? null,
+      root?.querySelector<HTMLElement>(".coac-programme__segment[data-stage='live']") ?? null,
       { scale: ["1 0.57", "1 1"] },
       { duration: 320, easing: "var(--coac-ease-spring)" },
     );
@@ -546,17 +547,17 @@ export default function VariantE() {
   // Los accesos rápidos se pintan en dos sitios (cabecera de móvil y columna de
   // escritorio) y el CSS muestra solo uno: así el orden del foco sigue al visual.
   const renderActions = (place: "top" | "rail") => (
-    <nav className="coac-ve__actions" data-place={place} aria-label="Accesos rápidos">
-      <button type="button" className="coac-ve__action" onClick={goToSearch} title="Buscar">
+    <nav className="coac-programme__actions" data-place={place} aria-label="Accesos rápidos">
+      <button type="button" className="coac-programme__action" onClick={goToSearch} title="Buscar">
         <SearchIcon />
-        <span className="coac-ve__action-label">Buscar</span>
+        <span className="coac-programme__action-label">Buscar</span>
       </button>
-      <button type="button" className="coac-ve__action" onClick={goToToday} title="Sesión de hoy">
+      <button type="button" className="coac-programme__action" onClick={goToToday} title="Sesión de hoy">
         <CalendarIcon />
-        <span className="coac-ve__action-label">Sesión de hoy</span>
+        <span className="coac-programme__action-label">Sesión de hoy</span>
       </button>
       <a
-        className="coac-ve__action"
+        className="coac-programme__action"
         href={SEASON.liveUrl}
         target="_blank"
         rel="noopener noreferrer"
@@ -564,7 +565,7 @@ export default function VariantE() {
         data-live={p.live ? "" : undefined}
       >
         <LiveIcon />
-        <span className="coac-ve__action-label">Ver el directo</span>
+        <span className="coac-programme__action-label">Ver el directo</span>
         <span className="coac-sr-only"> (se abre en otra pestaña)</span>
       </a>
     </nav>
@@ -577,20 +578,20 @@ export default function VariantE() {
   const days = [...p.all].sort((a, b) => sessionDateKey(a.date) - sessionDateKey(b.date));
 
   return (
-    <div ref={rootRef} className="coac-ve" data-view={p.mode} data-intro={intro || undefined}>
+    <div ref={rootRef} className="coac-programme" data-view={p.mode} data-intro={intro || undefined}>
       {/* En escritorio, columna izquierda fija; en móvil no pinta caja (display: contents)
           y la cabecera queda fija arriba de toda la página. */}
-      <div className="coac-ve__rail coac-scrollbar">
-        <header className="coac-ve__top">
-          <div className="coac-ve__top-row">
+      <div className="coac-programme__rail coac-scrollbar">
+        <header className="coac-programme__top">
+          <div className="coac-programme__top-row">
             {/* Título y, debajo, la fase: una sola fila con los accesos, para una cabecera baja */}
-            <a className="coac-ve__home" href={HOME_URL} onClick={shell.goHome}>
-              <FallaLogo className="coac-ve__logo" />
-              <span className="coac-ve__brand-text">
-                <h1 className="coac-ve__title">¿Quién canta hoy?</h1>
-                <span className="coac-ve__phase">
-                  COAC {SEASON.year} · <span className="coac-ve__phase-short">{HOME_PHASE_SHORT}</span>
-                  <span className="coac-ve__phase-full">{SEASON.phaseTitle}</span>
+            <a className="coac-programme__home" href={HOME_URL} onClick={shell.goHome}>
+              <FallaLogo className="coac-programme__logo" />
+              <span className="coac-programme__brand-text">
+                <h1 className="coac-programme__title">¿Quién canta hoy?</h1>
+                <span className="coac-programme__phase">
+                  COAC {SEASON.year} · <span className="coac-programme__phase-short">{HOME_PHASE_SHORT}</span>
+                  <span className="coac-programme__phase-full">{SEASON.phaseTitle}</span>
                 </span>
               </span>
             </a>
@@ -599,13 +600,13 @@ export default function VariantE() {
             {renderActions("top")}
           </div>
           {p.live && (
-            <a className="coac-ve__strip" href={`#${p.live.group.id}`} onClick={shell.goToLive}>
-              <span className="coac-ve__on-air">
-                <span className="coac-ve__on-air-dot" aria-hidden="true" />
+            <a className="coac-programme__strip" href={`#${p.live.group.id}`} onClick={shell.goToLive}>
+              <span className="coac-programme__on-air">
+                <span className="coac-programme__on-air-dot" aria-hidden="true" />
                 En directo
               </span>
-              <span className="coac-ve__strip-name">{p.live.group.autor}</span>
-              <span className="coac-ve__strip-go">
+              <span className="coac-programme__strip-name">{p.live.group.autor}</span>
+              <span className="coac-programme__strip-go">
                 Ver
                 <ChevronRightIcon />
               </span>
@@ -613,49 +614,53 @@ export default function VariantE() {
           )}
         </header>
 
-        <aside className="coac-ve__side" aria-label="Estado">
-          <section className="coac-ve__status" data-state={state} aria-label="Estado">
-            <FallaLogo className="coac-ve__status-mark" />
+        <aside className="coac-programme__side" aria-label="Estado">
+          <section className="coac-programme__status" data-state={state} aria-label="Estado">
+            <FallaLogo className="coac-programme__status-mark" />
             {p.live ? (
               <>
-                <p className="coac-ve__on-air">
+                <p className="coac-programme__on-air">
                   <BroadcastIcon inline /> En directo
                 </p>
-                <p className="coac-ve__status-title">{p.live.group.autor}</p>
-                <p className="coac-ve__status-sub">
+                <p className="coac-programme__status-title">{p.live.group.autor}</p>
+                <p className="coac-programme__status-sub">
                   {p.live.group.nombre} · {p.live.estimatedTime}–
                   {addMinutes(p.live.estimatedTime, SEASON.minutesPerGroup)} aprox.
                 </p>
               </>
             ) : upcoming ? (
               <>
-                <p className="coac-ve__eyebrow">Próxima sesión</p>
+                <p className="coac-programme__eyebrow">Próxima sesión</p>
                 {state === "countdown" ? (
                   <>
-                    <p className="coac-ve__status-title">{formatSessionTitleDate(upcoming.date)}</p>
+                    <p className="coac-programme__status-title">{formatSessionTitleDate(upcoming.date)}</p>
                     <Countdown target={upcoming.startsAt} />
                   </>
                 ) : (
                   <>
-                    <p className="coac-ve__status-title">Empieza la sesión</p>
-                    <p className="coac-ve__status-sub">{formatSessionTitleDate(upcoming.date)}</p>
+                    <p className="coac-programme__status-title">Empieza la sesión</p>
+                    <p className="coac-programme__status-sub">{formatSessionTitleDate(upcoming.date)}</p>
                   </>
                 )}
               </>
             ) : (
               <>
-                <p className="coac-ve__eyebrow">COAC {SEASON.year}</p>
-                <p className="coac-ve__status-title">La fase ha terminado</p>
+                <p className="coac-programme__eyebrow">COAC {SEASON.year}</p>
+                <p className="coac-programme__status-title">La fase ha terminado</p>
               </>
             )}
-            <p className="coac-ve__status-actions">
+            <p className="coac-programme__status-actions">
               {p.live && (
-                <a className="coac-ve__pill-button" href={`#${p.live.group.id}`} onClick={shell.goToLive}>
+                <a
+                  className="coac-programme__pill-button"
+                  href={`#${p.live.group.id}`}
+                  onClick={shell.goToLive}
+                >
                   Ver en el programa
                 </a>
               )}
               <a
-                className="coac-ve__pill-button"
+                className="coac-programme__pill-button"
                 data-quiet={p.live ? "" : undefined}
                 href={SEASON.liveUrl}
                 target="_blank"
@@ -667,8 +672,8 @@ export default function VariantE() {
             </p>
             {/* Qué no perderse de la sesión de hoy (o la próxima) */}
             {briefSession && (
-              <div className="coac-ve__status-brief">
-                <p className="coac-ve__status-brief-text">
+              <div className="coac-programme__status-brief">
+                <p className="coac-programme__status-brief-text">
                   {sessionBrief(briefSession).map((part, index) =>
                     part.strong ? (
                       <strong key={index}>{part.text}</strong>
@@ -677,7 +682,7 @@ export default function VariantE() {
                     ),
                   )}
                 </p>
-                <button type="button" className="coac-ve__status-brief-link" onClick={goToToday}>
+                <button type="button" className="coac-programme__status-brief-link" onClick={goToToday}>
                   Ver la sesión
                   <ChevronRightIcon />
                 </button>
@@ -689,23 +694,23 @@ export default function VariantE() {
         {renderActions("rail")}
       </div>
 
-      <div className="coac-ve__body">
-        <main id="siteMain" className="coac-ve__main" tabIndex={-1}>
+      <div className="coac-programme__body">
+        <main id="siteMain" className="coac-programme__main" tabIndex={-1}>
           {/* La zona de horarios: el filtro (buscador y días) va fijo arriba mientras se
               recorre y se suelta al salir de ella (sticky dentro de este bloque) */}
-          <div className="coac-ve__programme">
+          <div className="coac-programme__programme">
             {/* Justo encima de lo que filtra */}
-            <div className="coac-ve__filters">
-              <div className="coac-ve__search" id="searchAuthor" role="search">
+            <div className="coac-programme__filters">
+              <div className="coac-programme__search" id="searchAuthor" role="search">
                 {/* A la vista solo en móvil; en escritorio la barra se explica sola */}
                 <label
-                  className="coac-ve__search-label coac-ve__eyebrow coac-ve__ruled"
+                  className="coac-programme__search-label coac-programme__eyebrow coac-programme__ruled"
                   htmlFor={SEARCH_INPUT_ID}
                 >
                   Busca tu agrupación favorita
                   <span className="coac-sr-only"> por autor, autora o nombre</span>
                 </label>
-                <div className="coac-ve__field">
+                <div className="coac-programme__field">
                   <SearchIcon />
                   <input
                     ref={inputRef}
@@ -720,7 +725,7 @@ export default function VariantE() {
                   {p.term && (
                     <button
                       type="button"
-                      className="coac-ve__clear"
+                      className="coac-programme__clear"
                       onClick={clearTerm}
                       title="Borrar búsqueda"
                     >
@@ -730,16 +735,20 @@ export default function VariantE() {
                   )}
                 </div>
                 <div
-                  className="coac-ve__chips coac-scrollbar"
+                  className="coac-programme__chips coac-scrollbar"
                   role="group"
                   aria-label="Filtrar por modalidad"
                 >
-                  <ModalidadFilter value={p.modalidad} onChange={chooseModalidad} className="coac-ve__chip" />
+                  <ModalidadFilter
+                    value={p.modalidad}
+                    onChange={chooseModalidad}
+                    className="coac-programme__chip"
+                  />
                 </div>
               </div>
 
               {/* Los días, parte del filtro: al elegir uno, su sesión sale justo debajo */}
-              <nav className="coac-ve__calendar" aria-label="Sesiones de la fase">
+              <nav className="coac-programme__calendar" aria-label="Sesiones de la fase">
                 <DayStrip focusKey={`${p.schedule.activeSessionDate}|${p.selectedDate}`}>
                   {days.map((session) => {
                     const [weekday, day] = formatShortDate(session.date).split(" ");
@@ -749,7 +758,7 @@ export default function VariantE() {
                       <li key={session.date}>
                         <button
                           type="button"
-                          className="coac-ve__day"
+                          className="coac-programme__day"
                           data-status={session.status}
                           data-label={label || undefined}
                           data-upcoming={session.date === p.schedule.upcomingSession?.date || undefined}
@@ -760,16 +769,16 @@ export default function VariantE() {
                             {label && `${label}: `}
                             {formatSessionTitleDate(session.date)}, {session.performances.length} agrupaciones
                           </span>
-                          <span className="coac-ve__day-tag" aria-hidden="true">
+                          <span className="coac-programme__day-tag" aria-hidden="true">
                             {label === "Hoy" || label === "Mañana" ? label : ""}
                           </span>
-                          <span className="coac-ve__day-num" aria-hidden="true">
+                          <span className="coac-programme__day-num" aria-hidden="true">
                             {day}
                           </span>
-                          <span className="coac-ve__day-week" aria-hidden="true">
+                          <span className="coac-programme__day-week" aria-hidden="true">
                             {weekday}
                           </span>
-                          <span className="coac-ve__day-dots" aria-hidden="true" />
+                          <span className="coac-programme__day-dots" aria-hidden="true" />
                         </button>
                       </li>
                     );
@@ -779,13 +788,13 @@ export default function VariantE() {
             </div>
 
             {p.mode !== "focus" && (
-              <p className="coac-ve__context">
+              <p className="coac-programme__context">
                 <span>
                   {p.mode === "search"
                     ? `${p.count} ${p.count === 1 ? "agrupación encontrada" : "agrupaciones encontradas"}`
                     : "Sesión elegida"}
                   {p.mode === "search" && (
-                    <span className="coac-ve__scope">
+                    <span className="coac-programme__scope">
                       {p.scopeDate
                         ? `Solo en ${formatSessionTitleDate(p.scopeDate)}`
                         : p.selectedDate
@@ -794,15 +803,15 @@ export default function VariantE() {
                     </span>
                   )}
                 </span>
-                <span className="coac-ve__context-actions">
+                <span className="coac-programme__context-actions">
                   {p.mode === "search" && p.selectedDate && (
-                    <button type="button" className="coac-ve__scope-toggle" onClick={toggleScope}>
+                    <button type="button" className="coac-programme__scope-toggle" onClick={toggleScope}>
                       {p.scopeDate
                         ? "Buscar en todas las sesiones"
                         : `Buscar solo en ${formatSessionTitleDate(p.selectedDate)}`}
                     </button>
                   )}
-                  <button type="button" className="coac-ve__reset" onClick={goToToday}>
+                  <button type="button" className="coac-programme__reset" onClick={goToToday}>
                     Ver todo el programa
                   </button>
                 </span>
@@ -810,21 +819,23 @@ export default function VariantE() {
             )}
 
             {p.mode === "focus" && p.sections.length > 0 && (
-              <p className="coac-ve__programme-label coac-ve__eyebrow coac-ve__ruled">Programa</p>
+              <p className="coac-programme__programme-label coac-programme__eyebrow coac-programme__ruled">
+                Programa
+              </p>
             )}
 
             {p.sections.length > 0 && (
-              <p className="coac-ve__legend">
-                <span className="coac-ve__legend-item" data-ranking="top">
+              <p className="coac-programme__legend">
+                <span className="coac-programme__legend-item" data-ranking="top">
                   Imprescindible
                 </span>
-                <span className="coac-ve__legend-item" data-ranking="ok">
+                <span className="coac-programme__legend-item" data-ranking="ok">
                   Recomendada
                 </span>
               </p>
             )}
 
-            <div className="coac-ve__sessions">
+            <div className="coac-programme__sessions">
               {p.sections.map(({ key, label, session, performances }) => {
                 // Jerarquía: hoy en bloque pleno; la próxima en bloque suave; el resto, solo el título
                 const isNext =
@@ -834,33 +845,33 @@ export default function VariantE() {
                 return (
                   <section
                     key={key}
-                    className="coac-ve__session"
+                    className="coac-programme__session"
                     data-status={session.status}
                     data-featured={featured}
                     aria-labelledby={`ve-${key}`}
                   >
-                    <header className="coac-ve__session-head">
-                      {featured === "next" && <FallaLogo className="coac-ve__session-mark" />}
+                    <header className="coac-programme__session-head">
+                      {featured === "next" && <FallaLogo className="coac-programme__session-mark" />}
                       {featured === "next" ? (
-                        <p className="coac-ve__session-eyebrow">
+                        <p className="coac-programme__session-eyebrow">
                           {label === "Mañana" ? "Mañana · Próxima sesión" : "Próxima sesión"}
                         </p>
                       ) : (
                         label && (
-                          <span className="coac-ve__label" data-label={label}>
+                          <span className="coac-programme__label" data-label={label}>
                             {label}
                           </span>
                         )
                       )}
-                      <h2 id={`ve-${key}`} className="coac-ve__session-title" tabIndex={-1}>
+                      <h2 id={`ve-${key}`} className="coac-programme__session-title" tabIndex={-1}>
                         {formatSessionTitleDate(session.date)}
                       </h2>
-                      <p className="coac-ve__session-meta">
+                      <p className="coac-programme__session-meta">
                         {session.performances.length} agrupaciones · {session.performances[0]?.estimatedTime}–
                         {session.estimatedEndTime} aprox.
                       </p>
                       {featured === "next" && (
-                        <p className="coac-ve__session-when">
+                        <p className="coac-programme__session-when">
                           <CalendarIcon />
                           {(() => {
                             const days = daysBetween(p.schedule.activeSessionDate, session.date);
@@ -877,55 +888,57 @@ export default function VariantE() {
                             p.stageOf(session, performance),
                           );
                           return (
-                            <p className="coac-ve__session-progress">
-                              <span className="coac-ve__segments" aria-hidden="true">
+                            <p className="coac-programme__session-progress">
+                              <span className="coac-programme__segments" aria-hidden="true">
                                 {stages.map((stage, index) => (
                                   <span
                                     key={index}
-                                    className="coac-ve__segment"
+                                    className="coac-programme__segment"
                                     data-stage={stage}
                                     style={{ "--i": Math.min(index, 6) } as CSSProperties}
                                   />
                                 ))}
                               </span>
-                              <span className="coac-ve__session-progress-text">{progressText(stages)}</span>
+                              <span className="coac-programme__session-progress-text">
+                                {progressText(stages)}
+                              </span>
                             </p>
                           );
                         })()}
                     </header>
-                    <ol className="coac-ve__slots">
+                    <ol className="coac-programme__slots">
                       {performances.map((performance) => {
                         const { group, estimatedTime } = performance;
                         const stage = p.stageOf(session, performance);
                         const isLive = stage === "live";
                         const endTime = addMinutes(estimatedTime, SEASON.minutesPerGroup);
                         return (
-                          <li key={group.id} className="coac-ve__slot" data-stage={stage}>
+                          <li key={group.id} className="coac-programme__slot" data-stage={stage}>
                             {/* La franja horaria, escrita en vertical como en una agenda */}
-                            <p className="coac-ve__time">
+                            <p className="coac-programme__time">
                               <span className="coac-sr-only">Hora estimada: </span>
                               {estimatedTime} — {endTime}
                             </p>
                             <article
-                              className="coac-ve__card"
+                              className="coac-programme__card"
                               id={group.id}
                               tabIndex={-1}
                               data-ranking={group.ranking}
                               data-stage={stage}
                             >
                               {isLive && (
-                                <p className="coac-ve__live-bar">
-                                  <span className="coac-ve__on-air">
+                                <p className="coac-programme__live-bar">
+                                  <span className="coac-programme__on-air">
                                     <BroadcastIcon inline /> Actuando ahora
                                   </span>
-                                  <span className="coac-ve__live-time">
+                                  <span className="coac-programme__live-time">
                                     {estimatedTime}–{endTime} aprox.
                                   </span>
                                 </p>
                               )}
-                              <p className="coac-ve__badges">
+                              <p className="coac-programme__badges">
                                 {session.status === "present" && (stage === "done" || stage === "next") && (
-                                  <span className="coac-ve__stage" data-stage={stage}>
+                                  <span className="coac-programme__stage" data-stage={stage}>
                                     {STAGE_LABEL[stage]}
                                   </span>
                                 )}
@@ -933,28 +946,31 @@ export default function VariantE() {
                                 {RANKING_LABEL[group.ranking] && (
                                   <span className="coac-sr-only">{RANKING_LABEL[group.ranking]}.</span>
                                 )}
-                                <span className="coac-ve__badge" data-modalidad={group.modalidad}>
+                                <span className="coac-programme__badge" data-modalidad={group.modalidad}>
                                   {group.modalidad.charAt(0) + group.modalidad.slice(1).toLowerCase()}
                                 </span>
-                                <span className="coac-ve__city">{group.ciudad}</span>
+                                <span className="coac-programme__city">{group.ciudad}</span>
                               </p>
-                              <h3 className="coac-ve__name">{group.nombre}</h3>
-                              <p className="coac-ve__author">{group.autor}</p>
+                              <h3 className="coac-programme__name">{group.nombre}</h3>
+                              <p className="coac-programme__author">{group.autor}</p>
                               {group.previous && (
                                 // El icono es parte del enlace al vídeo (su ::after cubre toda la fila)
                                 <p
-                                  className="coac-ve__previous-row"
+                                  className="coac-programme__previous-row"
                                   data-link={"name" in group.previous || undefined}
                                 >
                                   {"name" in group.previous && <PlayIcon inline />}
-                                  <PreviousNote previous={group.previous} className="coac-ve__previous" />
+                                  <PreviousNote
+                                    previous={group.previous}
+                                    className="coac-programme__previous"
+                                  />
                                 </p>
                               )}
                               {isLive && (
                                 <span
-                                  className="coac-ve__progress"
+                                  className="coac-programme__progress"
                                   aria-hidden="true"
-                                  style={{ "--ve-progress": p.liveProgress } as CSSProperties}
+                                  style={{ "--programme-progress": p.liveProgress } as CSSProperties}
                                 />
                               )}
                             </article>
@@ -968,7 +984,7 @@ export default function VariantE() {
             </div>
 
             {p.sections.length === 0 && (
-              <p className="coac-ve__empty">
+              <p className="coac-programme__empty">
                 {p.scopeDate
                   ? `No hay nada con ese nombre en ${formatSessionTitleDate(p.scopeDate)}. Prueba con otro o busca en todas las sesiones.`
                   : "No hay nada con ese nombre. Prueba con otro."}
@@ -976,43 +992,43 @@ export default function VariantE() {
             )}
           </div>
 
-          <section className="coac-ve__print" aria-labelledby="ve-print-title">
-            <div className="coac-ve__print-text">
-              <p className="coac-ve__eyebrow">Para el teatro o el sofá</p>
-              <h2 id="ve-print-title" className="coac-ve__print-title">
+          <section className="coac-programme__print" aria-labelledby="ve-print-title">
+            <div className="coac-programme__print-text">
+              <p className="coac-programme__eyebrow">Para el teatro o el sofá</p>
+              <h2 id="ve-print-title" className="coac-programme__print-title">
                 Llévate el programa
               </h2>
-              <p className="coac-ve__print-desc">
+              <p className="coac-programme__print-desc">
                 Elige sesiones, modalidades y favoritas, y llévatelo en papel, en PDF o como imagen.
               </p>
             </div>
-            <button type="button" className="coac-ve__print-button" {...shell.printButton}>
+            <button type="button" className="coac-programme__print-button" {...shell.printButton}>
               <PrinterIcon />
               Imprime tu horario
             </button>
           </section>
         </main>
 
-        <footer className="coac-ve__footer">
-          <nav className="coac-ve__phases" aria-labelledby="ve-phases-title">
-            <h2 id="ve-phases-title" className="coac-ve__eyebrow">
+        <footer className="coac-programme__footer">
+          <nav className="coac-programme__phases" aria-labelledby="ve-phases-title">
+            <h2 id="ve-phases-title" className="coac-programme__eyebrow">
               Fases del COAC {SEASON.year}
             </h2>
-            <ol className="coac-ve__phase-list">
+            <ol className="coac-programme__phase-list">
               {PHASES.map((phase) => {
                 const status = phaseStatus(phase, p.schedule.activeSessionDate);
                 const content = (
                   <>
-                    <span className="coac-ve__phase-state">{PHASE_STATUS_LABEL[status]}</span>
-                    <span className="coac-ve__phase-name">{phase.short}</span>
-                    <span className="coac-ve__phase-dates">{phase.dates}</span>
+                    <span className="coac-programme__phase-state">{PHASE_STATUS_LABEL[status]}</span>
+                    <span className="coac-programme__phase-name">{phase.short}</span>
+                    <span className="coac-programme__phase-dates">{phase.dates}</span>
                   </>
                 );
                 return (
                   <li key={phase.id}>
                     {isHomePhase(phase) ? (
                       <a
-                        className="coac-ve__phase-item"
+                        className="coac-programme__phase-item"
                         data-status={status}
                         data-home
                         href={HOME_URL}
@@ -1024,7 +1040,7 @@ export default function VariantE() {
                     ) : (
                       // Aún no se pueden abrir: enlace desactivado (ver phases.ts)
                       <span
-                        className="coac-ve__phase-item"
+                        className="coac-programme__phase-item"
                         data-status={status}
                         role="link"
                         aria-disabled="true"
@@ -1038,32 +1054,32 @@ export default function VariantE() {
             </ol>
           </nav>
 
-          <div className="coac-ve__footer-row">
-            <div className="coac-ve__footer-theme">
+          <div className="coac-programme__footer-row">
+            <div className="coac-programme__footer-theme">
               <ThemeModeSwitch />
             </div>
-            <p className="coac-ve__footer-pages">
-              <button type="button" className="coac-ve__footer-page" {...shell.aboutButton}>
+            <p className="coac-programme__footer-pages">
+              <button type="button" className="coac-programme__footer-page" {...shell.aboutButton}>
                 Quiénes somos
               </button>
-              <a className="coac-ve__footer-page" href={PRIVACY_HASH} {...shell.privacyLink}>
+              <a className="coac-programme__footer-page" href={PRIVACY_HASH} {...shell.privacyLink}>
                 Privacidad
               </a>
             </p>
           </div>
-          <div className="coac-ve__footer-text">
+          <div className="coac-programme__footer-text">
             <p>Horas estimadas: {SEASON.minutesPerGroup} min por agrupación, con actuación y montaje.</p>
             <p>
               Hecho con{" "}
-              <a className="coac-ve__footer-link" href="https://github.com/nandovejer/luz">
+              <a className="coac-programme__footer-link" href="https://github.com/nandovejer/luz">
                 Luz
               </a>{" "}
               por{" "}
-              <a className="coac-ve__footer-link" href="https://twitter.com/nandovejer">
+              <a className="coac-programme__footer-link" href="https://twitter.com/nandovejer">
                 Nando Muñoz
               </a>
               . Código abierto bajo{" "}
-              <a className="coac-ve__footer-link" href="https://es.wikipedia.org/wiki/MIT_License">
+              <a className="coac-programme__footer-link" href="https://es.wikipedia.org/wiki/MIT_License">
                 licencia MIT
               </a>
               .
@@ -1073,7 +1089,7 @@ export default function VariantE() {
       </div>
 
       {/* Región viva única (lector de pantalla): siempre montada y sin botones dentro */}
-      <p className="coac-sr-only coac-ve__announcer" role="status">
+      <p className="coac-sr-only coac-programme__announcer" role="status">
         {announcement}
       </p>
 

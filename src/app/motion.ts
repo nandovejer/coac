@@ -1,8 +1,7 @@
 import { flushSync } from "react-dom";
 
 /**
- * Único sitio que lanza View Transitions o animaciones desde JS (ver
- * .claude/plans/PLAN-ANIMACIONES.md). Todo es mejora progresiva: sin soporte,
+ * Único sitio que lanza View Transitions o animaciones desde JS. Todo es mejora progresiva: sin soporte,
  * con «reducir movimiento» o con una pestaña oculta, el cambio es instantáneo
  * y queda exactamente como sin animación.
  */
@@ -51,7 +50,7 @@ export function withViewTransition({
   types?: string[];
 }) {
   const doc = document as Document & { startViewTransition?: StartViewTransition };
-  const root = document.querySelector<HTMLElement>(".coac-ve");
+  const root = document.querySelector<HTMLElement>(".coac-programme");
   if (
     !doc.startViewTransition ||
     !root ||

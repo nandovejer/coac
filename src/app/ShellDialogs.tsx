@@ -9,9 +9,9 @@ const PrivacyDialog = lazy(() => import("./privacy/PrivacyDialog"));
 
 /**
  * Modales abiertos (imprimir, «Quiénes somos», privacidad) y aviso de
- * privacidad del rediseño E. Heredan los tokens `--vc-*` (`bg`, `card`,
+ * privacidad de la app. Heredan los tokens `--app-*` (`bg`, `card`,
  * `text`, `muted`, `line`, `primary`, `on-primary`, `soft`) del elemento raíz
- * de la variante: se pinta una vez, dentro de él.
+ * de la app: se pinta una vez, dentro de él.
  */
 export function ShellDialogs({ shell }: { shell: Shell }) {
   const { print, about, privacy } = shell.dialogs;

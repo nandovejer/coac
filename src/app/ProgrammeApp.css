@@ -1,152 +1,152 @@
 /*
- * Variante E · «Cartelera». App de eventos clara y suave: gris muy claro,
+ * App publicada (ProgrammeApp). App de eventos clara y suave: gris muy claro,
  * tarjetas blancas con sombra difusa, una tarjeta de estado a color pleno
  * (cobalto de la marca), días como números grandes con el elegido en una ficha
  * elevada y la franja horaria en vertical junto a cada tarjeta. Esquinas casi
  * rectas (3px como mucho). El azul es el acento; el rojo, solo «En directo».
  */
-.coac-ve {
+.coac-programme {
   /* Contrato de los modales (ShellDialogs) */
-  --vc-bg: #eff0f5;
-  --vc-card: #ffffff;
-  --vc-text: #1b1c3b;
-  --vc-muted: #5a5c75;
-  --vc-line: #dcdee8;
-  --vc-primary: #2d51a5;
-  --vc-on-primary: #ffffff;
-  --vc-soft: #e1e8f7;
+  --app-bg: #eff0f5;
+  --app-card: #ffffff;
+  --app-text: #1b1c3b;
+  --app-muted: #5a5c75;
+  --app-line: #dcdee8;
+  --app-primary: #2d51a5;
+  --app-on-primary: #ffffff;
+  --app-soft: #e1e8f7;
   /* Propios */
-  --ve-edge: #7b7d94;
+  --programme-edge: #7b7d94;
   /* Borde de tarjeta apenas distinto del fondo: la tarjeta se distingue por relleno y sombra */
-  --ve-card-edge: #e6e7ee;
+  --programme-card-edge: #e6e7ee;
   /* Semáforo: 3:1 como mínimo contra la tarjeta */
-  --ve-top: #15803d;
-  --ve-ok: #a87400;
-  --ve-accent-text: #2d51a5;
-  --ve-feature: #2d51a5;
-  --ve-on-feature: #ffffff;
+  --programme-top: #15803d;
+  --programme-ok: #a87400;
+  --programme-accent-text: #2d51a5;
+  --programme-feature: #2d51a5;
+  --programme-on-feature: #ffffff;
   /* Segundo acento: el marino de la fachada */
-  --ve-second: #192c60;
-  --ve-on-second: #ffffff;
-  --ve-second-soft: #dfe4f2;
-  --ve-second-ink: #192c60;
-  --ve-ink: #24242d;
-  --ve-on-ink: #ffffff;
-  --ve-on-ink-muted: #c9cad6;
-  --ve-pill-bg: #ffffff;
-  --ve-pill-text: #1b1c3b;
-  --ve-done-bg: #e6e7ee;
-  --ve-live-edge: #b91c1c;
-  --ve-on-air-edge: transparent;
-  --ve-focus: #2d51a5;
-  --ve-shadow: 0 1px 2px rgb(27 28 59 / 0.06), 0 10px 22px -14px rgb(27 28 59 / 0.22);
-  --ve-shadow-raised: 0 1px 2px rgb(27 28 59 / 0.08), 0 12px 22px -10px rgb(27 28 59 / 0.32);
-  --ve-shadow-feature: 0 14px 26px -16px rgb(45 81 165 / 0.7);
-  --ve-radius: 3px;
+  --programme-second: #192c60;
+  --programme-on-second: #ffffff;
+  --programme-second-soft: #dfe4f2;
+  --programme-second-ink: #192c60;
+  --programme-ink: #24242d;
+  --programme-on-ink: #ffffff;
+  --programme-on-ink-muted: #c9cad6;
+  --programme-pill-bg: #ffffff;
+  --programme-pill-text: #1b1c3b;
+  --programme-done-bg: #e6e7ee;
+  --programme-live-edge: #b91c1c;
+  --programme-on-air-edge: transparent;
+  --programme-focus: #2d51a5;
+  --programme-shadow: 0 1px 2px rgb(27 28 59 / 0.06), 0 10px 22px -14px rgb(27 28 59 / 0.22);
+  --programme-shadow-raised: 0 1px 2px rgb(27 28 59 / 0.08), 0 12px 22px -10px rgb(27 28 59 / 0.32);
+  --programme-shadow-feature: 0 14px 26px -16px rgb(45 81 165 / 0.7);
+  --programme-radius: 3px;
   /* Cabecera de la próxima sesión: el bloque del banner de estado, con la fachada
-     (cada modo pone su color de banner en --ve-feature) */
-  --ve-next-head-bg: var(--ve-feature);
+     (cada modo pone su color de banner en --programme-feature) */
+  --programme-next-head-bg: var(--programme-feature);
   /* Cabecera de las demás sesiones por venir: un azul algo más claro que el de la destacada */
-  --ve-head-bg: #4467bb;
+  --programme-head-bg: #4467bb;
   /* La misma banda, translúcida y con desenfoque cuando va fija (escritorio): sobre
      una tarjeta blanca queda en #4d6bb3, 5,16:1 con el texto blanco */
-  --ve-head-glass: rgb(45 81 165 / 0.85);
+  --programme-head-glass: rgb(45 81 165 / 0.85);
   /* La cabecera destacada al quedarse fija: translúcida, lo de debajo se intuye.
      La base es un cobalto más oscuro para que, sobre una tarjeta blanca, el
      color resultante sea el de siempre y el texto blanco quede en 5,09:1 */
-  --ve-feature-glass: rgb(26 52 122 / 0.72);
-  --ve-on-head: #ffffff;
-  --ve-next-head-text: var(--ve-on-feature);
-  --ve-next-head-accent: var(--ve-on-feature);
-  --ve-next-mark: block;
+  --programme-feature-glass: rgb(26 52 122 / 0.72);
+  --programme-on-head: #ffffff;
+  --programme-next-head-text: var(--programme-on-feature);
+  --programme-next-head-accent: var(--programme-on-feature);
+  --programme-next-mark: block;
   /* Opacidad de la fachada de marca de agua: el texto encima sigue en AA */
-  --ve-mark-opacity: 0.14;
-  --ve-font:
+  --programme-mark-opacity: 0.14;
+  --programme-font:
     "Avenir Next", Avenir, "Century Gothic", "URW Gothic", "Nunito Sans", ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", sans-serif;
 
   display: flex;
   flex-direction: column;
   min-block-size: 100dvh;
-  background: var(--vc-bg);
-  color: var(--vc-text);
-  font-family: var(--ve-font);
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--programme-font);
 }
 
-[data-mode="dark"] .coac-ve {
-  --vc-bg: #111118;
-  --vc-card: #1c1c27;
-  --vc-text: #f2f2f8;
-  --vc-muted: #aeb0c6;
-  --vc-line: #2f3040;
-  --vc-primary: #8fb0ff;
-  --vc-on-primary: #0b1433;
-  --vc-soft: #18244a;
-  --ve-edge: #73758f;
-  --ve-card-edge: #252532;
-  --ve-top: #4ade80;
-  --ve-ok: #facc15;
-  --ve-accent-text: #8fb0ff;
-  --ve-feature: #3560c4;
-  --ve-head-bg: #3e69ca;
+[data-mode="dark"] .coac-programme {
+  --app-bg: #111118;
+  --app-card: #1c1c27;
+  --app-text: #f2f2f8;
+  --app-muted: #aeb0c6;
+  --app-line: #2f3040;
+  --app-primary: #8fb0ff;
+  --app-on-primary: #0b1433;
+  --app-soft: #18244a;
+  --programme-edge: #73758f;
+  --programme-card-edge: #252532;
+  --programme-top: #4ade80;
+  --programme-ok: #facc15;
+  --programme-accent-text: #8fb0ff;
+  --programme-feature: #3560c4;
+  --programme-head-bg: #3e69ca;
   /* Sobre una tarjeta oscura queda en 5,65:1 con el texto blanco */
-  --ve-head-glass: rgb(68 112 214 / 0.85);
-  --ve-feature-glass: rgb(43 84 181 / 0.72);
-  --ve-mark-opacity: 0.1;
-  --ve-second: #c3d0f7;
-  --ve-on-second: #0f1838;
-  --ve-second-soft: #1d2748;
-  --ve-second-ink: #cdd8fa;
-  --ve-ink: #2b2b3a;
-  --ve-done-bg: #181821;
-  --ve-live-edge: #f87171;
-  --ve-focus: #8fb0ff;
+  --programme-head-glass: rgb(68 112 214 / 0.85);
+  --programme-feature-glass: rgb(43 84 181 / 0.72);
+  --programme-mark-opacity: 0.1;
+  --programme-second: #c3d0f7;
+  --programme-on-second: #0f1838;
+  --programme-second-soft: #1d2748;
+  --programme-second-ink: #cdd8fa;
+  --programme-ink: #2b2b3a;
+  --programme-done-bg: #181821;
+  --programme-live-edge: #f87171;
+  --programme-focus: #8fb0ff;
   /* Sobre un fondo casi negro una sombra suave no se ve: es más amplia y
      opaca, y una línea fina clara arriba hace de luz sobre el canto */
-  --ve-shadow:
+  --programme-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 2px rgb(0 0 0 / 0.6), 0 12px 24px -12px rgb(0 0 0 / 0.7);
-  --ve-shadow-raised:
+  --programme-shadow-raised:
     inset 0 1px 0 rgb(255 255 255 / 0.1), 0 0 0 1px #73758f, 0 12px 24px -10px rgb(0 0 0 / 0.8);
-  --ve-shadow-feature:
+  --programme-shadow-feature:
     inset 0 1px 0 rgb(255 255 255 / 0.22), 0 1px 2px rgb(0 0 0 / 0.6), 0 16px 28px -14px rgb(0 0 0 / 0.85);
 }
 
-[data-mode="high-contrast"] .coac-ve {
-  --vc-bg: #ffffff;
-  --vc-card: #ffffff;
-  --vc-text: #000000;
-  --vc-muted: #33334a;
-  --vc-line: #000000;
-  --vc-primary: #00256c;
-  --vc-on-primary: #ffffff;
-  --vc-soft: #dfe8ff;
-  --ve-edge: #000000;
-  --ve-card-edge: #000000;
-  --ve-top: #006b2b;
-  --ve-ok: #7a4b00;
-  --ve-accent-text: #00256c;
-  --ve-feature: #00256c;
-  --ve-head-bg: #163b8a;
+[data-mode="high-contrast"] .coac-programme {
+  --app-bg: #ffffff;
+  --app-card: #ffffff;
+  --app-text: #000000;
+  --app-muted: #33334a;
+  --app-line: #000000;
+  --app-primary: #00256c;
+  --app-on-primary: #ffffff;
+  --app-soft: #dfe8ff;
+  --programme-edge: #000000;
+  --programme-card-edge: #000000;
+  --programme-top: #006b2b;
+  --programme-ok: #7a4b00;
+  --programme-accent-text: #00256c;
+  --programme-feature: #00256c;
+  --programme-head-bg: #163b8a;
   /* Alto contraste: sin transparencia */
-  --ve-head-glass: #163b8a;
-  --ve-feature-glass: #00256c;
-  --ve-second: #000000;
-  --ve-second-soft: #ffffff;
-  --ve-second-ink: #000000;
-  --ve-ink: #000000;
-  --ve-on-ink-muted: #ffffff;
-  --ve-pill-text: #000000;
-  --ve-done-bg: #ffffff;
-  --ve-live-edge: #a80000;
-  --ve-on-air-edge: #ffffff;
-  --ve-focus: #000000;
-  --ve-shadow: none;
-  --ve-shadow-raised: 0 0 0 3px #000000;
-  --ve-shadow-feature: none;
+  --programme-head-glass: #163b8a;
+  --programme-feature-glass: #00256c;
+  --programme-second: #000000;
+  --programme-second-soft: #ffffff;
+  --programme-second-ink: #000000;
+  --programme-ink: #000000;
+  --programme-on-ink-muted: #ffffff;
+  --programme-pill-text: #000000;
+  --programme-done-bg: #ffffff;
+  --programme-live-edge: #a80000;
+  --programme-on-air-edge: #ffffff;
+  --programme-focus: #000000;
+  --programme-shadow: none;
+  --programme-shadow-raised: 0 0 0 3px #000000;
+  --programme-shadow-feature: none;
 }
 
 /* Sin especificidad de clase: cualquier regla propia (y las de los modales) gana */
-:where(.coac-ve) button {
+:where(.coac-programme) button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -157,8 +157,8 @@
   font: inherit;
 }
 
-.coac-ve__rail :where(h1, h2, h3, p, ol),
-.coac-ve__body :where(h1, h2, h3, p, ol) {
+.coac-programme__rail :where(h1, h2, h3, p, ol),
+.coac-programme__body :where(h1, h2, h3, p, ol) {
   margin: 0;
   padding: 0;
   color: inherit;
@@ -166,14 +166,14 @@
   letter-spacing: normal;
 }
 
-.coac-ve :focus-visible {
-  outline: 3px solid var(--ve-focus);
+.coac-programme :focus-visible {
+  outline: 3px solid var(--programme-focus);
   outline-offset: 2px;
 }
 
 /* Sobretítulo: pequeño, en mayúsculas muy espaciadas */
-.coac-ve__eyebrow {
-  color: var(--vc-muted);
+.coac-programme__eyebrow {
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -184,11 +184,11 @@
 /* ---- Cabecera (fija en móvil) ---- */
 
 /* En móvil no pinta caja: la cabecera se pega arriba de toda la página */
-.coac-ve__rail {
+.coac-programme__rail {
   display: contents;
 }
 
-.coac-ve__top {
+.coac-programme__top {
   position: sticky;
   inset-block-start: 0;
   z-index: 10;
@@ -199,18 +199,18 @@
   /* El contenido de la cabecera sigue la columna de 44 rem del resto de la página
      (tarjeta, programa, pie): logo y accesos quedan alineados con sus bordes */
   padding: var(--luz-space-xs) max(var(--luz-space-md), calc((100% - 44rem) / 2 + var(--luz-space-md)));
-  border-block-end: 1px solid var(--vc-line);
-  background: var(--vc-bg);
+  border-block-end: 1px solid var(--app-line);
+  background: var(--app-bg);
 }
 
 /* Al bajar se esconde (y el buscador fijo sube a ocupar su sitio); al subir
    vuelve. Con el foco dentro, siempre a la vista. */
-.coac-ve[data-header-hidden] .coac-ve__top:not(:focus-within) {
+.coac-programme[data-header-hidden] .coac-programme__top:not(:focus-within) {
   transform: translateY(-100%);
 }
 
 /* Arriba, el sobretítulo a todo el ancho; debajo, la marca y los accesos */
-.coac-ve__top-row {
+.coac-programme__top-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--luz-space-xs);
@@ -218,7 +218,7 @@
 }
 
 /* Título y fase forman un bloque del alto del logo, centrado con él y con los accesos */
-.coac-ve__brand-text {
+.coac-programme__brand-text {
   display: grid;
   gap: var(--luz-space-3xs);
   align-content: center;
@@ -226,9 +226,9 @@
 }
 
 /* La fase, debajo del título y en pequeño; en móvil, con su nombre corto */
-.coac-ve__phase {
+.coac-programme__phase {
   overflow: hidden;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--coac-text-2xs);
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -238,12 +238,12 @@
   white-space: nowrap;
 }
 
-.coac-ve__phase-full {
+.coac-programme__phase-full {
   display: none;
 }
 
 /* Logo y título: vuelven a la portada (la fase en curso) */
-.coac-ve__home {
+.coac-programme__home {
   display: flex;
   align-items: center;
   gap: var(--luz-space-xs);
@@ -253,18 +253,18 @@
   text-decoration: none;
 }
 
-.coac-ve__logo {
+.coac-programme__logo {
   flex: none;
   inline-size: 2.25rem;
   block-size: 2.25rem;
-  color: var(--ve-accent-text);
+  color: var(--programme-accent-text);
 }
 
 /* Si aun así no cabe, se recorta con puntos: nunca queda bajo los accesos */
-.coac-ve__title {
+.coac-programme__title {
   min-inline-size: 0;
   overflow: hidden;
-  color: var(--vc-text);
+  color: var(--app-text);
   /* Crece con la pantalla para caber entero junto a los tres accesos */
   font-size: clamp(1rem, 4.2vw, 1.125rem);
   font-weight: 700;
@@ -276,54 +276,54 @@
 
 /* En pantallas muy estrechas se aprietan el logo y los huecos */
 @media (max-width: 23.99rem) {
-  .coac-ve__top-row {
+  .coac-programme__top-row {
     column-gap: var(--luz-space-2xs);
   }
 
-  .coac-ve__home {
+  .coac-programme__home {
     gap: var(--luz-space-2xs);
   }
 
-  .coac-ve__logo {
+  .coac-programme__logo {
     inline-size: 2rem;
     block-size: 2rem;
   }
 
-  .coac-ve__phase {
+  .coac-programme__phase {
     letter-spacing: 0.04em;
   }
 }
 
 /* Accesos rápidos: buscar, sesión de hoy y directo */
-.coac-ve__actions {
+.coac-programme__actions {
   display: flex;
   gap: var(--luz-space-2xs);
 }
 
 /* Los de la columna de escritorio no salen en móvil */
-.coac-ve__actions[data-place="rail"] {
+.coac-programme__actions[data-place="rail"] {
   display: none;
 }
 
-.coac-ve .coac-ve__action {
+.coac-programme .coac-programme__action {
   display: grid;
   place-items: center;
   inline-size: 2.75rem;
   block-size: 2.75rem;
-  border: 1px solid var(--ve-edge);
-  border-radius: var(--ve-radius);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 1px solid var(--programme-edge);
+  border-radius: var(--programme-radius);
+  background: var(--app-card);
+  color: var(--app-text);
   text-decoration: none;
 }
 
-.coac-ve__action .coac-icon {
+.coac-programme__action .coac-icon {
   inline-size: 1.25rem;
   block-size: 1.25rem;
 }
 
 /* En móvil el nombre solo lo lee el lector de pantalla */
-.coac-ve__action-label {
+.coac-programme__action-label {
   position: absolute;
   inline-size: 1px;
   block-size: 1px;
@@ -333,33 +333,33 @@
 }
 
 /* Con una agrupación actuando, el acceso al directo va en rojo de emisión y late su punto */
-.coac-ve .coac-ve__action[data-live] {
-  border-color: var(--ve-on-air-edge);
+.coac-programme .coac-programme__action[data-live] {
+  border-color: var(--programme-on-air-edge);
   background: var(--coac-live-bg);
   color: var(--coac-live-text);
 }
 
-.coac-ve__action[data-live] .coac-icon__live-dot {
+.coac-programme__action[data-live] .coac-icon__live-dot {
   transform-origin: center;
   transform-box: fill-box;
-  animation: coac-ve-dot 1.6s ease-in-out infinite;
+  animation: coac-programme-dot 1.6s ease-in-out infinite;
 }
 
-.coac-ve__session-title:focus {
+.coac-programme__session-title:focus {
   outline: none;
 }
 
 /* ---- «En directo»: siempre rojo de emisión, en pastilla con icono ---- */
 
-.coac-ve__on-air {
+.coac-programme__on-air {
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--luz-space-2xs);
   justify-self: start;
   padding: var(--luz-space-3xs) var(--luz-space-sm);
-  border: 1px solid var(--ve-on-air-edge);
-  border-radius: var(--ve-radius);
+  border: 1px solid var(--programme-on-air-edge);
+  border-radius: var(--programme-radius);
   background: var(--coac-live-bg);
   color: var(--coac-live-text);
   font-size: var(--luz-text-xs);
@@ -371,36 +371,36 @@
 }
 
 /* Lo único que se mueve: late el punto, el texto no cambia */
-.coac-ve__on-air-dot {
+.coac-programme__on-air-dot {
   inline-size: 0.5rem;
   block-size: 0.5rem;
   border-radius: 50%;
   background: var(--coac-live-text);
-  animation: coac-ve-dot 1.6s ease-in-out infinite;
+  animation: coac-programme-dot 1.6s ease-in-out infinite;
 }
 
-@keyframes coac-ve-dot {
+@keyframes coac-programme-dot {
   50% {
     transform: scale(0.6);
   }
 }
 
 /* Tira bajo la cabecera fija (solo móvil): lleva a quien está actuando */
-.coac-ve__strip {
+.coac-programme__strip {
   display: flex;
   align-items: center;
   gap: var(--luz-space-xs);
   min-block-size: 2.75rem;
   padding: var(--luz-space-2xs) var(--luz-space-sm) var(--luz-space-2xs) var(--luz-space-2xs);
-  border: 2px solid var(--ve-live-edge);
-  border-radius: var(--ve-radius);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 2px solid var(--programme-live-edge);
+  border-radius: var(--programme-radius);
+  background: var(--app-card);
+  color: var(--app-text);
   font-size: var(--luz-text-sm);
   text-decoration: none;
 }
 
-.coac-ve__strip-name {
+.coac-programme__strip-name {
   flex: 1;
   min-inline-size: 0;
   overflow: hidden;
@@ -409,21 +409,21 @@
   white-space: nowrap;
 }
 
-.coac-ve__strip-go {
+.coac-programme__strip-go {
   display: flex;
   flex: none;
   align-items: center;
   font-weight: 600;
 }
 
-.coac-ve__strip-go .coac-icon {
+.coac-programme__strip-go .coac-icon {
   inline-size: 1rem;
   block-size: 1rem;
 }
 
 /* ---- Columna: estado, buscador y días ---- */
 
-.coac-ve__side {
+.coac-programme__side {
   display: grid;
   gap: var(--luz-space-lg);
   align-content: start;
@@ -436,44 +436,44 @@
 }
 
 /* Tarjeta de estado a color pleno: cuenta atrás */
-.coac-ve__status {
+.coac-programme__status {
   position: relative;
   display: grid;
   gap: var(--luz-space-xs);
   padding: var(--luz-space-lg);
   overflow: hidden;
-  border: 1px solid var(--ve-card-edge);
-  border-radius: var(--ve-radius);
-  background: var(--ve-feature);
-  box-shadow: var(--ve-shadow-feature);
-  color: var(--ve-on-feature);
+  border: 1px solid var(--programme-card-edge);
+  border-radius: var(--programme-radius);
+  background: var(--programme-feature);
+  box-shadow: var(--programme-shadow-feature);
+  color: var(--programme-on-feature);
 }
 
 /* Con alguien actuando, la tarjeta es la oscura: el rojo solo es la pastilla */
-.coac-ve__status[data-state="live"] {
-  background: var(--ve-ink);
-  box-shadow: var(--ve-shadow);
-  color: var(--ve-on-ink);
+.coac-programme__status[data-state="live"] {
+  background: var(--programme-ink);
+  box-shadow: var(--programme-shadow);
+  color: var(--programme-on-ink);
 }
 
-.coac-ve__status[data-state="over"] {
-  background: var(--vc-card);
-  box-shadow: var(--ve-shadow);
-  color: var(--vc-text);
+.coac-programme__status[data-state="over"] {
+  background: var(--app-card);
+  box-shadow: var(--programme-shadow);
+  color: var(--app-text);
 }
 
-.coac-ve__status > * {
+.coac-programme__status > * {
   position: relative;
 }
 
-.coac-ve__status .coac-ve__eyebrow {
+.coac-programme__status .coac-programme__eyebrow {
   color: inherit;
 }
 
 /* La fachada del Falla, de marca de agua: tan alta como la tarjeta, cortada
    por el borde derecho (se ve la mitad) y algo bajada; la base se desvanece
    (mask-image, solo transparencia) y se funde con el fondo de la tarjeta */
-.coac-ve__status .coac-ve__status-mark {
+.coac-programme__status .coac-programme__status-mark {
   position: absolute;
   inset-block: 0;
   inset-inline-end: 0;
@@ -482,33 +482,33 @@
   aspect-ratio: 1;
   translate: 50% 12%;
   mask-image: linear-gradient(to bottom, black 40%, transparent 84%);
-  opacity: var(--ve-mark-opacity);
+  opacity: var(--programme-mark-opacity);
   pointer-events: none;
 }
 
-.coac-ve__status-title {
+.coac-programme__status-title {
   font-size: var(--luz-text-xl);
   font-weight: 700;
   line-height: 1.75rem;
   text-wrap: balance;
 }
 
-.coac-ve__status-sub {
+.coac-programme__status-sub {
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
-.coac-ve__status[data-state="live"] .coac-ve__status-sub {
-  color: var(--ve-on-ink-muted);
+.coac-programme__status[data-state="live"] .coac-programme__status-sub {
+  color: var(--programme-on-ink-muted);
 }
 
-.coac-ve__digits {
+.coac-programme__digits {
   display: flex;
   gap: var(--luz-space-md);
   margin-block-start: var(--luz-space-2xs);
 }
 
-.coac-ve__digit {
+.coac-programme__digit {
   display: grid;
   font-size: var(--coac-text-2xs);
   font-weight: 600;
@@ -517,7 +517,7 @@
   text-transform: uppercase;
 }
 
-.coac-ve__digit strong {
+.coac-programme__digit strong {
   font-size: var(--coac-text-3xl);
   font-variant-numeric: tabular-nums;
   font-weight: 700;
@@ -525,7 +525,7 @@
   line-height: var(--coac-leading-3xl);
 }
 
-.coac-ve__status-actions {
+.coac-programme__status-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--luz-space-xs);
@@ -533,43 +533,43 @@
 }
 
 /* Botón blanco sobre la tarjeta de color, como «Going» en la captura */
-.coac-ve__pill-button {
+.coac-programme__pill-button {
   display: inline-flex;
   align-items: center;
   gap: var(--luz-space-xs);
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
-  border: 2px solid var(--ve-pill-bg);
-  border-radius: var(--ve-radius);
-  background: var(--ve-pill-bg);
-  color: var(--ve-pill-text);
+  border: 2px solid var(--programme-pill-bg);
+  border-radius: var(--programme-radius);
+  background: var(--programme-pill-bg);
+  color: var(--programme-pill-text);
   font-size: var(--luz-text-sm);
   font-weight: 700;
   text-decoration: none;
 }
 
-.coac-ve__pill-button[data-quiet] {
+.coac-programme__pill-button[data-quiet] {
   background: transparent;
   color: inherit;
 }
 
-.coac-ve__status[data-state="over"] .coac-ve__pill-button {
-  border-color: var(--vc-primary);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+.coac-programme__status[data-state="over"] .coac-programme__pill-button {
+  border-color: var(--app-primary);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
 }
 
-.coac-ve__pill-button .coac-icon {
+.coac-programme__pill-button .coac-icon {
   inline-size: 1.25rem;
   block-size: 1.25rem;
 }
 
-.coac-ve__status :focus-visible {
+.coac-programme__status :focus-visible {
   outline-color: currentColor;
 }
 
 /* Zona de horarios: buscador, leyenda y sesiones. Es el límite del buscador fijo */
-.coac-ve__programme {
+.coac-programme__programme {
   display: grid;
   gap: var(--luz-space-lg);
   align-content: start;
@@ -578,11 +578,11 @@
 
 /* Filtro (buscador, modalidades y días): encima del programa, que es lo que
    filtra. Mientras se recorren los horarios se queda fijo bajo la cabecera
-   (--ve-top-h, que pone useStickyHeights) y las sesiones pasan por debajo; fuera
+   (--programme-top-h, que pone useStickyHeights) y las sesiones pasan por debajo; fuera
    de la zona de horarios se suelta. Compacto, para no tapar media pantalla. */
-.coac-ve__filters {
+.coac-programme__filters {
   position: sticky;
-  inset-block-start: var(--ve-top-h, 0);
+  inset-block-start: var(--programme-top-h, 0);
   z-index: 5;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -593,35 +593,35 @@
 }
 
 /* Fondo y línea inferior a sangre, de lado a lado del programa (lo que sobra lo
-   recorta .coac-ve__body, sin ensanchar la página ni tapar la columna izquierda) */
-.coac-ve__filters::before {
+   recorta .coac-programme__body, sin ensanchar la página ni tapar la columna izquierda) */
+.coac-programme__filters::before {
   position: absolute;
   inset-block: 0;
   inset-inline: -100vmax;
   z-index: -1;
-  border-block-end: 1px solid var(--vc-line);
-  background: var(--vc-bg);
+  border-block-end: 1px solid var(--app-line);
+  background: var(--app-bg);
   content: "";
 }
 
-.coac-ve__search {
+.coac-programme__search {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--luz-space-xs);
   min-inline-size: 0;
 }
 
-.coac-ve__search-label,
-.coac-ve__programme-label {
-  color: var(--vc-text);
+.coac-programme__search-label,
+.coac-programme__programme-label {
+  color: var(--app-text);
 }
 
-.coac-ve[data-header-hidden]:not(:has(.coac-ve__top:focus-within)) .coac-ve__filters {
+.coac-programme[data-header-hidden]:not(:has(.coac-programme__top:focus-within)) .coac-programme__filters {
   inset-block-start: 0;
 }
 
 /* Fijo sobre los horarios, el título sobra: solo lo oye el lector de pantalla */
-.coac-ve__filters[data-stuck] .coac-ve__search-label {
+.coac-programme__filters[data-stuck] .coac-programme__search-label {
   position: absolute;
   inline-size: 1px;
   block-size: 1px;
@@ -631,150 +631,150 @@
 }
 
 /* Botón para borrar lo escrito, dentro del campo */
-.coac-ve .coac-ve__clear {
+.coac-programme .coac-programme__clear {
   display: grid;
   flex: none;
   place-items: center;
   inline-size: 2.75rem;
   block-size: 2.75rem;
   margin-inline-end: calc(var(--luz-space-sm) * -1);
-  border-radius: var(--ve-radius);
-  color: var(--vc-muted);
+  border-radius: var(--programme-radius);
+  color: var(--app-muted);
 }
 
-.coac-ve .coac-ve__clear:hover {
-  color: var(--vc-text);
+.coac-programme .coac-programme__clear:hover {
+  color: var(--app-text);
 }
 
-.coac-ve__field {
+.coac-programme__field {
   display: flex;
   align-items: center;
   gap: var(--luz-space-xs);
   padding-inline: var(--luz-space-md);
-  border: 1px solid var(--ve-edge);
-  border-radius: var(--ve-radius);
-  background: var(--vc-card);
-  box-shadow: var(--ve-shadow);
-  color: var(--vc-muted);
+  border: 1px solid var(--programme-edge);
+  border-radius: var(--programme-radius);
+  background: var(--app-card);
+  box-shadow: var(--programme-shadow);
+  color: var(--app-muted);
 }
 
-.coac-ve__field:focus-within {
-  border-color: var(--ve-focus);
-  outline: 2px solid var(--ve-focus);
+.coac-programme__field:focus-within {
+  border-color: var(--programme-focus);
+  outline: 2px solid var(--programme-focus);
 }
 
-.coac-ve__field input {
+.coac-programme__field input {
   flex: 1;
   min-inline-size: 0;
   block-size: 2.75rem;
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--vc-text);
+  color: var(--app-text);
   font: inherit;
   outline: none;
 }
 
 /* El anillo de foco lo lleva el campo entero (:focus-within), no el input */
-.coac-ve .coac-ve__field input:focus-visible {
+.coac-programme .coac-programme__field input:focus-visible {
   outline: none;
 }
 
-.coac-ve__field input::placeholder {
-  color: var(--vc-muted);
+.coac-programme__field input::placeholder {
+  color: var(--app-muted);
   opacity: 1;
 }
 
 /* Una sola fila que se desliza: el buscador ocupa poco alto al quedarse fijo */
-.coac-ve__chips {
+.coac-programme__chips {
   display: flex;
   gap: var(--luz-space-xs);
   overflow-x: auto;
   overscroll-behavior-x: contain;
 }
 
-.coac-ve .coac-ve__chip {
+.coac-programme .coac-programme__chip {
   flex: none;
   min-block-size: 2.25rem;
   padding-inline: var(--luz-space-sm);
-  border: 1px solid var(--ve-edge);
-  border-radius: var(--ve-radius);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 1px solid var(--programme-edge);
+  border-radius: var(--programme-radius);
+  background: var(--app-card);
+  color: var(--app-text);
   font-size: var(--luz-text-sm);
   font-weight: 600;
   white-space: nowrap;
 }
 
-.coac-ve .coac-ve__chip[aria-pressed="true"] {
-  border-color: var(--ve-second);
-  background: var(--ve-second);
-  color: var(--ve-on-second);
+.coac-programme .coac-programme__chip[aria-pressed="true"] {
+  border-color: var(--programme-second);
+  background: var(--programme-second);
+  color: var(--programme-on-second);
 }
 
 /* ---- Días: número grande, día de la semana debajo ---- */
 
 /* Bajo el buscador, sin título: es parte del filtro */
-.coac-ve__calendar {
+.coac-programme__calendar {
   min-inline-size: 0;
 }
 
 /* Etiqueta de sección en mayúsculas seguida de una línea fina hasta el borde */
-.coac-ve__ruled {
+.coac-programme__ruled {
   display: flex;
   align-items: center;
   gap: var(--luz-space-sm);
 }
 
-.coac-ve__ruled::after {
+.coac-programme__ruled::after {
   flex: 1;
   order: 1;
-  border-block-start: 1px solid var(--vc-line);
+  border-block-start: 1px solid var(--app-line);
   content: "";
 }
 
 /* Una sola fila deslizable con una flecha a cada lado */
-.coac-ve__carousel {
+.coac-programme__carousel {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--luz-space-2xs);
   align-items: center;
 }
 
-.coac-ve__carousel[data-scrollable] {
+.coac-programme__carousel[data-scrollable] {
   grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
-.coac-ve .coac-ve__arrow {
+.coac-programme .coac-programme__arrow {
   display: none;
   place-items: center;
   inline-size: 2.25rem;
   block-size: 2.25rem;
-  border: 1px solid var(--ve-edge);
-  border-radius: var(--ve-radius);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 1px solid var(--programme-edge);
+  border-radius: var(--programme-radius);
+  background: var(--app-card);
+  color: var(--app-text);
 }
 
-.coac-ve__carousel[data-scrollable] .coac-ve__arrow {
+.coac-programme__carousel[data-scrollable] .coac-programme__arrow {
   display: grid;
 }
 
 /* En un extremo: apagada, con borde discontinuo */
-.coac-ve .coac-ve__arrow:disabled {
+.coac-programme .coac-programme__arrow:disabled {
   border-style: dashed;
   background: transparent;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   cursor: default;
 }
 
-.coac-ve__arrow .coac-icon {
+.coac-programme__arrow .coac-icon {
   inline-size: 1.25rem;
   block-size: 1.25rem;
 }
 
 /* El relleno deja sitio a la sombra del día elegido */
-.coac-ve__days {
+.coac-programme__days {
   display: flex;
   flex-wrap: nowrap;
   gap: var(--luz-space-2xs);
@@ -787,16 +787,16 @@
   scrollbar-width: none;
 }
 
-.coac-ve__days::-webkit-scrollbar {
+.coac-programme__days::-webkit-scrollbar {
   display: none;
 }
 
-.coac-ve__days li {
+.coac-programme__days li {
   flex: none;
   scroll-snap-align: start;
 }
 
-.coac-ve .coac-ve__day {
+.coac-programme .coac-programme__day {
   /* Contiene el texto oculto: fuera de la tira ensancharía la página */
   position: relative;
   display: grid;
@@ -806,74 +806,74 @@
   inline-size: 3rem;
   padding: var(--luz-space-2xs) 0;
   border: 1px solid transparent;
-  border-radius: var(--ve-radius);
-  color: var(--vc-text);
+  border-radius: var(--programme-radius);
+  color: var(--app-text);
 }
 
-.coac-ve__day-tag {
-  color: var(--ve-accent-text);
+.coac-programme__day-tag {
+  color: var(--programme-accent-text);
   font-size: var(--coac-text-2xs);
   font-weight: 700;
   line-height: 0.75rem;
 }
 
-.coac-ve__day-num {
+.coac-programme__day-num {
   font-size: var(--luz-text-lg);
   font-variant-numeric: tabular-nums;
   line-height: 1.25rem;
 }
 
-.coac-ve__day-week {
-  color: var(--vc-muted);
+.coac-programme__day-week {
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   line-height: 0.875rem;
 }
 
-.coac-ve__day[data-label="Hoy"] .coac-ve__day-num {
+.coac-programme__day[data-label="Hoy"] .coac-programme__day-num {
   font-weight: 700;
 }
 
 /* Celebradas: apagadas y con borde discontinuo */
-.coac-ve .coac-ve__day[data-status="past"] {
-  border: 1px dashed var(--ve-edge);
-  color: var(--vc-muted);
+.coac-programme .coac-programme__day[data-status="past"] {
+  border: 1px dashed var(--programme-edge);
+  color: var(--app-muted);
 }
 
 /* El día elegido: ficha blanca elevada con sus dos puntitos */
-.coac-ve .coac-ve__day[aria-pressed="true"] {
-  border: 1px solid var(--ve-card-edge);
-  background: var(--vc-card);
-  box-shadow: var(--ve-shadow-raised);
-  color: var(--vc-text);
+.coac-programme .coac-programme__day[aria-pressed="true"] {
+  border: 1px solid var(--programme-card-edge);
+  background: var(--app-card);
+  box-shadow: var(--programme-shadow-raised);
+  color: var(--app-text);
   font-weight: 700;
 }
 
-.coac-ve__day-dots {
+.coac-programme__day-dots {
   display: flex;
   gap: var(--luz-space-2xs);
   visibility: hidden;
 }
 
-.coac-ve__day-dots::before,
-.coac-ve__day-dots::after {
+.coac-programme__day-dots::before,
+.coac-programme__day-dots::after {
   inline-size: 0.25rem;
   block-size: 0.25rem;
   border-radius: 50%;
-  background: var(--vc-primary);
+  background: var(--app-primary);
   content: "";
 }
 
-.coac-ve__day-dots::after {
-  background: var(--ve-second);
+.coac-programme__day-dots::after {
+  background: var(--programme-second);
 }
 
-.coac-ve__day[aria-pressed="true"] .coac-ve__day-dots {
+.coac-programme__day[aria-pressed="true"] .coac-programme__day-dots {
   visibility: visible;
 }
 
 /* ---- Resumen de la sesión, dentro de la tarjeta de estado ---- */
 
-.coac-ve__status-brief {
+.coac-programme__status-brief {
   display: grid;
   gap: var(--luz-space-2xs);
   margin-block-start: var(--luz-space-sm);
@@ -881,17 +881,17 @@
   border-block-start: 1px solid currentColor;
 }
 
-.coac-ve__status-brief-text {
+.coac-programme__status-brief-text {
   font-size: var(--luz-text-sm);
   line-height: 1.375rem;
   text-wrap: pretty;
 }
 
-.coac-ve__status-brief-text strong {
+.coac-programme__status-brief-text strong {
   font-weight: 700;
 }
 
-.coac-ve .coac-ve__status-brief-link {
+.coac-programme .coac-programme__status-brief-link {
   display: inline-flex;
   gap: var(--luz-space-2xs);
   align-items: center;
@@ -903,14 +903,14 @@
   text-underline-offset: 0.2em;
 }
 
-.coac-ve__status-brief-link .coac-icon {
+.coac-programme__status-brief-link .coac-icon {
   inline-size: 1rem;
   block-size: 1rem;
 }
 
 /* ---- Programa ---- */
 
-.coac-ve__body {
+.coac-programme__body {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -919,7 +919,7 @@
   overflow-x: clip;
 }
 
-.coac-ve__main {
+.coac-programme__main {
   display: grid;
   flex: 1;
   gap: var(--luz-space-lg);
@@ -930,117 +930,117 @@
   padding: var(--luz-space-2xl) var(--luz-space-md) var(--luz-space-2xl);
 }
 
-.coac-ve__context {
+.coac-programme__context {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--luz-space-xs) var(--luz-space-md);
   padding: var(--luz-space-sm) var(--luz-space-sm) var(--luz-space-sm) var(--luz-space-md);
-  border: 1px solid var(--ve-card-edge);
-  border-radius: var(--ve-radius);
-  background: var(--ve-second-soft);
-  color: var(--ve-second-ink);
+  border: 1px solid var(--programme-card-edge);
+  border-radius: var(--programme-radius);
+  background: var(--programme-second-soft);
+  color: var(--programme-second-ink);
   font-weight: 700;
 }
 
-.coac-ve__scope {
+.coac-programme__scope {
   display: block;
   font-size: var(--luz-text-sm);
   font-weight: 400;
 }
 
-.coac-ve__context-actions {
+.coac-programme__context-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--luz-space-xs);
 }
 
 /* Cambiar el alcance de la búsqueda: botón con borde, junto al de volver al programa */
-.coac-ve .coac-ve__scope-toggle {
+.coac-programme .coac-programme__scope-toggle {
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
-  border: 1px solid var(--ve-second-ink);
-  border-radius: var(--ve-radius);
-  color: var(--ve-second-ink);
+  border: 1px solid var(--programme-second-ink);
+  border-radius: var(--programme-radius);
+  color: var(--programme-second-ink);
   font-size: var(--luz-text-sm);
   font-weight: 700;
 }
 
-.coac-ve .coac-ve__reset {
+.coac-programme .coac-programme__reset {
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-md);
-  border-radius: var(--ve-radius);
-  background: var(--ve-second);
-  color: var(--ve-on-second);
+  border-radius: var(--programme-radius);
+  background: var(--programme-second);
+  color: var(--programme-on-second);
   font-size: var(--luz-text-sm);
   font-weight: 700;
 }
 
 /* Leyenda del semáforo: la misma marca que llevan las tarjetas */
 /* Discreta: pequeña y a la derecha, encima del programa */
-.coac-ve__legend {
+.coac-programme__legend {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--luz-space-2xs) var(--luz-space-sm);
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   line-height: 1rem;
 }
 
-.coac-ve__legend-item {
+.coac-programme__legend-item {
   display: inline-flex;
   align-items: flex-start;
   gap: var(--luz-space-2xs);
 }
 
-.coac-ve__legend-item::before {
+.coac-programme__legend-item::before {
   inline-size: 0.5rem;
   block-size: 1rem;
-  background: var(--ve-top);
+  background: var(--programme-top);
   content: "";
 }
 
-.coac-ve__legend-item[data-ranking="ok"]::before {
+.coac-programme__legend-item[data-ranking="ok"]::before {
   inline-size: 0.3125rem;
-  background: var(--ve-ok);
+  background: var(--programme-ok);
 }
 
-.coac-ve__sessions {
+.coac-programme__sessions {
   display: grid;
   gap: var(--luz-space-2xl);
   align-items: start;
 }
 
-.coac-ve__sessions:empty {
+.coac-programme__sessions:empty {
   display: none;
 }
 
 /* Una sesión debajo de otra: una línea las separa */
-.coac-ve__session + .coac-ve__session {
+.coac-programme__session + .coac-programme__session {
   padding-block-start: var(--luz-space-2xl);
-  border-block-start: 1px solid var(--vc-line);
+  border-block-start: 1px solid var(--app-line);
 }
 
-.coac-ve__session {
+.coac-programme__session {
   display: grid;
   gap: var(--luz-space-md);
   min-inline-size: 0;
 }
 
-.coac-ve__session-head {
+.coac-programme__session-head {
   display: grid;
   gap: var(--luz-space-2xs);
   justify-items: start;
 }
 
-.coac-ve__label {
+.coac-programme__label {
   padding: var(--luz-space-3xs) var(--luz-space-sm);
-  border: 1px solid var(--vc-primary);
-  border-radius: var(--ve-radius);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+  border: 1px solid var(--app-primary);
+  border-radius: var(--programme-radius);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1048,30 +1048,30 @@
   text-transform: uppercase;
 }
 
-.coac-ve__label[data-label="Mañana"] {
-  border-color: var(--ve-second-ink);
-  background: var(--ve-second-soft);
-  color: var(--ve-second-ink);
+.coac-programme__label[data-label="Mañana"] {
+  border-color: var(--programme-second-ink);
+  background: var(--programme-second-soft);
+  color: var(--programme-second-ink);
 }
 
-.coac-ve__label[data-label="Celebrada"] {
-  border: 1px dashed var(--ve-edge);
+.coac-programme__label[data-label="Celebrada"] {
+  border: 1px dashed var(--programme-edge);
   background: transparent;
-  color: var(--vc-muted);
+  color: var(--app-muted);
 }
 
-.coac-ve__session-title {
+.coac-programme__session-title {
   font-size: var(--coac-text-2xl);
   font-weight: 700;
   line-height: var(--coac-leading-2xl);
 }
 
-.coac-ve__session[data-status="past"] .coac-ve__session-title {
-  color: var(--vc-muted);
+.coac-programme__session[data-status="past"] .coac-programme__session-title {
+  color: var(--app-muted);
 }
 
-.coac-ve__session-meta {
-  color: var(--vc-muted);
+.coac-programme__session-meta {
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
@@ -1079,90 +1079,92 @@
 /* La sesión de hoy: cabecera en bloque cobalto, con una barra de un segmento por
    agrupación (llena = ya actuó, roja y más alta = actuando, hueca = pendiente).
    La forma y el texto dicen lo mismo que el color. */
-.coac-ve__session[data-status="present"] .coac-ve__session-head {
+.coac-programme__session[data-status="present"] .coac-programme__session-head {
   gap: var(--luz-space-xs);
   justify-items: stretch;
   padding: var(--luz-space-md) var(--luz-space-lg) var(--luz-space-lg);
-  border-radius: var(--ve-radius);
-  background: var(--ve-feature);
-  box-shadow: var(--ve-shadow-feature);
-  color: var(--ve-on-feature);
+  border-radius: var(--programme-radius);
+  background: var(--programme-feature);
+  box-shadow: var(--programme-shadow-feature);
+  color: var(--programme-on-feature);
 }
 
-.coac-ve__session[data-status="present"] .coac-ve__label {
+.coac-programme__session[data-status="present"] .coac-programme__label {
   justify-self: start;
-  border-color: var(--ve-on-feature);
-  background: var(--ve-on-feature);
-  color: var(--ve-feature);
+  border-color: var(--programme-on-feature);
+  background: var(--programme-on-feature);
+  color: var(--programme-feature);
 }
 
-.coac-ve__session[data-status="present"] .coac-ve__session-meta {
-  color: var(--ve-on-feature);
+.coac-programme__session[data-status="present"] .coac-programme__session-meta {
+  color: var(--programme-on-feature);
 }
 
 /* La próxima sesión: rótulo propio y cuándo empieza, en el bloque del color del
    banner de estado y con la fachada del Falla a la derecha */
-.coac-ve__session[data-featured="next"] .coac-ve__session-head {
+.coac-programme__session[data-featured="next"] .coac-programme__session-head {
   position: relative;
   gap: var(--luz-space-xs);
   justify-items: stretch;
   overflow: hidden;
   padding: var(--luz-space-md) var(--luz-space-lg) var(--luz-space-lg);
-  border-radius: var(--ve-radius);
-  background: var(--ve-next-head-bg);
-  color: var(--ve-next-head-text);
+  border-radius: var(--programme-radius);
+  background: var(--programme-next-head-bg);
+  color: var(--programme-next-head-text);
 }
 
-.coac-ve__session[data-featured="next"] .coac-ve__session-head > :not(.coac-ve__session-mark) {
+.coac-programme__session[data-featured="next"]
+  .coac-programme__session-head
+  > :not(.coac-programme__session-mark) {
   position: relative;
 }
 
-.coac-ve__session[data-featured="next"]
-  :is(.coac-ve__session-title, .coac-ve__session-meta, .coac-ve__session-when) {
+.coac-programme__session[data-featured="next"]
+  :is(.coac-programme__session-title, .coac-programme__session-meta, .coac-programme__session-when) {
   color: inherit;
 }
 
-.coac-ve__session[data-featured="next"] .coac-ve__session-eyebrow {
-  color: var(--ve-next-head-accent);
+.coac-programme__session[data-featured="next"] .coac-programme__session-eyebrow {
+  color: var(--programme-next-head-accent);
 }
 
-.coac-ve__session[data-featured="next"] .coac-ve__session-title:focus-visible {
+.coac-programme__session[data-featured="next"] .coac-programme__session-title:focus-visible {
   outline-color: currentColor;
 }
 
 /* La cabecera de la sesión destacada (hoy o la próxima) es la banda de arriba
    del panel: llega a sus bordes, sin margen arriba ni a los lados */
-.coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
+.coac-programme .coac-programme__session[data-featured] .coac-programme__session-head {
   margin: calc(var(--luz-space-xl) * -1) calc(var(--luz-space-lg) * -1) 0;
-  border-radius: var(--ve-radius) var(--ve-radius) 0 0;
+  border-radius: var(--programme-radius) var(--programme-radius) 0 0;
   box-shadow: none;
 }
 
 /* La fachada del Falla, de marca de agua, como en el banner de estado */
-.coac-ve .coac-ve__session-mark {
+.coac-programme .coac-programme__session-mark {
   position: absolute;
   inset-block-end: -2.5rem;
   inset-inline-end: -1.5rem;
-  display: var(--ve-next-mark);
+  display: var(--programme-next-mark);
   inline-size: 11rem;
   block-size: 11rem;
-  opacity: var(--ve-mark-opacity);
+  opacity: var(--programme-mark-opacity);
   pointer-events: none;
 }
 
 /* La sesión destacada (hoy o la próxima) es un panel azul claro que envuelve su
    cabecera y todas sus tarjetas: se ve de un vistazo dónde empieza y acaba */
-.coac-ve .coac-ve__session[data-featured] {
+.coac-programme .coac-programme__session[data-featured] {
   /* Más aire entre la cabecera del panel y su primera tarjeta */
   gap: var(--luz-space-lg);
   padding: var(--luz-space-xl) var(--luz-space-lg);
-  border: 1px solid var(--ve-card-edge);
-  border-radius: var(--ve-radius);
-  background: var(--ve-second-soft);
+  border: 1px solid var(--programme-card-edge);
+  border-radius: var(--programme-radius);
+  background: var(--programme-second-soft);
 }
 
-.coac-ve__session-eyebrow {
-  color: var(--ve-accent-text);
+.coac-programme__session-eyebrow {
+  color: var(--programme-accent-text);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1170,24 +1172,24 @@
   text-transform: uppercase;
 }
 
-.coac-ve__session-when {
+.coac-programme__session-when {
   display: flex;
   gap: var(--luz-space-xs);
   align-items: center;
   margin-block-start: var(--luz-space-2xs);
-  color: var(--ve-second-ink);
+  color: var(--programme-second-ink);
   font-size: var(--luz-text-sm);
   font-weight: 700;
   line-height: 1.25rem;
 }
 
-.coac-ve__session-when .coac-icon {
+.coac-programme__session-when .coac-icon {
   flex: none;
   inline-size: 1.125rem;
   block-size: 1.125rem;
 }
 
-.coac-ve__session-progress {
+.coac-programme__session-progress {
   display: grid;
   gap: var(--luz-space-xs);
   margin-block-start: var(--luz-space-2xs);
@@ -1196,46 +1198,46 @@
   line-height: 1.25rem;
 }
 
-.coac-ve__segments {
+.coac-programme__segments {
   display: flex;
   gap: var(--luz-space-3xs);
   align-items: center;
   block-size: 0.875rem;
 }
 
-.coac-ve__segment {
+.coac-programme__segment {
   flex: 1;
   block-size: 0.5rem;
-  border: 1px solid var(--ve-on-feature);
+  border: 1px solid var(--programme-on-feature);
 }
 
-.coac-ve__segment[data-stage="done"] {
-  background: var(--ve-on-feature);
+.coac-programme__segment[data-stage="done"] {
+  background: var(--programme-on-feature);
 }
 
-.coac-ve__segment[data-stage="live"] {
+.coac-programme__segment[data-stage="live"] {
   block-size: 0.875rem;
   border-width: 2px;
   background: var(--coac-live-bg);
 }
 
-.coac-ve__slots {
+.coac-programme__slots {
   display: grid;
   gap: var(--luz-space-sm);
   list-style: none;
 }
 
 /* Franja horaria en vertical a la izquierda, tarjeta a la derecha */
-.coac-ve__slot {
+.coac-programme__slot {
   display: grid;
   grid-template-columns: 1.25rem minmax(0, 1fr);
   gap: var(--luz-space-xs);
   align-items: center;
 }
 
-.coac-ve__time {
+.coac-programme__time {
   justify-self: center;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.1em;
@@ -1245,12 +1247,12 @@
   transform: rotate(180deg);
 }
 
-.coac-ve__slot[data-stage="live"] .coac-ve__time {
-  color: var(--vc-text);
+.coac-programme__slot[data-stage="live"] .coac-programme__time {
+  color: var(--app-text);
   font-weight: 700;
 }
 
-.coac-ve__card {
+.coac-programme__card {
   position: relative;
   display: grid;
   /* Columna que no crece con textos de una línea (el año anterior se corta con «…») */
@@ -1259,36 +1261,36 @@
   align-content: center;
   min-block-size: 8rem;
   padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-md) var(--luz-space-lg);
-  border: 1px solid var(--ve-card-edge);
-  border-radius: var(--ve-radius);
+  border: 1px solid var(--programme-card-edge);
+  border-radius: var(--programme-radius);
   overflow: clip;
-  background: var(--vc-card);
-  box-shadow: var(--ve-shadow);
+  background: var(--app-card);
+  box-shadow: var(--programme-shadow);
 }
 
-.coac-ve__card:focus {
-  outline: 3px solid var(--ve-focus);
+.coac-programme__card:focus {
+  outline: 3px solid var(--programme-focus);
   outline-offset: 2px;
 }
 
 /* Semáforo: solo una franja de color pegada al borde, de arriba abajo
    (ancha = imprescindible, estrecha = recomendada); la tarjeta la recorta */
-.coac-ve__card[data-ranking="top"]::before,
-.coac-ve__card[data-ranking="ok"]::before {
+.coac-programme__card[data-ranking="top"]::before,
+.coac-programme__card[data-ranking="ok"]::before {
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
   inline-size: 0.5rem;
-  background: var(--ve-top);
+  background: var(--programme-top);
   content: "";
 }
 
-.coac-ve__card[data-ranking="ok"]::before {
+.coac-programme__card[data-ranking="ok"]::before {
   inline-size: 0.3125rem;
-  background: var(--ve-ok);
+  background: var(--programme-ok);
 }
 
-.coac-ve__badges {
+.coac-programme__badges {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1297,65 +1299,65 @@
   line-height: 1.25rem;
 }
 
-.coac-ve__badge,
-.coac-ve__stage {
+.coac-programme__badge,
+.coac-programme__stage {
   padding: 0 var(--luz-space-xs);
   border: 1px solid var(--coac-badge-edge);
-  border-radius: var(--ve-radius);
+  border-radius: var(--programme-radius);
   font-weight: 700;
 }
 
-.coac-ve__badge[data-modalidad="CORO"] {
+.coac-programme__badge[data-modalidad="CORO"] {
   background: var(--coac-modalidad-coro-bg);
   color: var(--coac-modalidad-coro-text);
 }
 
-.coac-ve__badge[data-modalidad="COMPARSA"] {
+.coac-programme__badge[data-modalidad="COMPARSA"] {
   background: var(--coac-modalidad-comparsa-bg);
   color: var(--coac-modalidad-comparsa-text);
 }
 
-.coac-ve__badge[data-modalidad="CHIRIGOTA"] {
+.coac-programme__badge[data-modalidad="CHIRIGOTA"] {
   background: var(--coac-modalidad-chirigota-bg);
   color: var(--coac-modalidad-chirigota-text);
 }
 
-.coac-ve__badge[data-modalidad="CUARTETO"] {
+.coac-programme__badge[data-modalidad="CUARTETO"] {
   background: var(--coac-modalidad-cuarteto-bg);
   color: var(--coac-modalidad-cuarteto-text);
 }
 
-.coac-ve__stage[data-stage="next"] {
-  border-color: var(--ve-second-ink);
-  background: var(--ve-second-soft);
-  color: var(--ve-second-ink);
+.coac-programme__stage[data-stage="next"] {
+  border-color: var(--programme-second-ink);
+  background: var(--programme-second-soft);
+  color: var(--programme-second-ink);
 }
 
-.coac-ve__stage[data-stage="done"] {
-  border-color: var(--ve-edge);
-  color: var(--vc-muted);
+.coac-programme__stage[data-stage="done"] {
+  border-color: var(--programme-edge);
+  color: var(--app-muted);
 }
 
-.coac-ve__city {
-  color: var(--vc-muted);
+.coac-programme__city {
+  color: var(--app-muted);
 }
 
 /* El nombre de la agrupación manda; los autores, debajo y más discretos */
-.coac-ve__name {
+.coac-programme__name {
   font-size: var(--luz-text-base);
   font-weight: 700;
   line-height: 1.375rem;
 }
 
-.coac-ve__author {
-  color: var(--vc-muted);
+.coac-programme__author {
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
 /* El año anterior: abajo a la derecha, pequeño y en mayúsculas; con vídeo, icono y
    texto son un solo enlace (su ::after cubre la fila, de 44px de alto) */
-.coac-ve__previous-row {
+.coac-programme__previous-row {
   position: relative;
   display: flex;
   gap: var(--luz-space-2xs);
@@ -1365,7 +1367,7 @@
   max-inline-size: calc(100% - var(--luz-space-md));
   /* Que no llegue al borde de la tarjeta: queda aire tras los puntos suspensivos */
   margin-inline-end: var(--luz-space-md);
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1374,171 +1376,171 @@
   text-transform: uppercase;
 }
 
-.coac-ve__previous-row[data-link] {
+.coac-programme__previous-row[data-link] {
   min-block-size: 2.75rem;
-  color: var(--ve-accent-text);
+  color: var(--programme-accent-text);
 }
 
-.coac-ve__previous-row .coac-icon {
+.coac-programme__previous-row .coac-icon {
   flex: none;
 }
 
 /* Siempre en una línea: si no cabe, se corta con puntos suspensivos */
-.coac-ve__previous {
+.coac-programme__previous {
   min-inline-size: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-a.coac-ve__previous {
+a.coac-programme__previous {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-a.coac-ve__previous::after {
+a.coac-programme__previous::after {
   position: absolute;
   inset: 0;
   content: "";
 }
 
-a.coac-ve__previous:focus-visible {
+a.coac-programme__previous:focus-visible {
   outline: none;
 }
 
-a.coac-ve__previous:focus-visible::after {
-  border-radius: var(--ve-radius);
-  outline: 3px solid var(--ve-focus);
+a.coac-programme__previous:focus-visible::after {
+  border-radius: var(--programme-radius);
+  outline: 3px solid var(--programme-focus);
   outline-offset: 2px;
 }
 
 /* Ya actuó: en gris */
-.coac-ve__card[data-stage="done"] {
-  background: var(--ve-done-bg);
+.coac-programme__card[data-stage="done"] {
+  background: var(--programme-done-bg);
   box-shadow: none;
 }
 
-.coac-ve__card[data-stage="done"] .coac-ve__name,
-.coac-ve__card[data-stage="done"] .coac-ve__previous-row {
-  color: var(--vc-muted);
+.coac-programme__card[data-stage="done"] .coac-programme__name,
+.coac-programme__card[data-stage="done"] .coac-programme__previous-row {
+  color: var(--app-muted);
 }
 
 /* Sesiones celebradas: apagadas, borde discontinuo y sin semáforo */
-.coac-ve__session[data-status="past"] .coac-ve__card {
-  border: 1px dashed var(--ve-edge);
+.coac-programme__session[data-status="past"] .coac-programme__card {
+  border: 1px dashed var(--programme-edge);
   background: transparent;
 }
 
-.coac-ve__session[data-status="past"] .coac-ve__card::before {
+.coac-programme__session[data-status="past"] .coac-programme__card::before {
   content: none;
 }
 
 /* Actuando ahora: marco rojo, pastilla con la franja y progreso del turno */
-.coac-ve__card[data-stage="live"] {
+.coac-programme__card[data-stage="live"] {
   gap: var(--luz-space-xs);
-  border: 2px solid var(--ve-live-edge);
+  border: 2px solid var(--programme-live-edge);
 }
 
-.coac-ve__live-bar {
+.coac-programme__live-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--luz-space-2xs) var(--luz-space-xs);
 }
 
-.coac-ve__live-time {
+.coac-programme__live-time {
   font-size: var(--luz-text-sm);
   font-variant-numeric: tabular-nums;
   font-weight: 700;
 }
 
-.coac-ve__progress {
+.coac-programme__progress {
   display: block;
   block-size: 0.375rem;
   overflow: hidden;
-  border-radius: var(--ve-radius);
-  background: var(--vc-line);
+  border-radius: var(--programme-radius);
+  background: var(--app-line);
 }
 
-.coac-ve__progress::after {
+.coac-programme__progress::after {
   display: block;
-  inline-size: calc(var(--ve-progress, 0) * 100%);
+  inline-size: calc(var(--programme-progress, 0) * 100%);
   block-size: 100%;
-  border-radius: var(--ve-radius);
-  background: var(--ve-live-edge);
+  border-radius: var(--programme-radius);
+  background: var(--programme-live-edge);
   content: "";
 }
 
-.coac-ve__empty {
+.coac-programme__empty {
   padding: var(--luz-space-xl) var(--luz-space-md);
-  border: 1px dashed var(--ve-edge);
-  border-radius: var(--ve-radius);
-  color: var(--vc-muted);
+  border: 1px dashed var(--programme-edge);
+  border-radius: var(--programme-radius);
+  color: var(--app-muted);
   text-align: center;
 }
 
 /* Tarjeta oscura de contraste */
-.coac-ve__print {
+.coac-programme__print {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--luz-space-md);
   padding: var(--luz-space-lg);
-  border-radius: var(--ve-radius);
-  background: var(--ve-ink);
-  box-shadow: var(--ve-shadow);
-  color: var(--ve-on-ink);
+  border-radius: var(--programme-radius);
+  background: var(--programme-ink);
+  box-shadow: var(--programme-shadow);
+  color: var(--programme-on-ink);
 }
 
-.coac-ve__print-text {
+.coac-programme__print-text {
   display: grid;
   flex: 1 1 16rem;
   gap: var(--luz-space-2xs);
 }
 
-.coac-ve__print .coac-ve__eyebrow,
-.coac-ve__print-desc {
-  color: var(--ve-on-ink-muted);
+.coac-programme__print .coac-programme__eyebrow,
+.coac-programme__print-desc {
+  color: var(--programme-on-ink-muted);
 }
 
-.coac-ve__print-title {
+.coac-programme__print-title {
   font-size: var(--luz-text-xl);
   font-weight: 700;
   line-height: 1.75rem;
 }
 
-.coac-ve__print-desc {
+.coac-programme__print-desc {
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
-.coac-ve .coac-ve__print-button {
+.coac-programme .coac-programme__print-button {
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--luz-space-xs);
   min-block-size: 3rem;
   padding-inline: var(--luz-space-md) var(--luz-space-lg);
-  border-radius: var(--ve-radius);
-  background: var(--ve-pill-bg);
-  color: var(--ve-pill-text);
+  border-radius: var(--programme-radius);
+  background: var(--programme-pill-bg);
+  color: var(--programme-pill-text);
   font-weight: 700;
 }
 
-.coac-ve__print :focus-visible {
-  outline-color: var(--ve-on-ink);
+.coac-programme__print :focus-visible {
+  outline-color: var(--programme-on-ink);
 }
 
-.coac-ve__print-button .coac-icon {
+.coac-programme__print-button .coac-icon {
   inline-size: 1.25rem;
   block-size: 1.25rem;
 }
 
 /* ---- Pie ---- */
 
-.coac-ve__footer {
+.coac-programme__footer {
   display: grid;
   gap: var(--luz-space-lg);
   inline-size: 100%;
@@ -1546,41 +1548,41 @@ a.coac-ve__previous:focus-visible::after {
   margin-inline: auto;
   padding: var(--luz-space-xl) var(--luz-space-md)
     calc(var(--luz-space-2xl) + 3.5rem + env(safe-area-inset-bottom, 0px) + var(--coac-privacy-notice-h, 0px));
-  border-block-start: 1px solid var(--vc-line);
+  border-block-start: 1px solid var(--app-line);
 }
 
-.coac-ve__phases {
+.coac-programme__phases {
   display: grid;
   gap: var(--luz-space-sm);
 }
 
-.coac-ve__phase-list {
+.coac-programme__phase-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--luz-space-xs);
   list-style: none;
 }
 
-.coac-ve__phase-item {
+.coac-programme__phase-item {
   display: grid;
   gap: var(--luz-space-3xs);
   block-size: 100%;
   padding: var(--luz-space-sm) var(--luz-space-md);
-  border: 1px dashed var(--ve-edge);
-  border-radius: var(--ve-radius);
-  color: var(--vc-muted);
+  border: 1px dashed var(--programme-edge);
+  border-radius: var(--programme-radius);
+  color: var(--app-muted);
   text-decoration: none;
 }
 
 /* La fase de la portada: la única que se puede abrir */
-.coac-ve__phase-item[data-home] {
-  border: 2px solid var(--vc-primary);
-  background: var(--vc-card);
-  box-shadow: var(--ve-shadow);
-  color: var(--vc-text);
+.coac-programme__phase-item[data-home] {
+  border: 2px solid var(--app-primary);
+  background: var(--app-card);
+  box-shadow: var(--programme-shadow);
+  color: var(--app-text);
 }
 
-.coac-ve__phase-state {
+.coac-programme__phase-state {
   font-size: var(--coac-text-2xs);
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1588,21 +1590,21 @@ a.coac-ve__previous:focus-visible::after {
   text-transform: uppercase;
 }
 
-.coac-ve__phase-item[data-home] .coac-ve__phase-state {
-  color: var(--ve-accent-text);
+.coac-programme__phase-item[data-home] .coac-programme__phase-state {
+  color: var(--programme-accent-text);
 }
 
-.coac-ve__phase-name {
+.coac-programme__phase-name {
   font-weight: 700;
   line-height: 1.375rem;
 }
 
-.coac-ve__phase-dates {
+.coac-programme__phase-dates {
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
-.coac-ve__footer-row {
+.coac-programme__footer-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1611,7 +1613,7 @@ a.coac-ve__previous:focus-visible::after {
 
 /* El botón redondo del modo de color flota abajo a la derecha, siempre a mano;
    sube si está el aviso de privacidad para no taparlo */
-.coac-ve__footer-theme {
+.coac-programme__footer-theme {
   position: fixed;
   z-index: 20;
   inset-inline-end: max(var(--luz-space-md), env(safe-area-inset-right, 0px));
@@ -1620,41 +1622,41 @@ a.coac-ve__previous:focus-visible::after {
   );
   display: flex;
   border-radius: 50%;
-  box-shadow: var(--ve-shadow-raised);
+  box-shadow: var(--programme-shadow-raised);
 }
 
-.coac-ve__footer-pages {
+.coac-programme__footer-pages {
   display: flex;
   flex-wrap: wrap;
   gap: var(--luz-space-2xs) var(--luz-space-lg);
 }
 
-.coac-ve .coac-ve__footer-page {
+.coac-programme .coac-programme__footer-page {
   display: inline-flex;
   align-items: center;
   min-block-size: 2.75rem;
-  color: var(--vc-text);
+  color: var(--app-text);
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-.coac-ve__footer-text {
+.coac-programme__footer-text {
   display: grid;
   gap: var(--luz-space-xs);
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.375rem;
 }
 
-.coac-ve__footer-link {
-  color: var(--vc-text);
+.coac-programme__footer-link {
+  color: var(--app-text);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
 @media (min-width: 40rem) {
-  .coac-ve__phase-list {
+  .coac-programme__phase-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
@@ -1662,13 +1664,13 @@ a.coac-ve__previous:focus-visible::after {
 /* ---- Escritorio: columna fija a la izquierda y el programa al lado ---- */
 
 @media (min-width: 64rem) {
-  .coac-ve {
+  .coac-programme {
     display: grid;
     grid-template-columns: 26rem minmax(0, 1fr);
     align-items: start;
   }
 
-  .coac-ve__rail {
+  .coac-programme__rail {
     position: sticky;
     inset-block-start: 0;
     display: flex;
@@ -1679,95 +1681,95 @@ a.coac-ve__previous:focus-visible::after {
     /* Lo último de la columna no queda bajo el aviso de privacidad */
     padding-block-end: calc(var(--luz-space-xl) + var(--coac-privacy-notice-h, 0px));
     overflow-y: auto;
-    border-inline-end: 1px solid var(--vc-line);
+    border-inline-end: 1px solid var(--app-line);
   }
 
   /* La cabecera de la sesión destacada se queda fija bajo el filtro mientras se
      recorren sus tarjetas, y se va con ella al llegar a las siguientes sesiones */
-  .coac-ve__session[data-featured] .coac-ve__session-head {
+  .coac-programme__session[data-featured] .coac-programme__session-head {
     position: sticky;
-    inset-block-start: var(--ve-filters-h, 0px);
+    inset-block-start: var(--programme-filters-h, 0px);
     z-index: 4;
   }
 
   /* El aviso de privacidad, a todo el ancho de la pantalla (también bajo la columna) */
-  .coac-ve .coac-privacy-notice {
+  .coac-programme .coac-privacy-notice {
     inset-inline-start: 0;
   }
 
-  .coac-ve__top {
+  .coac-programme__top {
     position: static;
     padding: 0;
     border: 0;
   }
 
-  .coac-ve__strip {
+  .coac-programme__strip {
     display: none;
   }
 
-  .coac-ve__top-row {
+  .coac-programme__top-row {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--luz-space-xs);
   }
 
-  .coac-ve__home {
+  .coac-programme__home {
     gap: var(--luz-space-sm);
   }
 
-  .coac-ve__logo {
+  .coac-programme__logo {
     inline-size: 2.75rem;
     block-size: 2.75rem;
   }
 
-  .coac-ve__title {
+  .coac-programme__title {
     overflow: visible;
     font-size: var(--coac-text-2xl);
     line-height: var(--coac-leading-2xl);
   }
 
   /* Con sitio, la fase con su nombre entero */
-  .coac-ve__brand-text {
+  .coac-programme__brand-text {
     gap: var(--luz-space-2xs);
   }
 
-  .coac-ve__phase {
+  .coac-programme__phase {
     line-height: 1rem;
     white-space: normal;
   }
 
-  .coac-ve__phase-short {
+  .coac-programme__phase-short {
     display: none;
   }
 
-  .coac-ve__phase-full {
+  .coac-programme__phase-full {
     display: inline;
   }
 
   /* Con sitio, los accesos son tres fichas con su nombre a la vista, bajo la
      tarjeta de estado (los de la cabecera de móvil se ocultan) */
-  .coac-ve__actions[data-place="top"] {
+  .coac-programme__actions[data-place="top"] {
     display: none;
   }
 
-  .coac-ve__actions[data-place="rail"] {
+  .coac-programme__actions[data-place="rail"] {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--luz-space-xs);
   }
 
-  .coac-ve .coac-ve__action {
+  .coac-programme .coac-programme__action {
     gap: var(--luz-space-2xs);
     inline-size: auto;
     block-size: auto;
     padding: var(--luz-space-sm) var(--luz-space-2xs);
-    box-shadow: var(--ve-shadow);
+    box-shadow: var(--programme-shadow);
     font-size: var(--luz-text-xs);
     font-weight: 600;
     line-height: 1rem;
     text-align: center;
   }
 
-  .coac-ve__action-label {
+  .coac-programme__action-label {
     position: static;
     inline-size: auto;
     block-size: auto;
@@ -1775,30 +1777,30 @@ a.coac-ve__previous:focus-visible::after {
     clip-path: none;
   }
 
-  .coac-ve__side {
+  .coac-programme__side {
     max-inline-size: none;
     padding: 0;
   }
 
-  .coac-ve__body {
+  .coac-programme__body {
     min-block-size: 100dvh;
   }
 
   /* El programa y el pie, centrados en el espacio que deja la columna */
-  .coac-ve__main,
-  .coac-ve__footer {
+  .coac-programme__main,
+  .coac-programme__footer {
     max-inline-size: 76rem;
     margin-inline: auto;
     padding-inline: var(--luz-space-2xl);
   }
 
-  .coac-ve__main {
+  .coac-programme__main {
     padding-block-start: var(--luz-space-xl);
   }
 
   /* Pie: las fases a todo lo ancho; debajo, dos columnas: los textos en tres
      cuartos y, a la derecha, el modo de color y los enlaces, uno bajo otro */
-  .coac-ve__footer {
+  .coac-programme__footer {
     grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
     grid-template-areas:
       "phases phases"
@@ -1807,41 +1809,41 @@ a.coac-ve__previous:focus-visible::after {
     align-items: start;
   }
 
-  .coac-ve__phases {
+  .coac-programme__phases {
     grid-area: phases;
     container-type: inline-size;
   }
 
   /* Las cuatro fases en fila si caben; si no, de dos en dos (nunca 3 + 1) */
-  .coac-ve__phase-list {
+  .coac-programme__phase-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   @container (min-width: 39rem) {
-    .coac-ve__phase-list {
+    .coac-programme__phase-list {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
   /* La primera línea queda a la altura del primer enlace (que mide 2,75 rem) */
-  .coac-ve__footer-text {
+  .coac-programme__footer-text {
     grid-area: text;
     padding-block-start: calc((2.75rem - 1.375rem) / 2);
   }
 
-  .coac-ve__footer-row {
+  .coac-programme__footer-row {
     grid-area: aside;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .coac-ve__footer-pages {
+  .coac-programme__footer-pages {
     flex-direction: column;
     gap: 0;
   }
 
   /* En escritorio la etiqueta solo la oye el lector de pantalla */
-  .coac-ve__search-label {
+  .coac-programme__search-label {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
@@ -1851,19 +1853,19 @@ a.coac-ve__previous:focus-visible::after {
   }
 
   /* El filtro es la barra del programa: siempre a mano, arriba */
-  .coac-ve__filters {
+  .coac-programme__filters {
     inset-block-start: 0;
     margin-block-start: calc(var(--luz-space-xl) * -1);
     margin-inline: calc(var(--luz-space-2xl) * -1);
     padding: var(--luz-space-sm) var(--luz-space-2xl) 0;
   }
 
-  .coac-ve__chips {
+  .coac-programme__chips {
     flex-wrap: wrap;
     overflow-x: visible;
   }
 
-  .coac-ve__sessions {
+  .coac-programme__sessions {
     max-inline-size: 44rem;
   }
 }
@@ -1871,60 +1873,60 @@ a.coac-ve__previous:focus-visible::after {
 /* Con ancho de sobra: hoy y mañana lado a lado; un solo día, en dos columnas */
 @media (min-width: 80rem) {
   /* Campo y modalidades en la misma línea */
-  .coac-ve .coac-ve__search {
+  .coac-programme .coac-programme__search {
     grid-template-columns: minmax(16rem, 1fr) auto;
     align-items: center;
   }
 
-  .coac-ve__chips {
+  .coac-programme__chips {
     flex-wrap: nowrap;
   }
-  .coac-ve__sessions {
+  .coac-programme__sessions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--luz-space-2xl) var(--luz-space-xl);
     max-inline-size: none;
   }
 
-  .coac-ve[data-view="day"] .coac-ve__sessions {
+  .coac-programme[data-view="day"] .coac-programme__sessions {
     grid-template-columns: minmax(0, 1fr);
   }
 
   /* Lado a lado no hace falta línea entre sesiones */
-  .coac-ve__session + .coac-ve__session {
+  .coac-programme__session + .coac-programme__session {
     padding-block-start: 0;
     border-block-start: 0;
   }
 
   /* La sesión destacada (hoy o la próxima) ocupa toda la fila, con sus tarjetas una
      debajo de otra. El resto, dos sesiones por fila. */
-  .coac-ve__session[data-featured] {
+  .coac-programme__session[data-featured] {
     grid-column: 1 / -1;
   }
 
-  .coac-ve[data-view="day"] .coac-ve__slots {
+  .coac-programme[data-view="day"] .coac-programme__slots {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--luz-space-sm) var(--luz-space-lg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .coac-ve__days {
+  .coac-programme__days {
     scroll-behavior: auto;
   }
 
-  .coac-ve__top,
-  .coac-ve__filters {
+  .coac-programme__top,
+  .coac-programme__filters {
     transition: none;
   }
 
-  .coac-ve__on-air-dot,
-  .coac-ve__action[data-live] .coac-icon__live-dot {
+  .coac-programme__on-air-dot,
+  .coac-programme__action[data-live] .coac-icon__live-dot {
     animation: none;
   }
 }
 
 /* =========================================================================
-   Movimiento (ver .claude/plans/PLAN-ANIMACIONES.md)
+   Movimiento
    Todo desplazamiento, escala o recorte va dentro de
    `prefers-reduced-motion: no-preference`. Con «reducir movimiento» solo quedan
    cambios de color, borde y sombra de 160 ms. El texto nunca pasa por opacidad
@@ -1932,8 +1934,8 @@ a.coac-ve__previous:focus-visible::after {
    ========================================================================= */
 
 /* El foco nunca cae bajo lo que va fijo (cabecera, filtro, aviso de privacidad) */
-html:has(.coac-ve) {
-  scroll-padding-block-start: calc(var(--ve-top-h, 0px) + var(--ve-filters-h, 0px) + 16px);
+html:has(.coac-programme) {
+  scroll-padding-block-start: calc(var(--programme-top-h, 0px) + var(--programme-filters-h, 0px) + 16px);
   scroll-padding-block-end: var(--coac-privacy-notice-h, 0px);
 }
 
@@ -1947,18 +1949,18 @@ html:has(.coac-ve) {
    fondo NO se anima: en chips, días y botones el texto cambia de color con el
    estado, y a mitad de una transición de fondo el texto perdería contraste (la
    prueba de contraste a mitad de animación lo detectó). */
-.coac-ve
+.coac-programme
   :is(
-    .coac-ve__action,
-    .coac-ve__pill-button,
-    .coac-ve__print-button,
-    .coac-ve__reset,
-    .coac-ve__scope-toggle,
-    .coac-ve__clear,
-    .coac-ve__arrow,
-    .coac-ve__chip,
-    .coac-ve__day,
-    .coac-ve__status-brief-link
+    .coac-programme__action,
+    .coac-programme__pill-button,
+    .coac-programme__print-button,
+    .coac-programme__reset,
+    .coac-programme__scope-toggle,
+    .coac-programme__clear,
+    .coac-programme__arrow,
+    .coac-programme__chip,
+    .coac-programme__day,
+    .coac-programme__status-brief-link
   ) {
   transition:
     border-color var(--coac-dur-quick) ease,
@@ -1966,18 +1968,18 @@ html:has(.coac-ve) {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve
+  .coac-programme
     :is(
-      .coac-ve__action,
-      .coac-ve__pill-button,
-      .coac-ve__print-button,
-      .coac-ve__reset,
-      .coac-ve__scope-toggle,
-      .coac-ve__clear,
-      .coac-ve__arrow,
-      .coac-ve__chip,
-      .coac-ve__day,
-      .coac-ve__status-brief-link
+      .coac-programme__action,
+      .coac-programme__pill-button,
+      .coac-programme__print-button,
+      .coac-programme__reset,
+      .coac-programme__scope-toggle,
+      .coac-programme__clear,
+      .coac-programme__arrow,
+      .coac-programme__chip,
+      .coac-programme__day,
+      .coac-programme__status-brief-link
     ) {
     transition:
       border-color var(--coac-dur-quick) ease,
@@ -1987,23 +1989,23 @@ html:has(.coac-ve) {
       rotate var(--coac-dur-base) var(--coac-ease-out);
   }
 
-  .coac-ve
+  .coac-programme
     :is(
-      .coac-ve__action,
-      .coac-ve__pill-button,
-      .coac-ve__print-button,
-      .coac-ve__reset,
-      .coac-ve__scope-toggle,
-      .coac-ve__clear,
-      .coac-ve__arrow,
-      .coac-ve__status-brief-link
+      .coac-programme__action,
+      .coac-programme__pill-button,
+      .coac-programme__print-button,
+      .coac-programme__reset,
+      .coac-programme__scope-toggle,
+      .coac-programme__clear,
+      .coac-programme__arrow,
+      .coac-programme__status-brief-link
     ):active:not(:disabled) {
     scale: 0.96;
     transition-duration: var(--coac-dur-instant);
     transition-timing-function: var(--coac-ease-press);
   }
 
-  .coac-ve :is(.coac-ve__chip, .coac-ve__day):active {
+  .coac-programme :is(.coac-programme__chip, .coac-programme__day):active {
     scale: 0.94;
     transition-duration: var(--coac-dur-instant);
     transition-timing-function: var(--coac-ease-press);
@@ -2012,21 +2014,21 @@ html:has(.coac-ve) {
 
 /* Hover solo con ratón: los accesos suben 1 px, los chevrons avanzan, la ✕ gira */
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
-  .coac-ve .coac-ve__action:hover {
+  .coac-programme .coac-programme__action:hover {
     translate: 0 -1px;
-    box-shadow: var(--ve-shadow-raised);
+    box-shadow: var(--programme-shadow-raised);
   }
 
-  .coac-ve__status-brief-link:hover .coac-icon {
+  .coac-programme__status-brief-link:hover .coac-icon {
     translate: var(--coac-shift-xs) 0;
   }
 
-  .coac-ve__clear:hover .coac-icon {
+  .coac-programme__clear:hover .coac-icon {
     rotate: 90deg;
   }
 
-  .coac-ve__status-brief-link .coac-icon,
-  .coac-ve__clear .coac-icon {
+  .coac-programme__status-brief-link .coac-icon,
+  .coac-programme__clear .coac-icon {
     transition:
       translate var(--coac-dur-base) var(--coac-ease-out),
       rotate var(--coac-dur-base) var(--coac-ease-out);
@@ -2036,12 +2038,12 @@ html:has(.coac-ve) {
 /* El foco que aterriza: al saltar a una agrupación (Ver el directo, ancla) el
    anillo, ya completo desde el primer fotograma, se cierra sobre la tarjeta */
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__card[data-landed]:focus {
-    animation: coac-ve-land var(--coac-dur-gentle) var(--coac-ease-out);
+  .coac-programme__card[data-landed]:focus {
+    animation: coac-programme-land var(--coac-dur-gentle) var(--coac-ease-out);
   }
 }
 
-@keyframes coac-ve-land {
+@keyframes coac-programme-land {
   from {
     outline-offset: 8px;
   }
@@ -2050,32 +2052,32 @@ html:has(.coac-ve) {
 /* En el título de sesión, la raya de debajo es el indicador de foco del teclado
    (:focus-visible, así con ratón o toque no se queda a la vista): se dibuja de
    izquierda a derecha y se queda mientras el título tiene el foco */
-.coac-ve__session-title {
+.coac-programme__session-title {
   position: relative;
 }
 
-.coac-ve__session-title:focus-visible::after {
+.coac-programme__session-title:focus-visible::after {
   position: absolute;
   inset-block-end: -0.25rem;
   inset-inline: 0;
   block-size: 3px;
   border-radius: 2px;
-  background: var(--ve-focus);
+  background: var(--programme-focus);
   content: "";
   transform-origin: left;
 }
 
-.coac-ve__session[data-featured] .coac-ve__session-title:focus-visible::after {
+.coac-programme__session[data-featured] .coac-programme__session-title:focus-visible::after {
   background: currentColor;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__session-title:focus-visible::after {
-    animation: coac-ve-underline var(--coac-dur-gentle) var(--coac-ease-out);
+  .coac-programme__session-title:focus-visible::after {
+    animation: coac-programme-underline var(--coac-dur-gentle) var(--coac-ease-out);
   }
 }
 
-@keyframes coac-ve-underline {
+@keyframes coac-programme-underline {
   from {
     scale: 0 1;
   }
@@ -2083,12 +2085,12 @@ html:has(.coac-ve) {
 
 /* Paso a directo: el fondo de la tarjeta de estado pasa a tinta (de cobalto a tinta,
    ambos oscuros: el texto blanco no pierde contraste). Solo al entrar en directo. */
-.coac-ve__status[data-state="live"] {
+.coac-programme__status[data-state="live"] {
   transition: background-color var(--coac-dur-quick) ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__status[data-state="live"] {
+  .coac-programme__status[data-state="live"] {
     transition: background-color var(--coac-dur-stage) var(--coac-ease-in-out);
   }
 }
@@ -2108,15 +2110,15 @@ html:has(.coac-ve) {
   animation: none;
 }
 
-.coac-ve:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"])
-  .coac-ve__sessions
-  > .coac-ve__session:first-child {
+.coac-programme:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"])
+  .coac-programme__sessions
+  > .coac-programme__session:first-child {
   view-transition-name: ve-list;
 }
 
 /* El filtro, por encima de la lista que se desliza, y sin moverse */
-.coac-ve:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"], [data-vt="ve-filter"])
-  .coac-ve__filters {
+.coac-programme:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"], [data-vt="ve-filter"])
+  .coac-programme__filters {
   view-transition-name: ve-filters;
 }
 
@@ -2137,38 +2139,38 @@ html:has(.coac-ve) {
      solo unos ms): dos textos superpuestos a medio camino se leerían mal.
      Día posterior: la lista vieja se recoge hacia la izquierda y la nueva se abre desde ella */
   html:active-view-transition-type(ve-forward)::view-transition-old(ve-list) {
-    animation: coac-ve-vt-out-left calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
+    animation: coac-programme-vt-out-left calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
   }
 
   html:active-view-transition-type(ve-forward)::view-transition-new(ve-list) {
-    animation: coac-ve-vt-in-right calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
+    animation: coac-programme-vt-in-right calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
       calc(var(--coac-dur-gentle) * 0.3) both;
   }
 
   /* Día anterior: el espejo */
   html:active-view-transition-type(ve-back)::view-transition-old(ve-list) {
-    animation: coac-ve-vt-out-right calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
+    animation: coac-programme-vt-out-right calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
   }
 
   html:active-view-transition-type(ve-back)::view-transition-new(ve-list) {
-    animation: coac-ve-vt-in-left calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
+    animation: coac-programme-vt-in-left calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
       calc(var(--coac-dur-gentle) * 0.3) both;
   }
 
   /* «Ver todo» y «Sesión de hoy»: el telón cae en vertical */
   html:active-view-transition-type(ve-reset)::view-transition-old(ve-list) {
-    animation: coac-ve-vt-out-down calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
+    animation: coac-programme-vt-out-down calc(var(--coac-dur-gentle) * 0.4) var(--coac-ease-in) both;
   }
 
   html:active-view-transition-type(ve-reset)::view-transition-new(ve-list) {
-    animation: coac-ve-vt-in-down calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
+    animation: coac-programme-vt-in-down calc(var(--coac-dur-gentle) * 0.7) var(--coac-ease-out)
       calc(var(--coac-dur-gentle) * 0.3) both;
   }
 }
 
 /* Los recortes llevan los dos extremos explícitos: `clip-path` no se interpola
    entre `none` y una forma, y saltaría de golpe a mitad de la animación */
-@keyframes coac-ve-vt-out-left {
+@keyframes coac-programme-vt-out-left {
   from {
     clip-path: inset(0 0 0 0);
     translate: 0 0;
@@ -2180,7 +2182,7 @@ html:has(.coac-ve) {
   }
 }
 
-@keyframes coac-ve-vt-in-right {
+@keyframes coac-programme-vt-in-right {
   from {
     clip-path: inset(0 100% 0 0);
     translate: var(--coac-shift-md) 0;
@@ -2192,7 +2194,7 @@ html:has(.coac-ve) {
   }
 }
 
-@keyframes coac-ve-vt-out-right {
+@keyframes coac-programme-vt-out-right {
   from {
     clip-path: inset(0 0 0 0);
     translate: 0 0;
@@ -2204,7 +2206,7 @@ html:has(.coac-ve) {
   }
 }
 
-@keyframes coac-ve-vt-in-left {
+@keyframes coac-programme-vt-in-left {
   from {
     clip-path: inset(0 0 0 100%);
     translate: calc(var(--coac-shift-md) * -1) 0;
@@ -2216,7 +2218,7 @@ html:has(.coac-ve) {
   }
 }
 
-@keyframes coac-ve-vt-out-down {
+@keyframes coac-programme-vt-out-down {
   from {
     clip-path: inset(0 0 0 0);
   }
@@ -2226,7 +2228,7 @@ html:has(.coac-ve) {
   }
 }
 
-@keyframes coac-ve-vt-in-down {
+@keyframes coac-programme-vt-in-down {
   from {
     clip-path: inset(0 0 100% 0);
   }
@@ -2241,32 +2243,32 @@ html:has(.coac-ve) {
    ease-out al entrar). La cabecera se desliza con `transform`; el filtro, con su
    posición fija. Al quedarse pegado, el filtro gana una sombra de despegue. */
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__top {
+  .coac-programme__top {
     transition: transform var(--coac-dur-base) var(--coac-ease-out);
   }
 
-  .coac-ve[data-header-hidden] .coac-ve__top:not(:focus-within) {
+  .coac-programme[data-header-hidden] .coac-programme__top:not(:focus-within) {
     transition: transform calc(var(--coac-dur-base) * 0.75) var(--coac-ease-in);
   }
 
-  .coac-ve__filters {
+  .coac-programme__filters {
     transition: inset-block-start var(--coac-dur-base) var(--coac-ease-out);
   }
 
-  .coac-ve[data-header-hidden] .coac-ve__filters {
+  .coac-programme[data-header-hidden] .coac-programme__filters {
     transition: inset-block-start calc(var(--coac-dur-base) * 0.75) var(--coac-ease-in);
   }
 }
 
-.coac-ve__filters::before {
+.coac-programme__filters::before {
   transition: box-shadow var(--coac-dur-quick) ease;
 }
 
-.coac-ve__filters[data-stuck]::before {
-  box-shadow: var(--ve-shadow);
+.coac-programme__filters[data-stuck]::before {
+  box-shadow: var(--programme-shadow);
 }
 
-[data-mode="high-contrast"] .coac-ve__filters[data-stuck]::before {
+[data-mode="high-contrast"] .coac-programme__filters[data-stuck]::before {
   border-block-end-width: 2px;
 }
 
@@ -2284,11 +2286,11 @@ html:active-view-transition-type(ve-theme) *::after {
 
 @media (prefers-reduced-motion: no-preference) {
   html:active-view-transition-type(ve-theme)::view-transition-new(root) {
-    animation: coac-ve-vt-circle var(--coac-dur-stage) var(--coac-ease-in-out) both;
+    animation: coac-programme-vt-circle var(--coac-dur-stage) var(--coac-ease-in-out) both;
   }
 }
 
-@keyframes coac-ve-vt-circle {
+@keyframes coac-programme-vt-circle {
   from {
     clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 100%));
   }
@@ -2301,7 +2303,8 @@ html:active-view-transition-type(ve-theme) *::after {
 /* ---- Rótulo de contexto («Sesión elegida», «N encontradas») ----
    Dentro de la transición de lista, baja desde detrás del filtro y se va hacia
    arriba; el grupo recorta, así que no se ve por encima del filtro. */
-.coac-ve:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"]) .coac-ve__context {
+.coac-programme:is([data-vt="ve-forward"], [data-vt="ve-back"], [data-vt="ve-reset"])
+  .coac-programme__context {
   view-transition-name: ve-context;
 }
 
@@ -2317,15 +2320,15 @@ html:active-view-transition-type(ve-theme) *::after {
 
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-new(ve-context):only-child {
-    animation: coac-ve-vt-context-in var(--coac-dur-base) var(--coac-ease-out) both;
+    animation: coac-programme-vt-context-in var(--coac-dur-base) var(--coac-ease-out) both;
   }
 
   ::view-transition-old(ve-context):only-child {
-    animation: coac-ve-vt-context-out var(--coac-dur-quick) var(--coac-ease-in) both;
+    animation: coac-programme-vt-context-out var(--coac-dur-quick) var(--coac-ease-in) both;
   }
 }
 
-@keyframes coac-ve-vt-context-in {
+@keyframes coac-programme-vt-context-in {
   from {
     translate: 0 -100%;
   }
@@ -2335,7 +2338,7 @@ html:active-view-transition-type(ve-theme) *::after {
   }
 }
 
-@keyframes coac-ve-vt-context-out {
+@keyframes coac-programme-vt-context-out {
   from {
     translate: 0 0;
   }
@@ -2348,17 +2351,17 @@ html:active-view-transition-type(ve-theme) *::after {
 /* ---- Ficha fantasma de los días y las modalidades ----
    Una ficha sin texto (aria-hidden) viaja del botón pulsado antes al de ahora; el
    estado, como siempre, está en el botón. Detalle en useGhostMark.ts. */
-.coac-ve__carousel,
-.coac-ve__chips {
+.coac-programme__carousel,
+.coac-programme__chips {
   position: relative;
 }
 
-.coac-ve .coac-ve__day {
+.coac-programme .coac-programme__day {
   position: relative;
   z-index: 1;
 }
 
-.coac-ve__ghost {
+.coac-programme__ghost {
   position: absolute;
   z-index: 0;
   box-sizing: border-box;
@@ -2366,35 +2369,35 @@ html:active-view-transition-type(ve-theme) *::after {
 }
 
 /* Día: la ficha del elegido, por debajo del texto; el botón nuevo no pinta la suya mientras viaja */
-.coac-ve__ghost[data-kind="day"] {
-  border: 1px solid var(--ve-card-edge);
-  border-radius: var(--ve-radius);
-  background: var(--vc-card);
-  box-shadow: var(--ve-shadow-raised);
+.coac-programme__ghost[data-kind="day"] {
+  border: 1px solid var(--programme-card-edge);
+  border-radius: var(--programme-radius);
+  background: var(--app-card);
+  box-shadow: var(--programme-shadow-raised);
 }
 
-[data-ghosting] .coac-ve__day[aria-pressed="true"] {
+[data-ghosting] .coac-programme__day[aria-pressed="true"] {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
 }
 
 /* Modalidad: un anillo sin relleno por encima del chip */
-.coac-ve__ghost[data-kind="chip"] {
+.coac-programme__ghost[data-kind="chip"] {
   z-index: 2;
-  border: 2px solid var(--ve-second);
-  border-radius: var(--ve-radius);
+  border: 2px solid var(--programme-second);
+  border-radius: var(--programme-radius);
 }
 
-[data-mode="high-contrast"] .coac-ve__ghost[data-kind="chip"] {
-  border: 3px solid var(--vc-text);
+[data-mode="high-contrast"] .coac-programme__ghost[data-kind="chip"] {
+  border: 3px solid var(--app-text);
 }
 
 /* ---- Filtro de modalidad: las filas que se ven se recolocan ----
    Cada fila marcada (data-vt-card, ver markVisibleSlots) se nombra sola
    (match-element). Las que siguen se mueven a su sitio nuevo; las que se van se
    encogen y las que llegan suben 8 px. Sin fundidos: el texto no pasa por opacidad. */
-.coac-ve[data-vt="ve-filter"] [data-vt-card] {
+.coac-programme[data-vt="ve-filter"] [data-vt-card] {
   view-transition-name: match-element;
   view-transition-class: ve-card;
 }
@@ -2411,17 +2414,17 @@ html:active-view-transition-type(ve-theme) *::after {
 
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(*.ve-card):only-child {
-    animation: coac-ve-card-out var(--coac-dur-quick) var(--coac-ease-in) both;
+    animation: coac-programme-card-out var(--coac-dur-quick) var(--coac-ease-in) both;
   }
 
   /* Las que llegan esperan a que las que se van se hayan recogido (no se superponen textos) */
   ::view-transition-new(*.ve-card):only-child {
-    animation: coac-ve-card-in var(--coac-dur-base) var(--coac-ease-out) calc(var(--coac-dur-quick) * 0.5)
-      both;
+    animation: coac-programme-card-in var(--coac-dur-base) var(--coac-ease-out)
+      calc(var(--coac-dur-quick) * 0.5) both;
   }
 }
 
-@keyframes coac-ve-card-out {
+@keyframes coac-programme-card-out {
   from {
     clip-path: inset(0 0 0 0);
     scale: 1;
@@ -2433,7 +2436,7 @@ html:active-view-transition-type(ve-theme) *::after {
   }
 }
 
-@keyframes coac-ve-card-in {
+@keyframes coac-programme-card-in {
   from {
     clip-path: inset(0 0 100% 0);
     translate: 0 var(--coac-shift-sm);
@@ -2448,51 +2451,51 @@ html:active-view-transition-type(ve-theme) *::after {
 /* ---- El turno del directo avanza por pasos ----
    Cada 30 s (el pulso de la hora) la barra se recorta un poco más, suavizada en
    600 ms; el resto del tiempo está quieta. No hay una animación continua. */
-.coac-ve__progress::after {
+.coac-programme__progress::after {
   inline-size: 100%;
   border-radius: 0;
-  clip-path: inset(0 calc((1 - var(--ve-progress, 0)) * 100%) 0 0 round var(--ve-radius));
+  clip-path: inset(0 calc((1 - var(--programme-progress, 0)) * 100%) 0 0 round var(--programme-radius));
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__progress::after {
+  .coac-programme__progress::after {
     transition: clip-path 600ms linear;
   }
 }
 
 /* ---- Tanda 3: entrada, fachada en la última hora, accesos y cabeceras pegajosas ---- */
 
-.coac-ve__countdown {
+.coac-programme__countdown {
   display: contents;
 }
 
 /* La fachada de la tarjeta de estado sube hasta un 12 % en la última hora antes de
-   la sesión (--ve-curtain, que cambia por minutos y sin transición). Con
+   la sesión (--programme-curtain, que cambia por minutos y sin transición). Con
    «reducir movimiento» se queda fija. */
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__status .coac-ve__status-mark {
-    translate: 50% calc(12% - var(--ve-curtain, 0) * 12%);
+  .coac-programme__status .coac-programme__status-mark {
+    translate: 50% calc(12% - var(--programme-curtain, 0) * 12%);
   }
 
   /* Primera carga de la pestaña: la fachada sube a su sitio y los segmentos de
      hoy se rellenan uno tras otro (como mucho 180 ms de escalonado) */
-  .coac-ve[data-intro] .coac-ve__status .coac-ve__status-mark {
-    animation: coac-ve-mark-in var(--coac-dur-stage) var(--coac-ease-out) both;
+  .coac-programme[data-intro] .coac-programme__status .coac-programme__status-mark {
+    animation: coac-programme-mark-in var(--coac-dur-stage) var(--coac-ease-out) both;
   }
 
-  .coac-ve[data-intro] .coac-ve__segment[data-stage="done"] {
-    animation: coac-ve-segment-in var(--coac-dur-gentle) var(--coac-ease-out)
+  .coac-programme[data-intro] .coac-programme__segment[data-stage="done"] {
+    animation: coac-programme-segment-in var(--coac-dur-gentle) var(--coac-ease-out)
       calc(var(--i, 0) * var(--coac-stagger)) both;
   }
 }
 
-@keyframes coac-ve-mark-in {
+@keyframes coac-programme-mark-in {
   from {
     translate: 50% 40%;
   }
 }
 
-@keyframes coac-ve-segment-in {
+@keyframes coac-programme-segment-in {
   from {
     clip-path: inset(0 100% 0 0);
   }
@@ -2506,11 +2509,11 @@ html:active-view-transition-type(ve-theme) *::after {
    de despegue (si el navegador sabe de estado de scroll; si no, queda como está) */
 @supports (container-type: scroll-state) {
   @media (min-width: 64rem) {
-    .coac-ve__session .coac-ve__session-head {
+    .coac-programme__session .coac-programme__session-head {
       container-type: scroll-state;
     }
 
-    .coac-ve__session .coac-ve__session-head::after {
+    .coac-programme__session .coac-programme__session-head::after {
       position: absolute;
       inset: 0;
       z-index: -1;
@@ -2522,12 +2525,12 @@ html:active-view-transition-type(ve-theme) *::after {
     }
 
     @container scroll-state(stuck: top) {
-      .coac-ve__session .coac-ve__session-head::after {
-        box-shadow: var(--ve-shadow);
+      .coac-programme__session .coac-programme__session-head::after {
+        box-shadow: var(--programme-shadow);
       }
 
-      [data-mode="high-contrast"] .coac-ve__session .coac-ve__session-head::after {
-        box-shadow: inset 0 -2px 0 var(--vc-text);
+      [data-mode="high-contrast"] .coac-programme__session .coac-programme__session-head::after {
+        box-shadow: inset 0 -2px 0 var(--app-text);
       }
     }
   }
@@ -2539,24 +2542,24 @@ html:active-view-transition-type(ve-theme) *::after {
    sesión es cada columna. Lleva el fondo de la página para que las tarjetas pasen
    por debajo; el margen negativo compensa el relleno y el sitio no cambia. */
 @media (min-width: 64rem) {
-  .coac-ve__session:not([data-featured]) .coac-ve__session-head {
+  .coac-programme__session:not([data-featured]) .coac-programme__session-head {
     position: sticky;
-    inset-block-start: var(--ve-filters-h, 0px);
+    inset-block-start: var(--programme-filters-h, 0px);
     z-index: 3;
     margin-block: calc(var(--luz-space-sm) * -1);
     padding-block: var(--luz-space-sm);
-    background: var(--vc-bg);
+    background: var(--app-bg);
   }
 }
 
 /* Dos sesiones por fila: las dos ocupan el alto de la fila, así sus cabeceras se
    quedan fijas hasta la fila siguiente aunque una tenga menos tarjetas */
 @media (min-width: 80rem) {
-  .coac-ve__sessions {
+  .coac-programme__sessions {
     align-items: stretch;
   }
 
-  .coac-ve__session {
+  .coac-programme__session {
     align-content: start;
   }
 }
@@ -2565,19 +2568,22 @@ html:active-view-transition-type(ve-theme) *::after {
    Una banda del azul de la destacada, algo más clara: se distinguen de un vistazo
    y, en escritorio, la banda fija dice de qué sesión es cada columna. Las
    celebradas no la llevan: van apagadas, en gris. */
-.coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
+.coac-programme
+  .coac-programme__session[data-status="future"]:not([data-featured])
+  .coac-programme__session-head {
   padding: var(--luz-space-sm) var(--luz-space-md);
-  border-radius: var(--ve-radius);
-  background: var(--ve-head-bg);
-  color: var(--ve-on-head);
+  border-radius: var(--programme-radius);
+  background: var(--programme-head-bg);
+  color: var(--programme-on-head);
 }
 
-.coac-ve__session[data-status="future"]:not([data-featured])
-  :is(.coac-ve__session-title, .coac-ve__session-meta) {
+.coac-programme__session[data-status="future"]:not([data-featured])
+  :is(.coac-programme__session-title, .coac-programme__session-meta) {
   color: inherit;
 }
 
-.coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-title:focus-visible::after {
+.coac-programme__session[data-status="future"]:not([data-featured])
+  .coac-programme__session-title:focus-visible::after {
   background: currentColor;
 }
 
@@ -2587,8 +2593,10 @@ html:active-view-transition-type(ve-theme) *::after {
    no sabe desenfocar o si se pide «reducir transparencia». */
 @media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-    .coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
-      background: var(--ve-head-glass);
+    .coac-programme
+      .coac-programme__session[data-status="future"]:not([data-featured])
+      .coac-programme__session-head {
+      background: var(--programme-head-glass);
       -webkit-backdrop-filter: blur(6px);
       backdrop-filter: blur(6px);
     }
@@ -2600,19 +2608,22 @@ html:active-view-transition-type(ve-theme) *::after {
    ::after (una consulta de contenedor no puede cambiar el propio contenedor). */
 @media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
   @supports (container-type: scroll-state) {
-    .coac-ve .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head {
+    .coac-programme
+      .coac-programme__session[data-status="future"]:not([data-featured])
+      .coac-programme__session-head {
       background: transparent;
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
     }
 
-    .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head::after {
-      background: var(--ve-head-bg);
+    .coac-programme__session[data-status="future"]:not([data-featured]) .coac-programme__session-head::after {
+      background: var(--programme-head-bg);
     }
 
     @container scroll-state(stuck: top) {
-      .coac-ve__session[data-status="future"]:not([data-featured]) .coac-ve__session-head::after {
-        background: var(--ve-head-glass);
+      .coac-programme__session[data-status="future"]:not([data-featured])
+        .coac-programme__session-head::after {
+        background: var(--programme-head-glass);
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
       }
@@ -2626,8 +2637,8 @@ html:active-view-transition-type(ve-theme) *::after {
 @media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
   @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) and
     (not (container-type: scroll-state)) {
-    .coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
-      background: var(--ve-feature-glass);
+    .coac-programme .coac-programme__session[data-featured] .coac-programme__session-head {
+      background: var(--programme-feature-glass);
       -webkit-backdrop-filter: blur(6px);
       backdrop-filter: blur(6px);
     }
@@ -2636,17 +2647,17 @@ html:active-view-transition-type(ve-theme) *::after {
 
 @media (min-width: 64rem) and (prefers-reduced-transparency: no-preference) {
   @supports (container-type: scroll-state) {
-    .coac-ve .coac-ve__session[data-featured] .coac-ve__session-head {
+    .coac-programme .coac-programme__session[data-featured] .coac-programme__session-head {
       background: transparent;
     }
 
-    .coac-ve__session[data-featured] .coac-ve__session-head::after {
-      background: var(--ve-feature);
+    .coac-programme__session[data-featured] .coac-programme__session-head::after {
+      background: var(--programme-feature);
     }
 
     @container scroll-state(stuck: top) {
-      .coac-ve__session[data-featured] .coac-ve__session-head::after {
-        background: var(--ve-feature-glass);
+      .coac-programme__session[data-featured] .coac-programme__session-head::after {
+        background: var(--programme-feature-glass);
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
       }

@@ -1,70 +1,70 @@
 /*
- * Variante C · «Agenda». App amable: violeta, tarjetas muy redondeadas,
+ * Prototipo «Agenda». App amable: violeta, tarjetas muy redondeadas,
  * línea de tiempo con la hora a la izquierda y el semáforo tiñendo la tarjeta.
  */
-.coac-vc {
-  --vc-bg: #f5f4fb;
-  --vc-card: #ffffff;
-  --vc-text: #1b1730;
-  --vc-muted: #5d5878;
-  --vc-line: #e0dcf0;
-  --vc-primary: #5b3df5;
-  --vc-on-primary: #ffffff;
-  --vc-soft: #ece8ff;
-  --vc-shadow: 0 1px 2px rgb(27 23 48 / 0.06), 0 8px 24px -12px rgb(27 23 48 / 0.18);
-  --vc-top-bg: #dcfce7;
-  --vc-top-edge: #22c55e;
-  --vc-top-badge: #166534;
-  --vc-top-badge-text: #ffffff;
-  --vc-ok-bg: #fef9c3;
-  --vc-ok-edge: #eab308;
-  --vc-ok-badge: #facc15;
-  --vc-ok-badge-text: #1f1300;
-  --vc-live: #b91c1c;
-  --vc-coro-bg: #dbeafe;
-  --vc-coro-text: #1e3a8a;
-  --vc-comparsa-bg: #ede9fe;
-  --vc-comparsa-text: #4c1d95;
-  --vc-chirigota-bg: #fce7f3;
-  --vc-chirigota-text: #831843;
-  --vc-cuarteto-bg: #e2e8f0;
-  --vc-cuarteto-text: #1e293b;
-  --vc-radius: 1.25rem;
-  --vc-font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+.coac-agenda {
+  --app-bg: #f5f4fb;
+  --app-card: #ffffff;
+  --app-text: #1b1730;
+  --app-muted: #5d5878;
+  --app-line: #e0dcf0;
+  --app-primary: #5b3df5;
+  --app-on-primary: #ffffff;
+  --app-soft: #ece8ff;
+  --app-shadow: 0 1px 2px rgb(27 23 48 / 0.06), 0 8px 24px -12px rgb(27 23 48 / 0.18);
+  --app-top-bg: #dcfce7;
+  --app-top-edge: #22c55e;
+  --app-top-badge: #166534;
+  --app-top-badge-text: #ffffff;
+  --app-ok-bg: #fef9c3;
+  --app-ok-edge: #eab308;
+  --app-ok-badge: #facc15;
+  --app-ok-badge-text: #1f1300;
+  --app-live: #b91c1c;
+  --app-coro-bg: #dbeafe;
+  --app-coro-text: #1e3a8a;
+  --app-comparsa-bg: #ede9fe;
+  --app-comparsa-text: #4c1d95;
+  --app-chirigota-bg: #fce7f3;
+  --app-chirigota-text: #831843;
+  --app-cuarteto-bg: #e2e8f0;
+  --app-cuarteto-text: #1e293b;
+  --app-radius: 1.25rem;
+  --app-font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   display: flex;
   flex-direction: column;
   min-block-size: 100dvh;
-  background: var(--vc-bg);
-  color: var(--vc-text);
-  font-family: var(--vc-font);
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--app-font);
 }
 
-[data-mode="dark"] .coac-vc {
-  --vc-bg: #110f1c;
-  --vc-card: #1b182b;
-  --vc-text: #f0eefb;
-  --vc-muted: #b0abc9;
-  --vc-line: #2f2a4a;
-  --vc-primary: #a594ff;
-  --vc-on-primary: #14102b;
-  --vc-soft: #25203f;
-  --vc-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
-  --vc-top-bg: #0f2a1b;
-  --vc-top-badge: #4ade80;
-  --vc-top-badge-text: #052e16;
-  --vc-ok-bg: #2a2408;
-  --vc-coro-bg: #1e3a8a;
-  --vc-coro-text: #dbeafe;
-  --vc-comparsa-bg: #4c1d95;
-  --vc-comparsa-text: #ede9fe;
-  --vc-chirigota-bg: #831843;
-  --vc-chirigota-text: #fce7f3;
-  --vc-cuarteto-bg: #334155;
-  --vc-cuarteto-text: #e2e8f0;
+[data-mode="dark"] .coac-agenda {
+  --app-bg: #110f1c;
+  --app-card: #1b182b;
+  --app-text: #f0eefb;
+  --app-muted: #b0abc9;
+  --app-line: #2f2a4a;
+  --app-primary: #a594ff;
+  --app-on-primary: #14102b;
+  --app-soft: #25203f;
+  --app-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  --app-top-bg: #0f2a1b;
+  --app-top-badge: #4ade80;
+  --app-top-badge-text: #052e16;
+  --app-ok-bg: #2a2408;
+  --app-coro-bg: #1e3a8a;
+  --app-coro-text: #dbeafe;
+  --app-comparsa-bg: #4c1d95;
+  --app-comparsa-text: #ede9fe;
+  --app-chirigota-bg: #831843;
+  --app-chirigota-text: #fce7f3;
+  --app-cuarteto-bg: #334155;
+  --app-cuarteto-text: #e2e8f0;
 }
 
-.coac-vc button {
+.coac-agenda button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -75,28 +75,28 @@
   font: inherit;
 }
 
-.coac-vc :focus-visible {
-  outline: 3px solid var(--vc-primary);
+.coac-agenda :focus-visible {
+  outline: 3px solid var(--app-primary);
   outline-offset: 2px;
 }
 
 /* ---- Columna izquierda ---- */
 
 /* En móvil no pinta caja: la cabecera se pega arriba de toda la página */
-.coac-vc__rail {
+.coac-agenda__rail {
   display: contents;
 }
 
-.coac-vc__side {
+.coac-agenda__side {
   display: grid;
   gap: var(--luz-space-lg);
   align-content: start;
   min-inline-size: 0;
   padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-md);
-  background: var(--vc-bg);
+  background: var(--app-bg);
 }
 
-.coac-vc__brand {
+.coac-agenda__brand {
   position: sticky;
   inset-block-start: 0;
   z-index: 10;
@@ -104,12 +104,12 @@
   align-items: center;
   gap: var(--luz-space-sm);
   padding: var(--luz-space-sm) var(--luz-space-md);
-  border-block-end: 1px solid var(--vc-line);
-  background: var(--vc-bg);
+  border-block-end: 1px solid var(--app-line);
+  background: var(--app-bg);
 }
 
 /* Logo y título: vuelven a la portada (la fase en curso) */
-.coac-vc__home {
+.coac-agenda__home {
   display: flex;
   flex: 1;
   align-items: center;
@@ -119,14 +119,14 @@
   text-decoration: none;
 }
 
-.coac-vc__brand-text {
+.coac-agenda__brand-text {
   display: grid;
   gap: var(--luz-space-2xs);
   min-inline-size: 0;
 }
 
 /* Accesos rápidos de la cabecera: buscar, directo y horario de hoy */
-.coac-vc__actions {
+.coac-agenda__actions {
   display: flex;
   flex: none;
   /* Sin borde, el icono queda alineado con el margen de la página */
@@ -135,16 +135,16 @@
 
 /* En pantallas muy estrechas el título baja un punto para caber entero */
 @media (max-width: 25.99rem) {
-  .coac-vc .coac-vc__title {
+  .coac-agenda .coac-agenda__title {
     font-size: var(--luz-text-base);
   }
 
-  .coac-vc .coac-vc__action {
+  .coac-agenda .coac-agenda__action {
     inline-size: 2.25rem;
   }
 }
 
-.coac-vc .coac-vc__action {
+.coac-agenda .coac-agenda__action {
   position: relative;
   display: grid;
   place-items: center;
@@ -152,50 +152,50 @@
   block-size: 2.5rem;
   border: 1px solid transparent;
   border-radius: var(--luz-radius-full);
-  color: var(--vc-text);
+  color: var(--app-text);
 }
 
 /* Sin borde: solo aparece al pasar el ratón */
-.coac-vc .coac-vc__action:hover {
-  border-color: var(--vc-muted);
+.coac-agenda .coac-agenda__action:hover {
+  border-color: var(--app-muted);
 }
 
-.coac-vc__action .coac-icon {
+.coac-agenda__action .coac-icon {
   inline-size: 1.25rem;
   block-size: 1.25rem;
 }
 
 /* Con una agrupación actuando, el punto del icono de emisión se pone rojo y late */
-.coac-vc__action[data-live] .coac-icon__live-dot {
+.coac-agenda__action[data-live] .coac-icon__live-dot {
   fill: #ef4444;
   transform-origin: center;
   transform-box: fill-box;
-  animation: coac-vc-dot 1.6s ease-in-out infinite;
+  animation: coac-agenda-dot 1.6s ease-in-out infinite;
 }
 
-@keyframes coac-vc-dot {
+@keyframes coac-agenda-dot {
   50% {
     transform: scale(1.35);
   }
 }
 
-.coac-vc__session-title:focus {
+.coac-agenda__session-title:focus {
   outline: none;
 }
 
 /* Solo la fachada, sin caja: en azul de marca */
-.coac-vc__logo {
+.coac-agenda__logo {
   flex: none;
   inline-size: 2.25rem;
   block-size: 2.25rem;
-  color: var(--vc-primary);
+  color: var(--app-primary);
 }
 
-.coac-vc__title {
+.coac-agenda__title {
   margin: 0;
   overflow: hidden;
-  color: var(--vc-text);
-  font-family: var(--vc-font);
+  color: var(--app-text);
+  font-family: var(--app-font);
   font-size: var(--luz-text-lg);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -204,57 +204,57 @@
   line-height: 1.5rem;
 }
 
-.coac-vc__phase {
+.coac-agenda__phase {
   margin: 0;
   overflow: hidden;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   line-height: 1.25rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.coac-vc__search {
+.coac-agenda__search {
   display: grid;
   gap: var(--luz-space-sm);
   min-inline-size: 0;
 }
 
-.coac-vc__field {
+.coac-agenda__field {
   display: flex;
   align-items: center;
   gap: var(--luz-space-xs);
   padding-inline: var(--luz-space-md);
-  border: 2px solid var(--vc-line);
+  border: 2px solid var(--app-line);
   border-radius: var(--luz-radius-full);
-  background: var(--vc-card);
-  box-shadow: var(--vc-shadow);
-  color: var(--vc-muted);
+  background: var(--app-card);
+  box-shadow: var(--app-shadow);
+  color: var(--app-muted);
 }
 
-.coac-vc__field:focus-within {
-  border-color: var(--vc-primary);
+.coac-agenda__field:focus-within {
+  border-color: var(--app-primary);
 }
 
-.coac-vc__field input {
+.coac-agenda__field input {
   flex: 1;
   min-inline-size: 0;
   block-size: 3.25rem;
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--vc-text);
+  color: var(--app-text);
   font: inherit;
   outline: none;
 }
 
-.coac-vc__field input::placeholder {
-  color: var(--vc-muted);
+.coac-agenda__field input::placeholder {
+  color: var(--app-muted);
   opacity: 1;
 }
 
-.coac-vc__chips,
-.coac-vc__days {
+.coac-agenda__chips,
+.coac-agenda__days {
   display: flex;
   gap: var(--luz-space-xs);
   margin: 0;
@@ -264,46 +264,46 @@
   scrollbar-width: none;
 }
 
-.coac-vc .coac-vc__chip {
+.coac-agenda .coac-agenda__chip {
   flex: none;
   min-block-size: 2.5rem;
   padding-inline: var(--luz-space-md);
   white-space: nowrap;
-  border: 2px solid var(--vc-line);
+  border: 2px solid var(--app-line);
   border-radius: var(--luz-radius-full);
-  background: var(--vc-card);
+  background: var(--app-card);
   font-size: var(--luz-text-sm);
   font-weight: 700;
 }
 
-.coac-vc .coac-vc__chip[aria-pressed="true"] {
-  border-color: var(--vc-primary);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+.coac-agenda .coac-agenda__chip[aria-pressed="true"] {
+  border-color: var(--app-primary);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
 }
 
-.coac-vc__now {
+.coac-agenda__now {
   display: grid;
   gap: var(--luz-space-xs);
   padding: var(--luz-space-md);
-  border-radius: var(--vc-radius);
-  background: var(--vc-soft);
+  border-radius: var(--app-radius);
+  background: var(--app-soft);
 }
 
-.coac-vc__now-label,
-.coac-vc__heading {
+.coac-agenda__now-label,
+.coac-agenda__heading {
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
   font-weight: 700;
   line-height: 1.25rem;
 }
 
-.coac-vc__now-label[data-live] {
-  color: var(--vc-text);
+.coac-agenda__now-label[data-live] {
+  color: var(--app-text);
 }
 
-.coac-vc__now-main {
+.coac-agenda__now-main {
   margin: 0;
   font-size: var(--luz-text-lg);
   font-weight: 800;
@@ -311,24 +311,24 @@
   text-transform: capitalize;
 }
 
-.coac-vc__now-sub {
+.coac-agenda__now-sub {
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--app-muted);
 }
 
-.coac-vc__tiles {
+.coac-agenda__tiles {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--luz-space-xs);
 }
 
-.coac-vc__tile {
+.coac-agenda__tile {
   display: grid;
   justify-items: center;
   padding-block: var(--luz-space-xs);
   border-radius: 0.875rem;
-  background: var(--vc-card);
-  color: var(--vc-muted);
+  background: var(--app-card);
+  color: var(--app-muted);
   /* La unidad, en pequeño y en mayúsculas («SEGUNDOS» tiene que caber) */
   font-size: var(--coac-text-2xs);
   letter-spacing: 0.04em;
@@ -336,15 +336,15 @@
   text-transform: uppercase;
 }
 
-.coac-vc__tile strong {
-  color: var(--vc-text);
+.coac-agenda__tile strong {
+  color: var(--app-text);
   font-size: var(--luz-text-2xl);
   font-variant-numeric: tabular-nums;
   font-weight: 800;
   line-height: 2rem;
 }
 
-.coac-vc__cta {
+.coac-agenda__cta {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,66 +352,66 @@
   min-block-size: 3rem;
   margin-block-start: var(--luz-space-2xs);
   border-radius: var(--luz-radius-full);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
   font-weight: 800;
 }
 
-.coac-vc__calendar {
+.coac-agenda__calendar {
   display: grid;
   gap: var(--luz-space-xs);
   min-inline-size: 0;
 }
 
-.coac-vc__days > li {
+.coac-agenda__days > li {
   flex: none;
 }
 
-.coac-vc .coac-vc__day {
+.coac-agenda .coac-agenda__day {
   display: grid;
   gap: 0;
   min-inline-size: 5.5rem;
   padding: var(--luz-space-xs) var(--luz-space-sm);
   border: 2px solid transparent;
   border-radius: 1rem;
-  background: var(--vc-card);
-  box-shadow: var(--vc-shadow);
+  background: var(--app-card);
+  box-shadow: var(--app-shadow);
   text-align: start;
 }
 
-.coac-vc__day-name {
+.coac-agenda__day-name {
   font-weight: 800;
   line-height: 1.25rem;
   text-transform: capitalize;
 }
 
-.coac-vc__day-count {
-  color: var(--vc-muted);
+.coac-agenda__day-count {
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   line-height: 1rem;
 }
 
-.coac-vc .coac-vc__day[data-status="past"] .coac-vc__day-name {
-  color: var(--vc-muted);
+.coac-agenda .coac-agenda__day[data-status="past"] .coac-agenda__day-name {
+  color: var(--app-muted);
   font-weight: 600;
 }
 
-.coac-vc .coac-vc__day[data-status="present"] {
-  border-color: var(--vc-primary);
+.coac-agenda .coac-agenda__day[data-status="present"] {
+  border-color: var(--app-primary);
 }
 
-.coac-vc .coac-vc__day[aria-pressed="true"] {
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+.coac-agenda .coac-agenda__day[aria-pressed="true"] {
+  background: var(--app-primary);
+  color: var(--app-on-primary);
 }
 
-.coac-vc .coac-vc__day[aria-pressed="true"] .coac-vc__day-name,
-.coac-vc .coac-vc__day[aria-pressed="true"] .coac-vc__day-count {
+.coac-agenda .coac-agenda__day[aria-pressed="true"] .coac-agenda__day-name,
+.coac-agenda .coac-agenda__day[aria-pressed="true"] .coac-agenda__day-count {
   color: inherit;
 }
 
 /* ---- Agenda ---- */
-.coac-vc__main {
+.coac-agenda__main {
   flex: 1;
   display: grid;
   gap: var(--luz-space-2xl);
@@ -419,7 +419,7 @@
   padding: var(--luz-space-xl) var(--luz-space-md) var(--luz-space-3xl);
 }
 
-.coac-vc__context {
+.coac-agenda__context {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -429,55 +429,55 @@
   font-weight: 700;
 }
 
-.coac-vc .coac-vc__reset {
+.coac-agenda .coac-agenda__reset {
   min-block-size: 2.5rem;
   padding-inline: var(--luz-space-md);
   border-radius: var(--luz-radius-full);
-  background: var(--vc-soft);
+  background: var(--app-soft);
   font-size: var(--luz-text-sm);
   font-weight: 700;
 }
 
 /* Leyenda discreta del semáforo: la misma franja que llevan las tarjetas */
-.coac-vc__legend {
+.coac-agenda__legend {
   display: flex;
   flex-wrap: wrap;
   gap: var(--luz-space-2xs) var(--luz-space-md);
   margin: 0 0 calc(var(--luz-space-2xl) * -0.5);
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
   line-height: 1rem;
 }
 
-.coac-vc__legend-item {
+.coac-agenda__legend-item {
   display: inline-flex;
   align-items: center;
   gap: var(--luz-space-2xs);
 }
 
-.coac-vc__legend-item::before {
+.coac-agenda__legend-item::before {
   content: "";
   inline-size: 0.375rem;
   block-size: 1rem;
-  background: var(--vc-top-edge);
+  background: var(--app-top-edge);
 }
 
-.coac-vc__legend-item[data-ranking="ok"]::before {
-  background: var(--vc-ok-edge);
+.coac-agenda__legend-item[data-ranking="ok"]::before {
+  background: var(--app-ok-edge);
 }
 
-.coac-vc__session-head {
+.coac-agenda__session-head {
   display: grid;
   gap: var(--luz-space-2xs);
   justify-items: start;
   margin-block-end: var(--luz-space-md);
 }
 
-.coac-vc__pill {
+.coac-agenda__pill {
   padding: var(--luz-space-3xs) var(--luz-space-sm);
   border-radius: var(--luz-radius-full);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
   font-size: var(--luz-text-xs);
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -485,23 +485,23 @@
   text-transform: uppercase;
 }
 
-.coac-vc__session-title {
+.coac-agenda__session-title {
   margin: 0;
-  color: var(--vc-text);
-  font-family: var(--vc-font);
+  color: var(--app-text);
+  font-family: var(--app-font);
   font-size: var(--luz-text-2xl);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 2rem;
 }
 
-.coac-vc__session-meta {
+.coac-agenda__session-meta {
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
 }
 
-.coac-vc__timeline {
+.coac-agenda__timeline {
   display: grid;
   gap: var(--luz-space-sm);
   margin: 0;
@@ -510,26 +510,26 @@
 }
 
 /* Hora y punto a la izquierda; la línea vertical une los puntos */
-.coac-vc__slot {
+.coac-agenda__slot {
   position: relative;
   display: grid;
   grid-template-columns: 3.5rem minmax(0, 1fr);
   gap: var(--luz-space-sm);
 }
 
-.coac-vc__slot::before {
+.coac-agenda__slot::before {
   content: "";
   position: absolute;
   inset-block: 0 calc(var(--luz-space-sm) * -1);
   inset-inline-start: calc(3.5rem - 1px);
-  border-inline-start: 2px solid var(--vc-line);
+  border-inline-start: 2px solid var(--app-line);
 }
 
-.coac-vc__slot:last-child::before {
+.coac-agenda__slot:last-child::before {
   inset-block-end: 50%;
 }
 
-.coac-vc__time {
+.coac-agenda__time {
   position: relative;
   margin: 0;
   padding-block-start: var(--luz-space-md);
@@ -540,42 +540,42 @@
   line-height: 1.25rem;
 }
 
-.coac-vc__dot {
+.coac-agenda__dot {
   position: absolute;
   inset-block-start: calc(var(--luz-space-md) + 0.25rem);
   inset-inline-end: -0.375rem;
   inline-size: 0.75rem;
   block-size: 0.75rem;
-  border: 2px solid var(--vc-bg);
+  border: 2px solid var(--app-bg);
   border-radius: 50%;
-  background: var(--vc-muted);
+  background: var(--app-muted);
 }
 
-.coac-vc__slot[data-live] .coac-vc__dot {
-  background: var(--vc-live);
+.coac-agenda__slot[data-live] .coac-agenda__dot {
+  background: var(--app-live);
 }
 
-.coac-vc__card {
+.coac-agenda__card {
   display: grid;
   gap: var(--luz-space-3xs);
   padding: var(--luz-space-md);
   border: 2px solid transparent;
-  border-radius: var(--vc-radius);
-  background: var(--vc-card);
-  box-shadow: var(--vc-shadow);
+  border-radius: var(--app-radius);
+  background: var(--app-card);
+  box-shadow: var(--app-shadow);
 }
 
-.coac-vc__card[data-ranking="top"] {
-  border-color: var(--vc-top-edge);
-  background: var(--vc-top-bg);
+.coac-agenda__card[data-ranking="top"] {
+  border-color: var(--app-top-edge);
+  background: var(--app-top-bg);
 }
 
-.coac-vc__card[data-ranking="ok"] {
-  border-color: var(--vc-ok-edge);
-  background: var(--vc-ok-bg);
+.coac-agenda__card[data-ranking="ok"] {
+  border-color: var(--app-ok-edge);
+  background: var(--app-ok-bg);
 }
 
-.coac-vc__badges {
+.coac-agenda__badges {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -585,55 +585,55 @@
   line-height: 1.25rem;
 }
 
-.coac-vc__badge {
+.coac-agenda__badge {
   padding-inline: var(--luz-space-xs);
   border-radius: var(--luz-radius-full);
   font-weight: 800;
 }
 
-.coac-vc__badge[data-kind="live"] {
-  background: var(--vc-live);
+.coac-agenda__badge[data-kind="live"] {
+  background: var(--app-live);
   color: #ffffff;
 }
 
-.coac-vc__card[data-ranking="top"] .coac-vc__badge[data-kind="ranking"] {
-  background: var(--vc-top-badge);
-  color: var(--vc-top-badge-text);
+.coac-agenda__card[data-ranking="top"] .coac-agenda__badge[data-kind="ranking"] {
+  background: var(--app-top-badge);
+  color: var(--app-top-badge-text);
 }
 
-.coac-vc__card[data-ranking="ok"] .coac-vc__badge[data-kind="ranking"] {
-  background: var(--vc-ok-badge);
-  color: var(--vc-ok-badge-text);
+.coac-agenda__card[data-ranking="ok"] .coac-agenda__badge[data-kind="ranking"] {
+  background: var(--app-ok-badge);
+  color: var(--app-ok-badge-text);
 }
 
-.coac-vc__badge[data-modalidad="CORO"] {
-  background: var(--vc-coro-bg);
-  color: var(--vc-coro-text);
+.coac-agenda__badge[data-modalidad="CORO"] {
+  background: var(--app-coro-bg);
+  color: var(--app-coro-text);
 }
 
-.coac-vc__badge[data-modalidad="COMPARSA"] {
-  background: var(--vc-comparsa-bg);
-  color: var(--vc-comparsa-text);
+.coac-agenda__badge[data-modalidad="COMPARSA"] {
+  background: var(--app-comparsa-bg);
+  color: var(--app-comparsa-text);
 }
 
-.coac-vc__badge[data-modalidad="CHIRIGOTA"] {
-  background: var(--vc-chirigota-bg);
-  color: var(--vc-chirigota-text);
+.coac-agenda__badge[data-modalidad="CHIRIGOTA"] {
+  background: var(--app-chirigota-bg);
+  color: var(--app-chirigota-text);
 }
 
-.coac-vc__badge[data-modalidad="CUARTETO"] {
-  background: var(--vc-cuarteto-bg);
-  color: var(--vc-cuarteto-text);
+.coac-agenda__badge[data-modalidad="CUARTETO"] {
+  background: var(--app-cuarteto-bg);
+  color: var(--app-cuarteto-text);
 }
 
-.coac-vc__city {
-  color: var(--vc-muted);
+.coac-agenda__city {
+  color: var(--app-muted);
 }
 
-.coac-vc__author {
+.coac-agenda__author {
   margin: 0;
-  color: var(--vc-text);
-  font-family: var(--vc-font);
+  color: var(--app-text);
+  font-family: var(--app-font);
   font-size: var(--luz-text-lg);
   font-weight: 800;
   line-height: 1.5rem;
@@ -641,70 +641,70 @@
   text-wrap: pretty;
 }
 
-.coac-vc__name {
+.coac-agenda__name {
   margin: 0;
   line-height: 1.5rem;
 }
 
-.coac-vc__previous-row {
+.coac-agenda__previous-row {
   display: flex;
   align-items: center;
   gap: var(--luz-space-2xs);
   margin: var(--luz-space-2xs) 0 0;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-xs);
 }
 
-a.coac-vc__previous {
+a.coac-agenda__previous {
   text-decoration: underline;
 }
 
-.coac-vc__empty {
+.coac-agenda__empty {
   padding: var(--luz-space-xl);
-  border-radius: var(--vc-radius);
-  background: var(--vc-soft);
+  border-radius: var(--app-radius);
+  background: var(--app-soft);
   font-weight: 700;
   text-align: center;
 }
 
 /* ---- Pie: a todo lo ancho en móvil; en escritorio, bajo el programa ---- */
-.coac-vc__footer {
+.coac-agenda__footer {
   padding: var(--luz-space-xl) var(--luz-space-md);
   /* Más el alto del aviso de privacidad mientras se ve, para que no tape el final */
   padding-block-end: calc(
     var(--luz-space-2xl) + env(safe-area-inset-bottom, 0px) + var(--coac-privacy-notice-h, 0px)
   );
-  border-block-start: 1px solid var(--vc-line);
-  background: var(--vc-soft);
-  color: var(--vc-muted);
+  border-block-start: 1px solid var(--app-line);
+  background: var(--app-soft);
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.25rem;
 }
 
-.coac-vc__footer-inner {
+.coac-agenda__footer-inner {
   display: grid;
   gap: var(--luz-space-md);
   justify-items: center;
   text-align: center;
 }
 
-.coac-vc__phases {
+.coac-agenda__phases {
   display: grid;
   gap: var(--luz-space-sm);
   inline-size: 100%;
   text-align: start;
 }
 
-.coac-vc__footer-heading {
+.coac-agenda__footer-heading {
   margin: 0;
-  color: var(--vc-text);
-  font-family: var(--vc-font);
+  color: var(--app-text);
+  font-family: var(--app-font);
   font-size: var(--luz-text-sm);
   font-weight: 700;
   line-height: 1.25rem;
 }
 
-.coac-vc__phase-list {
+.coac-agenda__phase-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--luz-space-xs);
@@ -713,80 +713,80 @@ a.coac-vc__previous {
   list-style: none;
 }
 
-.coac-vc__phase-item {
+.coac-agenda__phase-item {
   display: grid;
   gap: 0;
   block-size: 100%;
   padding: var(--luz-space-sm);
-  border: 1px solid var(--vc-line);
-  color: var(--vc-muted);
+  border: 1px solid var(--app-line);
+  color: var(--app-muted);
   text-decoration: none;
 }
 
-.coac-vc__phase-name {
-  color: var(--vc-text);
+.coac-agenda__phase-name {
+  color: var(--app-text);
   font-weight: 700;
 }
 
-.coac-vc__phase-dates,
-.coac-vc__phase-state {
+.coac-agenda__phase-dates,
+.coac-agenda__phase-state {
   font-size: var(--luz-text-xs);
   line-height: 1rem;
 }
 
 /* La de la portada: resaltada y enlazada */
-.coac-vc__phase-item[data-home] {
-  border-color: var(--vc-primary);
+.coac-agenda__phase-item[data-home] {
+  border-color: var(--app-primary);
   border-inline-start-width: 4px;
 }
 
-.coac-vc__phase-item[data-home] .coac-vc__phase-state {
-  color: var(--vc-text);
+.coac-agenda__phase-item[data-home] .coac-agenda__phase-state {
+  color: var(--app-text);
   font-weight: 700;
 }
 
-.coac-vc__phase-item[data-status="past"]:not([data-home]) {
+.coac-agenda__phase-item[data-status="past"]:not([data-home]) {
   border-style: dashed;
 }
 
 /* Las fases que aún no se pueden abrir: desactivadas */
-.coac-vc__phase-item[aria-disabled="true"] {
+.coac-agenda__phase-item[aria-disabled="true"] {
   cursor: not-allowed;
   opacity: 0.5;
 }
 
-.coac-vc__footer-theme {
+.coac-agenda__footer-theme {
   position: relative;
   display: flex;
 }
 
-.coac-vc__footer-text {
+.coac-agenda__footer-text {
   display: grid;
   gap: var(--luz-space-xs);
   max-inline-size: 36rem;
 }
 
-.coac-vc__footer-text p {
+.coac-agenda__footer-text p {
   margin: 0;
   text-wrap: pretty;
 }
 
-.coac-vc__footer-link {
-  color: var(--vc-text);
+.coac-agenda__footer-link {
+  color: var(--app-text);
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
 
 /* ---- Escritorio: dos columnas, la izquierda fija ---- */
 @media (min-width: 64rem) {
-  .coac-vc {
+  .coac-agenda {
     display: grid;
     grid-template-columns: 24rem minmax(0, 1fr);
     grid-template-rows: 1fr auto;
     align-items: start;
   }
 
-  .coac-vc__rail {
+  .coac-agenda__rail {
     position: sticky;
     inset-block-start: 0;
     display: grid;
@@ -795,39 +795,39 @@ a.coac-vc__previous {
     align-content: start;
     block-size: 100dvh;
     padding: var(--luz-space-xl) var(--luz-space-lg);
-    border-inline-end: 2px solid var(--vc-line);
-    background: var(--vc-bg);
+    border-inline-end: 2px solid var(--app-line);
+    background: var(--app-bg);
     overflow-y: auto;
   }
 
-  .coac-vc__brand {
+  .coac-agenda__brand {
     position: static;
     padding: 0;
     border: 0;
   }
 
-  .coac-vc__logo {
+  .coac-agenda__logo {
     inline-size: 2.75rem;
     block-size: 2.75rem;
   }
 
-  .coac-vc__title {
+  .coac-agenda__title {
     font-size: var(--luz-text-xl);
   }
 
-  .coac-vc__actions {
+  .coac-agenda__actions {
     display: none;
   }
 
-  .coac-vc__side {
+  .coac-agenda__side {
     padding: 0;
   }
 
-  .coac-vc__main {
+  .coac-agenda__main {
     grid-column: 2;
   }
 
-  .coac-vc__footer {
+  .coac-agenda__footer {
     grid-column: 2;
     padding: var(--luz-space-xl) var(--luz-space-2xl);
     /* Sitio para el aviso de privacidad mientras se ve (no tapa los créditos) */
@@ -835,16 +835,16 @@ a.coac-vc__previous {
     background: none;
   }
 
-  .coac-vc__phases {
+  .coac-agenda__phases {
     grid-column: 1 / -1;
     margin-block-end: var(--luz-space-sm);
   }
 
-  .coac-vc__phase-list {
+  .coac-agenda__phase-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .coac-vc__footer-inner {
+  .coac-agenda__footer-inner {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     justify-items: start;
@@ -854,118 +854,118 @@ a.coac-vc__previous {
   }
 
   /* Más específico: la regla general va más abajo en el archivo */
-  .coac-vc .coac-vc__footer-text .coac-vc__footer-pages {
+  .coac-agenda .coac-agenda__footer-text .coac-agenda__footer-pages {
     justify-content: start;
   }
 
-  .coac-vc__chips {
+  .coac-agenda__chips {
     flex-wrap: wrap;
     overflow: visible;
   }
 
-  .coac-vc__days {
+  .coac-agenda__days {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     overflow: visible;
   }
 
-  .coac-vc .coac-vc__day {
+  .coac-agenda .coac-agenda__day {
     inline-size: 100%;
     min-inline-size: 0;
   }
 
-  .coac-vc__main {
+  .coac-agenda__main {
     max-inline-size: 54rem;
     padding: var(--luz-space-xl) var(--luz-space-2xl) var(--luz-space-3xl);
   }
 
-  .coac-vc__slot {
+  .coac-agenda__slot {
     grid-template-columns: 4.5rem minmax(0, 1fr);
   }
 
-  .coac-vc__slot::before {
+  .coac-agenda__slot::before {
     inset-inline-start: calc(4.5rem - 1px);
   }
 
-  .coac-vc__time {
+  .coac-agenda__time {
     font-size: var(--luz-text-base);
   }
 }
 
 /* En móvil, al buscar, los resultados van justo debajo del buscador */
 @media (max-width: 63.999rem) {
-  .coac-vc[data-view="search"] .coac-vc__now,
-  .coac-vc[data-view="search"] .coac-vc__calendar {
+  .coac-agenda[data-view="search"] .coac-agenda__now,
+  .coac-agenda[data-view="search"] .coac-agenda__calendar {
     display: none;
   }
 }
 
-.coac-vc__field input:focus-visible {
+.coac-agenda__field input:focus-visible {
   outline: none;
 }
 
 /* ---- Estados de sesión: hoy, mañana, próximas y, al final, las celebradas ---- */
-.coac-vc__calendar {
+.coac-agenda__calendar {
   gap: var(--luz-space-md);
 }
 
-.coac-vc__day-group {
+.coac-agenda__day-group {
   display: grid;
   gap: var(--luz-space-xs);
   min-inline-size: 0;
 }
 
-.coac-vc .coac-vc__day[data-status="present"] .coac-vc__day-count,
-.coac-vc .coac-vc__day[data-label="Mañana"] .coac-vc__day-count {
-  color: var(--vc-text);
+.coac-agenda .coac-agenda__day[data-status="present"] .coac-agenda__day-count,
+.coac-agenda .coac-agenda__day[data-label="Mañana"] .coac-agenda__day-count {
+  color: var(--app-text);
   font-weight: 700;
 }
 
-.coac-vc .coac-vc__day[data-label="Mañana"] {
-  border-color: var(--vc-muted);
+.coac-agenda .coac-agenda__day[data-label="Mañana"] {
+  border-color: var(--app-muted);
 }
 
 /* Ya pasó: sin relleno, borde discontinuo y en gris */
-.coac-vc .coac-vc__day[data-status="past"] {
-  border: 2px dashed var(--vc-line);
+.coac-agenda .coac-agenda__day[data-status="past"] {
+  border: 2px dashed var(--app-line);
   background: transparent;
   box-shadow: none;
-  color: var(--vc-muted);
+  color: var(--app-muted);
 }
 
-.coac-vc .coac-vc__pill[data-label="Mañana"] {
-  border: 2px solid var(--vc-primary);
+.coac-agenda .coac-agenda__pill[data-label="Mañana"] {
+  border: 2px solid var(--app-primary);
   background: transparent;
-  color: var(--vc-text);
+  color: var(--app-text);
 }
 
-.coac-vc .coac-vc__pill[data-label="Celebrada"] {
-  background: var(--vc-soft);
-  color: var(--vc-muted);
+.coac-agenda .coac-agenda__pill[data-label="Celebrada"] {
+  background: var(--app-soft);
+  color: var(--app-muted);
 }
 
 /* Una sesión celebrada (al elegirla o al buscar) se ve apagada: gris, sin semáforo */
-.coac-vc__session[data-status="past"] .coac-vc__session-title {
-  color: var(--vc-muted);
+.coac-agenda__session[data-status="past"] .coac-agenda__session-title {
+  color: var(--app-muted);
 }
 
-.coac-vc__session[data-status="past"] .coac-vc__timeline {
+.coac-agenda__session[data-status="past"] .coac-agenda__timeline {
   filter: grayscale(1);
 }
 
-.coac-vc__session[data-status="past"] .coac-vc__card {
-  background: var(--vc-bg);
+.coac-agenda__session[data-status="past"] .coac-agenda__card {
+  background: var(--app-bg);
   box-shadow: none;
 }
 
 /* ---- Quién está actuando: según la hora estimada ---- */
 
 /* Tira «En directo» bajo la cabecera fija (solo móvil): lleva a la tarjeta */
-.coac-vc__brand {
+.coac-agenda__brand {
   flex-wrap: wrap;
 }
 
-.coac-vc__live-strip {
+.coac-agenda__live-strip {
   display: flex;
   flex-basis: 100%;
   align-items: center;
@@ -973,20 +973,20 @@ a.coac-vc__previous {
   min-block-size: 2.25rem;
   margin: 0 calc(var(--luz-space-md) * -1) calc(var(--luz-space-sm) * -1);
   padding-inline: var(--luz-space-md);
-  background: var(--vc-live);
+  background: var(--app-live);
   color: #ffffff;
   font-size: var(--luz-text-xs);
   line-height: 1rem;
   text-decoration: none;
 }
 
-.coac-vc__live-strip-label {
+.coac-agenda__live-strip-label {
   flex: none;
   font-weight: 800;
   text-transform: uppercase;
 }
 
-.coac-vc__live-strip-name {
+.coac-agenda__live-strip-name {
   flex: 1;
   min-inline-size: 0;
   overflow: hidden;
@@ -995,28 +995,28 @@ a.coac-vc__previous {
   white-space: nowrap;
 }
 
-.coac-vc__live-strip-go {
+.coac-agenda__live-strip-go {
   flex: none;
   font-weight: 800;
   text-decoration: underline;
 }
 
-.coac-vc .coac-vc__live-strip:focus-visible {
+.coac-agenda .coac-agenda__live-strip:focus-visible {
   outline-color: #ffffff;
   outline-offset: -4px;
 }
 
 /* Punto que «late» con un anillo (no parpadea el texto) */
-.coac-vc__live-dot {
+.coac-agenda__live-dot {
   flex: none;
   inline-size: 0.5rem;
   block-size: 0.5rem;
   border-radius: 50%;
   background: #ffffff;
-  animation: coac-vc-pulse 1.6s ease-out infinite;
+  animation: coac-agenda-pulse 1.6s ease-out infinite;
 }
 
-@keyframes coac-vc-pulse {
+@keyframes coac-agenda-pulse {
   0% {
     box-shadow: 0 0 0 0 rgb(255 255 255 / 0.7);
   }
@@ -1025,27 +1025,27 @@ a.coac-vc__previous {
   }
 }
 
-.coac-vc__now-link {
+.coac-agenda__now-link {
   justify-self: start;
-  color: var(--vc-primary);
+  color: var(--app-primary);
   font-size: var(--luz-text-sm);
   font-weight: 700;
   text-decoration: underline;
 }
 
 /* Tarjeta en directo: marco rojo, barra arriba y progreso del turno abajo */
-.coac-vc__slot[data-stage="live"] .coac-vc__card {
-  border-color: var(--vc-live);
+.coac-agenda__slot[data-stage="live"] .coac-agenda__card {
+  border-color: var(--app-live);
 }
 
-.coac-vc__live-bar {
+.coac-agenda__live-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--luz-space-2xs) var(--luz-space-xs);
   margin: calc(var(--luz-space-md) * -1) calc(var(--luz-space-md) * -1) var(--luz-space-xs);
   padding: var(--luz-space-2xs) var(--luz-space-md);
-  background: var(--vc-live);
+  background: var(--app-live);
   color: #ffffff;
   font-size: var(--luz-text-xs);
   font-weight: 800;
@@ -1053,34 +1053,34 @@ a.coac-vc__previous {
   text-transform: uppercase;
 }
 
-.coac-vc__live-bar-time {
+.coac-agenda__live-bar-time {
   margin-inline-start: auto;
   font-variant-numeric: tabular-nums;
   font-weight: 400;
 }
 
-.coac-vc__progress {
+.coac-agenda__progress {
   display: block;
   block-size: 0.25rem;
   margin: var(--luz-space-sm) calc(var(--luz-space-md) * -1) calc(var(--luz-space-md) * -1);
-  background: var(--vc-line);
+  background: var(--app-line);
 }
 
-.coac-vc__progress::before {
+.coac-agenda__progress::before {
   content: "";
   display: block;
   block-size: 100%;
-  background: var(--vc-live);
-  transform: scaleX(var(--vc-progress, 0));
+  background: var(--app-live);
+  transform: scaleX(var(--app-progress, 0));
   transform-origin: left;
 }
 
-.coac-vc__slot[data-stage="live"] .coac-vc__dot {
-  background: var(--vc-live);
-  animation: coac-vc-pulse-live 1.6s ease-out infinite;
+.coac-agenda__slot[data-stage="live"] .coac-agenda__dot {
+  background: var(--app-live);
+  animation: coac-agenda-pulse-live 1.6s ease-out infinite;
 }
 
-@keyframes coac-vc-pulse-live {
+@keyframes coac-agenda-pulse-live {
   0% {
     box-shadow: 0 0 0 0 rgb(185 28 28 / 0.6);
   }
@@ -1090,104 +1090,104 @@ a.coac-vc__previous {
 }
 
 /* Ya actuó: en gris, sin semáforo */
-.coac-vc__slot[data-stage="done"] .coac-vc__card {
-  background: var(--vc-bg);
+.coac-agenda__slot[data-stage="done"] .coac-agenda__card {
+  background: var(--app-bg);
   box-shadow: none;
   filter: grayscale(1);
 }
 
-.coac-vc__slot[data-stage="done"] .coac-vc__time,
-.coac-vc__slot[data-stage="done"] .coac-vc__author {
-  color: var(--vc-muted);
+.coac-agenda__slot[data-stage="done"] .coac-agenda__time,
+.coac-agenda__slot[data-stage="done"] .coac-agenda__author {
+  color: var(--app-muted);
 }
 
-.coac-vc__stage {
+.coac-agenda__stage {
   padding-inline: var(--luz-space-xs);
   border: 1px solid currentColor;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-weight: 800;
   text-transform: uppercase;
 }
 
-.coac-vc__stage[data-stage="next"] {
-  color: var(--vc-primary);
+.coac-agenda__stage[data-stage="next"] {
+  color: var(--app-primary);
 }
 
 @media (min-width: 64rem) {
-  .coac-vc__live-strip {
+  .coac-agenda__live-strip {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .coac-vc__action[data-live] .coac-icon__live-dot,
-  .coac-vc__live-dot,
-  .coac-vc__slot[data-stage="live"] .coac-vc__dot {
+  .coac-agenda__action[data-live] .coac-icon__live-dot,
+  .coac-agenda__live-dot,
+  .coac-agenda__slot[data-stage="live"] .coac-agenda__dot {
     animation: none;
   }
 }
 
 /* ---- «Imprime tu horario», al final del programa ---- */
-.coac-vc__print {
+.coac-agenda__print {
   display: grid;
   gap: var(--luz-space-md);
   padding: var(--luz-space-lg);
-  border: 1px solid var(--vc-line);
-  background: var(--vc-card);
+  border: 1px solid var(--app-line);
+  background: var(--app-card);
 }
 
-.coac-vc__print-text {
+.coac-agenda__print-text {
   display: grid;
   gap: var(--luz-space-2xs);
 }
 
-.coac-vc__print-title {
+.coac-agenda__print-title {
   margin: 0;
-  color: var(--vc-text);
+  color: var(--app-text);
   font-family: inherit;
   font-size: var(--luz-text-lg);
   font-weight: 800;
   line-height: 1.5rem;
 }
 
-.coac-vc__print-desc {
+.coac-agenda__print-desc {
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--app-muted);
   font-size: var(--luz-text-sm);
 }
 
-.coac-vc .coac-vc__print-button {
+.coac-agenda .coac-agenda__print-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--luz-space-xs);
   min-block-size: 3rem;
   padding-inline: var(--luz-space-lg);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
   font-weight: 800;
 }
 
 @media (min-width: 40rem) {
-  .coac-vc__print {
+  .coac-agenda__print {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
   }
 }
 
 /* «Quiénes somos» y «Privacidad» en el pie (abren un modal) */
-.coac-vc__footer-text .coac-vc__footer-pages {
+.coac-agenda__footer-text .coac-agenda__footer-pages {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   column-gap: var(--luz-space-lg);
 }
 
-.coac-vc .coac-vc__footer-page {
+.coac-agenda .coac-agenda__footer-page {
   display: inline-flex;
   align-items: center;
   min-block-size: 2.75rem;
-  color: var(--vc-text);
+  color: var(--app-text);
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 0.15em;
@@ -1197,7 +1197,7 @@ a.coac-vc__previous {
    detrás no se mueve: un solo scroll, el del modal. El hueco de la barra se
    mantiene para que nada salte. Solo en pantalla: en papel cortaría la hoja. */
 @media screen {
-  html:has(.coac-vc dialog[open]) {
+  html:has(.coac-agenda dialog[open]) {
     overflow: hidden;
     scrollbar-gutter: stable;
   }

@@ -55,7 +55,7 @@ export function DayCarousel({ children }: { children: ReactNode }) {
         <ChevronLeftIcon />
         <span className="coac-sr-only">Sesiones anteriores</span>
       </button>
-      <ol id={listId} ref={listRef} className="coac-vc__days coac-carousel__list">
+      <ol id={listId} ref={listRef} className="coac-agenda__days coac-carousel__list">
         {children}
       </ol>
       <button

@@ -2,8 +2,7 @@ import { defineConfig } from "@playwright/test";
 
 const PORT = 4174;
 
-// Pruebas del movimiento de la app publicada (rediseño E), según
-// .claude/plans/PLAN-ANIMACIONES.md. Corren contra el mismo build «e2e» que las
+// Pruebas del movimiento de la app publicada. Corren contra el mismo build «e2e» que las
 // visuales (datos de tests/fixtures/), en móvil y en escritorio.
 export default defineConfig({
   testDir: "tests/motion",

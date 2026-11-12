@@ -45,7 +45,7 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
   // `searchAll` el usuario las abre a todas las sesiones sin perder el día
   const [searchAll, setSearchAll] = useState(false);
 
-  // Hoy, luego las próximas y, al final, las ya celebradas (ver AGENTS.md, «Estados de sesión»).
+  // Hoy, luego las próximas y, al final, las ya celebradas.
   const all = useMemo(
     () => [...(schedule.present ? [schedule.present] : []), ...schedule.future, ...schedule.past],
     [schedule],

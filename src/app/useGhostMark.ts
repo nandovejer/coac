@@ -48,7 +48,7 @@ export function useGhostMark(
 
       const origin = host!.getBoundingClientRect();
       const ghost = document.createElement("span");
-      ghost.className = "coac-ve__ghost";
+      ghost.className = "coac-programme__ghost";
       ghost.dataset.kind = kind;
       ghost.setAttribute("aria-hidden", "true");
       Object.assign(ghost.style, {

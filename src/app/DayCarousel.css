@@ -1,6 +1,6 @@
 /*
  * Fila de días deslizable (DayCarousel). Usa los colores de la columna de
- * .coac-vc (--vc-*), así que sirve en los tres modos.
+ * .coac-agenda (--app-*), así que sirve en los tres modos.
  */
 .coac-carousel {
   display: grid;
@@ -14,26 +14,26 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
-:is(.coac-vc, .coac-ve) .coac-carousel__arrow {
+:is(.coac-agenda, .coac-programme) .coac-carousel__arrow {
   display: none;
   place-items: center;
   inline-size: 2rem;
   block-size: 100%;
   min-block-size: 2.75rem;
-  border: 1px solid var(--vc-line);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 1px solid var(--app-line);
+  background: var(--app-card);
+  color: var(--app-text);
 }
 
 .coac-carousel[data-scrollable] .coac-carousel__arrow {
   display: grid;
 }
 
-:is(.coac-vc, .coac-ve) .coac-carousel__arrow:hover:not(:disabled) {
-  border-color: var(--vc-muted);
+:is(.coac-agenda, .coac-programme) .coac-carousel__arrow:hover:not(:disabled) {
+  border-color: var(--app-muted);
 }
 
-:is(.coac-vc, .coac-ve) .coac-carousel__arrow:disabled {
+:is(.coac-agenda, .coac-programme) .coac-carousel__arrow:disabled {
   cursor: default;
   opacity: 0.35;
 }
