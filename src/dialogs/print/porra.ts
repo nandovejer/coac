@@ -1,6 +1,6 @@
 import type { SessionView } from "../../domain/schedule";
 import { MODALIDADES, type Group, type Modalidad } from "../../types";
-import { PHASES, isHomePhase } from "../phases";
+import { PHASES, isHomePhase } from "../../domain/phases";
 import { capitalize } from "./format";
 
 /**

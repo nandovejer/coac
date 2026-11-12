@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { usePrerender } from "./prerender";
-import { pad2, useRemaining } from "./useProgramme";
+import { usePrerender } from "../../app/prerenderContext";
+import { pad2, useRemaining } from "../../app/useProgramme";
 import "./Countdown.css";
 
 /**

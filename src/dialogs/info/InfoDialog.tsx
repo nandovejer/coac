@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { FallaLogo } from "../../components/ui/FallaLogo";
 import { CloseIcon } from "../../components/ui/icons";
-import { afterDialogExit } from "../motion";
+import { afterDialogExit } from "../../lib/motion";
 import "../dialog-motion.css";
 import "./InfoDialog.css";
 

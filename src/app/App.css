@@ -1,5 +1,5 @@
 /*
- * Variante E · «Cartelera». App de eventos clara y suave: gris muy claro,
+ * La app · «Cartelera». App de eventos clara y suave: gris muy claro,
  * tarjetas blancas con sombra difusa, una tarjeta de estado a color pleno
  * (cobalto de la marca), días como números grandes con el elegido en una ficha
  * elevada y la franja horaria en vertical junto a cada tarjeta. Esquinas casi
@@ -25,7 +25,7 @@ html:has(.coac-ve) body {
 }
 
 .coac-ve {
-  /* Contrato de los modales (ShellDialogs) */
+  /* Contrato de los modales (AppDialogs) */
   --vc-bg: var(--ve-page-bg);
   --vc-card: #ffffff;
   --vc-text: #1b1c3b;

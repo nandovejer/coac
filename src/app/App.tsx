@@ -12,9 +12,9 @@ import {
   type RefObject,
 } from "react";
 import { SEASON } from "../config/season";
-import { Countdown } from "./Countdown";
-import { usePrerender } from "./prerender";
-import { animateOnce, prefersReducedMotion, willAnimateChange, withViewTransition } from "./motion";
+import { Countdown } from "../components/status/Countdown";
+import { usePrerender } from "./prerenderContext";
+import { animateOnce, prefersReducedMotion, willAnimateChange, withViewTransition } from "../lib/motion";
 import { ThemeModeSwitch } from "../components/layout/ThemeModeSwitch";
 import { FallaLogo } from "../components/ui/FallaLogo";
 import {
@@ -35,17 +35,18 @@ import {
   sessionDateKey,
   sessionIsoDate,
 } from "../lib/dates";
-import { ModalidadFilter, PreviousNote } from "./parts";
-import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "./phases";
-import { PRIVACY_HASH } from "./privacy/policy";
-import { sessionBrief } from "./sessionBrief";
-import { useGhostMark } from "./useGhostMark";
-import { ShellDialogs } from "./ShellDialogs";
+import { ModalidadFilter } from "../components/filters/ModalidadFilter";
+import { PreviousNote } from "../components/programme/PreviousNote";
+import { PHASE_STATUS_LABEL, PHASES, isHomePhase, phaseStatus } from "../domain/phases";
+import { PRIVACY_HASH } from "../dialogs/privacy/policy";
+import { sessionBrief } from "../domain/sessionBrief";
+import { useGhostMark } from "../hooks/useGhostMark";
+import { AppDialogs } from "./AppDialogs";
 import type { PerformanceView } from "../domain/schedule";
 import { addMinutes, useProgramme, type Stage } from "./useProgramme";
-import { useReached } from "./useReached";
+import { useReached } from "../hooks/useReached";
 import { HOME_URL, useShell } from "./useShell";
-import "./VariantE.css";
+import "./App.css";
 
 const RANKING_LABEL = { top: "Imprescindible", ok: "Recomendada", standar: "" } as const;
 const STAGE_LABEL = { done: "Ya actuó", next: "A continuación" } as const;
@@ -510,12 +511,12 @@ function introDecided() {
 }
 
 /**
- * Variante E · «Cartelera»: app de eventos clara y suave. Tarjetas blancas
+ * La app · «Cartelera»: app de eventos clara y suave. Tarjetas blancas
  * sobre gris claro, una tarjeta de estado a color pleno (cobalto), los días
  * como números grandes con el elegido en una ficha elevada, y el programa
  * con la franja horaria escrita en vertical junto a cada tarjeta.
  */
-export default function VariantE({
+export default function App({
   initialTerm = "",
   restoreSearchFocus = false,
 }: {
@@ -1252,7 +1253,7 @@ export default function VariantE({
         {announcement}
       </p>
 
-      <ShellDialogs shell={shell} />
+      <AppDialogs shell={shell} />
     </div>
   );
 }

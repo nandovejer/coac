@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 
 /**
- * Datos del prerender: el build pinta VariantE en HTML estático (ver
+ * Datos del prerender: el build pinta la app en HTML estático (ver
  * `src/prerender.tsx`) con esta hora fija y sin nada que cambie por horas. Solo
  * existe durante ese render: en el navegador el contexto vale `null` y la app
  * funciona como siempre.

@@ -3,7 +3,7 @@ import { scheduleConfig, sessions } from "../config/season";
 import { searchGroups } from "../domain/filterByAuthor";
 import { buildSchedule, type PerformanceView, type SessionView } from "../domain/schedule";
 import { useNow } from "../hooks/useNow";
-import { usePrerender } from "./prerender";
+import { usePrerender } from "./prerenderContext";
 import { addDays, formatMinutesOfDay, formatSessionDate, parseSessionDate, parseTime } from "../lib/dates";
 import type { Modalidad } from "../types";
 
@@ -31,7 +31,7 @@ export const addMinutes = (time: string, minutes: number) => {
 };
 
 /**
- * Estado común de los prototipos: el programa de hoy y mañana por defecto (con
+ * Estado del programa: el programa de hoy y mañana por defecto (con
  * `allSessions`, todas las sesiones: hoy, las próximas y al final las
  * celebradas), un día elegido en el calendario, o los resultados del buscador
  * (por autor o agrupación, con filtro de modalidad).

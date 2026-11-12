@@ -4,7 +4,7 @@ import { sessionDateKey } from "../lib/dates";
 /**
  * Fases del concurso de adultos (calendario de `season.ts`). La fase en curso
  * es la que tiene datos en `season.ts` (`SEASON.phaseTitle`): es la portada.
- * Prototipo: las fases pasadas aún no se pueden abrir (están archivadas en
+ * Las fases pasadas aún no se pueden abrir (están archivadas en
  * ramas); cuando se pueda, cada una tendrá su `href`.
  */
 export interface Phase {

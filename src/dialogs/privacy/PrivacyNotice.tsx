@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { animateOnce } from "../motion";
+import { animateOnce } from "../../lib/motion";
 import { PRIVACY_HASH, PRIVACY_NOTICE_KEY, PRIVACY_VERSION } from "./policy";
 import "./PrivacyNotice.css";
 

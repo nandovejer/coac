@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { animateOnce, prefersReducedMotion } from "./motion";
+import { animateOnce, prefersReducedMotion } from "../lib/motion";
 
 /**
  * Ficha fantasma: cuando el botón pulsado (`aria-pressed="true"`) cambia, una

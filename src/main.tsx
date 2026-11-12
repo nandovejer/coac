@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./variants/VariantE";
+import App from "./app/App";
 import "@luz-ds/core/theme-mode";
 import "./styles/index.css";
 

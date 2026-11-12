@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { PerformanceView, SessionView } from "../domain/schedule";
+import type { PerformanceView, SessionView } from "./schedule";
 import type { Group } from "../types";
 import { sessionBrief, sessionBriefText } from "./sessionBrief";
 

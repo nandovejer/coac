@@ -9,7 +9,7 @@ import { capitalize } from "./format";
 import { buildPorra } from "./porra";
 import { PorraSheet } from "./PorraSheet";
 import { PrintSheet, type PrintBlock } from "./PrintSheet";
-import { afterDialogExit } from "../motion";
+import { afterDialogExit } from "../../lib/motion";
 import "../dialog-motion.css";
 import "./PrintSchedule.css";
 

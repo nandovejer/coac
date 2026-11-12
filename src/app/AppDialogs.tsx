@@ -1,19 +1,19 @@
 import { lazy, Suspense } from "react";
-import { PrivacyNotice } from "./privacy/PrivacyNotice";
+import { PrivacyNotice } from "../dialogs/privacy/PrivacyNotice";
 import type { Shell } from "./useShell";
 
 // Los modales (y su CSS) solo se descargan al pedirlos (`useShell` los precarga).
-const PrintSchedule = lazy(() => import("./print/PrintSchedule"));
-const AboutDialog = lazy(() => import("./about/AboutDialog"));
-const PrivacyDialog = lazy(() => import("./privacy/PrivacyDialog"));
+const PrintSchedule = lazy(() => import("../dialogs/print/PrintSchedule"));
+const AboutDialog = lazy(() => import("../dialogs/about/AboutDialog"));
+const PrivacyDialog = lazy(() => import("../dialogs/privacy/PrivacyDialog"));
 
 /**
  * Modales abiertos (imprimir, «Quiénes somos», privacidad) y aviso de
- * privacidad del rediseño E. Heredan los tokens `--vc-*` (`bg`, `card`,
+ * privacidad de la app. Heredan los tokens `--vc-*` (`bg`, `card`,
  * `text`, `muted`, `line`, `primary`, `on-primary`, `soft`) del elemento raíz
- * de la variante: se pinta una vez, dentro de él.
+ * de la app: se pinta una vez, dentro de él.
  */
-export function ShellDialogs({ shell }: { shell: Shell }) {
+export function AppDialogs({ shell }: { shell: Shell }) {
   const { print, about, privacy } = shell.dialogs;
   return (
     <>

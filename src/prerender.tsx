@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import VariantE from "./variants/VariantE";
-import { PrerenderContext } from "./variants/prerender";
+import App from "./app/App";
+import { PrerenderContext } from "./app/prerenderContext";
 
 /**
  * Entrada del prerender: `vite-plugin-seo.ts` la carga con `ssrLoadModule` en cada
@@ -10,7 +10,7 @@ import { PrerenderContext } from "./variants/prerender";
 export function renderApp(now: Date): string {
   return renderToStaticMarkup(
     <PrerenderContext.Provider value={{ now }}>
-      <VariantE />
+      <App />
     </PrerenderContext.Provider>,
   );
 }

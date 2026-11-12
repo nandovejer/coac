@@ -1,4 +1,4 @@
-import type { PerformanceView, SessionView } from "../domain/schedule";
+import type { PerformanceView, SessionView } from "./schedule";
 
 /** Un trozo del párrafo: texto normal o el nombre de una agrupación (en negrita). */
 export interface BriefPart {

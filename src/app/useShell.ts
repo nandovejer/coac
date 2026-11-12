@@ -1,10 +1,10 @@
 import { useCallback, useState, type MouseEvent } from "react";
-import { usePrivacyRoute } from "./privacy/usePrivacyRoute";
+import { usePrivacyRoute } from "../dialogs/privacy/usePrivacyRoute";
 import type { useProgramme } from "./useProgramme";
 
-const loadPrint = () => import("./print/PrintSchedule");
-const loadAbout = () => import("./about/AboutDialog");
-const loadPrivacy = () => import("./privacy/PrivacyDialog");
+const loadPrint = () => import("../dialogs/print/PrintSchedule");
+const loadAbout = () => import("../dialogs/about/AboutDialog");
+const loadPrivacy = () => import("../dialogs/privacy/PrivacyDialog");
 
 export const HOME_URL = import.meta.env.BASE_URL;
 
@@ -27,9 +27,9 @@ export const afterPaint = (callback: () => void) =>
   requestAnimationFrame(() => requestAnimationFrame(callback));
 
 /**
- * Lo que necesita el rediseño E y no depende del aspecto: volver a la
+ * Lo que necesita la app y no depende del aspecto: volver a la
  * portada, ir a la agrupación en directo y abrir los modales de imprimir,
- * «Quiénes somos» y privacidad. Los modales los pinta `<ShellDialogs>`.
+ * «Quiénes somos» y privacidad. Los modales los pinta `<AppDialogs>`.
  */
 export function useShell(p: ReturnType<typeof useProgramme>) {
   const [printOpen, setPrintOpen] = useState(false);
@@ -91,7 +91,7 @@ export function useShell(p: ReturnType<typeof useProgramme>) {
     },
     /** Props del enlace «Privacidad» (su `href` es `PRIVACY_HASH`). */
     privacyLink: { onPointerEnter: loadPrivacy, onFocus: loadPrivacy, onClick: openPrivacy },
-    /** Estado de los modales, para `<ShellDialogs>`. */
+    /** Estado de los modales, para `<AppDialogs>`. */
     dialogs: {
       print: {
         open: printOpen,

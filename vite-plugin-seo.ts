@@ -13,12 +13,12 @@ import {
   sortSessionDates,
   zonedTimeToInstant,
 } from "./src/lib/dates";
-import { PHASES, isHomePhase } from "./src/variants/phases";
+import { PHASES, isHomePhase } from "./src/domain/phases";
 
 /**
  * Genera en cada build (a partir de `season.ts` y el JSON de la fase, las
  * mismas fuentes que usa la app en cliente) todo lo que un crawler sin
- * JavaScript, y el primer pintado, necesitan: la propia app (VariantE)
+ * JavaScript, y el primer pintado, necesitan: la propia app (src/app/App.tsx)
  * prerenderizada dentro de #root, metadatos (title/description/canonical/OG/
  * Twitter; por eso `index.html` no los lleva) y datos estructurados JSON-LD.
  * React sustituye el contenido de #root al arrancar (createRoot, no
@@ -61,7 +61,7 @@ function prerenderNow(): Date {
  *   etiquetas «Hoy» y «Mañana» hasta que monte React.
  * - Entrada de la primera carga: decide `html[data-intro]` (sin ancla, arriba, sin
  *   «reducir movimiento» y primera vez en la pestaña) para que la fachada espere en
- *   su pose inicial; VariantE lo lee, anima y lo suelta.
+ *   su pose inicial; la app lo lee, anima y lo suelta.
  */
 function bootScript(): string {
   const [endHour, endMinute] = SEASON.sessionEndTime.split(":").map(Number);
@@ -91,7 +91,7 @@ export default function seoPlugin(): Plugin[] {
   let config: ResolvedConfig;
 
   /**
-   * Pinta VariantE en HTML. Se carga con un servidor de Vite en modo middleware y
+   * Pinta la app en HTML. Se carga con un servidor de Vite en modo middleware y
    * `ssrLoadModule`: con la misma configuración que el build (alias del modo e2e,
    * JSON, `import.meta.env`), que esbuild al leer `vite.config.ts` no tiene.
    */
@@ -111,7 +111,7 @@ export default function seoPlugin(): Plugin[] {
       optimizeDeps: { noDiscovery: true },
     });
     try {
-      const entry = await server.ssrLoadModule("/src/prerenderApp.tsx");
+      const entry = await server.ssrLoadModule("/src/prerender.tsx");
       const html = (entry.renderApp as (now: Date) => string)(now);
       // La tira de días se ajusta antes del primer pintado, no al montar React
       return html.replace(
