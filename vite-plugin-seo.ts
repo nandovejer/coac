@@ -238,10 +238,13 @@ const UNOFFICIAL_NOTICE =
   "Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la organización del COAC.";
 
 // Imagen para compartir: JPEG de 1200 × 630 (1,91:1, lo que recortan Facebook y X)
-// y menos de 300 kB, que WhatsApp no siempre enseña imágenes más pesadas.
+// y menos de 300 kB, que WhatsApp no siempre enseña imágenes más pesadas. Sale de
+// src/assets/cardseo-optima.png (1536 × 1024): filas 114–920, reducida a 1200 × 630,
+// JPEG calidad 88. Nombra la fase («preliminares»): al cambiar de fase hay que
+// rehacerla y cambiar este texto.
 const OG_IMAGE = `${SITE.url}og-image.jpg`;
 const OG_IMAGE_ALT =
-  "Cartel «Horario del COAC», Carnaval de Cádiz, con el aviso «Esta no es la web oficial del COAC» y los apartados quién canta hoy, horarios estimados, todas las agrupaciones y todas las sesiones. coac.com.es.";
+  "Cartel con el título «¿Quién canta hoy en el Falla?» y el texto «Aunque no seamos la web oficial, puedes ver los horarios de las preliminares del COAC».";
 
 function buildHeadTags(): string {
   const title = escapeHtml(pageTitle());
