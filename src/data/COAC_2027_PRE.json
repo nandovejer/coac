@@ -115,7 +115,7 @@
             "ciudad": "Sevilla"
         },
         {
-            "ranking": "standar",
+            "ranking": "top",
             "modalidad": "CHIRIGOTA",
             "nombre": "Voxes negras (Prioridad nazi-oná)",
             "autor": "Juanma Bocuñano y Moisés Botana",
@@ -218,7 +218,7 @@
             "ranking": "top",
             "modalidad": "COMPARSA",
             "nombre": "Los soñadores",
-            "autor": "Alejandro Cheza",
+            "autor": "Alejandro Cheza 'Gorrión'",
             "2026": "Nueva agrupación",
             "ciudad": "Cádiz"
         },
@@ -411,7 +411,7 @@
             "ciudad": "Sevilla"
         },
         {
-            "ranking": "ok",
+            "ranking": "top",
             "modalidad": "COMPARSA",
             "nombre": "Los escorpiones",
             "autor": "Hermanos Carapapa",
@@ -530,7 +530,7 @@
             "ranking": "ok",
             "modalidad": "CHIRIGOTA",
             "nombre": "Pppfffff…!!!",
-            "autor": "J. Francisco Castro y David Castro",
+            "autor": "J. Francisco Castro y David Castro 'Chigirgota de Écija'",
             "2026": "Nos hemos venío arriba",
             "ciudad": "Écija"
         },
@@ -733,7 +733,7 @@
             "ciudad": "Marbella"
         },
         {
-            "ranking": "standar",
+            "ranking": "ok",
             "modalidad": "CHIRIGOTA",
             "nombre": "Los de la plaza Pinto",
             "autor": "Canijo de Carmona y el Lacio",
