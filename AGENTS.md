@@ -17,6 +17,7 @@ en el Gran Teatro Falla (fotos en `.claude/plans/inspiracion-falla/`).
 ```bash
 pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build
 pnpm run check:contrast && pnpm run lint:luz   # tras tocar estilos (lint:luz lee dist/)
+pnpm run check:prerender   # tras el build: lo que Google lee y lo que no puede cambiar por horas
 pnpm run test:visual   # si tocas UI: capturas, modos de color y axe
 ```
 
@@ -102,8 +103,8 @@ Los cumple el rediseño E (`src/variants/VariantE.tsx`), que es la app que se
 publica (`main.tsx` lo monta). Comparte con el prototipo D los modales y el
 estado (`useProgramme`, `useShell`, `ShellDialogs`, `print/`, `privacy/`); D
 solo se ve en desarrollo con `vite --mode variant-d`, y la app anterior
-(`App.tsx`, `components/`) con `vite --mode anterior`; el HTML estático del SEO
-aún usa su `SiteHeader`. Los tests de Playwright (`tests/visual/`) siguen
+(`App.tsx`, `components/`) con `vite --mode anterior`; el HTML estático del
+build es la propia E prerenderizada (ver «SEO con prerender»). Los tests de Playwright (`tests/visual/`) siguen
 escritos para la app anterior y hay que rehacerlos para E. En local, la app está en `localhost:5173/`. El favicon (`public/favicon.*`, iconos) es la
 fachada de `FallaLogo` con los colores de la cabecera en modo claro.
 
@@ -194,24 +195,58 @@ agrupaciones **en orden de actuación**.
 - `src/styles/` — `index.css` (orden de carga: tokens y base de Luz, selector
   de modo, tema propio, tokens propios, global), `theme-coac.css` (tema de Luz,
   3 modos), `coac-tokens.css`, `global.css` (neutraliza lo que Luz añade a las
-  etiquetas HTML) y `static-shell.css` (HTML estático del SEO).
+  etiquetas HTML).
 - `src/types.ts` — tipos compartidos.
-- `vite-plugin-seo.ts` — en cada build valida los datos y genera el HTML
-  estático dentro de `#root`, metadatos, JSON-LD de eventos y `sitemap.xml`.
+- `vite-plugin-seo.ts` — en cada build valida los datos, prerenderiza E dentro
+  de `#root` (`src/prerenderApp.tsx`, con `ssrLoadModule`), escribe metadatos,
+  JSON-LD de eventos (al final del `<body>`) y `sitemap.xml`, y mete los scripts
+  en línea del arranque. `src/variants/prerender.ts` es el contexto con el que
+  la app sabe que la están prerenderizando. `scripts/check-prerender.mjs`
+  (`pnpm run check:prerender`) comprueba `dist/index.html`; `public/404.html`
+  es la página de error, estática y sin bundle.
 - `tests/` — Playwright (capturas y comportamiento con reloj simulado) contra
   un build en modo `e2e` que sustituye el JSON por `tests/fixtures/`.
 - `public/` — favicon, iconos, `og-image.png`, `robots.txt`, manifest.
 
 ## Decisiones vigentes
 
-- **SEO sin SSR**: el plugin pone en `#root` el contenido real (mismo que ve
-  el usuario) para crawlers sin JS. React lo sustituye con `createRoot`, no
-  hidratación, así que no hay mismatch ni cloaking.
-- `vite-plugin-seo.ts` está en `tsconfig.json` y reutiliza `SiteHeader` y el
-  dominio de `src/`, para que nunca diverjan de la app. Por eso el CSS de
-  `SiteHeader` se importa desde `App.tsx` (esbuild no carga CSS al leer
-  `vite.config.ts`). El plugin también mete en línea `theme-boot` de Luz al
-  principio del `<head>`: aplica el modo de color antes del primer pintado.
+- **SEO con prerender**: el build pinta E entera en `#root` con
+  `renderToStaticMarkup` (mismo código que ve el usuario, mismos ids y mismo
+  CSS) y React la sustituye con `createRoot`; no hay hidratación (el estado de
+  `localStorage` y `<luz-theme-mode>` obligarían a repintarla entera). Así el
+  primer pintado ya es la app y no hay destello de una lista antigua. Se
+  prerenderiza a las **12:00 de Madrid del día del build**, con `PrerenderContext`:
+  «Hoy», «Mañana», «Celebrada» y el orden valen todo el día y ninguna actuación
+  sale empezada. Todo lo que cambia por horas se neutraliza (nada de «Ya
+  actuó», «Actuando ahora», «A continuación», tira «En directo», barras de
+  avance, «Aún no ha empezado», cuenta atrás con «--» del ancho de dos cifras
+  y sin su texto accesible; el aviso de privacidad no se prerenderiza). Si
+  añades algo que dependa de la hora, o que lea `window`/`document` al
+  renderizar, hay que neutralizarlo o protegerlo en el prerender.
+  `COAC_PRERENDER_DATE=aaaa-mm-dd` fija el día para probar un build.
+- **Rebuild diario**: `deploy.yml` corre a diario a las 03:15 UTC (04:15 en
+  Madrid en invierno, tras `sessionEndTime`) para que «Hoy» y «Mañana» sigan
+  siendo ciertos; GitHub puede retrasarlo y desactiva los cron de un repo sin
+  actividad en 60 días. Guarda por si falla: `<html data-built>` lleva la fecha
+  del build y un script en línea del `<head>` pone `html[data-stale]` si
+  difiere de la del día de sesión de hoy; el CSS esconde solo las etiquetas
+  «Hoy», «Mañana» y «Próxima sesión» del prerender hasta que monte React.
+- **Primer pintado sin saltos**: otro script del `<head>` decide la entrada
+  (`html[data-intro]`, que E lee y suelta) para que la fachada espere en su
+  pose inicial; uno tras la tira de días quita las flechas si todo cabe y
+  lleva hoy a la vista; `html` y `body` llevan el fondo de la app en los tres
+  modos y `luz-theme-mode:not(:defined)` pinta el círculo vacío del botón. Lo
+  escrito en el buscador y el ancla de la URL sobreviven al cambio. **La prueba
+  del destello son los filmstrips** (capturas de pantalla cada pocos ms con red
+  y CPU lentas), no el CLS: sustituir nodos no mueve nada y el CLS no lo ve.
+  Orden del `<head>`: charset, `theme-boot` de Luz, el script de arranque,
+  metadatos (title, description, canonical, OG, Twitter), el módulo y, por fin,
+  el `<style>` en línea.
+- `vite-plugin-seo.ts` está en `tsconfig.json` y reutiliza el dominio de `src/`.
+  Carga la app con un servidor de Vite en modo middleware (`ssrLoadModule`)
+  porque esbuild no carga CSS ni alias al leer `vite.config.ts`; durante el
+  prerender `NODE_ENV` pasa a `development` (el JSX sale como `jsxDEV`) y se
+  restaura. Mete en línea `theme-boot` de Luz al principio del `<head>`.
 - **CSS en línea**: un segundo plugin de `vite-plugin-seo.ts` mete el CSS del
   build en un `<style>` del `index.html` (FCP 580 → 264 ms en móvil lento).
   No pruebes `content-visibility` en las sesiones: la altura estimada descuadra
@@ -220,7 +255,15 @@ agrupaciones **en orden de actuación**.
   botón al DOM: se renderiza una vez (`memo`) y React no debe volver a tocarlo.
   Luz no escribe textos propios; los de `ThemeModeSwitch` son los del lector de
   pantalla.
-- **Layout**: arriba el `Hero` (título, descripción y cuenta atrás);
+- **Layout de E** (la app publicada): en escritorio, columna izquierda fija
+  (`.coac-ve__rail`: título con la fase, tarjeta de estado, accesos) y, a su
+  derecha, el programa con el filtro (buscador, modalidades y días) fijo arriba;
+  en móvil, cabecera fija que se esconde al bajar. `useStickyHeights` mide la
+  cabecera y el filtro (todo lo que lea el DOM va antes de lo que escribe) y
+  publica `--ve-top-h`/`--ve-filters-h` en el elemento que los usa. El `<h1>` es
+  `.coac-ve__brand-text` (título y fase), cada sesión es una `<section id="dd/mm/aaaa">`
+  con su `<time>` y la tarjeta de estado y la cuenta atrás llevan `data-nosnippet`.
+- **Layout de la app anterior** (`App.tsx`): arriba el `Hero` (título, descripción y cuenta atrás);
   debajo, panel lateral (`App.tsx`, `App.css`) con el fondo de la cabecera:
   `LiveStatus`, «Ver el directo», `SessionIndex` y `RankingLegend`. Entre el hero y esa
   rejilla va `SearchSection`: una frase y el buscador (un campo que abre un modal `<dialog>`, a pantalla
@@ -240,19 +283,13 @@ agrupaciones **en orden de actuación**.
   botón del modo de color es el de Luz en línea (`inline`), en el pie de la
   página (`.coac-site-footer__theme`), no flotando sobre el contenido. El título de cada
   sesión es corto («Jueves 21 de enero», `formatSessionTitleDate`).
-- **Cuenta atrás**: va en el `Hero` (la pinta `App.tsx`, no
-  `SessionSchedule`) hacia `schedule.upcomingSession`: la sesión de hoy si aún
-  no ha empezado, si no la siguiente (también de madrugada). Sin agrupación en
-  directo y con sesión por venir siempre hay cuenta atrás. Usa la fuente de
-  siete segmentos DSEG7 Classic Bold (SIL OFL), cargada desde jsDelivr
-  (`npm/dseg@0.46.0`) **solo en la app anterior** (`App.tsx`, `vite --mode anterior`):
-  la app publicada (E) no hace ninguna petición a terceros. Si algún día E la usa,
-  sírvela desde el propio dominio con su licencia (y actualiza la privacidad y
-  `PRIVACY_VERSION`: jsDelivr vería la IP). Si se cambia de
-  versión o de fuente, hay que medir otra vez el ancho de cifra
-  (`.coac-digit` en `ui/RollingNumber.css`, 0,82 em) para que no haya saltos al cargarla. Los tests
-  visuales sirven la fuente desde `tests/fixtures/dseg/` (`tests/visual/base.ts`)
-  y no dependen de la red. Los dígitos van `aria-hidden`; el texto accesible
-  cambia solo por minutos.
+- **Cuenta atrás** (E, `variants/Countdown.tsx`): va en la tarjeta de estado hacia
+  `schedule.upcomingSession`: la sesión de hoy si aún no ha empezado, si no la
+  siguiente (también de madrugada). Sin agrupación en directo y con sesión por
+  venir siempre hay cuenta atrás. Las cifras ruedan (sin opacidad intermedia),
+  van `aria-hidden` y el texto accesible cambia solo por minutos. E no usa
+  fuentes web ni hace ninguna petición a terceros; la fuente de siete segmentos
+  de jsDelivr es solo de la app anterior (`--mode anterior`) y no entra en el
+  build.
 - Las horas de la UI son estimaciones (`SEASON.minutesPerGroup` por
   agrupación, actuación + montaje).
