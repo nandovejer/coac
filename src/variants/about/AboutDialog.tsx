@@ -28,6 +28,26 @@ export default function AboutDialog({ onClose }: { onClose: () => void }) {
         </p>
       </InfoSection>
 
+      <InfoSection title="Gratis y sin publicidad, siempre">
+        <p>
+          Esta web <strong>no tiene publicidad y nunca la tendrá</strong>. Tampoco vende nada, no pide
+          donaciones, no tiene patrocinadores y no gana dinero de ninguna otra forma. No es un negocio ni
+          quiere serlo.
+        </p>
+        <p>
+          Es un proyecto de código abierto con{" "}
+          <a href="https://es.wikipedia.org/wiki/MIT_License">licencia MIT</a>. Eso significa que el código
+          está a la vista de todo el mundo y que cualquiera puede leerlo, copiarlo, cambiarlo y usarlo para lo
+          que quiera, sin pedir permiso y sin pagar. Solo se pide una cosa: mantener el nombre del autor y el
+          texto de la licencia.
+        </p>
+        <p>
+          La idea es sencilla: el Carnaval es de la gente, y una herramienta hecha para su afición también
+          debe serlo. Lo que se hace por gusto se comparte, y si a alguien le sirve para aprender o para hacer
+          algo mejor, mejor para todos.
+        </p>
+      </InfoSection>
+
       <InfoSection title="De dónde salen los datos">
         <p>
           Las agrupaciones y su orden de actuación salen del listado oficial del COAC {SEASON.year}, que
