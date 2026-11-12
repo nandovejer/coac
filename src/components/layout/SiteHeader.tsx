@@ -1,5 +1,5 @@
-// Su CSS (SiteHeader.css) se importa desde App.tsx: vite-plugin-seo.ts renderiza
-// este componente en el build y esbuild no puede cargar CSS al leer vite.config.ts.
+// Cabecera de la app anterior (`App.tsx`, `vite --mode anterior`). La app publicada
+// (VariantE) no la usa: el build la prerenderiza entera (ver vite-plugin-seo.ts).
 interface SiteHeaderProps {
   year: number;
   phaseTitle: string;

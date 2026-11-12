@@ -3,6 +3,7 @@ import { scheduleConfig, sessions } from "../config/season";
 import { searchGroups } from "../domain/filterByAuthor";
 import { buildSchedule, type PerformanceView, type SessionView } from "../domain/schedule";
 import { useNow } from "../hooks/useNow";
+import { usePrerender } from "./prerender";
 import { addDays, formatMinutesOfDay, formatSessionDate, parseSessionDate, parseTime } from "../lib/dates";
 import type { Modalidad } from "../types";
 
@@ -35,10 +36,16 @@ export const addMinutes = (time: string, minutes: number) => {
  * celebradas), un día elegido en el calendario, o los resultados del buscador
  * (por autor o agrupación, con filtro de modalidad).
  */
-export function useProgramme({ allSessions = false }: { allSessions?: boolean } = {}) {
-  const now = useNow();
+export function useProgramme({
+  allSessions = false,
+  initialTerm = "",
+}: { allSessions?: boolean; initialTerm?: string } = {}) {
+  // En el prerender la hora es fija y nada se marca como «ya actuó» ni «en directo»
+  const prerender = usePrerender();
+  const clock = useNow();
+  const now = prerender?.now ?? clock;
   const schedule = useMemo(() => buildSchedule(sessions, now, scheduleConfig), [now]);
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = useState(initialTerm);
   const [modalidad, setModalidad] = useState<Modalidad | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   // Con un día elegido, la búsqueda y la modalidad se quedan en ese día; con
@@ -115,6 +122,8 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
   const stageOf = (session: SessionView, performance: PerformanceView): Stage => {
     if (session.status === "past") return "done";
     if (session.status === "future") return "pending";
+    // Lo que cambia por horas no se prerenderiza: la sesión de hoy queda sin empezar
+    if (prerender) return "pending";
     // Sesión de hoy sin nadie en directo: o no ha empezado, o ya terminó.
     if (liveIndex === -1) return now >= session.startsAt ? "done" : "pending";
     const index = session.performances.indexOf(performance);
@@ -146,7 +155,7 @@ export function useProgramme({ allSessions = false }: { allSessions?: boolean } 
     mode,
     sections,
     count: sections.reduce((total, section) => total + section.performances.length, 0),
-    live: schedule.present?.performances.find((p) => p.isLive) ?? null,
+    live: prerender ? null : (schedule.present?.performances.find((p) => p.isLive) ?? null),
     term,
     setTerm,
     modalidad,

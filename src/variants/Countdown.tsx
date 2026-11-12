@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { usePrerender } from "./prerender";
 import { pad2, useRemaining } from "./useProgramme";
 import "./Countdown.css";
 
@@ -42,7 +43,24 @@ function Roll({ value }: { value: number }) {
  * visible cansaría); las cifras van `aria-hidden` y el texto accesible solo
  * cambia por minutos.
  */
+/**
+ * Las cifras cambian por segundos: el prerender pone «--» en su sitio. El número
+ * oculto da el ancho exacto de dos cifras, así que al montar nada se mueve.
+ */
+function Pending({ label }: { label: string }) {
+  return (
+    <span className="coac-ve__digit">
+      <strong className="coac-ve__pending">
+        <span className="coac-ve__pending-width">00</span>
+        <span className="coac-ve__pending-mark">--</span>
+      </strong>
+      {label}
+    </span>
+  );
+}
+
 export function Countdown({ target }: { target: Date }) {
+  const prerender = usePrerender();
   const remaining = useRemaining(target);
   const anchor = useRef<HTMLDivElement>(null);
   // La fachada de la tarjeta sube un poco en la última hora (--ve-curtain, de 0 a 1).
@@ -56,6 +74,18 @@ export function Countdown({ target }: { target: Date }) {
       card.style.removeProperty("--ve-curtain");
     };
   }, [minutes]);
+  if (prerender) {
+    return (
+      <div className="coac-ve__countdown" data-nosnippet>
+        <div className="coac-ve__digits" aria-hidden="true">
+          <Pending label="días" />
+          <Pending label="horas" />
+          <Pending label="min" />
+          <Pending label="seg" />
+        </div>
+      </div>
+    );
+  }
   if (!remaining) return null;
   return (
     <div ref={anchor} className="coac-ve__countdown" data-nosnippet>

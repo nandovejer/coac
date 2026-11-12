@@ -1,26 +1,28 @@
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
-import { createElement } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
-import type { Plugin } from "vite";
-import { SiteHeader } from "./src/components/layout/SiteHeader";
+import { createServer, type Plugin, type ResolvedConfig } from "vite";
 import { SEASON, rawSessions, scheduleConfig, sessions } from "./src/config/season";
 import { SITE } from "./src/config/site";
 import { getSessionStart } from "./src/domain/schedule";
 import { validateSessions } from "./src/domain/validate";
-import { formatLongDate, formatSessionTitleDate, formatZonedIso, sortSessionDates } from "./src/lib/dates";
+import {
+  formatSessionTitleDate,
+  formatZonedIso,
+  getZonedParts,
+  sortSessionDates,
+  zonedTimeToInstant,
+} from "./src/lib/dates";
 import { PHASES, isHomePhase } from "./src/variants/phases";
-import { NEW_GROUP_LABEL } from "./src/types";
 
 /**
  * Genera en cada build (a partir de `season.ts` y el JSON de la fase, las
  * mismas fuentes que usa la app en cliente) todo lo que un crawler sin
- * JavaScript necesita: contenido HTML real dentro de #root, metadatos
- * (title/description/canonical/OG/Twitter; por eso `index.html` no los lleva) y
- * datos estructurados JSON-LD.
- * React sustituye este contenido al arrancar (createRoot, no hidratación),
- * así que no hay riesgo de mismatch.
+ * JavaScript, y el primer pintado, necesitan: la propia app (VariantE)
+ * prerenderizada dentro de #root, metadatos (title/description/canonical/OG/
+ * Twitter; por eso `index.html` no los lleva) y datos estructurados JSON-LD.
+ * React sustituye el contenido de #root al arrancar (createRoot, no
+ * hidratación), así que no hay mismatch ni hace falta que coincida al detalle.
  */
 // Aplica el modo de color guardado (o el del sistema) antes del primer pintado,
 // para que quien use oscuro no vea un destello de modo claro.
@@ -31,9 +33,103 @@ function themeBootScript(): string {
   return readFileSync(file, "utf8").trim().replaceAll("</script", "<\\/script");
 }
 
+/** Fecha `yyyy-mm-dd` de hoy en `SITE.timeZone` a partir de un instante. */
+function zonedDay(instant: Date): string {
+  const { year, month, day } = getZonedParts(instant, SITE.timeZone);
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+/**
+ * Hora que se usa al prerenderizar: el mediodía (hora de Madrid) del día del build.
+ * Así «Hoy», «Mañana», «Celebrada» y el orden son correctos todo el día, y ninguna
+ * actuación sale empezada (las sesiones empiezan por la tarde).
+ */
+function prerenderNow(): Date {
+  // `COAC_PRERENDER_DATE=2027-01-12` fija el día (para probar un build como si fuera ese día)
+  const fixed = /^(\d{4})-(\d{2})-(\d{2})$/.exec(process.env.COAC_PRERENDER_DATE ?? "");
+  const { year, month, day } = fixed
+    ? { year: Number(fixed[1]), month: Number(fixed[2]), day: Number(fixed[3]) }
+    : getZonedParts(new Date(), SITE.timeZone);
+  return zonedTimeToInstant({ year, month, day }, 12, 0, SITE.timeZone);
+}
+
+/**
+ * Script en línea del <head>, antes del primer pintado:
+ * - Guarda si el cron falla: compara la fecha del build (`<html data-built>`) con la
+ *   del día de sesión de hoy (hasta `sessionEndTime` de la madrugada cuenta el día
+ *   anterior) y, si difieren, pone `html[data-stale]`: el CSS esconde solo las
+ *   etiquetas «Hoy» y «Mañana» hasta que monte React.
+ * - Entrada de la primera carga: decide `html[data-intro]` (sin ancla, arriba, sin
+ *   «reducir movimiento» y primera vez en la pestaña) para que la fachada espere en
+ *   su pose inicial; VariantE lo lee, anima y lo suelta.
+ */
+function bootScript(): string {
+  const [endHour, endMinute] = SEASON.sessionEndTime.split(":").map(Number);
+  const endMs = (endHour * 60 + endMinute) * 60000;
+  return (
+    "(()=>{try{const h=document.documentElement;" +
+    `const d=new Intl.DateTimeFormat("en-CA",{timeZone:${JSON.stringify(SITE.timeZone)}}).format(new Date(Date.now()-${endMs}));` +
+    'if(h.dataset.built&&h.dataset.built!==d)h.setAttribute("data-stale","");' +
+    'if(!location.hash&&!scrollY&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&sessionStorage.getItem("ve-intro")!=="1")h.setAttribute("data-intro","")' +
+    "}catch(e){}})()"
+  );
+}
+
+/**
+ * Script en línea justo tras la tira de días, antes del primer pintado: quita las
+ * flechas si todos los días caben y deja a la vista el día de hoy (o el próximo), como
+ * hace DayStrip al montar. Así la tira no se mueve cuando React toma el relevo.
+ */
+const DAY_STRIP_SCRIPT =
+  "(()=>{try{const c=document.querySelector('.coac-ve__carousel');const l=c&&c.querySelector('.coac-ve__days');if(!l)return;" +
+  "c.removeAttribute('data-scrollable');if(l.scrollWidth>l.clientWidth+1)c.setAttribute('data-scrollable','');" +
+  "const d=l.querySelector('[data-label=\"Hoy\"]')||l.querySelector('[data-upcoming]')||l.querySelector('li:last-child button');if(!d)return;" +
+  "const a=l.getBoundingClientRect(),b=d.getBoundingClientRect();if(b.left>=a.left&&b.right<=a.right)return;" +
+  "l.scrollTo({left:b.left-a.left+l.scrollLeft-(a.width-b.width)/2,behavior:'instant'})}catch(e){}})()";
+
 export default function seoPlugin(): Plugin[] {
+  let config: ResolvedConfig;
+
+  /**
+   * Pinta VariantE en HTML. Se carga con un servidor de Vite en modo middleware y
+   * `ssrLoadModule`: con la misma configuración que el build (alias del modo e2e,
+   * JSON, `import.meta.env`), que esbuild al leer `vite.config.ts` no tiene.
+   */
+  async function prerender(now: Date): Promise<string> {
+    // El servidor de Vite compila el JSX en modo desarrollo (`jsxDEV`) y React, que
+    // se carga fuera de Vite, tiene que ser el de desarrollo para ofrecerlo: en el
+    // build `NODE_ENV` es `production` y no lo trae. Se restaura al terminar.
+    const previousEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "development";
+    const server = await createServer({
+      configFile: config.configFile,
+      mode: config.mode,
+      root: config.root,
+      logLevel: "error",
+      appType: "custom",
+      server: { middlewareMode: true, hmr: false, watch: null },
+      optimizeDeps: { noDiscovery: true },
+    });
+    try {
+      const entry = await server.ssrLoadModule("/src/prerenderApp.tsx");
+      const html = (entry.renderApp as (now: Date) => string)(now);
+      // La tira de días se ajusta antes del primer pintado, no al montar React
+      return html.replace(
+        /<nav class="coac-ve__calendar"[\s\S]*?<\/nav>/,
+        (nav) => `${nav}<script>${DAY_STRIP_SCRIPT}</script>`,
+      );
+    } finally {
+      await server.close();
+      if (previousEnv === undefined) delete process.env.NODE_ENV;
+      else process.env.NODE_ENV = previousEnv;
+    }
+  }
+
   const seo: Plugin = {
     name: "coac-seo",
+    configResolved(resolved) {
+      config = resolved;
+    },
     buildStart() {
       // Un JSON mal escrito rompe el build, no la web.
       const errors = validateSessions(rawSessions, SEASON.previousYear);
@@ -43,25 +139,32 @@ export default function seoPlugin(): Plugin[] {
     },
     transformIndexHtml: {
       order: "pre",
-      handler(html) {
+      async handler(html, ctx) {
         let result = html.replace(/<title>[\s\S]*?<\/title>/, "");
         // Orden del <head>: charset primero (tiene que caer en los primeros 1024 bytes),
         // el modo de color antes del primer pintado y, después, los metadatos
         result = result.replace(/<meta charset="UTF-8" \/>\s*/, "");
         result = result.replace(
           "<head>",
-          `<head>\n    <meta charset="UTF-8" />\n    <script>${themeBootScript()}</script>`,
+          `<head>\n    <meta charset="UTF-8" />\n    <script>${themeBootScript()}</script>\n    <script>${bootScript()}</script>`,
         );
+        // Fecha del build, para la guarda de `bootScript` (solo si hay prerender)
+        const prerendered = !ctx.server;
+        if (prerendered) {
+          result = result.replace("<html ", `<html data-built="${zonedDay(prerenderNow())}" `);
+        }
         result = result.replace("</head>", `${buildHeadTags()}\n  </head>`);
         // Los datos estructurados no son para el primer pintado: al final del body
         result = result.replace(
           "</body>",
           `  <script type="application/ld+json">${buildJsonLd()}</script>\n  </body>`,
         );
-        result = result.replace(
-          /<div id="root">[\s\S]*?<\/div>/,
-          `<div id="root">${buildStaticContent()}</div>`,
-        );
+        // En desarrollo #root va vacío (Vite sirve el módulo y React pinta); en el build,
+        // la app entera
+        if (prerendered) {
+          const app = await prerender(prerenderNow());
+          result = result.replace('<div id="root"></div>', () => `<div id="root">${app}</div>`);
+        }
         return result;
       },
     },
@@ -226,56 +329,4 @@ function buildJsonLd(): string {
 
   // Escapamos "<" para que un valor con "</script>" no rompa el documento.
   return JSON.stringify(graph).replace(/</g, "\\u003c");
-}
-
-function buildStaticContent(): string {
-  const data = sessions;
-  const dates = sortSessionDates(Object.keys(data));
-
-  const sessionsHtml = dates
-    .map((date) => {
-      const groups = data[date];
-
-      const itemsHtml = groups
-        .map((group) => {
-          const previousHtml = group.previous
-            ? `<p>${"isNew" in group.previous ? NEW_GROUP_LABEL : `Anteriormente: ${escapeHtml(group.previous.name)}`}</p>`
-            : "";
-
-          return `
-            <li id="${escapeHtml(group.id)}" class="coac-static__item">
-              <span class="coac-static__modalidad">${escapeHtml(group.modalidad)}</span>
-              — <strong class="coac-static__author">${escapeHtml(group.autor)}</strong>
-              <p>${escapeHtml(group.nombre)}</p>
-              <p class="coac-static__city">${escapeHtml(group.ciudad)}</p>
-              ${previousHtml}
-            </li>`;
-        })
-        .join("");
-
-      return `
-        <section aria-labelledby="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="coac-static__session">
-          <h2 id="seo-${escapeHtml(date.replace(/\//g, "-"))}" class="coac-static__title coac-gradient-heading">
-            Sesión — ${escapeHtml(formatLongDate(date))}
-          </h2>
-          <ul class="coac-static__list">${itemsHtml}</ul>
-        </section>`;
-    })
-    .join("");
-
-  // La misma cabecera que la app, para que React no la "mueva" al arrancar.
-  const headerHtml = renderToStaticMarkup(
-    createElement(SiteHeader, { year: SEASON.year, phaseTitle: SEASON.phaseTitle }),
-  );
-
-  return `
-    ${headerHtml}
-    <main id="siteMain">${sessionsHtml}</main>
-    <footer>
-      <p>
-        Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
-        organización del COAC. El listado y el orden de actuación proceden de la información pública del
-        Ayuntamiento; las horas son estimadas y las recomendaciones, personales.
-      </p>
-    </footer>`;
 }

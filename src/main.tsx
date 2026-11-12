@@ -3,9 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./variants/VariantE";
 import "@luz-ds/core/theme-mode";
 import "./styles/index.css";
-// El HTML estático del SEO (vite-plugin-seo.ts) pinta la cabecera de SiteHeader
-// hasta que React lo sustituye: su CSS tiene que estar en el build.
-import "./components/layout/SiteHeader.css";
 
 // La app es el rediseño E (src/variants/). Solo en desarrollo, para
 // compararlas: el prototipo D (`vite --mode variant-d`) y la app anterior
@@ -18,6 +15,12 @@ const devApps: Record<string, LazyExoticComponent<ComponentType>> = import.meta.
   : {};
 const DevApp = devApps[import.meta.env.MODE];
 
+// El build ya ha pintado la app en #root (vite-plugin-seo.ts): React la sustituye sin
+// hidratar. Lo que se escribió en el buscador antes de que cargara no se pierde.
+const search = document.getElementById("ve-search") as HTMLInputElement | null;
+const typed = search?.value ?? "";
+const focused = search !== null && document.activeElement === search;
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     {DevApp ? (
@@ -25,7 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <DevApp />
       </Suspense>
     ) : (
-      <App />
+      <App initialTerm={typed} restoreSearchFocus={focused} />
     )}
   </React.StrictMode>,
 );

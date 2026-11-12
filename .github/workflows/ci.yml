@@ -23,3 +23,4 @@ jobs:
       - run: pnpm run test
       - run: pnpm run build
       - run: pnpm run lint:luz
+      - run: pnpm run check:prerender

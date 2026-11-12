@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Rebuild diario a las 03:15 UTC (04:15 en Madrid en invierno, tras el fin de las
+  # sesiones de la madrugada): el HTML prerenderizado lleva «Hoy» y «Mañana» del día
+  # del build. GitHub desactiva los cron de un repo sin actividad en 60 días.
+  schedule:
+    - cron: "15 3 * * *"
 
 permissions:
   contents: read
@@ -35,6 +40,7 @@ jobs:
       - run: pnpm run build
         env:
           TZ: Europe/Madrid
+      - run: pnpm run check:prerender
       - run: pnpm run lint:luz
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

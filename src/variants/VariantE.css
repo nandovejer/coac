@@ -5,9 +5,28 @@
  * elevada y la franja horaria en vertical junto a cada tarjeta. Esquinas casi
  * rectas (3px como mucho). El azul es el acento; el rojo, solo «En directo».
  */
+/* Fondo de la página: el mismo de la app en cada modo. <html> y <body> lo llevan para
+   que no cambie al montar ni se vea otro color en el rebote de iOS. */
+html:has(.coac-ve) {
+  --ve-page-bg: #eff0f5;
+}
+
+html[data-mode="dark"]:has(.coac-ve) {
+  --ve-page-bg: #111118;
+}
+
+html[data-mode="high-contrast"]:has(.coac-ve) {
+  --ve-page-bg: #ffffff;
+}
+
+html:has(.coac-ve),
+html:has(.coac-ve) body {
+  background: var(--ve-page-bg);
+}
+
 .coac-ve {
   /* Contrato de los modales (ShellDialogs) */
-  --vc-bg: #eff0f5;
+  --vc-bg: var(--ve-page-bg);
   --vc-card: #ffffff;
   --vc-text: #1b1c3b;
   --vc-muted: #5a5c75;
@@ -74,7 +93,7 @@
 }
 
 [data-mode="dark"] .coac-ve {
-  --vc-bg: #111118;
+  --vc-bg: var(--ve-page-bg);
   --vc-card: #1c1c27;
   --vc-text: #f2f2f8;
   --vc-muted: #aeb0c6;
@@ -112,7 +131,7 @@
 }
 
 [data-mode="high-contrast"] .coac-ve {
-  --vc-bg: #ffffff;
+  --vc-bg: var(--ve-page-bg);
   --vc-card: #ffffff;
   --vc-text: #000000;
   --vc-muted: #33334a;
@@ -2691,4 +2710,54 @@ html:active-view-transition-type(ve-theme) *::after {
       }
     }
   }
+}
+
+/* =========================================================================
+   Prerender (HTML estático del build, antes de que monte React)
+   ========================================================================= */
+
+/* Cifras de la cuenta atrás: «--» sobre el ancho de dos cifras, para que al montar
+   no se mueva nada */
+.coac-ve__pending {
+  position: relative;
+  display: grid;
+}
+
+.coac-ve__pending > * {
+  grid-area: 1 / 1;
+}
+
+.coac-ve__pending-width {
+  visibility: hidden;
+}
+
+/* Si el cron falla y el HTML es de otro día, las etiquetas «Hoy», «Mañana» y
+   «Próxima sesión» se esconden (sin mover nada) hasta que monte React. El script
+   del <head> pone `html[data-stale]` comparando la fecha del build con la de hoy. */
+html[data-stale] .coac-ve[data-prerender] :is(.coac-ve__day-tag, .coac-ve__label, .coac-ve__session-eyebrow) {
+  visibility: hidden;
+}
+
+/* Primera carga: la fachada espera en su pose inicial hasta que monte React, que
+   arranca la entrada (`.coac-ve[data-intro]`) justo desde ahí. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-intro] .coac-ve:not([data-intro]) .coac-ve__status .coac-ve__status-mark {
+    translate: 50% 40%;
+  }
+}
+
+/* Hasta que Luz define <luz-theme-mode> no flotan los radios: se pinta el círculo
+   vacío del botón, de su mismo tamaño. */
+luz-theme-mode:not(:defined) {
+  display: block;
+  box-sizing: border-box;
+  inline-size: var(--luz-control-lg);
+  block-size: var(--luz-control-lg);
+  border: 1px solid var(--luz-theme-mode-edge);
+  border-radius: var(--luz-radius-full);
+  background: var(--luz-theme-mode-bg);
+}
+
+luz-theme-mode:not(:defined) .luz-theme-mode__group {
+  display: none;
 }

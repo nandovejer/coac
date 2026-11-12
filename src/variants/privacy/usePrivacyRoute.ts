@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import { PRIVACY_HASH } from "./policy";
 
-const isPrivacyUrl = () => window.location.hash === PRIVACY_HASH;
+const isPrivacyUrl = () => typeof window !== "undefined" && window.location.hash === PRIVACY_HASH;
 
 /**
  * La privacidad es una «página» sin router: un modal que se abre con

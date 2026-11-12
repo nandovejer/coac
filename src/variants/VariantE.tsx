@@ -11,6 +11,7 @@ import {
 } from "react";
 import { SEASON } from "../config/season";
 import { Countdown } from "./Countdown";
+import { usePrerender } from "./prerender";
 import { animateOnce, prefersReducedMotion, withViewTransition } from "./motion";
 import { ThemeModeSwitch } from "../components/layout/ThemeModeSwitch";
 import { FallaLogo } from "../components/ui/FallaLogo";
@@ -64,6 +65,9 @@ function progressText(stages: Stage[]) {
   if (done === 0 && !stages.includes("live")) return "Aún no ha empezado";
   return `${done} de ${stages.length} ya han actuado`;
 }
+
+/** `useLayoutEffect` no existe en el servidor (el prerender): allí no hace nada. */
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 /** Desde este ancho la cabecera deja de ser fija (la columna izquierda ocupa su sitio). */
 const DESKTOP_QUERY = "(min-width: 64rem)";
@@ -305,6 +309,12 @@ function useThemeCurtain() {
   }, []);
 }
 
+/** Si la tira de días está en su extremo izquierdo y en el derecho (los dos, si todo cabe). */
+function edgesOf(list: HTMLElement) {
+  const max = list.scrollWidth - list.clientWidth;
+  return { start: list.scrollLeft <= 1, end: list.scrollLeft >= max - 1 };
+}
+
 /**
  * Tira de días: siempre una sola fila que se desliza (con el dedo, encajando
  * en cada día) y flechas a los lados, que se apagan en los extremos y no salen
@@ -313,20 +323,26 @@ function useThemeCurtain() {
 function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNode }) {
   const listId = useId();
   const listRef = useRef<HTMLOListElement>(null);
-  const [edges, setEdges] = useState({ start: true, end: true });
+  // En el HTML prerenderizado la tira sale con flechas (empieza en su extremo, con más
+  // a la derecha) y un script en línea las quita si todo cabe. React parte de lo que ya
+  // hay pintado, así que montar no cambia las flechas ni repite la medida. Sin HTML
+  // previo (desarrollo), sin flechas hasta medir, antes del primer pintado.
+  const [edges, setEdges] = useState(() => {
+    if (typeof window === "undefined") return { start: true, end: false };
+    const painted = document.querySelector<HTMLElement>(".coac-ve__days");
+    return painted ? edgesOf(painted) : { start: true, end: true };
+  });
 
   const update = useCallback(() => {
     const list = listRef.current;
     if (!list) return;
-    const max = list.scrollWidth - list.clientWidth;
-    const start = list.scrollLeft <= 1;
-    const end = list.scrollLeft >= max - 1;
+    const next = edgesOf(list);
     // Sin cambio no hay nuevo estado: el scroll de la tira no repinta la app
-    setEdges((previous) => (previous.start === start && previous.end === end ? previous : { start, end }));
+    setEdges((previous) => (previous.start === next.start && previous.end === next.end ? previous : next));
   }, []);
 
   // La primera medida, antes del primer pintado: las flechas no aparecen tarde
-  useLayoutEffect(update, [update]);
+  useIsomorphicLayoutEffect(update, [update]);
 
   useEffect(() => {
     const list = listRef.current;
@@ -398,20 +414,14 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
 /**
  * Entrada de la primera carga: solo si no hay ancla en la URL, la página está
  * arriba, es la primera vez en esta pestaña y no se pide «reducir movimiento».
- * Solo mueve piezas decorativas (la fachada, los segmentos de hoy): el contenido
- * y el LCP no cambian.
+ * La decide un script en línea del <head> (`vite-plugin-seo.ts`) antes del primer
+ * pintado y la deja en `<html data-intro>`: así la fachada del HTML prerenderizado
+ * ya espera en su pose inicial y la animación empieza donde estaba. Solo mueve
+ * piezas decorativas (la fachada, los segmentos de hoy): el contenido y el LCP no
+ * cambian.
  */
-function shouldIntro() {
-  try {
-    return (
-      !window.location.hash &&
-      window.scrollY === 0 &&
-      !prefersReducedMotion() &&
-      window.sessionStorage.getItem("ve-intro") !== "1"
-    );
-  } catch {
-    return false;
-  }
+function introDecided() {
+  return typeof document !== "undefined" && document.documentElement.hasAttribute("data-intro");
 }
 
 /**
@@ -420,20 +430,40 @@ function shouldIntro() {
  * como números grandes con el elegido en una ficha elevada, y el programa
  * con la franja horaria escrita en vertical junto a cada tarjeta.
  */
-export default function VariantE() {
-  const p = useProgramme({ allSessions: true });
+export default function VariantE({
+  initialTerm = "",
+  restoreSearchFocus = false,
+}: {
+  /** Lo escrito en el buscador del HTML prerenderizado antes de que cargara la app. */
+  initialTerm?: string;
+  restoreSearchFocus?: boolean;
+} = {}) {
+  const prerender = usePrerender();
+  const p = useProgramme({ allSessions: true, initialTerm });
   const shell = useShell(p);
   const upcoming = p.live ? null : p.schedule.upcomingSession;
   // Entre la hora de inicio y el siguiente refresco (hasta 30 s) no hay cuenta
   // atrás ni directo: la sesión «empieza», no «ha terminado la fase»
   const reached = useReached(upcoming?.startsAt);
-  const state = p.live ? "live" : upcoming ? (reached ? "starting" : "countdown") : "over";
+  const state = p.live ? "live" : upcoming ? (reached && !prerender ? "starting" : "countdown") : "over";
   const rootRef = useStickyHeights();
   useHideHeaderOnScroll(rootRef);
   useStuckFilters();
   useThemeCurtain();
-  const [intro, setIntro] = useState(shouldIntro);
+  // Con un ancla (`#dd/mm/yyyy`, una agrupación), el navegador ya fue al HTML estático con
+  // el margen de partida (y suave, como todo en esta página): al montar se recoloca en seco
+  // con la cabecera y el filtro reales.
   useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = id ? document.getElementById(id) : null;
+    if (!target) return;
+    const frame = requestAnimationFrame(() => target.scrollIntoView({ block: "start", behavior: "instant" }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  const [intro, setIntro] = useState(introDecided);
+  useEffect(() => {
+    // La decisión ya está tomada y vive en `data-intro` de la raíz: <html> la suelta
+    document.documentElement.removeAttribute("data-intro");
     try {
       window.sessionStorage.setItem("ve-intro", "1");
     } catch {
@@ -447,6 +477,10 @@ export default function VariantE() {
   useGhostMark(".coac-ve__carousel", ".coac-ve__days", ".coac-ve__day", "day");
   useGhostMark(".coac-ve__chips", ".coac-ve__chips", ".coac-ve__chip", "chip");
   const inputRef = useRef<HTMLInputElement>(null);
+  // Quien ya estaba escribiendo en el buscador del HTML estático sigue ahí
+  useEffect(() => {
+    if (restoreSearchFocus) inputRef.current?.focus({ preventScroll: true });
+  }, [restoreSearchFocus]);
 
   const clearTerm = () => {
     p.setTerm("");
@@ -613,7 +647,13 @@ export default function VariantE() {
   const days = [...p.all].sort((a, b) => sessionDateKey(a.date) - sessionDateKey(b.date));
 
   return (
-    <div ref={rootRef} className="coac-ve" data-view={p.mode} data-intro={intro || undefined}>
+    <div
+      ref={rootRef}
+      className="coac-ve"
+      data-view={p.mode}
+      data-intro={intro || undefined}
+      data-prerender={prerender ? "" : undefined}
+    >
       {/* En escritorio, columna izquierda fija; en móvil no pinta caja (display: contents)
           y la cabecera queda fija arriba de toda la página. */}
       <div className="coac-ve__rail coac-scrollbar">
@@ -946,7 +986,9 @@ export default function VariantE() {
                                   />
                                 ))}
                               </span>
-                              <span className="coac-ve__session-progress-text">{progressText(stages)}</span>
+                              <span className="coac-ve__session-progress-text">
+                                {prerender ? "\u00a0" : progressText(stages)}
+                              </span>
                             </p>
                           );
                         })()}
@@ -1081,14 +1123,17 @@ export default function VariantE() {
                       </a>
                     ) : (
                       // Aún no se pueden abrir: enlace desactivado (ver phases.ts)
-                      <span
+                      // Un <a> sin href es un enlace que aún no lleva a ningún sitio
+                      // (lint:luz no admite un role="link" en un <span>)
+                      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                      <a
                         className="coac-ve__phase-item"
                         data-status={status}
                         role="link"
                         aria-disabled="true"
                       >
                         {content}
-                      </span>
+                      </a>
                     )}
                   </li>
                 );
