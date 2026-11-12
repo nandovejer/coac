@@ -1653,6 +1653,17 @@ a.coac-ve__previous:focus-visible::after {
   text-underline-offset: 0.2em;
 }
 
+/* Aviso legal: una franja aparte al final, separada por una línea fina */
+.coac-ve__footer-disclaimer {
+  padding-block-start: var(--luz-space-md);
+  border-block-start: 1px solid var(--vc-line);
+  color: var(--vc-muted);
+  font-size: var(--luz-text-xs);
+  font-style: italic;
+  line-height: 1.25rem;
+  text-wrap: balance;
+}
+
 @media (min-width: 40rem) {
   .coac-ve__phase-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1796,15 +1807,20 @@ a.coac-ve__previous:focus-visible::after {
     padding-block-start: var(--luz-space-xl);
   }
 
-  /* Pie: las fases a todo lo ancho; debajo, dos columnas: los textos en tres
-     cuartos y, a la derecha, el modo de color y los enlaces, uno bajo otro */
+  /* Pie: las fases a todo lo ancho; debajo, los textos a la izquierda y los
+     enlaces en fila a la derecha; al final, el aviso legal a todo lo ancho */
   .coac-ve__footer {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
       "phases phases"
-      "text aside";
+      "text aside"
+      "legal legal";
     column-gap: var(--luz-space-2xl);
     align-items: start;
+  }
+
+  .coac-ve__footer-disclaimer {
+    grid-area: legal;
   }
 
   .coac-ve__phases {
@@ -1831,13 +1847,12 @@ a.coac-ve__previous:focus-visible::after {
 
   .coac-ve__footer-row {
     grid-area: aside;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-self: end;
   }
 
   .coac-ve__footer-pages {
-    flex-direction: column;
-    gap: 0;
+    flex-wrap: nowrap;
+    column-gap: var(--luz-space-xl);
   }
 
   /* En escritorio la etiqueta solo la oye el lector de pantalla */

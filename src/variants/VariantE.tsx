@@ -1069,6 +1069,10 @@ export default function VariantE() {
               .
             </p>
           </div>
+          <p className="coac-ve__footer-disclaimer">
+            Web no oficial, sin relación con la organización del concurso. Los nombres de las agrupaciones y
+            de sus autores pertenecen a sus responsables.
+          </p>
         </footer>
       </div>
 
