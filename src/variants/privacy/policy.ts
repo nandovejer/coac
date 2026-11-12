@@ -6,7 +6,7 @@ export const PRIVACY_HASH = "#privacidad";
  * aviso vuelve a salir a quien ya lo había cerrado. Cambia también la fecha
  * escrita en `PrivacyDialog`.
  */
-export const PRIVACY_VERSION = "2026-11-10";
+export const PRIVACY_VERSION = "2026-11-12";
 
 /** Clave del navegador donde se recuerda que el aviso ya se cerró. */
 export const PRIVACY_NOTICE_KEY = "coac-privacy-notice";

@@ -75,8 +75,7 @@ export function PrivacyNotice({
   return (
     <aside ref={ref} className="coac-privacy-notice" aria-label="Aviso de privacidad">
       <p className="coac-privacy-notice__text">
-        <strong>Aquí no hay cookies.</strong> Esta web no sabe quién eres: solo recuerda si la prefieres clara
-        u oscura.
+        <strong>Aquí no hay cookies.</strong> Esta web no sabe quién eres: solo recuerda cómo prefieres verla.
       </p>
       <div className="coac-privacy-notice__actions">
         <a className="coac-privacy-notice__more" href={PRIVACY_HASH} onClick={onOpenPrivacy}>

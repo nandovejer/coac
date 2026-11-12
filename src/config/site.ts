@@ -9,3 +9,10 @@ export const SITE = {
   // navegador o de la máquina que hace el build.
   timeZone: "Europe/Madrid",
 } as const;
+
+/**
+ * Correo para que los autores pidan retirar o corregir su nombre (RGPD). Mejor
+ * un alias exclusivo de la web. Mientras esté vacío, los textos remiten a X y a
+ * GitHub; al rellenarlo, aparece solo en la privacidad y en «Quiénes somos».
+ */
+export const CONTACT_EMAIL: string = "";
