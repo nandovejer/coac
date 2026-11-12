@@ -131,8 +131,10 @@ fachada de `FallaLogo` con los colores de la cabecera en modo claro.
 - **Cabecera fija solo en móvil**, con el logo, el título, la fase y «Buscar».
   En escritorio, la columna izquierda fija hace ese papel.
 - **Pie**: las fases, el botón del modo de color (claro, oscuro y alto
-  contraste), «Quiénes somos» y «Privacidad», la nota de horas estimadas y los
-  créditos (Luz, autor, MIT).
+  contraste), «Quiénes somos» y «Privacidad», la promesa «Gratis y sin
+  publicidad» (en tarjeta, con enlace al repo), los créditos (Luz, autor, MIT) y el
+  aviso de web no oficial. La nota de horas estimadas no va en el pie: va bajo el
+  programa, antes de «Imprime tu horario», a la derecha y en cursiva.
 - **Privacidad**: la web no usa cookies, analítica ni recursos de terceros, así
   que no pide consentimiento. Una franja fina y discreta abajo del todo (sin
   bloquear, se cierra con «Lo entiendo») lo cuenta una vez y enlaza a la página de privacidad (modal en `#privacidad`,

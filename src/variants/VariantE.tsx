@@ -1126,6 +1126,10 @@ export default function VariantE({
             )}
           </div>
 
+          <p className="coac-ve__estimate-note">
+            Horas estimadas: {SEASON.minutesPerGroup} min por agrupación, con actuación y montaje.
+          </p>
+
           <section className="coac-ve__print" aria-labelledby="ve-print-title">
             <div className="coac-ve__print-text">
               <p className="coac-ve__eyebrow">Para el teatro o el sofá</p>
@@ -1191,6 +1195,17 @@ export default function VariantE({
             </ol>
           </nav>
 
+          {/* La promesa va primero: es lo que más importa del pie */}
+          <p className="coac-ve__footer-promise">
+            <strong className="coac-ve__footer-promise-lead">Gratis y sin publicidad.</strong>{" "}
+            <strong className="coac-ve__footer-promise-body">
+              No gana dinero con nada, porque está hecha por y para los aficionados, y es 100&nbsp;%{" "}
+              <a className="coac-ve__footer-link" href="https://github.com/nandovejer/coac">
+                open source
+              </a>
+              .
+            </strong>
+          </p>
           <div className="coac-ve__footer-row">
             <div className="coac-ve__footer-theme">
               <ThemeModeSwitch />
@@ -1205,7 +1220,6 @@ export default function VariantE({
             </p>
           </div>
           <div className="coac-ve__footer-text">
-            <p>Horas estimadas: {SEASON.minutesPerGroup} min por agrupación, con actuación y montaje.</p>
             <p>
               Hecho con{" "}
               <a className="coac-ve__footer-link" href="https://github.com/nandovejer/luz">
@@ -1221,21 +1235,11 @@ export default function VariantE({
               </a>
               .
             </p>
-            <p>
-              <strong>
-                Gratis y sin publicidad. No gana dinero con nada, porque está hecha por y para los
-                aficionados, y es 100&nbsp;%{" "}
-                <a className="coac-ve__footer-link" href="https://github.com/nandovejer/coac">
-                  open source
-                </a>
-                .
-              </strong>
-            </p>
           </div>
           <p className="coac-ve__footer-disclaimer">
-            Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
-            organización del COAC. El listado y el orden de actuación proceden de la información pública del
-            Ayuntamiento; las horas son estimadas y las recomendaciones, personales.{" "}
+            <strong>Web no oficial</strong>, hecha por un aficionado. No tiene relación con el Ayuntamiento de
+            Cádiz ni con la organización del COAC. El listado y el orden de actuación proceden de la
+            información pública del Ayuntamiento; las horas son estimadas y las recomendaciones, personales.{" "}
             <a className="coac-ve__footer-link" href="/THIRD-PARTY-LICENSES.txt">
               Licencias de terceros
             </a>

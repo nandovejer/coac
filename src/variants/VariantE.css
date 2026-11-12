@@ -1509,6 +1509,16 @@ a.coac-ve__previous:focus-visible::after {
   text-align: center;
 }
 
+/* Nota de las horas estimadas: bajo el programa, a la derecha y en cursiva */
+.coac-ve__estimate-note {
+  color: var(--vc-muted);
+  font-size: var(--luz-text-sm);
+  font-style: italic;
+  line-height: 1.375rem;
+  text-align: end;
+  text-wrap: pretty;
+}
+
 /* Tarjeta oscura de contraste */
 .coac-ve__print {
   display: flex;
@@ -1687,9 +1697,38 @@ a.coac-ve__previous:focus-visible::after {
   text-underline-offset: 0.2em;
 }
 
+/* La promesa es el titular del pie: tarjeta con la barra de marca a la izquierda,
+   una frase grande y la explicación debajo, las dos en negrita */
+.coac-ve__footer-promise {
+  display: grid;
+  gap: var(--luz-space-2xs);
+  padding: var(--luz-space-md) var(--luz-space-lg);
+  border: 1px solid var(--vc-line);
+  border-inline-start: 4px solid var(--vc-primary);
+  border-radius: var(--ve-radius);
+  background: var(--vc-card);
+  color: var(--vc-text);
+  text-wrap: pretty;
+}
+
+.coac-ve__footer-promise-lead {
+  font-size: var(--luz-text-lg);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.75rem;
+  text-wrap: balance;
+}
+
+.coac-ve__footer-promise-body {
+  font-size: var(--luz-text-sm);
+  font-weight: 600;
+  line-height: 1.375rem;
+}
+
+/* Notas y créditos: secundarios, en gris */
 .coac-ve__footer-text {
   display: grid;
-  gap: var(--luz-space-xs);
+  gap: var(--luz-space-2xs);
   color: var(--vc-muted);
   font-size: var(--luz-text-sm);
   line-height: 1.375rem;
@@ -1701,20 +1740,95 @@ a.coac-ve__previous:focus-visible::after {
   text-underline-offset: 0.2em;
 }
 
-/* Aviso legal: una franja aparte al final, separada por una línea fina */
+/* Aviso legal: una franja aparte al final, separada por una línea fina; «Web no
+   oficial» resalta en tinta */
 .coac-ve__footer-disclaimer {
   padding-block-start: var(--luz-space-md);
   border-block-start: 1px solid var(--vc-line);
   color: var(--vc-muted);
   font-size: var(--luz-text-xs);
-  font-style: italic;
   line-height: 1.25rem;
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 
+.coac-ve__footer-disclaimer strong {
+  color: var(--vc-text);
+  font-weight: 700;
+}
+
+/* Tableta: la promesa a todo lo ancho; debajo, notas a la izquierda y enlaces a
+   la derecha */
 @media (min-width: 40rem) {
   .coac-ve__phase-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .coac-ve__footer {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "phases phases"
+      "promise promise"
+      "text aside"
+      "legal legal";
+    column-gap: var(--luz-space-xl);
+    align-items: start;
+  }
+
+  .coac-ve__phases {
+    grid-area: phases;
+  }
+
+  .coac-ve__footer-promise {
+    grid-area: promise;
+    padding: var(--luz-space-lg) var(--luz-space-xl);
+  }
+
+  .coac-ve__footer-promise-lead {
+    font-size: var(--luz-text-xl);
+    line-height: 1.875rem;
+  }
+
+  .coac-ve__footer-text {
+    grid-area: text;
+  }
+
+  .coac-ve__footer-row {
+    grid-area: aside;
+    justify-self: end;
+  }
+
+  /* Los dos enlaces, uno encima de otro y alineados a la derecha */
+  .coac-ve__footer-pages {
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 0;
+  }
+
+  .coac-ve__footer-disclaimer {
+    grid-area: legal;
+  }
+}
+
+/* Pantallas anchas: tres columnas (la promesa, las notas y los enlaces), con las
+   notas y los enlaces centrados en el alto de la tarjeta. Por debajo de 90rem, con
+   la columna fija a la izquierda, no caben sin partir el titular. */
+@media (min-width: 90rem) {
+  .coac-ve__footer {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "phases phases phases"
+      "promise text aside"
+      "legal legal legal";
+    column-gap: var(--luz-space-2xl);
+  }
+
+  .coac-ve__footer-promise {
+    padding: var(--luz-space-lg);
+  }
+
+  .coac-ve__footer-text,
+  .coac-ve__footer-row {
+    align-self: center;
   }
 }
 
@@ -1855,24 +1969,7 @@ a.coac-ve__previous:focus-visible::after {
     padding-block-start: var(--luz-space-xl);
   }
 
-  /* Pie: las fases a todo lo ancho; debajo, los textos a la izquierda y los
-     enlaces en fila a la derecha; al final, el aviso legal a todo lo ancho */
-  .coac-ve__footer {
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      "phases phases"
-      "text aside"
-      "legal legal";
-    column-gap: var(--luz-space-2xl);
-    align-items: start;
-  }
-
-  .coac-ve__footer-disclaimer {
-    grid-area: legal;
-  }
-
   .coac-ve__phases {
-    grid-area: phases;
     container-type: inline-size;
   }
 
@@ -1885,22 +1982,6 @@ a.coac-ve__previous:focus-visible::after {
     .coac-ve__phase-list {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
-  }
-
-  /* La primera línea queda a la altura del primer enlace (que mide 2,75 rem) */
-  .coac-ve__footer-text {
-    grid-area: text;
-    padding-block-start: calc((2.75rem - 1.375rem) / 2);
-  }
-
-  .coac-ve__footer-row {
-    grid-area: aside;
-    justify-self: end;
-  }
-
-  .coac-ve__footer-pages {
-    flex-wrap: nowrap;
-    column-gap: var(--luz-space-xl);
   }
 
   /* En escritorio la etiqueta solo la oye el lector de pantalla */
