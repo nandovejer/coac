@@ -7,6 +7,8 @@ export const SITE = {
   venueStreet: "Plaza de Fragela, s/n",
   venuePostalCode: "11003",
   city: "Cádiz",
+  // Autor en X (el mismo del pie); va en `twitter:creator` de la tarjeta de X.
+  authorX: "@nandovejer",
   // Las sesiones se miden siempre en hora de Cádiz, sea cual sea la zona del
   // navegador o de la máquina que hace el build.
   timeZone: "Europe/Madrid",

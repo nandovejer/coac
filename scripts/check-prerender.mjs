@@ -64,6 +64,32 @@ check(
   html.indexOf("<style>") > html.indexOf('property="og:image"'),
   "los metadatos tienen que ir antes del <style>",
 );
+
+// Tarjetas al compartir: lo que piden el Sharing Debugger de Facebook y X.
+const head = html.slice(0, html.indexOf("</head>"));
+const meta = (attr, name) => new RegExp(`<meta ${attr}="${name}" content="([^"]*)"`).exec(head)?.[1] ?? "";
+for (const name of ["og:title", "og:description", "og:url", "og:type", "og:image", "og:image:alt"])
+  check(meta("property", name), `falta ${name}`);
+for (const name of [
+  "twitter:card",
+  "twitter:title",
+  "twitter:description",
+  "twitter:image",
+  "twitter:image:alt",
+])
+  check(meta("name", name), `falta ${name}`);
+check(/^https:\/\//.test(meta("property", "og:image")), "og:image tiene que ser una URL https absoluta");
+check(
+  meta("property", "og:url") === /<link rel="canonical" href="([^"]+)"/.exec(head)?.[1],
+  "og:url ≠ canonical",
+);
+check(
+  meta("name", "twitter:card") === "summary_large_image",
+  "twitter:card tiene que ser summary_large_image",
+);
+check(meta("name", "twitter:title").length <= 70, "twitter:title pasa de 70 caracteres");
+check(meta("name", "twitter:description").length <= 200, "twitter:description pasa de 200 caracteres");
+check(meta("property", "og:image:alt").length <= 420, "og:image:alt pasa de 420 caracteres");
 check(
   ldStart > rootEnd && html.indexOf('"@type":"Event"', ldStart) > 0,
   "el JSON-LD tiene que ir al final del body",
