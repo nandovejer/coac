@@ -223,13 +223,19 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
+// «No oficial» va en el título y al principio de la descripción: Google corta
+// el título hacia los 600 px y la descripción hacia los 155 caracteres, y por
+// el final. Este título mide ~585 px en Arial 20 px.
 function pageTitle(): string {
-  return `¿Quién canta hoy en el COAC ${SEASON.year}? Orden de actuación y horarios`;
+  return `¿Quién canta hoy en el COAC ${SEASON.year}? Orden y horarios (no oficial)`;
 }
 
 function pageDescription(): string {
-  return `Qué agrupaciones cantan hoy en el COAC ${SEASON.year} (${SEASON.phaseTitle.toLowerCase()}) en el ${SITE.venue}, el Carnaval de Cádiz: orden de actuación y horarios estimados. Web no oficial.`;
+  return `Web no oficial con el orden de actuación y los horarios estimados del COAC ${SEASON.year} (${SEASON.phaseTitle.toLowerCase()}) en el ${SITE.venue}, Carnaval de Cádiz.`;
 }
+
+const UNOFFICIAL_NOTICE =
+  "Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la organización del COAC.";
 
 const OG_IMAGE_ALT =
   "Dos máscaras de teatro sobre fondo azul oscuro y el título «¿Quién canta hoy en el COAC?», con el lema «Horario de sesiones · agrupaciones · directo».";
@@ -320,6 +326,7 @@ function buildJsonLd(): string {
         "@type": "WebSite",
         name: SITE.name,
         alternateName: "Quién canta hoy en el COAC",
+        description: UNOFFICIAL_NOTICE,
         url: SITE.url,
         inLanguage: "es",
       },
