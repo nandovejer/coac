@@ -1,10 +1,12 @@
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
   useLayoutEffect,
   useRef,
   useState,
+  useTransition,
   type CSSProperties,
   type ReactNode,
   type RefObject,
@@ -12,7 +14,7 @@ import {
 import { SEASON } from "../config/season";
 import { Countdown } from "./Countdown";
 import { usePrerender } from "./prerender";
-import { animateOnce, prefersReducedMotion, withViewTransition } from "./motion";
+import { animateOnce, prefersReducedMotion, willAnimateChange, withViewTransition } from "./motion";
 import { ThemeModeSwitch } from "../components/layout/ThemeModeSwitch";
 import { FallaLogo } from "../components/ui/FallaLogo";
 import {
@@ -39,6 +41,7 @@ import { PRIVACY_HASH } from "./privacy/policy";
 import { sessionBrief } from "./sessionBrief";
 import { useGhostMark } from "./useGhostMark";
 import { ShellDialogs } from "./ShellDialogs";
+import type { PerformanceView } from "../domain/schedule";
 import { addMinutes, useProgramme, type Stage } from "./useProgramme";
 import { useReached } from "./useReached";
 import { HOME_URL, useShell } from "./useShell";
@@ -65,6 +68,88 @@ function progressText(stages: Stage[]) {
   if (done === 0 && !stages.includes("live")) return "Aún no ha empezado";
   return `${done} de ${stages.length} ya han actuado`;
 }
+
+/**
+ * Una actuación del programa: la franja horaria y la tarjeta. Con props primitivas y
+ * `memo`, escribir en el buscador o cambiar de modalidad solo repinta las tarjetas que
+ * cambian, no las que se quedan. `liveProgress` solo llega a la que está en directo
+ * (en las demás vale 0), para que el avance del turno no repinte el programa entero.
+ */
+const Slot = memo(function Slot({
+  group,
+  estimatedTime,
+  stage,
+  present,
+  liveProgress,
+}: {
+  group: PerformanceView["group"];
+  estimatedTime: string;
+  stage: Stage;
+  /** Si es la sesión de hoy (las demás no llevan «Ya actuó» ni «A continuación»). */
+  present: boolean;
+  liveProgress: number;
+}) {
+  const isLive = stage === "live";
+  const endTime = addMinutes(estimatedTime, SEASON.minutesPerGroup);
+  return (
+    <li className="coac-ve__slot" data-stage={stage}>
+      {/* La franja horaria, escrita en vertical como en una agenda */}
+      <p className="coac-ve__time">
+        <span className="coac-sr-only">Hora estimada: </span>
+        {estimatedTime} — {endTime}
+      </p>
+      <article
+        className="coac-ve__card"
+        id={group.id}
+        tabIndex={-1}
+        data-ranking={group.ranking}
+        data-stage={stage}
+      >
+        {isLive && (
+          <p className="coac-ve__live-bar">
+            <span className="coac-ve__on-air">
+              <BroadcastIcon inline /> Actuando ahora
+            </span>
+            <span className="coac-ve__live-time">
+              {estimatedTime}–{endTime} aprox.
+            </span>
+          </p>
+        )}
+        <p className="coac-ve__badges">
+          {present && (stage === "done" || stage === "next") && (
+            <span className="coac-ve__stage" data-stage={stage}>
+              {STAGE_LABEL[stage]}
+            </span>
+          )}
+          {/* El semáforo se ve en la franja de color; el texto, para lectores de pantalla */}
+          {RANKING_LABEL[group.ranking] && (
+            <span className="coac-sr-only">{RANKING_LABEL[group.ranking]}.</span>
+          )}
+          <span className="coac-ve__badge" data-modalidad={group.modalidad}>
+            {group.modalidad.charAt(0) + group.modalidad.slice(1).toLowerCase()}
+          </span>
+          <span className="coac-ve__city">{group.ciudad}</span>
+        </p>
+        <h3 className="coac-ve__name">{group.nombre}</h3>
+        <p className="coac-ve__author">{group.autor}</p>
+        {group.previous && (
+          // El icono es parte del enlace al vídeo (su ::after cubre toda la fila)
+          <p className="coac-ve__previous-row" data-link={"name" in group.previous || undefined}>
+            {"name" in group.previous && <PlayIcon inline />}
+            <PreviousNote previous={group.previous} className="coac-ve__previous" />
+          </p>
+        )}
+        {isLive && (
+          <span
+            className="coac-ve__progress"
+            aria-hidden="true"
+            style={{ "--ve-progress": liveProgress } as CSSProperties}
+          />
+        )}
+      </article>
+    </li>
+  );
+});
 
 /** `useLayoutEffect` no existe en el servidor (el prerender): allí no hace nada. */
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -567,17 +652,36 @@ export default function VariantE({
     );
   }, [liveId, rootRef]);
 
+  // Un cambio del programa. Con animación va síncrono dentro de la View Transition
+  // (`motion.ts` manda). Sin ella, como transición de React: la pulsación responde al
+  // momento y las 120 tarjetas se repintan después; el scroll que lo acompaña espera a
+  // que la transición termine, no a un número fijo de fotogramas.
+  const [changing, startChange] = useTransition();
+  const afterChange = useRef<(() => void) | null>(null);
+  useEffect(() => {
+    const run = afterChange.current;
+    if (changing || !run) return;
+    afterChange.current = null;
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  }, [changing]);
+  const changeProgramme = (options: Parameters<typeof withViewTransition>[0]) => {
+    if (willAnimateChange()) return withViewTransition(options);
+    const { change, after } = options;
+    afterChange.current = after ? () => after(false) : null;
+    startChange(change);
+  };
+
   // Vuelve al programa de hoy (sin búsqueda ni día elegido) y baja hasta él. Si
   // el programa ya es ese, solo baja: no hay nada que cambiar de sitio.
   const goToToday = () => {
     if (p.mode === "focus") return scrollToProgramme();
-    withViewTransition({ change: p.reset, after: scrollToProgramme, types: ["ve-reset"] });
+    changeProgramme({ change: p.reset, after: scrollToProgramme, types: ["ve-reset"] });
   };
 
   // Elegir una modalidad: las filas que se ven se recolocan en vez de saltar; al
   // escribir en el buscador, en cambio, nada se anima
   const chooseModalidad = (modalidad: typeof p.modalidad) =>
-    withViewTransition({
+    changeProgramme({
       change: () => p.setModalidad(modalidad),
       prepare: markVisibleSlots,
       after: (viaTransition) => viaTransition && markVisibleSlots(),
@@ -593,7 +697,7 @@ export default function VariantE({
       : sessionDateKey(date) >= sessionDateKey(current)
         ? "ve-forward"
         : "ve-back";
-    withViewTransition({
+    changeProgramme({
       // El día se elige sin tocar la búsqueda ni la modalidad: se quedan en ese día
       change: () => {
         p.setSelectedDate(chosen ? null : date);
@@ -606,7 +710,7 @@ export default function VariantE({
 
   // Abre la búsqueda a todas las sesiones, o la vuelve a limitar al día elegido
   const toggleScope = () =>
-    withViewTransition({
+    changeProgramme({
       change: () => p.setSearchAll(!p.searchAll),
       prepare: markVisibleSlots,
       after: (viaTransition) => viaTransition && markVisibleSlots(),
@@ -995,70 +1099,16 @@ export default function VariantE({
                     </header>
                     <ol className="coac-ve__slots">
                       {performances.map((performance) => {
-                        const { group, estimatedTime } = performance;
                         const stage = p.stageOf(session, performance);
-                        const isLive = stage === "live";
-                        const endTime = addMinutes(estimatedTime, SEASON.minutesPerGroup);
                         return (
-                          <li key={group.id} className="coac-ve__slot" data-stage={stage}>
-                            {/* La franja horaria, escrita en vertical como en una agenda */}
-                            <p className="coac-ve__time">
-                              <span className="coac-sr-only">Hora estimada: </span>
-                              {estimatedTime} — {endTime}
-                            </p>
-                            <article
-                              className="coac-ve__card"
-                              id={group.id}
-                              tabIndex={-1}
-                              data-ranking={group.ranking}
-                              data-stage={stage}
-                            >
-                              {isLive && (
-                                <p className="coac-ve__live-bar">
-                                  <span className="coac-ve__on-air">
-                                    <BroadcastIcon inline /> Actuando ahora
-                                  </span>
-                                  <span className="coac-ve__live-time">
-                                    {estimatedTime}–{endTime} aprox.
-                                  </span>
-                                </p>
-                              )}
-                              <p className="coac-ve__badges">
-                                {session.status === "present" && (stage === "done" || stage === "next") && (
-                                  <span className="coac-ve__stage" data-stage={stage}>
-                                    {STAGE_LABEL[stage]}
-                                  </span>
-                                )}
-                                {/* El semáforo se ve en la franja de color; el texto, para lectores de pantalla */}
-                                {RANKING_LABEL[group.ranking] && (
-                                  <span className="coac-sr-only">{RANKING_LABEL[group.ranking]}.</span>
-                                )}
-                                <span className="coac-ve__badge" data-modalidad={group.modalidad}>
-                                  {group.modalidad.charAt(0) + group.modalidad.slice(1).toLowerCase()}
-                                </span>
-                                <span className="coac-ve__city">{group.ciudad}</span>
-                              </p>
-                              <h3 className="coac-ve__name">{group.nombre}</h3>
-                              <p className="coac-ve__author">{group.autor}</p>
-                              {group.previous && (
-                                // El icono es parte del enlace al vídeo (su ::after cubre toda la fila)
-                                <p
-                                  className="coac-ve__previous-row"
-                                  data-link={"name" in group.previous || undefined}
-                                >
-                                  {"name" in group.previous && <PlayIcon inline />}
-                                  <PreviousNote previous={group.previous} className="coac-ve__previous" />
-                                </p>
-                              )}
-                              {isLive && (
-                                <span
-                                  className="coac-ve__progress"
-                                  aria-hidden="true"
-                                  style={{ "--ve-progress": p.liveProgress } as CSSProperties}
-                                />
-                              )}
-                            </article>
-                          </li>
+                          <Slot
+                            key={performance.group.id}
+                            group={performance.group}
+                            estimatedTime={performance.estimatedTime}
+                            stage={stage}
+                            present={session.status === "present"}
+                            liveProgress={stage === "live" ? p.liveProgress : 0}
+                          />
                         );
                       })}
                     </ol>

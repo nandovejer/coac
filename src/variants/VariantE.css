@@ -1558,6 +1558,12 @@ a.coac-ve__previous:focus-visible::after {
   font-weight: 700;
 }
 
+/* Mientras llega el modal (red lenta) el botón lo dice: puntero de espera y un anillo */
+.coac-ve .coac-ve__print-button[aria-busy="true"] {
+  box-shadow: inset 0 0 0 2px var(--ve-pill-text);
+  cursor: progress;
+}
+
 .coac-ve__print :focus-visible {
   outline-color: var(--ve-on-ink);
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { scheduleConfig, sessions } from "../config/season";
 import { searchGroups } from "../domain/filterByAuthor";
 import { buildSchedule, type PerformanceView, type SessionView } from "../domain/schedule";
@@ -72,7 +72,10 @@ export function useProgramme({
             : "";
   }, [schedule.activeSessionDate]);
 
-  const searching = term.trim() !== "" || modalidad !== null;
+  // Lo que se escribe se ve al momento en el campo; el programa filtrado se repinta
+  // con prioridad baja, así que teclear o borrar no espera a las 120 tarjetas
+  const deferredTerm = useDeferredValue(term);
+  const searching = deferredTerm.trim() !== "" || modalidad !== null;
   useEffect(() => {
     if (!searching) setSearchAll(false);
   }, [searching]);
@@ -88,7 +91,9 @@ export function useProgramme({
     });
 
     if (searching) {
-      const ids = new Set(searchGroups(sessions, { term, modalidad }).map(({ group }) => group.id));
+      const ids = new Set(
+        searchGroups(sessions, { term: deferredTerm, modalidad }).map(({ group }) => group.id),
+      );
       return {
         mode: "search",
         sections: all
@@ -113,7 +118,7 @@ export function useProgramme({
         ? schedule.future.slice(0, 2)
         : schedule.past.slice(-1);
     return { mode: "focus", sections: focus.map(whole) };
-  }, [all, allSessions, dayLabel, modalidad, schedule, scopeDate, searching, term]);
+  }, [all, allSessions, dayLabel, deferredTerm, modalidad, schedule, scopeDate, searching]);
 
   const present = schedule.present;
   const liveIndex = present ? present.performances.findIndex((performance) => performance.isLive) : -1;

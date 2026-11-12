@@ -33,6 +33,8 @@ export const afterPaint = (callback: () => void) =>
  */
 export function useShell(p: ReturnType<typeof useProgramme>) {
   const [printOpen, setPrintOpen] = useState(false);
+  // Con la red lenta el modal tarda en llegar: el botón avisa (aria-busy y un anillo) en vez de quedarse mudo
+  const [printLoading, setPrintLoading] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const { privacyOpen, openPrivacy, closePrivacy } = usePrivacyRoute();
   const closePrint = useCallback(() => setPrintOpen(false), []);
@@ -72,7 +74,13 @@ export function useShell(p: ReturnType<typeof useProgramme>) {
       "aria-haspopup": "dialog" as const,
       onPointerEnter: loadPrint,
       onFocus: loadPrint,
-      onClick: () => setPrintOpen(true),
+      "aria-busy": printLoading || undefined,
+      onClick: () => {
+        setPrintLoading(true);
+        // Ya cargado, la promesa se resuelve al instante y el aviso ni se ve
+        void loadPrint().finally(() => setPrintLoading(false));
+        setPrintOpen(true);
+      },
     },
     /** Props del botón «Quiénes somos». */
     aboutButton: {

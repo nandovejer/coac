@@ -26,6 +26,21 @@ type StartViewTransition = (
 let current: ViewTransitionLike | null = null;
 
 /**
+ * `true` si `withViewTransition` animaría ahora el cambio. Si no (sin soporte, con
+ * «reducir movimiento», con la pestaña oculta o con un ancla `#…` en la URL), el
+ * cambio es el de siempre y quien llama puede aplicarlo como transición de React,
+ * sin bloquear la respuesta a la pulsación.
+ */
+export function willAnimateChange() {
+  return (
+    "startViewTransition" in document &&
+    !prefersReducedMotion() &&
+    document.visibilityState !== "hidden" &&
+    !window.location.hash
+  );
+}
+
+/**
  * Aplica un cambio de estado de React dentro de una View Transition. `change`
  * se aplica síncrono (`flushSync`) para que el navegador capture el estado nuevo
  * a tiempo; `after` (el scroll que lo acompaña) corre justo después, ya con el
@@ -52,13 +67,7 @@ export function withViewTransition({
 }) {
   const doc = document as Document & { startViewTransition?: StartViewTransition };
   const root = document.querySelector<HTMLElement>(".coac-ve");
-  if (
-    !doc.startViewTransition ||
-    !root ||
-    prefersReducedMotion() ||
-    document.visibilityState === "hidden" ||
-    window.location.hash
-  ) {
+  if (!root || !willAnimateChange()) {
     change();
     if (after) requestAnimationFrame(() => requestAnimationFrame(() => after(false)));
     return;
