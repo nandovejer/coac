@@ -3,6 +3,13 @@ import { animateOnce } from "../motion";
 import { PRIVACY_HASH, PRIVACY_NOTICE_KEY, PRIVACY_VERSION } from "./policy";
 import "./PrivacyNotice.css";
 
+/**
+ * Lo que reserva el alto del aviso (el pie, el botón del modo de color y la
+ * columna izquierda): la medida se escribe en cada uno, no en <html>, para que
+ * solo se invalide el estilo de esos elementos y no el de toda la página.
+ */
+const RESERVE_SELECTOR = ".coac-ve__footer, .coac-ve__footer-theme, .coac-ve__rail, .coac-vc__footer";
+
 function alreadySeen() {
   try {
     return window.localStorage.getItem(PRIVACY_NOTICE_KEY) === PRIVACY_VERSION;
@@ -35,17 +42,25 @@ export function PrivacyNotice({
   }, []);
 
   // Mientras se ve, el pie reserva su alto para que el aviso no tape el final.
+  // También el `scroll-padding` de la página, para que nada enfocado quede debajo.
   useEffect(() => {
     const notice = ref.current;
     if (!visible || !notice) return;
-    const root = document.documentElement;
+    const html = document.documentElement;
+    const reserved = [...document.querySelectorAll<HTMLElement>(RESERVE_SELECTOR)];
+    let height = -1;
     const observer = new ResizeObserver(() => {
-      root.style.setProperty("--coac-privacy-notice-h", `${notice.offsetHeight}px`);
+      const next = notice.offsetHeight;
+      if (next === height) return;
+      height = next;
+      for (const element of reserved) element.style.setProperty("--coac-privacy-notice-h", `${next}px`);
+      html.style.scrollPaddingBlockEnd = `${next}px`;
     });
     observer.observe(notice);
     return () => {
       observer.disconnect();
-      root.style.removeProperty("--coac-privacy-notice-h");
+      for (const element of reserved) element.style.removeProperty("--coac-privacy-notice-h");
+      html.style.removeProperty("scroll-padding-block-end");
     };
   }, [visible]);
 

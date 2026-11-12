@@ -1632,6 +1632,17 @@ a.coac-ve__previous:focus-visible::after {
   box-shadow: var(--ve-shadow-raised);
 }
 
+/* Con movimiento, el botón no salta cuando entra o sale el aviso: sube y baja con
+   él, a su ritmo (misma duración y curva que la entrada del aviso). Con «reducir
+   movimiento» sigue cambiando de sitio en seco, con `inset-block-end` de arriba. */
+@media (prefers-reduced-motion: no-preference) {
+  .coac-ve__footer-theme {
+    inset-block-end: calc(var(--luz-space-md) + env(safe-area-inset-bottom, 0px));
+    translate: 0 calc(var(--coac-privacy-notice-h, 0px) * -1);
+    transition: translate var(--coac-dur-gentle) var(--coac-ease-out);
+  }
+}
+
 .coac-ve__footer-pages {
   display: flex;
   flex-wrap: wrap;
@@ -1955,10 +1966,11 @@ a.coac-ve__previous:focus-visible::after {
    intermedia ni por una transición de `color`.
    ========================================================================= */
 
-/* El foco nunca cae bajo lo que va fijo (cabecera, filtro, aviso de privacidad) */
+/* El foco nunca cae bajo lo que va fijo (cabecera, filtro, aviso de privacidad):
+   useStickyHeights y PrivacyNotice ponen el valor real en <html>; este es el de
+   partida, antes de que haya medidas */
 html:has(.coac-ve) {
-  scroll-padding-block-start: calc(var(--ve-top-h, 0px) + var(--ve-filters-h, 0px) + 16px);
-  scroll-padding-block-end: var(--coac-privacy-notice-h, 0px);
+  scroll-padding-block-start: 16px;
 }
 
 /* El programa recibe el foco al cerrar el aviso de privacidad: sin anillo, es un destino */

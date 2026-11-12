@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -58,10 +59,17 @@ function progressText(stages: Stage[]) {
   return `${done} de ${stages.length} ya han actuado`;
 }
 
-/** Alto de la cabecera fija (solo en móvil; en escritorio no es fija y vale 0). */
+/** Desde este ancho la cabecera deja de ser fija (la columna izquierda ocupa su sitio). */
+const DESKTOP_QUERY = "(min-width: 64rem)";
+
+/**
+ * Alto de la cabecera fija (solo en móvil; en escritorio no es fija y vale 0).
+ * Se decide con la media query y no con `getComputedStyle`, que obligaría a
+ * recalcular los estilos de toda la página en cada llamada.
+ */
 function stickyHeaderHeight() {
   const header = document.querySelector<HTMLElement>(".coac-ve__top");
-  return header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0;
+  return header && !window.matchMedia(DESKTOP_QUERY).matches ? header.offsetHeight : 0;
 }
 
 /**
@@ -98,9 +106,13 @@ function scrollToProgramme(instant = false) {
 }
 
 /**
- * Publica en el elemento raíz el alto de la cabecera (`--ve-top-h`, cambia con la
- * tira «En directo») y el del filtro (`--ve-filters-h`): lo fijo se apila justo
- * debajo de lo anterior.
+ * Publica el alto de la cabecera (`--ve-top-h`, cambia con la tira «En directo»)
+ * y el del filtro (`--ve-filters-h`): lo fijo se apila justo debajo de lo
+ * anterior. Cada medida se escribe en el elemento que la usa (el filtro y la
+ * lista de sesiones), no en un ancestro común: así un cambio solo invalida el
+ * estilo de esos subárboles. El `scroll-padding` de la página (para que nada
+ * enfocado quede bajo la cabecera ni el filtro) se pone directo en <html>.
+ * Siempre se lee todo primero y se escribe después, y solo lo que cambia.
  */
 function useStickyHeights() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -108,15 +120,21 @@ function useStickyHeights() {
     const root = rootRef.current;
     const header = root?.querySelector<HTMLElement>(".coac-ve__top");
     const filters = root?.querySelector<HTMLElement>(".coac-ve__filters");
-    if (!root || !header || !filters) return;
-    // También en <html>: el `scroll-padding` de la página lee estas medidas para
-    // que nada enfocado quede bajo la cabecera ni el filtro
+    const sessions = root?.querySelector<HTMLElement>(".coac-ve__sessions");
+    if (!root || !header || !filters || !sessions) return;
     const html = document.documentElement;
+    let top = -1;
+    let filtersHeight = -1;
     const update = () => {
-      for (const element of [root, html]) {
-        element.style.setProperty("--ve-top-h", `${stickyHeaderHeight()}px`);
-        element.style.setProperty("--ve-filters-h", `${filters.offsetHeight}px`);
+      const nextTop = stickyHeaderHeight();
+      const nextFilters = filters.offsetHeight;
+      if (nextTop !== top) filters.style.setProperty("--ve-top-h", `${nextTop}px`);
+      if (nextFilters !== filtersHeight) sessions.style.setProperty("--ve-filters-h", `${nextFilters}px`);
+      if (nextTop !== top || nextFilters !== filtersHeight) {
+        html.style.scrollPaddingBlockStart = `${nextTop + nextFilters + 16}px`;
       }
+      top = nextTop;
+      filtersHeight = nextFilters;
     };
     update();
     const observer = new ResizeObserver(update);
@@ -124,8 +142,9 @@ function useStickyHeights() {
     observer.observe(filters);
     return () => {
       observer.disconnect();
-      html.style.removeProperty("--ve-top-h");
-      html.style.removeProperty("--ve-filters-h");
+      filters.style.removeProperty("--ve-top-h");
+      sessions.style.removeProperty("--ve-filters-h");
+      html.style.removeProperty("scroll-padding-block-start");
     };
   }, []);
   return rootRef;
@@ -166,7 +185,9 @@ function useStuckFilters() {
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
-    update();
+    // La primera medida va en el siguiente fotograma: así no fuerza un recálculo
+    // de estilos entre las escrituras de los demás efectos
+    schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     return () => {
@@ -191,8 +212,12 @@ function useHideHeaderOnScroll(rootRef: RefObject<HTMLDivElement>) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    let lastY = window.scrollY;
-    let frame = 0;
+    // `scrollY` obliga a recalcular el diseño: la primera lectura espera al fotograma
+    let lastY = 0;
+    let frame = requestAnimationFrame(() => {
+      frame = 0;
+      lastY = window.scrollY;
+    });
     const update = () => {
       frame = 0;
       const y = window.scrollY;
@@ -288,13 +313,18 @@ function DayStrip({ focusKey, children }: { focusKey: string; children: ReactNod
     const list = listRef.current;
     if (!list) return;
     const max = list.scrollWidth - list.clientWidth;
-    setEdges({ start: list.scrollLeft <= 1, end: list.scrollLeft >= max - 1 });
+    const start = list.scrollLeft <= 1;
+    const end = list.scrollLeft >= max - 1;
+    // Sin cambio no hay nuevo estado: el scroll de la tira no repinta la app
+    setEdges((previous) => (previous.start === start && previous.end === end ? previous : { start, end }));
   }, []);
+
+  // La primera medida, antes del primer pintado: las flechas no aparecen tarde
+  useLayoutEffect(update, [update]);
 
   useEffect(() => {
     const list = listRef.current;
     if (!list) return;
-    update();
     list.addEventListener("scroll", update, { passive: true });
     const observer = new ResizeObserver(update);
     observer.observe(list);
