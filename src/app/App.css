@@ -2047,7 +2047,7 @@ a.coac-app__previous:focus-visible::after {
 }
 
 /* =========================================================================
-   Movimiento (ver .claude/plans/PLAN-ANIMACIONES.md)
+   Movimiento (ver «Movimiento» en AGENTS.md)
    Todo desplazamiento, escala o recorte va dentro de
    `prefers-reduced-motion: no-preference`. Con «reducir movimiento» solo quedan
    cambios de color, borde y sombra de 160 ms. El texto nunca pasa por opacidad

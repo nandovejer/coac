@@ -2,7 +2,7 @@ import { flushSync } from "react-dom";
 
 /**
  * Único sitio que lanza View Transitions o animaciones desde JS (ver
- * .claude/plans/PLAN-ANIMACIONES.md). Todo es mejora progresiva: sin soporte,
+ * «Movimiento» en AGENTS.md). Todo es mejora progresiva: sin soporte,
  * con «reducir movimiento» o con una pestaña oculta, el cambio es instantáneo
  * y queda exactamente como sin animación.
  */

@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-// Pruebas del plan de animaciones (.claude/plans/PLAN-ANIMACIONES.md). Datos de
+// Pruebas del movimiento (reglas en «Movimiento» de AGENTS.md). Datos de
 // tests/fixtures: sesiones del 11, 12 y 13 de febrero de 2026, a las 20:00.
 const LIVE = new Date("2026-02-12T21:00:00+01:00");
 const BEFORE_START = new Date("2026-02-12T19:59:50+01:00");

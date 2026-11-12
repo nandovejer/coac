@@ -16,7 +16,10 @@ colisiones: los nombres de las dos familias no coincidían), transiciones e ids
 el selector muerto `.coac-vc` de los prototipos. Prueba: aplicando el mismo
 renombrado al build anterior, `index.html` y el CSS salen iguales byte a byte;
 el HTML pasa de 282 a 286 kB y el JS gana 233 bytes, solo por el prefijo más
-largo. Quedan R0 completo (tests visuales de E), R3, R5 (planes viejos) y R6.
+largo. De R5, los planes: `PLAN-LUZ`, `PLAN-OPTIMIZACION`, `PLAN-ANIMACIONES` y
+`PLAN-SEO-RENDIMIENTO` borrados (siguen en `archivo/pre-refactor`); lo que seguía
+abierto y lo descartado pasa a [PENDIENTE.md](PENDIENTE.md), y las fotos del Falla a
+`.claude/inspiracion-falla/`. Quedan R0 completo (tests visuales de E), R3 y R6.
 Pendiente aparte: CSS de la app anterior que sigue en `global.css`
 (`coac-scrollbar--on-header`, `coac-live-ring`, `--coac-topbar-height`) y los
 34 avisos de `luz-check` en `src/app` y `src/dialogs` (sobre todo las hojas de

@@ -7,10 +7,12 @@ por agrupación, buscador de autores y enlace al directo.
 Vite + React 18 + TypeScript + [Luz](https://github.com/nandovejer/luz)
 (`@luz-ds/*`, sistema de diseño en CSS) + CSS propio. Sin router, sin estado global, sin
 backend: todo se sirve estático desde GitHub Pages. Comandos y cambio de fase
-(3 pasos): [README.md](README.md). Planes (registro de lo hecho y por qué):
-[.claude/plans/PLAN-OPTIMIZACION.md](.claude/plans/PLAN-OPTIMIZACION.md) y
-[.claude/plans/PLAN-LUZ.md](.claude/plans/PLAN-LUZ.md). Los colores se inspiran
-en el Gran Teatro Falla (fotos en `.claude/plans/inspiracion-falla/`).
+(3 pasos): [README.md](README.md). Lo que queda por hacer y lo que se probó y se
+descartó: [.claude/plans/PENDIENTE.md](.claude/plans/PENDIENTE.md); el refactor en
+curso: [.claude/plans/PLAN-REFACTOR.md](.claude/plans/PLAN-REFACTOR.md). Los planes
+ya cumplidos (Luz, optimización, animaciones, SEO) están en la etiqueta
+`archivo/pre-refactor`. Los colores se inspiran en el Gran Teatro Falla (fotos en
+`.claude/inspiracion-falla/`).
 
 ## Verificar un cambio
 
@@ -66,9 +68,9 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   `--coac-ease-*` (`coac-tokens.css`); nada fuera de la escala. El texto nunca pasa
   por opacidad intermedia ni por una transición de `color` (ni de `background-color`
   si el texto cambia de color con el estado). Solo `src/lib/motion.ts` lanza
-  View Transitions o `element.animate`. Plan y motivos:
-  [.claude/plans/PLAN-ANIMACIONES.md](.claude/plans/PLAN-ANIMACIONES.md); pruebas:
-  `pnpm run test:motion`.
+  View Transitions o `element.animate`. Lo descartado y por qué:
+  [.claude/plans/PENDIENTE.md](.claude/plans/PENDIENTE.md) (el plan completo, en
+  `archivo/pre-refactor`); pruebas: `pnpm run test:motion`.
 - **Semáforo del ranking**: `top` verde, `ok` amarillo, `standar` neutro (nunca
   rojo: se leería como «malo»). El color no es la única señal: hay una
   leyenda encima del programa y un texto oculto para lectores de pantalla. «EN DIRECTO» es
