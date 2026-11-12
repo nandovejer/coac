@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   addDays,
-  formatLongDate,
   formatZonedIso,
   formatSessionTitleDate,
   formatShortDate,
@@ -51,16 +50,6 @@ describe("formatMinutesOfDay", () => {
     expect(formatMinutesOfDay(20 * 60)).toBe("20:00");
     expect(formatMinutesOfDay(24 * 60 + 30)).toBe("00:30");
     expect(formatMinutesOfDay(-30)).toBe("23:30");
-  });
-});
-
-describe("formatLongDate", () => {
-  it("escribe la fecha larga en español", () => {
-    expect(formatLongDate("12/02/2026")).toBe("jueves, 12 de febrero de 2026");
-  });
-
-  it("no lanza con una fecha inválida", () => {
-    expect(formatLongDate("mañana")).toBe("mañana");
   });
 });
 

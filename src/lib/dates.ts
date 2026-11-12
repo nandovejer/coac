@@ -146,20 +146,6 @@ export function sessionIsoDate(value: string): string {
   return date ? `${date.year}-${pad(date.month)}-${pad(date.day)}` : value;
 }
 
-/** `dd/mm/yyyy` → "jueves, 23 de enero de 2025". */
-export function formatLongDate(value: string): string {
-  const date = parseSessionDate(value);
-  if (!date) return value;
-
-  return new Date(Date.UTC(date.year, date.month - 1, date.day, 12)).toLocaleDateString("es-ES", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-}
-
 /** `dd/mm/yyyy` → "Jueves 21 de enero" (título de sesión; el año ya está en la cabecera). */
 export function formatSessionTitleDate(value: string): string {
   const date = parseSessionDate(value);
