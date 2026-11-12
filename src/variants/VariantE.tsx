@@ -821,6 +821,11 @@ export default function VariantE() {
                 <span className="coac-ve__legend-item" data-ranking="ok">
                   Recomendada
                 </span>
+                <span className="coac-ve__legend-note">
+                  Recomendaciones personales de quien hace esta web.
+                  <br />
+                  No son del jurado ni de la organización.
+                </span>
               </p>
             )}
 
@@ -1070,8 +1075,13 @@ export default function VariantE() {
             </p>
           </div>
           <p className="coac-ve__footer-disclaimer">
-            Web no oficial, sin relación con la organización del concurso. Los nombres de las agrupaciones y
-            de sus autores pertenecen a sus responsables.
+            Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
+            organización del COAC. El listado y el orden de actuación proceden de la información pública del
+            Ayuntamiento; las horas son estimadas y las recomendaciones, personales.{" "}
+            <a className="coac-ve__footer-link" href="/THIRD-PARTY-LICENSES.txt">
+              Licencias de terceros
+            </a>
+            .
           </p>
         </footer>
       </div>

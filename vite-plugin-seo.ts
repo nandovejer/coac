@@ -232,5 +232,12 @@ function buildStaticContent(): string {
 
   return `
     ${headerHtml}
-    <main id="siteMain">${sessionsHtml}</main>`;
+    <main id="siteMain">${sessionsHtml}</main>
+    <footer>
+      <p>
+        Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
+        organización del COAC. El listado y el orden de actuación proceden de la información pública del
+        Ayuntamiento; las horas son estimadas y las recomendaciones, personales.
+      </p>
+    </footer>`;
 }

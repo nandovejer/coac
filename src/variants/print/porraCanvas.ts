@@ -510,7 +510,7 @@ export function renderPorraCanvas(
   setFont(ctx, `700 22px ${SERIF}`, COLOR.paper);
   ctx.textAlign = "left";
   spaced(ctx, `¿Quién canta hoy? · COAC ${SEASON.year}`, PAD, footY + 41, 0.9);
-  const site = "coac.com.es";
+  const site = "coac.com.es · Web no oficial";
   spaced(ctx, site, W - PAD - spacedWidth(ctx, site, 0.9), footY + 41, 0.9);
 
   return canvas;

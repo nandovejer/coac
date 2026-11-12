@@ -30,8 +30,10 @@ export default function AboutDialog({ onClose }: { onClose: () => void }) {
 
       <InfoSection title="De dónde salen los datos">
         <p>
-          Las agrupaciones y su orden de actuación se copian del listado oficial del COAC {SEASON.year}. Las
-          horas <strong>no son oficiales</strong>: se estiman sumando {SEASON.minutesPerGroup} minutos por
+          Las agrupaciones y su orden de actuación salen del listado oficial del COAC {SEASON.year}, que
+          publica el Ayuntamiento de Cádiz. Las marcas de «Imprescindible» y «Recomendada» son una opinión
+          personal de quien hace la web, no del jurado ni de la organización. Las horas{" "}
+          <strong>no son oficiales</strong>: se estiman sumando {SEASON.minutesPerGroup} minutos por
           agrupación (actuación y montaje) desde el inicio de la sesión, así que pueden adelantarse o
           retrasarse. El directo enlaza a la emisión pública en YouTube.
         </p>
@@ -52,8 +54,14 @@ export default function AboutDialog({ onClose }: { onClose: () => void }) {
           <a href="https://github.com/nandovejer/luz">Luz</a>, React y Vite.
         </p>
         <p className="coac-info__note">
-          Web no oficial, sin relación con la organización del concurso. Los nombres de las agrupaciones y de
-          sus autores pertenecen a sus responsables.
+          Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
+          organización del COAC. «COAC» y «Carnaval de Cádiz» se usan solo para nombrar el concurso. Los datos
+          de las agrupaciones y sus autores no están cubiertos por la licencia MIT.
+        </p>
+        <p className="coac-info__note">
+          Las licencias de las librerías que usa la web están en{" "}
+          <a href="/THIRD-PARTY-LICENSES.txt">este archivo</a>. Si eres autor o autora y quieres que
+          corrijamos o quitemos tu nombre, mira la página de «Privacidad», en el pie.
         </p>
       </InfoSection>
     </InfoDialog>

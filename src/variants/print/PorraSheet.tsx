@@ -112,7 +112,7 @@ export function PorraSheet({ porra }: { porra: Porra }) {
 
       <footer className="coac-porra__foot">
         <span>¿Quién canta hoy? · COAC {SEASON.year}</span>
-        <span>coac.com.es</span>
+        <span>coac.com.es · Web no oficial</span>
       </footer>
     </article>
   );

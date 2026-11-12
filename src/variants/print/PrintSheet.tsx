@@ -37,7 +37,7 @@ export function PrintSheet({ blocks }: { blocks: PrintBlock[] }) {
           Por orden de actuación.{" "}
           <span className="coac-print-sheet__mark" data-ranking="top" aria-hidden="true" />
           Imprescindible <span className="coac-print-sheet__mark" data-ranking="ok" aria-hidden="true" />
-          Recomendada
+          Recomendada. Recomendaciones personales, no del jurado.
         </p>
       </header>
 
@@ -96,7 +96,7 @@ export function PrintSheet({ blocks }: { blocks: PrintBlock[] }) {
 
       <footer className="coac-print-sheet__foot">
         <span>¡Que suene el Carnaval!</span>
-        <span>coac.com.es</span>
+        <span>coac.com.es · Web no oficial</span>
       </footer>
     </article>
   );

@@ -989,6 +989,15 @@
   line-height: 1rem;
 }
 
+/* Más pequeño que el resto de la leyenda, con el mismo gris (no hay uno más claro
+   que siga cumpliendo AA en los tres modos) */
+.coac-ve__legend-note {
+  flex-basis: 100%;
+  font-size: calc(var(--luz-text-xs) * 0.9);
+  line-height: 0.9375rem;
+  text-align: end;
+}
+
 .coac-ve__legend-item {
   display: inline-flex;
   align-items: flex-start;

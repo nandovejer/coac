@@ -1,6 +1,6 @@
 {
   "name": "¿Quién canta hoy en el COAC?",
-  "short_name": "COAC hoy",
+  "short_name": "¿Quién canta hoy?",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f3ece2",
