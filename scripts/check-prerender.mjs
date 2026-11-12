@@ -23,15 +23,15 @@ const count = (pattern, text = root) => (text.match(pattern) ?? []).length;
 const dates = Object.keys(data);
 const groups = dates.reduce((total, date) => total + data[date].length, 0);
 
-check(rootStart > 0 && root.includes("coac-ve"), "#root no lleva la app prerenderizada");
+check(rootStart > 0 && root.includes("coac-app"), "#root no lleva la app prerenderizada");
 check(count(/<h1[\s>]/g) === 1, "tiene que haber exactamente un h1");
 const h1 = /<h1[\s\S]*?<\/h1>/.exec(root)?.[0] ?? "";
 check(h1.includes(`COAC ${year}`) && h1.includes(phaseTitle), "el h1 no lleva el año y la fase");
-check(count(/<h2[^>]*class="coac-ve__session-title"/g) === dates.length, "falta un h2 de sesión por fecha");
+check(count(/<h2[^>]*class="coac-app__session-title"/g) === dates.length, "falta un h2 de sesión por fecha");
 check(count(/<time datetime="\d{4}-\d{2}-\d{2}">/gi) === dates.length, "falta un <time datetime> por sesión");
 for (const date of dates) check(root.includes(`id="${date}"`), `falta el id de fecha ${date}`);
 check(count(/<h3[\s>]/g) === groups, `tiene que haber un h3 por agrupación (${groups})`);
-const ids = [...root.matchAll(/<article class="coac-ve__card" id="([^"]+)"/g)].map((m) => m[1]);
+const ids = [...root.matchAll(/<article class="coac-app__card" id="([^"]+)"/g)].map((m) => m[1]);
 check(ids.length === groups && new Set(ids).size === groups, "faltan ids de agrupación o están repetidos");
 check(root.includes('id="siteMain"') && root.includes('id="siteHeader"'), "faltan #siteMain o #siteHeader");
 
@@ -45,16 +45,16 @@ const forbidden = [
   "ya han actuado",
   "Ha terminado",
   "Empieza la sesión",
-  "coac-ve__roll",
-  "coac-ve__strip",
-  "coac-ve__live-bar",
+  "coac-app__roll",
+  "coac-app__strip",
+  "coac-app__live-bar",
   "coac-privacy-notice",
 ];
 for (const text of forbidden) check(!root.includes(text), `el prerender lleva «${text}»`);
 check(!/Faltan \d+ días,/.test(root), "el prerender lleva el texto accesible de la cuenta atrás");
 
 // Lo que sí tiene que llevar
-check(root.includes("coac-ve__pending"), "faltan los marcadores «--» de la cuenta atrás");
+check(root.includes("coac-app__pending"), "faltan los marcadores «--» de la cuenta atrás");
 check(
   root.includes("/THIRD-PARTY-LICENSES.txt") && root.includes("Web no oficial"),
   "falta el pie con las licencias y el aviso",

@@ -44,11 +44,11 @@ test.describe("con «reducir movimiento»", () => {
       );
     const allowed = /(color|shadow)$/i;
 
-    await page.locator(".coac-ve__day").nth(2).click();
+    await page.locator(".coac-app__day").nth(2).click();
     expect((await inventory()).filter((p) => !allowed.test(p))).toEqual([]);
-    await page.locator(".coac-ve__chip").nth(1).click();
+    await page.locator(".coac-app__chip").nth(1).click();
     expect((await inventory()).filter((p) => !allowed.test(p))).toEqual([]);
-    await page.locator(".coac-ve__footer-page", { hasText: "Quiénes somos" }).click();
+    await page.locator(".coac-app__footer-page", { hasText: "Quiénes somos" }).click();
     await page.locator(".coac-info__close").click();
     expect((await inventory()).filter((p) => !allowed.test(p))).toEqual([]);
     expect(await vtCalls(page)).toBe(0);
@@ -59,13 +59,13 @@ test.describe("elegir un día", () => {
   const run = async (page: Page, remove: boolean) => {
     await spyViewTransitions(page, remove);
     await page.goto("./");
-    await page.locator(".coac-ve__day").nth(2).click();
+    await page.locator(".coac-app__day").nth(2).click();
     await page.waitForTimeout(800);
     return page.evaluate(() => ({
       y: Math.round(scrollY),
       active: document.activeElement?.className,
-      sessions: document.querySelectorAll("main section.coac-ve__session").length,
-      named: document.querySelector(".coac-ve")?.hasAttribute("data-vt"),
+      sessions: document.querySelectorAll("main section.coac-app__session").length,
+      named: document.querySelector(".coac-app")?.hasAttribute("data-vt"),
     }));
   };
 
@@ -73,7 +73,7 @@ test.describe("elegir un día", () => {
     const withVt = await run(page, false);
     const second = await (await browser.newContext({ viewport: page.viewportSize() ?? undefined })).newPage();
     const withoutVt = await run(second, true);
-    expect(withVt.active).toBe("coac-ve__day");
+    expect(withVt.active).toBe("coac-app__day");
     expect(withVt.active).toBe(withoutVt.active);
     expect(Math.abs(withVt.y - withoutVt.y)).toBeLessThanOrEqual(1);
     expect(withVt.sessions).toBe(1);
@@ -90,7 +90,7 @@ test.describe("elegir un día", () => {
       };
     });
     await page.goto("./");
-    await page.locator(".coac-ve__day").nth(2).click();
+    await page.locator(".coac-app__day").nth(2).click();
     const styles = await page.evaluate(async () => {
       await (window as unknown as { __vt: ViewTransition }).__vt.ready;
       const read = (selector: string) => {
@@ -100,8 +100,8 @@ test.describe("elegir un día", () => {
       return [
         read("::view-transition-old(root)"),
         read("::view-transition-new(root)"),
-        read("::view-transition-old(ve-list)"),
-        read("::view-transition-new(ve-list)"),
+        read("::view-transition-old(coac-list)"),
+        read("::view-transition-new(coac-list)"),
       ];
     });
     for (const style of styles) expect(style.blend).toBe("normal");
@@ -113,11 +113,11 @@ test.describe("elegir un día", () => {
 
 test("«Ver todo el programa» deja el foco en un título de sesión, no en <body>", async ({ page }) => {
   await page.goto("./");
-  await page.locator(".coac-ve__day").nth(1).click();
-  await page.locator(".coac-ve__reset").click();
+  await page.locator(".coac-app__day").nth(1).click();
+  await page.locator(".coac-app__reset").click();
   await page.waitForTimeout(800);
   const focused = await page.evaluate(() => document.activeElement?.className);
-  expect(focused).toBe("coac-ve__session-title");
+  expect(focused).toBe("coac-app__session-title");
 });
 
 test.describe("modales", () => {
@@ -125,7 +125,7 @@ test.describe("modales", () => {
     page,
   }) => {
     await page.goto("./");
-    const opener = page.locator(".coac-ve__footer-page", { hasText: "Quiénes somos" });
+    const opener = page.locator(".coac-app__footer-page", { hasText: "Quiénes somos" });
     await opener.click();
     await page.locator(".coac-info__close").click();
     const state = await page.evaluate(() => {
@@ -141,13 +141,13 @@ test.describe("modales", () => {
 test.describe("regiones vivas y estado de la sesión", () => {
   test("al escribir una palabra, la región viva cambia una sola vez", async ({ page }) => {
     await page.goto("./");
-    const announcer = page.locator(".coac-ve__announcer");
+    const announcer = page.locator(".coac-app__announcer");
     await expect(announcer).toHaveCount(1);
     await expect(announcer).toHaveText("");
     await page.evaluate(() => {
       const w = window as unknown as { __changes: string[] };
       w.__changes = [];
-      const el = document.querySelector(".coac-ve__announcer");
+      const el = document.querySelector(".coac-app__announcer");
       if (el)
         new MutationObserver(() => w.__changes.push(el.textContent ?? "")).observe(el, {
           childList: true,
@@ -155,7 +155,7 @@ test.describe("regiones vivas y estado de la sesión", () => {
           subtree: true,
         });
     });
-    await page.locator("#ve-search").pressSequentially("mar", { delay: 80 });
+    await page.locator("#coac-search").pressSequentially("mar", { delay: 80 });
     await page.waitForTimeout(900);
     const changes = await page.evaluate(() => (window as unknown as { __changes: string[] }).__changes);
     expect(changes).toHaveLength(1);
@@ -167,11 +167,11 @@ test.describe("regiones vivas y estado de la sesión", () => {
   }) => {
     await page.clock.install({ time: BEFORE_START });
     await page.goto("./");
-    const status = page.locator(".coac-ve__status");
+    const status = page.locator(".coac-app__status");
     await page.evaluate(() => {
       const w = window as unknown as { __live: string[] };
       w.__live = [];
-      const el = document.querySelector(".coac-ve__announcer");
+      const el = document.querySelector(".coac-app__announcer");
       if (el)
         new MutationObserver(() => el.textContent && w.__live.push(el.textContent)).observe(el, {
           childList: true,
@@ -182,7 +182,7 @@ test.describe("regiones vivas y estado de la sesión", () => {
     const titles = new Set<string>();
     for (let i = 0; i < 45; i++) {
       await page.clock.runFor(1000);
-      titles.add((await status.locator(".coac-ve__status-title").first().textContent()) ?? "");
+      titles.add((await status.locator(".coac-app__status-title").first().textContent()) ?? "");
     }
     expect(titles.has("La fase ha terminado")).toBe(false);
     expect(titles.has("Empieza la sesión")).toBe(true);
@@ -195,7 +195,7 @@ test.describe("regiones vivas y estado de la sesión", () => {
     await page.clock.install({ time: LIVE });
     await page.goto("./");
     await page.clock.runFor(10_000);
-    await expect(page.locator(".coac-ve__announcer")).toHaveText("");
+    await expect(page.locator(".coac-app__announcer")).toHaveText("");
   });
 });
 
@@ -206,7 +206,7 @@ test.describe("rendimiento", () => {
     await page.evaluate(() => {
       const w = window as unknown as { __mutations: number };
       w.__mutations = 0;
-      const sessions = document.querySelector(".coac-ve__sessions");
+      const sessions = document.querySelector(".coac-app__sessions");
       if (sessions)
         new MutationObserver((list) => (w.__mutations += list.length)).observe(sessions, {
           childList: true,
@@ -230,7 +230,7 @@ test.describe("rendimiento", () => {
         .filter((a) => a.playState === "running")
         .map((a) => (a instanceof CSSAnimation ? a.animationName : "transition")),
     );
-    expect(running.filter((name) => name !== "coac-ve-dot")).toEqual([]);
+    expect(running.filter((name) => name !== "coac-app-dot")).toEqual([]);
   });
 
   test("los segundos de la cuenta atrás no se animan", async ({ page }) => {
@@ -239,7 +239,7 @@ test.describe("rendimiento", () => {
     for (let i = 0; i < 3; i++) {
       await page.clock.runFor(1000);
       const count = await page.evaluate(
-        () => document.querySelectorAll(".coac-ve__digit")[3]?.getAnimations({ subtree: true }).length ?? -1,
+        () => document.querySelectorAll(".coac-app__digit")[3]?.getAnimations({ subtree: true }).length ?? -1,
       );
       expect(count).toBe(0);
     }
@@ -255,14 +255,14 @@ test.describe("contraste a mitad de una animación", () => {
       for (let i = 0; i < 45; i++) await page.clock.runFor(1000);
       for (const k of [0.25, 0.5, 0.75]) {
         await page.evaluate((k) => {
-          for (const a of document.querySelector(".coac-ve__status")?.getAnimations({ subtree: true }) ??
+          for (const a of document.querySelector(".coac-app__status")?.getAnimations({ subtree: true }) ??
             []) {
             a.pause();
             a.currentTime = Number(a.effect?.getComputedTiming().endTime ?? 0) * k;
           }
         }, k);
         const result = await new AxeBuilder({ page })
-          .include(".coac-ve__status")
+          .include(".coac-app__status")
           .withRules(["color-contrast"])
           .analyze();
         expect(result.violations, `k=${k}`).toEqual([]);
@@ -283,7 +283,7 @@ test.describe("tanda 2", () => {
             r.addedNodes.forEach(
               (n) =>
                 n instanceof HTMLElement &&
-                n.classList.contains("coac-ve__ghost") &&
+                n.classList.contains("coac-app__ghost") &&
                 w.__ghosts.push(n.dataset.kind ?? ""),
             ),
           ),
@@ -293,13 +293,13 @@ test.describe("tanda 2", () => {
 
   test("al cambiar de día y de modalidad viaja una ficha, y se retira sola", async ({ page }) => {
     await page.goto("./");
-    await ghosts(page, ".coac-ve__carousel");
-    await page.locator(".coac-ve__day").nth(0).click();
+    await ghosts(page, ".coac-app__carousel");
+    await page.locator(".coac-app__day").nth(0).click();
     await page.waitForTimeout(700);
-    await page.locator(".coac-ve__day").nth(1).click();
+    await page.locator(".coac-app__day").nth(1).click();
     await page.waitForTimeout(700);
     expect(await seen(page)).toContain("day");
-    await expect(page.locator(".coac-ve__ghost")).toHaveCount(0);
+    await expect(page.locator(".coac-app__ghost")).toHaveCount(0);
     await expect(page.locator("[data-ghosting]")).toHaveCount(0);
   });
 
@@ -307,9 +307,9 @@ test.describe("tanda 2", () => {
     const context = await browser.newContext({ reducedMotion: "reduce", baseURL });
     const page = await context.newPage();
     await page.goto("./");
-    await ghosts(page, ".coac-ve__chips");
-    await page.locator(".coac-ve__chip").nth(1).click();
-    await page.locator(".coac-ve__chip").nth(2).click();
+    await ghosts(page, ".coac-app__chips");
+    await page.locator(".coac-app__chip").nth(1).click();
+    await page.locator(".coac-app__chip").nth(2).click();
     await page.waitForTimeout(500);
     expect(await seen(page)).toEqual([]);
     await context.close();
@@ -320,12 +320,12 @@ test.describe("tanda 2", () => {
   }) => {
     await spyViewTransitions(page);
     await page.goto("./");
-    await page.locator(".coac-ve__chip").nth(2).click();
+    await page.locator(".coac-app__chip").nth(2).click();
     await page.waitForTimeout(800);
     expect(await vtCalls(page)).toBe(1);
     await expect(page.locator("[data-vt-card]")).toHaveCount(0);
-    await expect(page.locator(".coac-ve[data-vt]")).toHaveCount(0);
-    await page.locator("#ve-search").pressSequentially("mar", { delay: 50 });
+    await expect(page.locator(".coac-app[data-vt]")).toHaveCount(0);
+    await page.locator("#coac-search").pressSequentially("mar", { delay: 50 });
     await page.waitForTimeout(300);
     expect(await vtCalls(page)).toBe(1);
   });
@@ -395,7 +395,7 @@ test.describe("tanda 2", () => {
     await page.goto("./");
     await page.clock.resume();
     const info = await page.evaluate(() => {
-      const bar = document.querySelector(".coac-ve__progress");
+      const bar = document.querySelector(".coac-app__progress");
       return bar
         ? {
             clip: getComputedStyle(bar, "::after").clipPath,
@@ -413,25 +413,25 @@ test.describe("tanda 3", () => {
     page,
   }) => {
     await page.goto("./");
-    await expect(page.locator(".coac-ve[data-intro]")).toHaveCount(1);
+    await expect(page.locator(".coac-app[data-intro]")).toHaveCount(1);
     const animated = await page.evaluate(() =>
       document
         .getAnimations()
-        .filter((a) => a instanceof CSSAnimation && /^coac-ve-(mark|segment)-in$/.test(a.animationName))
+        .filter((a) => a instanceof CSSAnimation && /^coac-app-(mark|segment)-in$/.test(a.animationName))
         .map((a) => (a.effect as KeyframeEffect).target?.getAttribute("class") ?? ""),
     );
     // Solo piezas decorativas: la fachada y los segmentos (nunca texto)
     expect(animated.length).toBeGreaterThan(0);
     for (const name of animated) expect(name).toMatch(/status-mark|segment/);
     await page.waitForTimeout(1700);
-    await expect(page.locator(".coac-ve[data-intro]")).toHaveCount(0);
+    await expect(page.locator(".coac-app[data-intro]")).toHaveCount(0);
     await page.reload();
-    await expect(page.locator(".coac-ve[data-intro]")).toHaveCount(0);
+    await expect(page.locator(".coac-app[data-intro]")).toHaveCount(0);
   });
 
   test("con una URL con ancla no hay entrada", async ({ page }) => {
     await page.goto("./#siteMain");
-    await expect(page.locator(".coac-ve[data-intro]")).toHaveCount(0);
+    await expect(page.locator(".coac-app[data-intro]")).toHaveCount(0);
   });
 
   test("la fachada sube por minutos en la última hora, sin animación", async ({ page }) => {
@@ -440,9 +440,9 @@ test.describe("tanda 3", () => {
     const read = () =>
       page.evaluate(() => ({
         curtain: document
-          .querySelector<HTMLElement>(".coac-ve__status")
-          ?.style.getPropertyValue("--ve-curtain"),
-        animations: document.querySelector(".coac-ve__status-mark")?.getAnimations().length ?? -1,
+          .querySelector<HTMLElement>(".coac-app__status")
+          ?.style.getPropertyValue("--coac-app-curtain"),
+        animations: document.querySelector(".coac-app__status-mark")?.getAnimations().length ?? -1,
       }));
     const before = await read();
     await page.clock.runFor(60_000);

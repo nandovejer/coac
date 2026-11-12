@@ -1,6 +1,6 @@
 /*
- * Modal «Imprime tu horario». Va dentro de .coac-vc o .coac-ve, así que usa sus colores
- * (--vc-*) y su piel. Este CSS solo se descarga al abrir el modal.
+ * Modal «Imprime tu horario». Va dentro de .coac-app, así que usa sus colores
+ * (--coac-app-*) y su piel. Este CSS solo se descarga al abrir el modal.
  */
 .coac-print-dialog {
   inline-size: 100%;
@@ -10,8 +10,8 @@
   margin: 0;
   padding: 0;
   border: 0;
-  background: var(--vc-bg);
-  color: var(--vc-text);
+  background: var(--coac-app-bg);
+  color: var(--coac-app-text);
   /* El modal no se desplaza de lado ni arrastra el scroll a la página */
   overflow: hidden;
   overscroll-behavior: contain;
@@ -33,19 +33,19 @@
   justify-content: space-between;
   gap: var(--luz-space-sm);
   padding: var(--luz-space-sm) var(--luz-space-md);
-  border-block-end: 1px solid var(--vc-line);
+  border-block-end: 1px solid var(--coac-app-line);
 }
 
 .coac-print-dialog__title {
   margin: 0;
-  color: var(--vc-text);
+  color: var(--coac-app-text);
   font-family: inherit;
   font-size: var(--luz-text-lg);
   font-weight: 800;
   line-height: 1.5rem;
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-dialog__close {
+.coac-app .coac-print-dialog__close {
   display: grid;
   place-items: center;
   inline-size: 2.75rem;
@@ -53,8 +53,8 @@
   border: 1px solid transparent;
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-dialog__close:hover {
-  border-color: var(--vc-muted);
+.coac-app .coac-print-dialog__close:hover {
+  border-color: var(--coac-app-muted);
 }
 
 .coac-print-dialog__body {
@@ -92,7 +92,7 @@
 .coac-print-filters__group legend {
   margin-block-end: var(--luz-space-xs);
   padding: 0;
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -105,17 +105,17 @@
   gap: var(--luz-space-xs);
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-filters__quick button {
+.coac-app .coac-print-filters__quick button {
   min-block-size: 2.25rem;
   padding-inline: var(--luz-space-sm);
-  border: 1px solid var(--vc-line);
-  background: var(--vc-card);
+  border: 1px solid var(--coac-app-line);
+  background: var(--coac-app-card);
   font-size: var(--luz-text-xs);
   font-weight: 700;
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-filters__quick button:hover {
-  border-color: var(--vc-muted);
+.coac-app .coac-print-filters__quick button:hover {
+  border-color: var(--coac-app-muted);
 }
 
 .coac-print-filters__days {
@@ -138,14 +138,14 @@
   margin: 0;
   min-block-size: 2.75rem;
   padding-inline: var(--luz-space-sm);
-  border: 1px solid var(--vc-line);
-  background: var(--vc-card);
+  border: 1px solid var(--coac-app-line);
+  background: var(--coac-app-card);
   font-size: var(--luz-text-sm);
   cursor: pointer;
 }
 
 .coac-print-check:has(input:checked) {
-  border-color: var(--vc-primary);
+  border-color: var(--coac-app-primary);
 }
 
 .coac-print-check input {
@@ -153,7 +153,7 @@
   inline-size: 1.125rem;
   block-size: 1.125rem;
   margin: 0;
-  accent-color: var(--vc-primary);
+  accent-color: var(--coac-app-primary);
 }
 
 .coac-print-check > span {
@@ -168,13 +168,13 @@
 }
 
 .coac-print-check__hint {
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-xs);
 }
 
 .coac-print-filters__past summary {
   margin-block-end: var(--luz-space-xs);
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-sm);
   cursor: pointer;
 }
@@ -182,7 +182,7 @@
 .coac-print-filters__search {
   display: grid;
   gap: var(--luz-space-2xs);
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-xs);
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -192,9 +192,9 @@
 .coac-print-filters__search input {
   block-size: 2.75rem;
   padding-inline: var(--luz-space-sm);
-  border: 1px solid var(--vc-muted);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 1px solid var(--coac-app-muted);
+  background: var(--coac-app-card);
+  color: var(--coac-app-text);
   font: inherit;
   font-size: var(--luz-text-base);
   font-weight: 400;
@@ -214,25 +214,25 @@
 }
 
 /* ---- Modo porra: un interruptor grande, con su explicación ---- */
-:is(.coac-vc, .coac-ve) .coac-print-porra {
+.coac-app .coac-print-porra {
   display: flex;
   align-items: center;
   gap: var(--luz-space-md);
   margin: 0;
   inline-size: 100%;
   padding: var(--luz-space-sm) var(--luz-space-md);
-  border: 1px solid var(--vc-line);
-  background: var(--vc-card);
-  color: var(--vc-text);
+  border: 1px solid var(--coac-app-line);
+  background: var(--coac-app-card);
+  color: var(--coac-app-text);
   text-align: start;
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-porra:hover {
-  border-color: var(--vc-muted);
+.coac-app .coac-print-porra:hover {
+  border-color: var(--coac-app-muted);
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-porra[aria-checked="true"] {
-  border-color: var(--vc-primary);
+.coac-app .coac-print-porra[aria-checked="true"] {
+  border-color: var(--coac-app-primary);
 }
 
 .coac-print-porra__text {
@@ -247,7 +247,7 @@
 }
 
 .coac-print-porra__hint {
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-sm);
   font-weight: 400;
   line-height: 1.35;
@@ -261,7 +261,7 @@
   flex: none;
   inline-size: 2.75rem;
   block-size: 1.5rem;
-  border: 2px solid var(--vc-muted);
+  border: 2px solid var(--coac-app-muted);
   border-radius: var(--luz-radius-full);
   transition: background-color 150ms ease;
 }
@@ -274,17 +274,17 @@
   inline-size: 1rem;
   block-size: 1rem;
   border-radius: 50%;
-  background: var(--vc-muted);
+  background: var(--coac-app-muted);
   transition: transform 150ms ease;
 }
 
 .coac-print-porra[aria-checked="true"] .coac-print-porra__switch {
-  border-color: var(--vc-primary);
-  background: var(--vc-primary);
+  border-color: var(--coac-app-primary);
+  background: var(--coac-app-primary);
 }
 
 .coac-print-porra[aria-checked="true"] .coac-print-porra__switch::after {
-  background: var(--vc-on-primary);
+  background: var(--coac-app-on-primary);
   transform: translateX(1.25rem);
 }
 
@@ -302,7 +302,7 @@
   /* Si la hoja es más ancha que la pantalla (la porra), se desliza aquí dentro */
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  background: var(--vc-soft);
+  background: var(--coac-app-soft);
 }
 
 .coac-print-dialog__preview .coac-print-sheet {
@@ -312,7 +312,7 @@
 .coac-print-dialog__empty {
   margin: 0;
   padding: var(--luz-space-xl) var(--luz-space-md);
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   text-align: center;
 }
 
@@ -325,37 +325,37 @@
   gap: var(--luz-space-xs) var(--luz-space-sm);
   padding: var(--luz-space-sm) var(--luz-space-md);
   padding-block-end: calc(var(--luz-space-sm) + env(safe-area-inset-bottom, 0px));
-  border-block-start: 1px solid var(--vc-line);
-  background: var(--vc-bg);
+  border-block-start: 1px solid var(--coac-app-line);
+  background: var(--coac-app-bg);
 }
 
 .coac-print-dialog__count {
   flex: 1 0 100%;
   order: -2;
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-sm);
 }
 
 /* En móvil: «Descargar PDF» a todo lo ancho; «Imprimir» e «Imagen» debajo, a medias */
-:is(.coac-vc, .coac-ve) .coac-print-dialog__button {
+.coac-app .coac-print-dialog__button {
   flex: 1 1 40%;
   min-block-size: 3rem;
   padding-inline: var(--luz-space-md);
-  border: 1px solid var(--vc-muted);
+  border: 1px solid var(--coac-app-muted);
   font-weight: 700;
   white-space: nowrap;
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-dialog__button[data-primary] {
+.coac-app .coac-print-dialog__button[data-primary] {
   flex-basis: 100%;
   order: -1;
-  border-color: var(--vc-primary);
-  background: var(--vc-primary);
-  color: var(--vc-on-primary);
+  border-color: var(--coac-app-primary);
+  background: var(--coac-app-primary);
+  color: var(--coac-app-on-primary);
 }
 
-:is(.coac-vc, .coac-ve) .coac-print-dialog__button:disabled {
+.coac-app .coac-print-dialog__button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
@@ -365,7 +365,7 @@
     inline-size: min(70rem, calc(100% - 2 * var(--luz-space-xl)));
     block-size: min(52rem, calc(100dvh - 2 * var(--luz-space-xl)));
     margin: auto;
-    border: 1px solid var(--vc-line);
+    border: 1px solid var(--coac-app-line);
   }
 
   /* Filtros y vista previa con scroll propio: los filtros no caben en alto */
@@ -383,7 +383,7 @@
     padding: var(--luz-space-md);
     overflow-y: auto;
     overscroll-behavior: contain;
-    border-inline-end: 1px solid var(--vc-line);
+    border-inline-end: 1px solid var(--coac-app-line);
   }
 
   .coac-print-dialog__preview {
@@ -393,7 +393,7 @@
   }
 
   /* Con ratón: botones y casillas más pequeños y estrechos */
-  :is(.coac-vc, .coac-ve) .coac-print-filters__quick button {
+  .coac-app .coac-print-filters__quick button {
     min-block-size: 1.75rem;
     padding-inline: var(--luz-space-xs);
     font-size: var(--luz-text-xs);
@@ -428,7 +428,7 @@
     font-size: var(--luz-text-sm);
   }
 
-  :is(.coac-vc, .coac-ve) .coac-print-porra {
+  .coac-app .coac-print-porra {
     gap: var(--luz-space-sm);
     padding: var(--luz-space-xs) var(--luz-space-sm);
   }
@@ -445,8 +445,8 @@
     flex-basis: auto;
   }
 
-  :is(.coac-vc, .coac-ve) .coac-print-dialog__button,
-  :is(.coac-vc, .coac-ve) .coac-print-dialog__button[data-primary] {
+  .coac-app .coac-print-dialog__button,
+  .coac-app .coac-print-dialog__button[data-primary] {
     flex: none;
     order: 0;
   }

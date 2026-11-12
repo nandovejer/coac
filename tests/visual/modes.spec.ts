@@ -11,7 +11,7 @@ const tolerance = { maxDiffPixels: 10 };
 
 type Mode = "light" | "dark" | "high-contrast";
 const modes: Mode[] = ["light", "dark", "high-contrast"];
-// background-color de <body> en cada modo (`--ve-page-bg` de src/app/App.css, el mismo fondo
+// background-color de <body> en cada modo (`--coac-app-page-bg` de src/app/App.css, el mismo fondo
 // que la app: así no cambia al montar ni en el rebote de iOS)
 const pageBackground: Record<Mode, string> = {
   light: "rgb(239, 240, 245)",

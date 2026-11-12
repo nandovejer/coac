@@ -23,12 +23,12 @@ function Roll({ value }: { value: number }) {
   }, [state.count, state.previous]);
 
   return (
-    <strong className="coac-ve__roll" data-rolling={state.previous !== null || undefined}>
-      <span key={state.count} className="coac-ve__roll-now">
+    <strong className="coac-app__roll" data-rolling={state.previous !== null || undefined}>
+      <span key={state.count} className="coac-app__roll-now">
         {pad2(state.value)}
       </span>
       {state.previous !== null && (
-        <span className="coac-ve__roll-was" aria-hidden="true">
+        <span className="coac-app__roll-was" aria-hidden="true">
           {pad2(state.previous)}
         </span>
       )}
@@ -49,10 +49,10 @@ function Roll({ value }: { value: number }) {
  */
 function Pending({ label }: { label: string }) {
   return (
-    <span className="coac-ve__digit">
-      <strong className="coac-ve__pending">
-        <span className="coac-ve__pending-width">00</span>
-        <span className="coac-ve__pending-mark">--</span>
+    <span className="coac-app__digit">
+      <strong className="coac-app__pending">
+        <span className="coac-app__pending-width">00</span>
+        <span className="coac-app__pending-mark">--</span>
       </strong>
       {label}
     </span>
@@ -63,21 +63,21 @@ export function Countdown({ target }: { target: Date }) {
   const prerender = usePrerender();
   const remaining = useRemaining(target);
   const anchor = useRef<HTMLDivElement>(null);
-  // La fachada de la tarjeta sube un poco en la última hora (--ve-curtain, de 0 a 1).
+  // La fachada de la tarjeta sube un poco en la última hora (--coac-app-curtain, de 0 a 1).
   // Cambia por minutos y sin transición: no hay movimiento continuo.
   const minutes = remaining ? remaining.days * 1440 + remaining.hours * 60 + remaining.minutes : null;
   useEffect(() => {
-    const card = anchor.current?.closest<HTMLElement>(".coac-ve__status");
+    const card = anchor.current?.closest<HTMLElement>(".coac-app__status");
     if (!card || minutes === null) return;
-    card.style.setProperty("--ve-curtain", String(minutes >= 60 ? 0 : 1 - minutes / 60));
+    card.style.setProperty("--coac-app-curtain", String(minutes >= 60 ? 0 : 1 - minutes / 60));
     return () => {
-      card.style.removeProperty("--ve-curtain");
+      card.style.removeProperty("--coac-app-curtain");
     };
   }, [minutes]);
   if (prerender) {
     return (
-      <div className="coac-ve__countdown" data-nosnippet>
-        <div className="coac-ve__digits" aria-hidden="true">
+      <div className="coac-app__countdown" data-nosnippet>
+        <div className="coac-app__digits" aria-hidden="true">
           <Pending label="días" />
           <Pending label="horas" />
           <Pending label="min" />
@@ -88,21 +88,21 @@ export function Countdown({ target }: { target: Date }) {
   }
   if (!remaining) return null;
   return (
-    <div ref={anchor} className="coac-ve__countdown" data-nosnippet>
-      <div className="coac-ve__digits" aria-hidden="true">
-        <span className="coac-ve__digit">
+    <div ref={anchor} className="coac-app__countdown" data-nosnippet>
+      <div className="coac-app__digits" aria-hidden="true">
+        <span className="coac-app__digit">
           <Roll value={remaining.days} />
           días
         </span>
-        <span className="coac-ve__digit">
+        <span className="coac-app__digit">
           <Roll value={remaining.hours} />
           horas
         </span>
-        <span className="coac-ve__digit">
+        <span className="coac-app__digit">
           <Roll value={remaining.minutes} />
           min
         </span>
-        <span className="coac-ve__digit">
+        <span className="coac-app__digit">
           <strong>{pad2(remaining.seconds)}</strong>
           seg
         </span>

@@ -9,7 +9,7 @@ const PrivacyDialog = lazy(() => import("../dialogs/privacy/PrivacyDialog"));
 
 /**
  * Modales abiertos (imprimir, «Quiénes somos», privacidad) y aviso de
- * privacidad de la app. Heredan los tokens `--vc-*` (`bg`, `card`,
+ * privacidad de la app. Heredan los tokens `--coac-app-*` (`bg`, `card`,
  * `text`, `muted`, `line`, `primary`, `on-primary`, `soft`) del elemento raíz
  * de la app: se pinta una vez, dentro de él.
  */

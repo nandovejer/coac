@@ -10,7 +10,13 @@ R1 (borrar lo muerto) y R2 (carpetas por función, con `VariantE` → `app/App`,
 `ModalidadFilter`). R0 se hizo en versión corta: en vez de capturas nuevas, el
 build se comparó con el del punto de partida (`index.html` igual salvo los
 hashes, CSS idéntico byte a byte) y pasaron `test:motion` y todos los checks.
-Quedan R0 completo (tests visuales de E), R3, R4, R5 (planes viejos) y R6.
+También R4: `coac-ve` → `coac-app`, `--ve-*` y `--vc-*` → `--coac-app-*` (sin
+colisiones: los nombres de las dos familias no coincidían), transiciones e ids
+`ve-*` → `coac-*` (`coac-search`, `coac-phases-title`, `coac-print-title`) y fuera
+el selector muerto `.coac-vc` de los prototipos. Prueba: aplicando el mismo
+renombrado al build anterior, `index.html` y el CSS salen iguales byte a byte;
+el HTML pasa de 282 a 286 kB y el JS gana 233 bytes, solo por el prefijo más
+largo. Quedan R0 completo (tests visuales de E), R3, R5 (planes viejos) y R6.
 Pendiente aparte: CSS de la app anterior que sigue en `global.css`
 (`coac-scrollbar--on-header`, `coac-live-ring`, `--coac-topbar-height`) y los
 34 avisos de `luz-check` en `src/app` y `src/dialogs` (sobre todo las hojas de

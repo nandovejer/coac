@@ -270,16 +270,17 @@ agrupaciones **en orden de actuación**.
   Luz no escribe textos propios; los de `ThemeModeSwitch` son los del lector de
   pantalla.
 - **Layout de la app**: en escritorio, columna izquierda fija
-  (`.coac-ve__rail`: título con la fase, tarjeta de estado, accesos) y, a su
+  (`.coac-app__rail`: título con la fase, tarjeta de estado, accesos) y, a su
   derecha, el programa con el filtro (buscador, modalidades y días) fijo arriba;
   en móvil, cabecera fija que se esconde al bajar. `useStickyHeights` mide la
   cabecera y el filtro (todo lo que lea el DOM va antes de lo que escribe) y
-  publica `--ve-top-h`/`--ve-filters-h` en el elemento que los usa. El `<h1>` es
-  `.coac-ve__brand-text` (título y fase), cada sesión es una `<section id="dd/mm/aaaa">`
+  publica `--coac-app-top-h`/`--coac-app-filters-h` en el elemento que los usa. El `<h1>` es
+  `.coac-app__brand-text` (título y fase), cada sesión es una `<section id="dd/mm/aaaa">`
   con su `<time>` y la tarjeta de estado y la cuenta atrás llevan `data-nosnippet`.
-  Las clases `coac-ve__*` y las variables `--ve-*`/`--vc-*` son nombres de
-  cuando la app era la «variante E»; cambiarlas es la fase R4 de
-  [.claude/plans/PLAN-REFACTOR.md](.claude/plans/PLAN-REFACTOR.md).
+  Las clases de la app son `coac-app` y `coac-app__*` (BEM), sus variables
+  `--coac-app-*` (los colores de cada modo, que heredan los modales, más las
+  medidas y sombras propias) y sus transiciones `coac-*`. Antes se llamaban
+  `coac-ve`, `--ve-*` y `--vc-*` (de «variante E» y «variante C»).
 - **Cuenta atrás** (`components/status/Countdown.tsx`): va en la tarjeta de estado hacia
   `schedule.upcomingSession`: la sesión de hoy si aún no ha empezado, si no la
   siguiente (también de madrugada). Sin agrupación en directo y con sesión por

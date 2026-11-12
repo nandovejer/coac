@@ -70,7 +70,7 @@ function bootScript(): string {
     "(()=>{try{const h=document.documentElement;" +
     `const d=new Intl.DateTimeFormat("en-CA",{timeZone:${JSON.stringify(SITE.timeZone)}}).format(new Date(Date.now()-${endMs}));` +
     'if(h.dataset.built&&h.dataset.built!==d)h.setAttribute("data-stale","");' +
-    'if(!location.hash&&!scrollY&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&sessionStorage.getItem("ve-intro")!=="1")h.setAttribute("data-intro","")' +
+    'if(!location.hash&&!scrollY&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&sessionStorage.getItem("coac-intro")!=="1")h.setAttribute("data-intro","")' +
     "}catch(e){}})()"
   );
 }
@@ -81,7 +81,7 @@ function bootScript(): string {
  * hace DayStrip al montar. Así la tira no se mueve cuando React toma el relevo.
  */
 const DAY_STRIP_SCRIPT =
-  "(()=>{try{const c=document.querySelector('.coac-ve__carousel');const l=c&&c.querySelector('.coac-ve__days');if(!l)return;" +
+  "(()=>{try{const c=document.querySelector('.coac-app__carousel');const l=c&&c.querySelector('.coac-app__days');if(!l)return;" +
   "c.removeAttribute('data-scrollable');if(l.scrollWidth>l.clientWidth+1)c.setAttribute('data-scrollable','');" +
   "const d=l.querySelector('[data-label=\"Hoy\"]')||l.querySelector('[data-upcoming]')||l.querySelector('li:last-child button');if(!d)return;" +
   "const a=l.getBoundingClientRect(),b=d.getBoundingClientRect();if(b.left>=a.left&&b.right<=a.right)return;" +
@@ -115,7 +115,7 @@ export default function seoPlugin(): Plugin[] {
       const html = (entry.renderApp as (now: Date) => string)(now);
       // La tira de días se ajusta antes del primer pintado, no al montar React
       return html.replace(
-        /<nav class="coac-ve__calendar"[\s\S]*?<\/nav>/,
+        /<nav class="coac-app__calendar"[\s\S]*?<\/nav>/,
         (nav) => `${nav}<script>${DAY_STRIP_SCRIPT}</script>`,
       );
     } finally {

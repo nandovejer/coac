@@ -4,40 +4,40 @@
  * sale por arriba, sin opacidad. El movimiento es opt-in: sin él (o con «reducir
  * movimiento») la cifra cambia en seco y la vieja ni se pinta.
  */
-.coac-ve__roll {
+.coac-app__roll {
   position: relative;
   display: block;
   overflow: clip;
 }
 
-.coac-ve__roll-now {
+.coac-app__roll-now {
   display: block;
 }
 
-.coac-ve__roll-was {
+.coac-app__roll-was {
   position: absolute;
   inset: 0;
   display: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coac-ve__roll[data-rolling] .coac-ve__roll-was {
+  .coac-app__roll[data-rolling] .coac-app__roll-was {
     display: block;
-    animation: coac-ve-roll-out 420ms var(--coac-ease-spring) both;
+    animation: coac-app-roll-out 420ms var(--coac-ease-spring) both;
   }
 
-  .coac-ve__roll[data-rolling] .coac-ve__roll-now {
-    animation: coac-ve-roll-in 420ms var(--coac-ease-spring) both;
+  .coac-app__roll[data-rolling] .coac-app__roll-now {
+    animation: coac-app-roll-in 420ms var(--coac-ease-spring) both;
   }
 }
 
-@keyframes coac-ve-roll-in {
+@keyframes coac-app-roll-in {
   from {
     translate: 0 100%;
   }
 }
 
-@keyframes coac-ve-roll-out {
+@keyframes coac-app-roll-out {
   to {
     translate: 0 -100%;
   }

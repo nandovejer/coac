@@ -66,7 +66,7 @@ export function withViewTransition({
   types?: string[];
 }) {
   const doc = document as Document & { startViewTransition?: StartViewTransition };
-  const root = document.querySelector<HTMLElement>(".coac-ve");
+  const root = document.querySelector<HTMLElement>(".coac-app");
   if (!root || !willAnimateChange()) {
     change();
     if (after) requestAnimationFrame(() => requestAnimationFrame(() => after(false)));
@@ -74,7 +74,7 @@ export function withViewTransition({
   }
 
   current?.skipTransition();
-  // El primer tipo dice qué se nombra (ve-forward, ve-back, ve-reset, ve-filter, ve-theme)
+  // El primer tipo dice qué se nombra (coac-forward, coac-back, coac-reset, coac-filter, coac-theme)
   root.setAttribute("data-vt", types[0] ?? "");
   prepare?.();
   const apply = () => {

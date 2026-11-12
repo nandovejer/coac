@@ -1,6 +1,6 @@
 /*
- * Modal de lectura (Quiénes somos, Privacidad). Va dentro de .coac-vc o .coac-ve (usa
- * --vc-* y la piel). A pantalla completa en móvil; en escritorio, una columna
+ * Modal de lectura (Quiénes somos, Privacidad). Va dentro de .coac-app (usa
+ * --coac-app-* y la piel). A pantalla completa en móvil; en escritorio, una columna
  * de lectura centrada.
  */
 .coac-info {
@@ -11,8 +11,8 @@
   margin: 0;
   padding: 0;
   border: 0;
-  background: var(--vc-bg);
-  color: var(--vc-text);
+  background: var(--coac-app-bg);
+  color: var(--coac-app-text);
 }
 
 .coac-info::backdrop {
@@ -30,27 +30,27 @@
   align-items: center;
   gap: var(--luz-space-sm);
   padding: var(--luz-space-sm) var(--luz-space-md);
-  border-block-end: 1px solid var(--vc-line);
+  border-block-end: 1px solid var(--coac-app-line);
 }
 
 .coac-info__logo {
   flex: none;
   inline-size: 2rem;
   block-size: 2rem;
-  color: var(--vc-primary);
+  color: var(--coac-app-primary);
 }
 
 .coac-info__title {
   flex: 1;
   margin: 0;
-  color: var(--vc-text);
+  color: var(--coac-app-text);
   font-family: inherit;
   font-size: var(--luz-text-lg);
   font-weight: 800;
   line-height: 1.5rem;
 }
 
-:is(.coac-vc, .coac-ve) .coac-info__close {
+.coac-app .coac-info__close {
   display: grid;
   flex: none;
   place-items: center;
@@ -59,8 +59,8 @@
   border: 1px solid transparent;
 }
 
-:is(.coac-vc, .coac-ve) .coac-info__close:hover {
-  border-color: var(--vc-muted);
+.coac-app .coac-info__close:hover {
+  border-color: var(--coac-app-muted);
 }
 
 .coac-info__body {
@@ -80,7 +80,7 @@
 
 .coac-info__section h3 {
   margin: 0;
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-family: inherit;
   font-size: var(--luz-text-xs);
   font-weight: 700;
@@ -91,7 +91,7 @@
 
 .coac-info__section p {
   margin: 0;
-  color: var(--vc-text);
+  color: var(--coac-app-text);
   font-family: var(--luz-font-sans);
   font-size: var(--luz-text-base);
   letter-spacing: normal;
@@ -107,7 +107,7 @@
 }
 
 .coac-info__section .coac-info__note {
-  color: var(--vc-muted);
+  color: var(--coac-app-muted);
   font-size: var(--luz-text-sm);
 }
 
@@ -132,8 +132,8 @@
 .coac-info__section .coac-info__summary {
   padding: var(--luz-space-md) var(--luz-space-md) var(--luz-space-md)
     calc(var(--luz-space-md) + var(--luz-space-lg));
-  border: 1px solid var(--vc-line);
-  background: var(--vc-card);
+  border: 1px solid var(--coac-app-line);
+  background: var(--coac-app-card);
 }
 
 @media (min-width: 48rem) {
@@ -141,7 +141,7 @@
     inline-size: min(44rem, calc(100% - 2 * var(--luz-space-xl)));
     block-size: min(48rem, calc(100dvh - 2 * var(--luz-space-xl)));
     margin: auto;
-    border: 1px solid var(--vc-line);
+    border: 1px solid var(--coac-app-line);
   }
 
   .coac-info__body {

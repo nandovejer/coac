@@ -8,7 +8,7 @@ import "./PrivacyNotice.css";
  * columna izquierda): la medida se escribe en cada uno, no en <html>, para que
  * solo se invalide el estilo de esos elementos y no el de toda la página.
  */
-const RESERVE_SELECTOR = ".coac-ve__footer, .coac-ve__footer-theme, .coac-ve__rail, .coac-vc__footer";
+const RESERVE_SELECTOR = ".coac-app__footer, .coac-app__footer-theme, .coac-app__rail";
 
 function alreadySeen() {
   try {
