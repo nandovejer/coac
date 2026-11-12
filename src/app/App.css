@@ -327,6 +327,11 @@ html:has(.coac-app) body {
   display: none;
 }
 
+/* El botón rojo del juego solo sale en escritorio */
+.coac-app__forbidden {
+  display: none;
+}
+
 .coac-app .coac-app__action {
   display: grid;
   place-items: center;
@@ -1899,6 +1904,29 @@ a.coac-app__previous:focus-visible::after {
      tarjeta de estado (los de la cabecera de móvil se ocultan) */
   .coac-app__actions[data-place="top"] {
     display: none;
+  }
+
+  /* El botón rojo del juego, al pie de la columna */
+  .coac-app .coac-app__forbidden {
+    display: block;
+    margin-block-start: auto;
+    padding: var(--luz-space-sm) var(--luz-space-md);
+    border: 2px solid var(--coac-live-bg);
+    border-radius: var(--coac-app-radius);
+    background: var(--coac-live-bg);
+    color: var(--coac-live-text);
+    font-family: inherit;
+    font-size: var(--luz-text-base);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: var(--coac-app-shadow);
+    transition: box-shadow var(--coac-dur-quick) var(--coac-ease-out);
+  }
+
+  .coac-app .coac-app__forbidden:hover {
+    box-shadow: 0 0 0 3px var(--coac-live-dot);
   }
 
   .coac-app__actions[data-place="rail"] {

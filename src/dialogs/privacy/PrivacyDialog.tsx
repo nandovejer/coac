@@ -93,6 +93,10 @@ export default function PrivacyDialog({ onClose }: { onClose: () => void }) {
           ellas, valen sus normas de privacidad, no las nuestras. Si no los pulsas, esas webs no se enteran de
           nada.
         </p>
+        <p>
+          En ordenador hay un botón rojo que abre un juego. El juego está en otra web, también guardada en
+          GitHub, y solo se carga si pulsas ese botón.
+        </p>
       </InfoSection>
 
       <InfoSection title="Imprimir o descargar tu horario">

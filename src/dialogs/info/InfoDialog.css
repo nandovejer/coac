@@ -147,4 +147,16 @@
   .coac-info__body {
     padding: var(--luz-space-xl);
   }
+
+  /* El juego: casi toda la pantalla, sin márgenes alrededor del marco */
+  .coac-info[data-size="wide"] {
+    inline-size: calc(100% - 2 * var(--luz-space-xl));
+    block-size: calc(100dvh - 2 * var(--luz-space-xl));
+  }
+}
+
+.coac-info[data-size="wide"] .coac-info__body {
+  display: block;
+  padding: 0;
+  overflow: hidden;
 }

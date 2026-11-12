@@ -5,6 +5,7 @@ import type { useProgramme } from "./useProgramme";
 const loadPrint = () => import("../dialogs/print/PrintSchedule");
 const loadAbout = () => import("../dialogs/about/AboutDialog");
 const loadPrivacy = () => import("../dialogs/privacy/PrivacyDialog");
+const loadGame = () => import("../dialogs/game/GameDialog");
 
 export const HOME_URL = import.meta.env.BASE_URL;
 
@@ -39,6 +40,8 @@ export function useShell(p: ReturnType<typeof useProgramme>) {
   const { privacyOpen, openPrivacy, closePrivacy } = usePrivacyRoute();
   const closePrint = useCallback(() => setPrintOpen(false), []);
   const closeAbout = useCallback(() => setAboutOpen(false), []);
+  const [gameOpen, setGameOpen] = useState(false);
+  const closeGame = useCallback(() => setGameOpen(false), []);
 
   // Botón «Hoy y mañana» del modal de imprimir (o las dos próximas). Al abrir van todas.
   const printSoon = (() => {
@@ -89,6 +92,13 @@ export function useShell(p: ReturnType<typeof useProgramme>) {
       onFocus: loadAbout,
       onClick: () => setAboutOpen(true),
     },
+    /** Props del botón rojo «No le des click aquí» (abre el juego). */
+    gameButton: {
+      "aria-haspopup": "dialog" as const,
+      onPointerEnter: loadGame,
+      onFocus: loadGame,
+      onClick: () => setGameOpen(true),
+    },
     /** Props del enlace «Privacidad» (su `href` es `PRIVACY_HASH`). */
     privacyLink: { onPointerEnter: loadPrivacy, onFocus: loadPrivacy, onClick: openPrivacy },
     /** Estado de los modales, para `<AppDialogs>`. */
@@ -101,6 +111,7 @@ export function useShell(p: ReturnType<typeof useProgramme>) {
         onClose: closePrint,
       },
       about: { open: aboutOpen, onClose: closeAbout },
+      game: { open: gameOpen, onClose: closeGame },
       privacy: { open: privacyOpen, onOpen: openPrivacy, onClose: closePrivacy },
     },
   };

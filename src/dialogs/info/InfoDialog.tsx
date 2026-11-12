@@ -14,11 +14,14 @@ export function InfoDialog({
   title,
   titleId,
   onClose,
+  size,
   children,
 }: {
   title: string;
   titleId: string;
   onClose: () => void;
+  /** `wide`: casi toda la pantalla y sin márgenes en el cuerpo (el juego). */
+  size?: "wide";
   children: ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -40,7 +43,7 @@ export function InfoDialog({
   }, [onClose]);
 
   return (
-    <dialog ref={dialogRef} className="coac-info" aria-labelledby={titleId}>
+    <dialog ref={dialogRef} className="coac-info" data-size={size} aria-labelledby={titleId}>
       <div className="coac-info__panel">
         <header className="coac-info__head">
           <FallaLogo className="coac-info__logo" />
