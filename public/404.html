@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#192c60" />
+    <meta name="robots" content="noindex" />
+    <title>Página no encontrada · ¿Quién canta hoy en el COAC?</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f3ece2;
+        --text: #1b1c3b;
+        --muted: #4a4c68;
+        --button-bg: #192c60;
+        --button-text: #ffffff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a0f24;
+          --text: #f2f2f8;
+          --muted: #b6b8cf;
+          --button-bg: #8fb0ff;
+          --button-text: #0b1433;
+        }
+      }
+      @media (prefers-contrast: more) {
+        :root {
+          --bg: #ffffff;
+          --text: #000000;
+          --muted: #000000;
+          --button-bg: #00256c;
+          --button-text: #ffffff;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1.5rem;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Avenir Next", Avenir, "Century Gothic", "URW Gothic", "Nunito Sans", ui-sans-serif, system-ui,
+          -apple-system, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+      main {
+        max-width: 28rem;
+        text-align: center;
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: 1.75rem;
+        line-height: 1.2;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1.5rem;
+        color: var(--muted);
+        font-size: 1.125rem;
+        text-wrap: pretty;
+      }
+      a {
+        display: inline-block;
+        min-height: 2.75rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 3px;
+        background: var(--button-bg);
+        color: var(--button-text);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      a:focus-visible {
+        outline: 3px solid var(--text);
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Esta página no existe</h1>
+      <p>Puede que el enlace esté mal escrito o que ya no exista. Lo que buscas está en la portada.</p>
+      <a href="/">Ir a la portada</a>
+    </main>
+  </body>
+</html>

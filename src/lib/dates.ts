@@ -124,6 +124,22 @@ export function zonedTimeToInstant(
   return new Date(wallClockAsUtc - zoneOffsetMs(firstGuess, timeZone));
 }
 
+/**
+ * Instante en hora de pared de `timeZone` con su desfase, a minuto exacto
+ * (ISO 8601): `2027-01-08T20:00:00+01:00`. Es lo que piden los datos
+ * estructurados; `toISOString()` daría la hora en UTC.
+ */
+export function formatZonedIso(instant: Date, timeZone: string): string {
+  const parts = getZonedParts(instant, timeZone);
+  const offsetMinutes = Math.round(zoneOffsetMs(instant.getTime(), timeZone) / 60000);
+  const sign = offsetMinutes < 0 ? "-" : "+";
+  const abs = Math.abs(offsetMinutes);
+  return (
+    `${parts.year}-${pad(parts.month)}-${pad(parts.day)}T${pad(parts.hour)}:${pad(parts.minute)}:00` +
+    `${sign}${pad(Math.floor(abs / 60))}:${pad(abs % 60)}`
+  );
+}
+
 /** `dd/mm/yyyy` → "jueves, 23 de enero de 2025". */
 export function formatLongDate(value: string): string {
   const date = parseSessionDate(value);

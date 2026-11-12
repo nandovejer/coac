@@ -4,6 +4,8 @@ export const SITE = {
   url: "https://coac.com.es/",
   name: "¿Quién canta hoy en el COAC?",
   venue: "Gran Teatro Falla",
+  venueStreet: "Plaza de Fragela, s/n",
+  venuePostalCode: "11003",
   city: "Cádiz",
   // Las sesiones se miden siempre en hora de Cádiz, sea cual sea la zona del
   // navegador o de la máquina que hace el build.

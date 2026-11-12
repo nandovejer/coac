@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   formatLongDate,
+  formatZonedIso,
   formatSessionTitleDate,
   formatShortDate,
   formatMinutesOfDay,
@@ -112,5 +113,21 @@ describe("formatShortDate", () => {
 
   it("no lanza con una fecha inválida", () => {
     expect(formatShortDate("mañana")).toBe("mañana");
+  });
+});
+
+describe("formatZonedIso", () => {
+  it("escribe la hora de Madrid con su desfase (invierno y verano)", () => {
+    const winter = zonedTimeToInstant({ year: 2027, month: 1, day: 8 }, 20, 0, "Europe/Madrid");
+    expect(formatZonedIso(winter, "Europe/Madrid")).toBe("2027-01-08T20:00:00+01:00");
+    const summer = zonedTimeToInstant({ year: 2027, month: 7, day: 8 }, 20, 0, "Europe/Madrid");
+    expect(formatZonedIso(summer, "Europe/Madrid")).toBe("2027-07-08T20:00:00+02:00");
+  });
+
+  it("no depende de la zona del proceso", () => {
+    expect(formatZonedIso(new Date("2027-01-08T19:00:00Z"), "Europe/Madrid")).toBe(
+      "2027-01-08T20:00:00+01:00",
+    );
+    expect(formatZonedIso(new Date("2027-01-08T19:00:00Z"), "UTC")).toBe("2027-01-08T19:00:00+00:00");
   });
 });

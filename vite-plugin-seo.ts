@@ -9,14 +9,16 @@ import { SEASON, rawSessions, scheduleConfig, sessions } from "./src/config/seas
 import { SITE } from "./src/config/site";
 import { getSessionStart } from "./src/domain/schedule";
 import { validateSessions } from "./src/domain/validate";
-import { formatLongDate, sortSessionDates } from "./src/lib/dates";
+import { formatLongDate, formatSessionTitleDate, formatZonedIso, sortSessionDates } from "./src/lib/dates";
+import { PHASES, isHomePhase } from "./src/variants/phases";
 import { NEW_GROUP_LABEL } from "./src/types";
 
 /**
  * Genera en cada build (a partir de `season.ts` y el JSON de la fase, las
  * mismas fuentes que usa la app en cliente) todo lo que un crawler sin
  * JavaScript necesita: contenido HTML real dentro de #root, metadatos
- * (title/description/canonical/OG/Twitter) y datos estructurados JSON-LD.
+ * (title/description/canonical/OG/Twitter; por eso `index.html` no los lleva) y
+ * datos estructurados JSON-LD.
  * React sustituye este contenido al arrancar (createRoot, no hidratación),
  * así que no hay riesgo de mismatch.
  */
@@ -43,8 +45,19 @@ export default function seoPlugin(): Plugin[] {
       order: "pre",
       handler(html) {
         let result = html.replace(/<title>[\s\S]*?<\/title>/, "");
-        result = result.replace("<head>", `<head>\n    <script>${themeBootScript()}</script>`);
+        // Orden del <head>: charset primero (tiene que caer en los primeros 1024 bytes),
+        // el modo de color antes del primer pintado y, después, los metadatos
+        result = result.replace(/<meta charset="UTF-8" \/>\s*/, "");
+        result = result.replace(
+          "<head>",
+          `<head>\n    <meta charset="UTF-8" />\n    <script>${themeBootScript()}</script>`,
+        );
         result = result.replace("</head>", `${buildHeadTags()}\n  </head>`);
+        // Los datos estructurados no son para el primer pintado: al final del body
+        result = result.replace(
+          "</body>",
+          `  <script type="application/ld+json">${buildJsonLd()}</script>\n  </body>`,
+        );
         result = result.replace(
           /<div id="root">[\s\S]*?<\/div>/,
           `<div id="root">${buildStaticContent()}</div>`,
@@ -108,21 +121,26 @@ function escapeHtml(value: string): string {
 }
 
 function pageTitle(): string {
-  return `¿Quién canta hoy en el COAC ${SEASON.year}? — ${SEASON.phaseTitle}`;
+  return `¿Quién canta hoy en el COAC ${SEASON.year}? Orden de actuación y horarios`;
 }
 
 function pageDescription(): string {
-  return `Consulta qué agrupaciones cantan hoy en el COAC ${SEASON.year} (${SEASON.phaseTitle.toLowerCase()}) y a qué hora, sesión por sesión, con enlace al directo y buscador de autores.`;
+  return `Qué agrupaciones cantan hoy en el COAC ${SEASON.year} (${SEASON.phaseTitle.toLowerCase()}) en el ${SITE.venue}, el Carnaval de Cádiz: orden de actuación y horarios estimados. Web no oficial.`;
 }
+
+const OG_IMAGE_ALT =
+  "Dos máscaras de teatro sobre fondo azul oscuro y el título «¿Quién canta hoy en el COAC?», con el lema «Horario de sesiones · agrupaciones · directo».";
 
 function buildHeadTags(): string {
   const title = escapeHtml(pageTitle());
   const description = escapeHtml(pageDescription());
   const ogImage = `${SITE.url}og-image.png`;
+  const imageAlt = escapeHtml(OG_IMAGE_ALT);
 
   return [
     `<title>${title}</title>`,
     `<meta name="description" content="${description}" />`,
+    `<meta name="robots" content="max-image-preview:large" />`,
     `<link rel="canonical" href="${SITE.url}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta property="og:locale" content="es_ES" />`,
@@ -133,28 +151,36 @@ function buildHeadTags(): string {
     `<meta property="og:image" content="${ogImage}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
+    `<meta property="og:image:alt" content="${imageAlt}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${title}" />`,
     `<meta name="twitter:description" content="${description}" />`,
     `<meta name="twitter:image" content="${ogImage}" />`,
-    `<script type="application/ld+json">${buildJsonLd()}</script>`,
+    `<meta name="twitter:image:alt" content="${imageAlt}" />`,
   ].join("\n    ");
 }
 
 function buildJsonLd(): string {
   const data = sessions;
   const dates = sortSessionDates(Object.keys(data));
+  const phaseShort = PHASES.find(isHomePhase)?.short ?? SEASON.phaseTitle;
+  const ogImage = `${SITE.url}og-image.png`;
 
   const events = dates.map((date) => {
     const groups = data[date];
     const start = getSessionStart(date, scheduleConfig.sessionStartTime, scheduleConfig.timeZone);
     const end = new Date(start.getTime() + groups.length * SEASON.minutesPerGroup * 60000);
+    const sessionDay = formatSessionTitleDate(date);
+    const lineup = groups.map((group, index) => `${index + 1}. ${group.nombre}`).join("; ");
 
     return {
       "@type": "Event",
-      name: `Sesión de ${SEASON.phaseTitle} del COAC ${SEASON.year} — ${date}`,
-      startDate: start.toISOString(),
-      endDate: end.toISOString(),
+      name: `COAC ${SEASON.year} · ${phaseShort} · Sesión del ${sessionDay.charAt(0).toLowerCase()}${sessionDay.slice(1)}`,
+      description: `Orden de actuación: ${lineup}. Horas estimadas, ${SEASON.minutesPerGroup} minutos por agrupación.`,
+      image: ogImage,
+      // Hora de Madrid con su desfase, no UTC: lo que se lee es lo que pasa
+      startDate: formatZonedIso(start, scheduleConfig.timeZone),
+      endDate: formatZonedIso(end, scheduleConfig.timeZone),
       eventStatus: "https://schema.org/EventScheduled",
       eventAttendanceMode: "https://schema.org/MixedEventAttendanceMode",
       location: [
@@ -163,7 +189,10 @@ function buildJsonLd(): string {
           name: SITE.venue,
           address: {
             "@type": "PostalAddress",
+            streetAddress: SITE.venueStreet,
+            postalCode: SITE.venuePostalCode,
             addressLocality: SITE.city,
+            addressRegion: SITE.city,
             addressCountry: "ES",
           },
         },
@@ -183,7 +212,16 @@ function buildJsonLd(): string {
 
   const graph = {
     "@context": "https://schema.org",
-    "@graph": [{ "@type": "WebSite", name: SITE.name, url: SITE.url }, ...events],
+    "@graph": [
+      {
+        "@type": "WebSite",
+        name: SITE.name,
+        alternateName: "Quién canta hoy en el COAC",
+        url: SITE.url,
+        inLanguage: "es",
+      },
+      ...events,
+    ],
   };
 
   // Escapamos "<" para que un valor con "</script>" no rompa el documento.
