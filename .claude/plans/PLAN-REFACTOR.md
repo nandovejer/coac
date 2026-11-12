@@ -4,6 +4,18 @@ Estado: **pendiente de ejecutar** (redactado el 12/11/2026 sobre `aba9bc7`, que 
 lo publicado en coac.com.es). Se ejecuta por fases y solo cuando el usuario lo diga.
 Nada va a `main` sin orden expresa.
 
+**Hecho el 12/11/2026** (sobre `5008d24`, etiqueta `archivo/pre-refactor` subida):
+R1 (borrar lo muerto) y R2 (carpetas por función, con `VariantE` → `app/App`,
+`ShellDialogs` → `AppDialogs` y `parts.tsx` partido en `PreviousNote` y
+`ModalidadFilter`). R0 se hizo en versión corta: en vez de capturas nuevas, el
+build se comparó con el del punto de partida (`index.html` igual salvo los
+hashes, CSS idéntico byte a byte) y pasaron `test:motion` y todos los checks.
+Quedan R0 completo (tests visuales de E), R3, R4, R5 (planes viejos) y R6.
+Pendiente aparte: CSS de la app anterior que sigue en `global.css`
+(`coac-scrollbar--on-header`, `coac-live-ring`, `--coac-topbar-height`) y los
+34 avisos de `luz-check` en `src/app` y `src/dialogs` (sobre todo las hojas de
+imprimir, que usan blanco fijo a propósito), que `lint:luz` aún no revisa.
+
 **Punto de partida**: la punta de `proto/optimize` el día que empiece R0, no
 `aba9bc7`. Todo lo que entre antes en la rama se refactoriza igual que lo demás y
 queda cubierto por las capturas y la huella de R0.

@@ -62,7 +62,8 @@ src/data/COAC_<año>_<FASE>.json   listado oficial: fecha → agrupaciones, en o
 src/domain/                       lógica pura y testeada: sesión activa,
         │                         hora estimada, agrupación en directo
         ▼
-src/components/                   React: solo pintan, con CSS propio
+src/app/, src/components/,        React: solo pintan, con CSS propio
+src/dialogs/
         │
         ▼
 vite-plugin-seo.ts                en el build, HTML real en #root, metadatos,

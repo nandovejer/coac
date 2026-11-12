@@ -57,7 +57,7 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   `--coac-accent` / `--coac-on-header-accent`). Los únicos degradados son
   desvanecidos (`mask-image`, solo transparencia): el del índice de días en
   móvil, que avisa de que hay más, y la base de la fachada de marca de agua de
-  la tarjeta de estado, que se funde con su fondo. Los títulos usan `Heading`; los de sección son etiquetas en mayúsculas
+  la tarjeta de estado, que se funde con su fondo. Los títulos de sección son etiquetas en mayúsculas
   con una línea fina.
 - **Movimiento**: todo desplazamiento, escala o recorte va dentro de
   `@media (prefers-reduced-motion: no-preference)`; con «reducir movimiento» solo
@@ -65,13 +65,13 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
   desplazamientos y curvas son tokens `--coac-dur-*`, `--coac-shift-*` y
   `--coac-ease-*` (`coac-tokens.css`); nada fuera de la escala. El texto nunca pasa
   por opacidad intermedia ni por una transición de `color` (ni de `background-color`
-  si el texto cambia de color con el estado). Solo `src/variants/motion.ts` lanza
+  si el texto cambia de color con el estado). Solo `src/lib/motion.ts` lanza
   View Transitions o `element.animate`. Plan y motivos:
   [.claude/plans/PLAN-ANIMACIONES.md](.claude/plans/PLAN-ANIMACIONES.md); pruebas:
   `pnpm run test:motion`.
 - **Semáforo del ranking**: `top` verde, `ok` amarillo, `standar` neutro (nunca
-  rojo: se leería como «malo»). El color no es la única señal: `RankingPilot`
-  añade un piloto con forma (círculo lleno / medio) y texto. «EN DIRECTO» es
+  rojo: se leería como «malo»). El color no es la única señal: hay una
+  leyenda encima del programa y un texto oculto para lectores de pantalla. «EN DIRECTO» es
   siempre rojo de emisión, en pastilla con icono, y se marca con un anillo
   (`coac-live-ring`) en vez de parpadear: un texto que se desvanece pierde
   contraste a media animación. Las modalidades usan azul, violeta, rosa y gris
@@ -99,13 +99,13 @@ diferencias en `tests/visual/compare/` para revisarlas a ojo, y luego
 
 ## Requisitos funcionales
 
-Los cumple el rediseño E (`src/variants/VariantE.tsx`), que es la app que se
-publica (`main.tsx` lo monta). Comparte con el prototipo D los modales y el
-estado (`useProgramme`, `useShell`, `ShellDialogs`, `print/`, `privacy/`); D
-solo se ve en desarrollo con `vite --mode variant-d`, y la app anterior
-(`App.tsx`, `components/`) con `vite --mode anterior`; el HTML estático del
-build es la propia E prerenderizada (ver «SEO con prerender»). Los tests de Playwright (`tests/visual/`) siguen
-escritos para la app anterior y hay que rehacerlos para E. En local, la app está en `localhost:5173/`. El favicon (`public/favicon.*`, iconos) es la
+Los cumple la app (`src/app/App.tsx`, que monta `main.tsx`); el HTML estático
+del build es la propia app prerenderizada (ver «SEO con prerender»). La app
+anterior y los prototipos C y D se borraron: siguen en la etiqueta
+`archivo/pre-refactor` (`git checkout archivo/pre-refactor -- <ruta>`). Los
+tests visuales de Playwright (`tests/visual/`) siguen escritos para la app
+anterior y hay que rehacerlos; los de movimiento (`tests/motion/`) sí prueban
+la app. En local, la app está en `localhost:5173/`. El favicon (`public/favicon.*`, iconos) es la
 fachada de `FallaLogo` con los colores de la cabecera en modo claro.
 
 - **Estados de sesión**: siempre se distingue a simple vista la sesión de hoy,
@@ -185,25 +185,36 @@ agrupaciones **en orden de actuación**.
 
 - `src/config/season.ts` — **único archivo que se toca al cambiar de fase**.
   `src/config/site.ts` — constantes que no cambian con la fase.
+- `src/main.tsx` — entrada del navegador. `src/prerender.tsx` — entrada del
+  build (la usa `vite-plugin-seo.ts`).
+- `src/app/` — la app: `App.tsx` y `App.css` (cabecera, columna, filtro,
+  programa y pie), `useProgramme.ts` (qué se ve: hoy, un día o la búsqueda),
+  `useShell.ts` (modales, portada y navegación), `AppDialogs.tsx` (monta los
+  modales) y `prerenderContext.ts` (avisa a la app de que la prerenderizan).
+- `src/components/` — piezas visuales: `status/` (`Countdown`), `programme/`
+  (`PreviousNote`), `filters/` (`ModalidadFilter`), `layout/`
+  (`ThemeModeSwitch`) y `ui/` (`icons`, `FallaLogo`, `facade`). Solo pintan; no
+  calculan fechas. Cada uno con su `.css`.
+- `src/dialogs/` — los modales, cada uno con su lógica: `about/` («Quiénes
+  somos»), `info/` (base de los modales de texto), `privacy/` (página y aviso),
+  `print/` (imprimir horario y porra, en imagen y PDF) y `dialog-motion.css`.
 - `src/domain/` — lógica pura y testeada (`*.test.ts`): `schedule.ts`
   (`buildSchedule`: sesión activa, hora estimada, agrupación en directo),
-  `loadSessions.ts`, `validate.ts`, `ids.ts`, `filterByAuthor.ts`.
-- `src/lib/` — utilidades sin reglas del COAC (`dates.ts`, `youtube.ts`).
-- `src/hooks/useNow.ts` — hora actual refrescada cada 30 s y al volver a la
-  pestaña.
-- `src/components/` — `layout/` (`SiteHeader`, `BottomNav`, `SiteFooter`,
-  `ThemeModeSwitch`), `schedule/` (`SessionSchedule`, `SessionLineup`,
-  `PerformanceRow`…), `search/` (`AuthorSearch`), `ui/`. Solo pintan; no
-  calculan fechas. Cada uno con su `.css`.
+  `loadSessions.ts`, `validate.ts`, `ids.ts`, `filterByAuthor.ts`, `phases.ts`
+  (fases del concurso y su estado) y `sessionBrief.ts` (resumen de una sesión).
+- `src/lib/` — utilidades sin reglas del COAC (`dates.ts`, `youtube.ts`,
+  `motion.ts`).
+- `src/hooks/` — `useNow.ts` (hora actual refrescada cada 30 s y al volver a la
+  pestaña), `useGhostMark.ts` y `useReached.ts`.
 - `src/styles/` — `index.css` (orden de carga: tokens y base de Luz, selector
   de modo, tema propio, tokens propios, global), `theme-coac.css` (tema de Luz,
   3 modos), `coac-tokens.css`, `global.css` (neutraliza lo que Luz añade a las
   etiquetas HTML).
 - `src/types.ts` — tipos compartidos.
-- `vite-plugin-seo.ts` — en cada build valida los datos, prerenderiza E dentro
-  de `#root` (`src/prerenderApp.tsx`, con `ssrLoadModule`), escribe metadatos,
+- `vite-plugin-seo.ts` — en cada build valida los datos, prerenderiza la app dentro
+  de `#root` (`src/prerender.tsx`, con `ssrLoadModule`), escribe metadatos,
   JSON-LD de eventos (al final del `<body>`) y `sitemap.xml`, y mete los scripts
-  en línea del arranque. `src/variants/prerender.ts` es el contexto con el que
+  en línea del arranque. `src/app/prerenderContext.ts` es el contexto con el que
   la app sabe que la están prerenderizando. `scripts/check-prerender.mjs`
   (`pnpm run check:prerender`) comprueba `dist/index.html`; `public/404.html`
   es la página de error, estática y sin bundle.
@@ -213,7 +224,7 @@ agrupaciones **en orden de actuación**.
 
 ## Decisiones vigentes
 
-- **SEO con prerender**: el build pinta E entera en `#root` con
+- **SEO con prerender**: el build pinta la app entera en `#root` con
   `renderToStaticMarkup` (mismo código que ve el usuario, mismos ids y mismo
   CSS) y React la sustituye con `createRoot`; no hay hidratación (el estado de
   `localStorage` y `<luz-theme-mode>` obligarían a repintarla entera). Así el
@@ -235,7 +246,7 @@ agrupaciones **en orden de actuación**.
   difiere de la del día de sesión de hoy; el CSS esconde solo las etiquetas
   «Hoy», «Mañana» y «Próxima sesión» del prerender hasta que monte React.
 - **Primer pintado sin saltos**: otro script del `<head>` decide la entrada
-  (`html[data-intro]`, que E lee y suelta) para que la fachada espere en su
+  (`html[data-intro]`, que la app lee y suelta) para que la fachada espere en su
   pose inicial; uno tras la tira de días quita las flechas si todo cabe y
   lleva hoy a la vista; `html` y `body` llevan el fondo de la app en los tres
   modos y `luz-theme-mode:not(:defined)` pinta el círculo vacío del botón. Lo
@@ -258,7 +269,7 @@ agrupaciones **en orden de actuación**.
   botón al DOM: se renderiza una vez (`memo`) y React no debe volver a tocarlo.
   Luz no escribe textos propios; los de `ThemeModeSwitch` son los del lector de
   pantalla.
-- **Layout de E** (la app publicada): en escritorio, columna izquierda fija
+- **Layout de la app**: en escritorio, columna izquierda fija
   (`.coac-ve__rail`: título con la fase, tarjeta de estado, accesos) y, a su
   derecha, el programa con el filtro (buscador, modalidades y días) fijo arriba;
   en móvil, cabecera fija que se esconde al bajar. `useStickyHeights` mide la
@@ -266,33 +277,14 @@ agrupaciones **en orden de actuación**.
   publica `--ve-top-h`/`--ve-filters-h` en el elemento que los usa. El `<h1>` es
   `.coac-ve__brand-text` (título y fase), cada sesión es una `<section id="dd/mm/aaaa">`
   con su `<time>` y la tarjeta de estado y la cuenta atrás llevan `data-nosnippet`.
-- **Layout de la app anterior** (`App.tsx`): arriba el `Hero` (título, descripción y cuenta atrás);
-  debajo, panel lateral (`App.tsx`, `App.css`) con el fondo de la cabecera:
-  `LiveStatus`, «Ver el directo», `SessionIndex` y `RankingLegend`. Entre el hero y esa
-  rejilla va `SearchSection`: una frase y el buscador (un campo que abre un modal `<dialog>`, a pantalla
-  completa en móvil, con una tarjeta por resultado con todos los datos de la
-  fila; busca por autor o por nombre de agrupación, sin tildes, y filtra por
-  modalidad con `searchGroups`; al pulsar una tarjeta se cierra y baja a la fila). Al
-  lado del panel, cada sesión es una tabla plegable (`<details>`): van todas plegadas
-  salvo la de hoy o, si hoy no hay sesión, la próxima (acabada la fase, ninguna). `useOpenDetailsOnAnchor`
-  despliega la sesión antes de seguir un enlace a ella o a una agrupación. Por
-  debajo de 64rem el panel va arriba y las filas se apilan; en escritorio no
-  hay menú inferior. Por debajo de 64rem hay además una barra fija superior (`TopBar`,
-  `useScrolledPast`), oculta mientras se ve el hero y visible al pasarlo, con
-  título, subtítulo, buscador y, debajo, la cuenta atrás en una tira fina y fija
-  (`CountdownTicker`); el h1 es el del `Hero`.
-  En móvil el panel es compacto y «Ver el directo» solo
-  sale en escritorio (en móvil está en el menú inferior: un solo acceso). El
-  botón del modo de color es el de Luz en línea (`inline`), en el pie de la
-  página (`.coac-site-footer__theme`), no flotando sobre el contenido. El título de cada
-  sesión es corto («Jueves 21 de enero», `formatSessionTitleDate`).
-- **Cuenta atrás** (E, `variants/Countdown.tsx`): va en la tarjeta de estado hacia
+  Las clases `coac-ve__*` y las variables `--ve-*`/`--vc-*` son nombres de
+  cuando la app era la «variante E»; cambiarlas es la fase R4 de
+  [.claude/plans/PLAN-REFACTOR.md](.claude/plans/PLAN-REFACTOR.md).
+- **Cuenta atrás** (`components/status/Countdown.tsx`): va en la tarjeta de estado hacia
   `schedule.upcomingSession`: la sesión de hoy si aún no ha empezado, si no la
   siguiente (también de madrugada). Sin agrupación en directo y con sesión por
   venir siempre hay cuenta atrás. Las cifras ruedan (sin opacidad intermedia),
-  van `aria-hidden` y el texto accesible cambia solo por minutos. E no usa
-  fuentes web ni hace ninguna petición a terceros; la fuente de siete segmentos
-  de jsDelivr es solo de la app anterior (`--mode anterior`) y no entra en el
-  build.
+  van `aria-hidden` y el texto accesible cambia solo por minutos. La app no usa
+  fuentes web ni hace ninguna petición a terceros.
 - Las horas de la UI son estimaciones (`SEASON.minutesPerGroup` por
   agrupación, actuación + montaje).
