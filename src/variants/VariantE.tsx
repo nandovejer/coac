@@ -1221,7 +1221,9 @@ export default function VariantE({
               </a>
               .
             </p>
-            <p>Gratis y sin publicidad, siempre: esta web no gana dinero con nada.</p>
+            <p>
+              <strong>Gratis y sin publicidad, siempre: esta web no gana dinero con nada.</strong>
+            </p>
           </div>
           <p className="coac-ve__footer-disclaimer">
             Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
