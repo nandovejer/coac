@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node scripts/third-party-licenses.mjs && tsc && vite build",
     "typecheck": "tsc",
     "check:contrast": "luz-tokens check-contrast src/styles/theme-coac.css",
     "lint:luz": "luz-check dist/index.html src/styles src/components --theme src/styles/theme-coac.css --strict",

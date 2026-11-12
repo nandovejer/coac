@@ -139,7 +139,20 @@ derivan directamente de las claves del JSON.
 Las temporadas pasadas se archivan en ramas (`2025_COAC_PRE`, `coac2024`…).
 Más contexto del proyecto, reglas y decisiones en [AGENTS.md](AGENTS.md).
 
-## Licencia
+## Licencias
 
-[MIT](./LICENSE). Los datos de las agrupaciones se copian del listado oficial
-del COAC.
+- **Código** (`src/`, `scripts/`, `tests/` y la configuración): [MIT](./LICENSE).
+  Incluye el diseño visual y el logo de la fachada.
+- **Datos** (`src/data/`): los nombres de agrupaciones, autores, ciudades y el
+  orden de actuación proceden del listado oficial del COAC, publicado por el
+  Ayuntamiento de Cádiz, y **no** están cubiertos por la licencia MIT. Las
+  valoraciones (`ranking`) son opinión del autor de esta web, no del jurado ni de
+  la organización.
+- **Fuente DSEG** (`tests/fixtures/dseg/`): © keshikan, SIL Open Font License 1.1
+  (ver `DSEG-LICENSE.txt`).
+- **Dependencias**: cada una con su licencia. `pnpm run build` genera
+  `public/THIRD-PARTY-LICENSES.txt` con el aviso y el texto de cada una, y la web
+  lo enlaza desde «Quiénes somos» y el pie.
+- «¿Quién canta hoy en el COAC?» es el nombre del proyecto. «COAC» y «Carnaval de
+  Cádiz» se usan solo para nombrar el concurso. La web no es oficial y no tiene
+  relación con el Ayuntamiento de Cádiz ni con la organización.

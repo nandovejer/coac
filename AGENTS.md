@@ -245,8 +245,10 @@ agrupaciones **en orden de actuación**.
   no ha empezado, si no la siguiente (también de madrugada). Sin agrupación en
   directo y con sesión por venir siempre hay cuenta atrás. Usa la fuente de
   siete segmentos DSEG7 Classic Bold (SIL OFL), cargada desde jsDelivr
-  (`npm/dseg@0.46.0`). Es la única petición a un
-  tercero de la web: sin cookies, pero jsDelivr ve la IP. Si se cambia de
+  (`npm/dseg@0.46.0`) **solo en la app anterior** (`App.tsx`, `vite --mode anterior`):
+  la app publicada (E) no hace ninguna petición a terceros. Si algún día E la usa,
+  sírvela desde el propio dominio con su licencia (y actualiza la privacidad y
+  `PRIVACY_VERSION`: jsDelivr vería la IP). Si se cambia de
   versión o de fuente, hay que medir otra vez el ancho de cifra
   (`.coac-digit` en `ui/RollingNumber.css`, 0,82 em) para que no haya saltos al cargarla. Los tests
   visuales sirven la fuente desde `tests/fixtures/dseg/` (`tests/visual/base.ts`)
