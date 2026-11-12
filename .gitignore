@@ -37,6 +37,8 @@ playwright-report/
 
 # Preferencias personales de Claude Code
 .claude/settings.local.json
+# Informes de auditoría: no se publican en el repo
+.claude/informes/
 
 # Referencia "antes" de la migración a Luz y comparativas generadas
 tests/visual/before

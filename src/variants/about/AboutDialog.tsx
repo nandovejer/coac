@@ -46,7 +46,7 @@ export default function AboutDialog({ onClose }: { onClose: () => void }) {
         </p>
       </InfoSection>
 
-      <InfoSection title="Autoría y licencia">
+      <InfoSection title="Aviso legal">
         <p>
           © 2026 Nando Muñoz. Código abierto bajo{" "}
           <a href="https://es.wikipedia.org/wiki/MIT_License">licencia MIT</a>: puedes verlo, copiarlo y
@@ -55,8 +55,9 @@ export default function AboutDialog({ onClose }: { onClose: () => void }) {
         </p>
         <p className="coac-info__note">
           Web no oficial, hecha por un aficionado. No tiene relación con el Ayuntamiento de Cádiz ni con la
-          organización del COAC. «COAC» y «Carnaval de Cádiz» se usan solo para nombrar el concurso. Los datos
-          de las agrupaciones y sus autores no están cubiertos por la licencia MIT.
+          organización del COAC. «COAC», «Carnaval de Cádiz» y sus signos distintivos pertenecen a sus
+          titulares y aquí se usan solo para nombrar el concurso. Los datos de las agrupaciones y sus autores
+          no están cubiertos por la licencia MIT.
         </p>
         <p className="coac-info__note">
           Las licencias de las librerías que usa la web están en{" "}
